@@ -4,6 +4,8 @@ class TabHomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Text('tab');
+    return const Scaffold(
+      backgroundColor: Colors.transparent,
+    );
   }
 }

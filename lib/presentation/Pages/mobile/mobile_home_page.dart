@@ -5,6 +5,6 @@ class MobileHomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Text('mobile');
+    return const Scaffold( backgroundColor: Colors.transparent,);
   }
 }
