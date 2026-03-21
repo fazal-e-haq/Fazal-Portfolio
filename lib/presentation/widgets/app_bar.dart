@@ -1,91 +1,36 @@
-import 'package:fazal_portfolio/presentation/widgets/neumorphism_widget.dart';
+import 'package:fazal_portfolio/presentation/widgets/hover_effect_button.dart';
+import 'package:fazal_portfolio/presentation/widgets/my_button.dart';
 import 'package:flutter/material.dart';
 
-import 'hover_effect.dart';
+class MyAppBar extends StatelessWidget {
+  const MyAppBar({super.key});
 
-class appBar extends StatelessWidget {
-   appBar({super.key,required this.onTap});
-  void Function()? onTap;
   @override
   Widget build(BuildContext context) {
-    return   Center(
-        child: Neumorphism(
-          child: SizedBox(
-            width: 400,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 15),
-              child: Row(
-                mainAxisAlignment: .center,
-                children: [
-                  HoverEffect(
+    return Center(
+      child: Container(
+        width: 530,
+        padding: .symmetric(vertical: 16),
 
-                    child: Neumorphism(
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 20,
-                          vertical: 5,
-                        ),
-                        child: Text(
-                          'Home',
-                          style: Theme.of(context).textTheme.bodyMedium,
-                        ),
-                      ),
-                    ),
-                  ),
-                  SizedBox(width: 10),
-                  GestureDetector(
-                    onTap: onTap,
-                    child: HoverEffect(
-                      child: Neumorphism(
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 20,
-                            vertical: 5,
-                          ),
-                          child: Text(
-                            'About',
-                            style: Theme.of(context).textTheme.bodyMedium,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                  SizedBox(width: 10),
-                  HoverEffect(
-                    child: Neumorphism(
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 20,
-                          vertical: 5,
-                        ),
-                        child: Text(
-                          'Skills',
-                          style: Theme.of(context).textTheme.bodyMedium,
-                        ),
-                      ),
-                    ),
-                  ),
-                  SizedBox(width: 10),
-                  HoverEffect(
-                    child: Neumorphism(
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 20,
-                          vertical: 5,
-                        ),
-                        child: Text(
-                          'Contact',
-                          style: Theme.of(context).textTheme.bodyMedium,
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: [Color(0xff07C8F9), Color(0xff0D41E1)],
+            begin: .topLeft,
+            end: .bottomRight,
           ),
+          borderRadius: .circular(50),
         ),
 
+        child: Row(
+          mainAxisAlignment: .center,
+          children: [
+            HoverEffectButton(text: Text('H o m e')),
+            HoverEffectButton(text: Text('A b o u t')),
+            HoverEffectButton(text: Text('P r o j e c t s')),
+            HoverEffectButton(text: Text('C o n t a c t')),
+          ],
+        ),
+      ),
     );
   }
 }

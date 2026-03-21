@@ -1,7 +1,5 @@
-import 'package:animated_text_kit/animated_text_kit.dart';
- import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-import '../../widgets/neumorphism_widget.dart';
+import 'package:fazal_portfolio/presentation/widgets/info_card.dart';
+import 'package:flutter/material.dart';
 
 class HomeSection extends StatelessWidget {
   const HomeSection({super.key});
@@ -9,182 +7,26 @@ class HomeSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-     return Padding(
-      padding: .symmetric(horizontal: 36),
-      child: Column(
+    return InfoCard(
+      widget: Row(
+        mainAxisAlignment: .spaceBetween,
+crossAxisAlignment: .center,
         children: [
-          SizedBox(height: size.height * 0.2),
-
-          Row(
-            mainAxisAlignment: .spaceBetween,
+          Column(
+            mainAxisAlignment: .center,
+            crossAxisAlignment: .start,
             children: [
-              Column(
-                crossAxisAlignment: .start,
-                children: [
-                  Text(
-                    ' H i ,  i  a m ',
-                    style: Theme.of(context).textTheme.bodyMedium,
-                  ),
-                  AnimatedTextKit(
-                    repeatForever: false,
-                    totalRepeatCount: 1,
-                    animatedTexts: [
-                      BounceAnimatedText(
-                        'Fazal-e-Haq',
-                        textAlign: .start,
-                        curve: Curves.easeOut,
-                        bounceHeight: 15,
-                        duration: Duration(seconds: 1),
-                        textStyle: GoogleFonts.antic(
-                          fontSize: 54,
-                          fontWeight: FontWeight.w500,
-                          color: Colors.grey.shade500,
-                          // shadows: [
-                          //   Shadow(
-                          //     color: Colors.white.withValues(alpha: 0.9),
-                          //     offset: Offset(-3, -3),
-                          //     blurRadius: 6,
-                          //   ),
-                          //   Shadow(
-                          //     color: Colors.grey.shade500,
-                          //     offset: Offset(3, 3),
-                          //     blurRadius: 6,
-                          //   ),
-                          // ],
-                        ),
-                      ),
-                    ],
-                  ),
-                  AnimatedTextKit(
-                    repeatForever: true,
-                    totalRepeatCount: 1,
-                    pause: Duration(seconds: 3),
-                    animatedTexts: [
-                      TyperAnimatedText(
-                        speed: Duration(milliseconds: 100),
-                        textAlign: .start,
-                        'Flutter Developer',
-                        textStyle: GoogleFonts.poppins(
-                          fontSize: 32,
-                          fontWeight: FontWeight.w500,
-                          color: Colors.grey.shade500,
-                          // shadows: [
-                          //   Shadow(
-                          //     color: Colors.white.withOpacity(0.9),
-                          //     offset: Offset(-3, -3),
-                          //     blurRadius: 6,
-                          //   ),
-                          //   Shadow(
-                          //     color: Colors.grey.shade500,
-                          //     offset: Offset(3, 3),
-                          //     blurRadius: 6,
-                          //   ),
-                          // ],
-                        ),
-                      ),
-
-                      TyperAnimatedText(
-                        speed: Duration(milliseconds: 100),
-                        textAlign: .start,
-                        'UI/UX Designer',
-                        textStyle: GoogleFonts.poppins(
-                          fontSize: 32,
-                          fontWeight: FontWeight.w500,
-                          color: Colors.grey.shade500,
-                          // shadows: [
-                          //   Shadow(
-                          //     color: Colors.white.withOpacity(0.9),
-                          //     offset: Offset(-3, -3),
-                          //     blurRadius: 6,
-                          //   ),
-                          //   Shadow(
-                          //     color: Colors.grey.shade500,
-                          //     offset: Offset(3, 3),
-                          //     blurRadius: 6,
-                          //   ),
-                          // ],
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: size.height * 0.01),
-                  Text(
-                    'I am a Flutter-focused software developer specializing in building modern,high-performance mobile and web interfaces.\n'
-                    'I continuously refine my skills to deliver scalable, visually refined applications.',
-                  ),
-                  SizedBox(height: size.height * 0.03),
-                  Row(
-                    children: [
-                      Neumorphism(
-                        borderRadius: 20,
-                        child: Container(
-                          height: 65,
-                          width: 65,
-                          child: Icon(
-                            Icons.add_a_photo,
-                            size: 50,
-                            color: Colors.grey.shade500,
-                          ),
-                        ),
-                      ),
-                      SizedBox(width: 20),
-                      Neumorphism(
-                        borderRadius: 20,
-                        child: Container(
-                          height: 65,
-                          width: 65,
-                          child: Icon(
-                            Icons.add_a_photo,
-                            size: 50,
-                            color: Colors.grey.shade500,
-                          ),
-                        ),
-                      ),
-                      SizedBox(width: 20),
-                      Neumorphism(
-                        borderRadius: 20,
-                        child: Container(
-                          height: 65,
-                          width: 65,
-                          child: Icon(
-                            Icons.add_a_photo,
-                            size: 50,
-                            color: Colors.grey.shade500,
-                          ),
-                        ),
-                      ),
-                      SizedBox(width: 20),
-                      Neumorphism(
-                        borderRadius: 20,
-                        child: Container(
-                          height: 65,
-                          width: 65,
-                          child: Icon(
-                            Icons.add_a_photo,
-                            size: 50,
-                            color: Colors.grey.shade500,
-                          ),
-                        ),
-                      ),
-                      SizedBox(width: 20),
-                    ],
-                  ),
-                ],
+              Text('H e l l o , I  a m'),
+              Text(
+                'FAZAL-E-HAQ',
+                style: Theme.of(context).textTheme.headlineLarge,
               ),
-              Neumorphism(child: Container(height: 300, width: 700)),
+              Text('UI/UX Designer & Flutter Developer'),
             ],
           ),
-          SizedBox(height: size.height * 0.2),
-
-            Neumorphism(
-               child: Icon(
-                  Icons.keyboard_arrow_down,
-                  size: 70,
-                  color: Colors.grey.shade500,
-                ),
-             ),
-
-          
+         Image(
+             height: double.infinity,
+             image: AssetImage('assets/Images/my_portfolio_pic.png'))
         ],
       ),
     );

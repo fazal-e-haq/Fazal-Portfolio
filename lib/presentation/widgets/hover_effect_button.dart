@@ -1,24 +1,24 @@
 import 'package:flutter/material.dart';
 
-class HoverEffect extends StatefulWidget {
-  HoverEffect({
+class HoverEffectButton extends StatefulWidget {
+  HoverEffectButton({
     super.key,
-    required this.child,
+    required this.text,
     this.hoveredHight ,
      this.hight,
     this.hoveredWidth,
     this.width,
   });
-  Widget child;
+  Text text;
   double? hoveredHight ;
   double? hoveredWidth;
   double? hight;
   double? width;
   @override
-  State<HoverEffect> createState() => _HoverEffectState();
+  State<HoverEffectButton> createState() => _HoverEffectButtonState();
 }
 
-class _HoverEffectState extends State<HoverEffect> {
+class _HoverEffectButtonState extends State<HoverEffectButton> {
   bool ishovered = false;
 
   @override
@@ -35,13 +35,20 @@ class _HoverEffectState extends State<HoverEffect> {
         });
       },
       child: AnimatedContainer(
+        margin: .symmetric(horizontal: 6),
+        padding: .symmetric(vertical: 8,horizontal: 16),
+        decoration: BoxDecoration(
+          borderRadius: .circular(50),
+          color: Colors.grey.shade300,
+ boxShadow: [BoxShadow(blurRadius: 5,color: Colors.black)],
+        ),
         curve: Curves.easeOutCubic,
         duration: Duration(milliseconds: 300),
         height: ishovered ? widget.hoveredHight : widget.hight,
         width: ishovered ? widget.hoveredWidth : widget.width,
         transform: ishovered ? .translationValues(0, -8, 0) : .identity(),
 
-        child: widget.child,
+        child: widget.text,
       ),
     );
   }

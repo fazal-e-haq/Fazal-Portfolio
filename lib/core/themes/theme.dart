@@ -1,13 +1,10 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-ThemeData lightTheme = ThemeData(
-  brightness: Brightness.light,
-  scaffoldBackgroundColor: Colors.grey.shade300,
-  visualDensity: VisualDensity.adaptivePlatformDensity,
-
-  textTheme: TextTheme(
+ThemeData mainTheme = ThemeData(
+scaffoldBackgroundColor: Colors.transparent,
+    appBarTheme: AppBarTheme(backgroundColor: Colors.transparent,),
+    textTheme: TextTheme(
     bodySmall: GoogleFonts.inter(
       color: Colors.grey.shade500,
       fontSize: 12,
