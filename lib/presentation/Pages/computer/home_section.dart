@@ -1,4 +1,5 @@
-import 'package:fazal_portfolio/presentation/widgets/info_card.dart';
+import 'package:animated_text_kit/animated_text_kit.dart';
+import 'package:fazal_portfolio/presentation/widgets/info_card_widget.dart';
 import 'package:flutter/material.dart';
 
 class HomeSection extends StatelessWidget {
@@ -7,27 +8,70 @@ class HomeSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return InfoCard(
-      widget: Row(
-        mainAxisAlignment: .spaceBetween,
-crossAxisAlignment: .center,
-        children: [
-          Column(
-            mainAxisAlignment: .center,
-            crossAxisAlignment: .start,
-            children: [
-              Text('H e l l o , I  a m'),
-              Text(
-                'FAZAL-E-HAQ',
-                style: Theme.of(context).textTheme.headlineLarge,
+    return SizedBox(
+      width: size.width,
+      child: Padding(
+          padding: .symmetric(),
+          child: Center(
+            child: InfoCardWidget(
+              width: size.width * 0.76,
+              height: size.height * 0.62,
+              child: Row(
+                mainAxisAlignment: .spaceBetween,
+                crossAxisAlignment: .center,
+                children: [
+                  Column(
+                    crossAxisAlignment: .start,
+                    mainAxisAlignment: .center,
+                    children: [
+                      Text('H e l l o'),
+                      AnimatedTextKit(
+                        isRepeatingAnimation: false,
+                        stopPauseOnTap: false,
+                        totalRepeatCount: 1,
+
+                        animatedTexts: [
+                          ScrambleAnimatedText(
+                            speed: Duration(milliseconds: 300),
+                            'Fazal-e-haq',
+                            textAlign: .start,
+                            textStyle: Theme.of(
+                              context,
+                            ).textTheme.headlineLarge,
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: size.height * 0.013),
+                      AnimatedTextKit(
+                        repeatForever: true,
+                        stopPauseOnTap: false,
+                        isRepeatingAnimation: true,
+                        pause: Duration(seconds: 3),
+                        animatedTexts: [
+                          TyperAnimatedText(
+                            textAlign: .start,
+                            'UI/UX Designer',
+                            textStyle: Theme.of(
+                              context,
+                            ).textTheme.headlineMedium,
+                          ),
+                          TyperAnimatedText(
+                            textAlign: .start,
+                            'Flutter Developer',
+                            textStyle: Theme.of(
+                              context,
+                            ).textTheme.headlineMedium,
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+
+                  Image.asset('assets/Images/my_portfolio_pic.png'),
+                ],
               ),
-              Text('UI/UX Designer & Flutter Developer'),
-            ],
+            ),
           ),
-         Image(
-             height: double.infinity,
-             image: AssetImage('assets/Images/my_portfolio_pic.png'))
-        ],
       ),
     );
   }

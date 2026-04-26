@@ -13,6 +13,9 @@ class MyPortfolio extends StatelessWidget {
   // This widget is the root of Website.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(theme: mainTheme,  home: WebPage());
+    return MaterialApp(
+        debugShowCheckedModeBanner: false,
+        darkTheme: mainTheme,
+        theme: mainTheme, home: WebPage());
   }
 }

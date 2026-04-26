@@ -37,6 +37,7 @@ dependencies:
   google_fonts: ^7.0.2
   animated_text_kit: ^4.3.0
   flutter_vector_icons: ^2.0.0
+  lottie: ^3.3.2
 
 
 dev_dependencies:
