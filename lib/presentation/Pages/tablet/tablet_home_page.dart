@@ -1,19 +1,19 @@
-import 'package:fazal_portfolio/presentation/Pages/computer/about_section.dart';
-import 'package:fazal_portfolio/presentation/Pages/computer/contact_section.dart';
-import 'package:fazal_portfolio/presentation/Pages/computer/home_section.dart';
-import 'package:fazal_portfolio/presentation/Pages/computer/project_section.dart';
+import 'package:fazal_portfolio/presentation/Pages/tablet/about_section.dart';
+import 'package:fazal_portfolio/presentation/Pages/tablet/contact_section.dart';
+import 'package:fazal_portfolio/presentation/Pages/tablet/home_section.dart';
+import 'package:fazal_portfolio/presentation/Pages/tablet/project_section.dart';
 import 'package:fazal_portfolio/presentation/widgets/button_widget.dart';
 import 'package:flutter/material.dart';
 
-// This is the main page for computer/desktop users
-class ComputerHomePage extends StatefulWidget {
-  const ComputerHomePage({super.key});
+// This is the main page for tablet users
+class TabletHomePage extends StatefulWidget {
+  const TabletHomePage({super.key});
 
   @override
-  State<ComputerHomePage> createState() => _ComputerHomePageState();
+  State<TabletHomePage> createState() => _TabletHomePageState();
 }
 
-class _ComputerHomePageState extends State<ComputerHomePage> {
+class _TabletHomePageState extends State<TabletHomePage> {
   // PageController helps us control which "page" or "section" is visible
   final PageController _pageController = PageController();
 
@@ -50,10 +50,10 @@ class _ComputerHomePageState extends State<ComputerHomePage> {
           scrollDirection: Axis.horizontal,
           physics: const BouncingScrollPhysics(), // Allows smooth manual swiping too
           children: const [
-            HomeSection(),
-            AboutSection(),
-            ProjectSection(),
-            ContactSection(),
+            TabletHomeSection(),
+            TabletAboutSection(),
+            TabletProjectSection(),
+            TabletContactSection(),
           ],
         ),
       ),

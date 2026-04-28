@@ -1,121 +1,159 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:fazal_portfolio/presentation/widgets/button_widget.dart';
 import 'package:fazal_portfolio/presentation/widgets/info_card_widget.dart';
-import 'package:fazal_portfolio/presentation/widgets/skills_Widget.dart';
-import 'package:flutter/material.dart';
+import 'package:fazal_portfolio/presentation/widgets/skills_widget.dart';
+import 'package:fazal_portfolio/presentation/widgets/responsive_text.dart';
 
+// This section tells visitors more about who you are and what skills you have
 class AboutSection extends StatelessWidget {
   const AboutSection({super.key});
   @override
   Widget build(BuildContext context) {
-    String aboutMe =
+    // Get the bio and social links from the .env file (or use defaults)
+    String aboutMe = dotenv.env['BIO'] ??
         'I am a Flutter developer with experience in building mobile applications and integrating Firebase for authentication and backend services. I use Provider for state management to keep apps scalable and maintainable.\n           Alongside coding, I also design clean and user-friendly interfaces as a UI/UX designer. I am eager to learn, grow, and contribute to impactful projects and internship opportunities.';
+    String linkedin = dotenv.env['LINKEDIN_URL'] ?? 'https://linkedin.com';
+    String github = dotenv.env['GITHUB_URL'] ?? 'https://github.com';
+    String instagram = dotenv.env['INSTAGRAM_URL'] ?? 'https://instagram.com';
+    String email = dotenv.env['EMAIL_URL'] ?? 'mailto:fazal@example.com';
 
     Size size = MediaQuery.of(context).size;
+
     return SizedBox(
       width: size.width,
       child: Center(
         child: InfoCardWidget(
-          width: size.width * 0.76,
-          height: size.height * 0.62,
+          width: size.width * 0.85, // Use more width on desktop
+          height: size.height * 0.75, // Responsive height based on screen
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              SizedBox(
-                width: size.width * 0.32,
+              // Left side: "About me" text and social buttons
+              Expanded(
+                flex: 5,
                 child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
+                    const ResponsiveText(
                       'About me',
-                      style: Theme.of(context).textTheme.headlineLarge,
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                      minFontSize: 30,
+                      maxFontSize: 60,
+                      scaleFactor: 0.04,
                     ),
-                    SizedBox(height: size.height * 0.05),
-                    Text(
+                    SizedBox(height: size.height * 0.04),
+                    const ResponsiveText(
                       'I am a Flutter Developer and UI/UX Designer',
-                      style: Theme.of(context).textTheme.headlineSmall,
+                      style: TextStyle(fontWeight: FontWeight.w500),
+                      minFontSize: 18,
+                      maxFontSize: 28,
                     ),
-                    SizedBox(height: size.height * 0.025),
-                    Text(aboutMe, style: Theme.of(context).textTheme.bodyMedium),
                     SizedBox(height: size.height * 0.02),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
+                    ResponsiveText(
+                      aboutMe,
+                      style: const TextStyle(height: 1.5, color: Colors.grey),
+                      minFontSize: 14,
+                      maxFontSize: 20,
+                    ),
+                    SizedBox(height: size.height * 0.03),
+                    Wrap(
+                      alignment: WrapAlignment.start,
+                      runSpacing: 15,
+                      spacing: 15,
                       children: [
                         ButtonWidget(
-                          onPressed: () {},
-                          icon: const Icon(Icons.person_pin),
+                          url: linkedin,
+                          icon: const Icon(Icons.link),
                           child: const Text('LinkedIn'),
                         ),
-                        const SizedBox(width: 10),
                         ButtonWidget(
-                          onPressed: () {},
-                          icon: const Icon(Icons.person_pin),
-                          child: const Text('LinkedIn'),
+                          url: github,
+                          icon: const Icon(Icons.code),
+                          child: const Text('GitHub'),
                         ),
-                        const SizedBox(width: 10),
                         ButtonWidget(
-                          onPressed: () {},
-                          icon: const Icon(Icons.person_pin),
-                          child: const Text('LinkedIn'),
+                          url: instagram,
+                          icon: const Icon(Icons.camera_alt),
+                          child: const Text('Instagram'),
                         ),
-                        const SizedBox(width: 10),
                         ButtonWidget(
-                          onPressed: () {},
-                          icon: const Icon(Icons.person_pin),
-                          child: const Text('LinkedIn'),
+                          url: email,
+                          icon: const Icon(Icons.email),
+                          child: const Text('Email'),
                         ),
                       ],
                     ),
                   ],
                 ),
               ),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.end,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    '          Skills',
-                    style: Theme.of(context).textTheme.headlineLarge,
-                  ),
-                  SizedBox(height: size.height * 0.04),
-                  Row(
-                    children: [
-                      const SkillsWidget(
-                        text: 'Flutter',
-                        icon: Icon(Icons.person, size: 30),
-                      ),
-                      const SkillsWidget(
-                        text: 'Figma',
-                        icon: Icon(Icons.person, size: 30),
-                      ),
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      const SkillsWidget(
-                        text: 'Firebase',
-                        icon: Icon(Icons.person, size: 30),
-                      ),
-                      const SkillsWidget(
-                        text: 'Dart',
-                        icon: Icon(Icons.person, size: 30),
-                      ),
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      const SkillsWidget(
-                        text: 'Git',
-                        icon: Icon(Icons.person, size: 30),
-                      ),
-                      const SkillsWidget(
-                        text: 'Android Studio',
-                        icon: Icon(Icons.person, size: 30),
-                      ),
-                    ],
-                  ),
-                ],
+              const SizedBox(width: 40),
+              // Right side: "Skills" list
+              Expanded(
+                flex: 4,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    const ResponsiveText(
+                      'Skills',
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                      minFontSize: 30,
+                      maxFontSize: 60,
+                      scaleFactor: 0.04,
+                    ),
+                    SizedBox(height: size.height * 0.04),
+                    Wrap(
+                      alignment: WrapAlignment.center,
+                      spacing: 12,
+                      runSpacing: 12,
+                      children: const [
+                        SkillsWidget(
+                          text: 'Flutter',
+                          icon: Icons.flutter_dash,
+                          color: Colors.blue,
+                        ),
+                        SkillsWidget(
+                          text: 'Dart',
+                          icon: Icons.code,
+                          color: Colors.teal,
+                        ),
+                        SkillsWidget(
+                          text: 'Figma',
+                          icon: Icons.design_services,
+                          color: Colors.pinkAccent,
+                        ),
+                        SkillsWidget(
+                          text: 'Firebase',
+                          icon: Icons.local_fire_department,
+                          color: Colors.orange,
+                        ),
+                        SkillsWidget(
+                          text: 'Git',
+                          icon: Icons.call_merge,
+                          color: Colors.deepOrange,
+                        ),
+                        SkillsWidget(
+                          text: 'Android Studio',
+                          icon: Icons.android,
+                          color: Colors.green,
+                        ),
+                        SkillsWidget(
+                          text: 'Stitch',
+                          icon: Icons.api,
+                          color: Colors.purple,
+                        ),
+                        SkillsWidget(
+                          text: 'Antigravity',
+                          icon: Icons.rocket_launch,
+                          color: Colors.cyan,
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
               ),
             ],
           ),

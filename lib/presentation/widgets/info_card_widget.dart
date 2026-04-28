@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 
+// This widget creates a dark "Neumorphic" card (a card with soft shadows)
 class InfoCardWidget extends StatelessWidget {
-  // Constructor
-  InfoCardWidget({
+  const InfoCardWidget({
     super.key,
-    required this.child,
-    required this.width,
-    required this.height,
+    required this.child, // The content to put inside the card
+    this.width,
+    this.height,
   });
-  //  Global variables
-  double height;
-  double width;
-  Widget child;
+
+  final double? height;
+  final double? width;
+  final Widget child;
 
   @override
   Widget build(BuildContext context) {
@@ -19,29 +19,28 @@ class InfoCardWidget extends StatelessWidget {
       height: height,
       width: width,
       decoration: BoxDecoration(
-        gradient: LinearGradient(
-          colors: [Color(0xff07C8F9), Color(0xff0D41E1)],
-          begin: .topLeft,
-          end: .bottomRight,
-        ),
-        borderRadius: .circular(50),
+        color: Theme.of(context).cardColor,
+        borderRadius: BorderRadius.circular(50),
         boxShadow: [
           BoxShadow(
-            offset: Offset(4, 4),
-            color: Colors.black,
-            spreadRadius: 1,
+            offset: const Offset(8, 8),
+            color: Colors.black.withValues(alpha: 0.5),
             blurRadius: 15,
           ),
           BoxShadow(
-            offset: Offset(-4, -4),
-            color: Colors.black,
-            spreadRadius: 1,
+            offset: const Offset(-8, -8),
+            color: Colors.white.withValues(alpha: 0.03),
             blurRadius: 15,
           ),
         ],
       ),
       child: Padding(
-        padding: .symmetric(horizontal: 60, vertical: 30),
+        // Padding adds space between the card's edge and its content. 
+        // Using adaptive padding: smaller on small widths.
+        padding: EdgeInsets.symmetric(
+          horizontal: MediaQuery.of(context).size.width < 800 ? 25 : 60, 
+          vertical: 30,
+        ),
         child: child,
       ),
     );

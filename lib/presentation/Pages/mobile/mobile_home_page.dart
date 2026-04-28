@@ -1,16 +1,33 @@
+import 'package:fazal_portfolio/presentation/Pages/mobile/about_section.dart';
+import 'package:fazal_portfolio/presentation/Pages/mobile/contact_section.dart';
+import 'package:fazal_portfolio/presentation/Pages/mobile/home_section.dart';
+import 'package:fazal_portfolio/presentation/Pages/mobile/project_section.dart';
 import 'package:flutter/material.dart';
 
-class MobileHomePage extends StatelessWidget {
+class MobileHomePage extends StatefulWidget {
   const MobileHomePage({super.key});
 
   @override
+  State<MobileHomePage> createState() => _MobileHomePageState();
+}
+
+class _MobileHomePageState extends State<MobileHomePage> {
+  final PageController _pageController = PageController();
+
+  @override
   Widget build(BuildContext context) {
-    return const  Scaffold(
+    return Scaffold(
       backgroundColor: Colors.transparent,
       body: SafeArea(
-        child: Padding(
-          padding: .symmetric(horizontal: 26),
-          child: SingleChildScrollView(child: Column(children: [Text('ta')])),
+        child: PageView(
+          controller: _pageController,
+          scrollDirection: Axis.vertical, // Vertical scrolling for mobile
+          children: const [
+            MobileHomeSection(),
+            MobileAboutSection(),
+            MobileProjectSection(),
+            MobileContactSection(),
+          ],
         ),
       ),
     );
