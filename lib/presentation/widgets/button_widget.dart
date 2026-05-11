@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:vector_math/vector_math_64.dart' show Vector3;
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:fazal_portfolio/providers/hover_provider.dart';
@@ -92,7 +93,7 @@ class ButtonWidget extends StatelessWidget {
             ),
             // Slightly move the button up and make it bigger when hovered
             transform: isHovered
-                ? (Matrix4.identity()..translate(0, -2)..scale(1.02))
+                ? (Matrix4.identity()..translateByVector3(Vector3(0.0, -2.0, 0.0))..scaleByVector3(Vector3(1.02, 1.02, 1.02)))
                 : Matrix4.identity(),
             child: ElevatedButton(
               style: ButtonStyle(

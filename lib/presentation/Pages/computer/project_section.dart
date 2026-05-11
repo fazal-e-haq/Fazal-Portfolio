@@ -37,12 +37,6 @@ class ProjectSection extends StatelessWidget {
                   physics: const BouncingScrollPhysics(),
                   children: [
                     _buildProjectCard(context, 'Project Title 1', 'Short description of the project goes here. Built with Flutter and Provider.'),
-                    const SizedBox(width: 30),
-                    _buildProjectCard(context, 'Project Title 2', 'Short description of the project goes here. Built with Firebase and Cloud Firestore.'),
-                    const SizedBox(width: 30),
-                    _buildProjectCard(context, 'Project Title 3', 'Short description of the project goes here. Built with Dart and custom UI components.'),
-                    const SizedBox(width: 30),
-                    _buildProjectCard(context, 'Project Title 4', 'Another awesome project showcasing Neumorphic design principles.'),
                   ],
                 ),
               ),

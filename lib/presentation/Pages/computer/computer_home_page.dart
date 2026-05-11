@@ -3,50 +3,31 @@ import 'package:fazal_portfolio/presentation/Pages/computer/contact_section.dart
 import 'package:fazal_portfolio/presentation/Pages/computer/home_section.dart';
 import 'package:fazal_portfolio/presentation/Pages/computer/project_section.dart';
 import 'package:fazal_portfolio/presentation/widgets/button_widget.dart';
+import 'package:fazal_portfolio/providers/navigation_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 // This is the main page for computer/desktop users
-class ComputerHomePage extends StatefulWidget {
+// Refactored to StatelessWidget using NavigationProvider for state management
+class ComputerHomePage extends StatelessWidget {
   const ComputerHomePage({super.key});
-
-  @override
-  State<ComputerHomePage> createState() => _ComputerHomePageState();
-}
-
-class _ComputerHomePageState extends State<ComputerHomePage> {
-  // PageController helps us control which "page" or "section" is visible
-  final PageController _pageController = PageController();
-
-  // This function moves the screen to a specific section (Home, About, etc.)
-  void scrollToSection(int pageIndex) {
-    _pageController.animateToPage(
-      pageIndex,
-      duration: const Duration(milliseconds: 800),
-      curve: Curves.easeOutCubic,
-    );
-  }
-
-  @override
-  void dispose() {
-    // Always clean up the controller when the widget is removed
-    _pageController.dispose();
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    // Access the navigation provider to get the controller and scroll logic
+    final navProvider = context.read<NavigationProvider>();
 
     return Scaffold(
       extendBodyBehindAppBar: true,
       extendBody: true,
       // The top navigation bar
-      appBar: preferredSizeAppBar(size, context),
+      appBar: preferredSizeAppBar(size, context, navProvider),
       body: Padding(
         padding: const EdgeInsets.only(top: 125),
         // PageView allows us to swipe between different sections horizontally
         child: PageView(
-          controller: _pageController,
+          controller: navProvider.pageController,
           scrollDirection: Axis.horizontal,
           physics: const BouncingScrollPhysics(), // Allows smooth manual swiping too
           children: const [
@@ -61,7 +42,7 @@ class _ComputerHomePageState extends State<ComputerHomePage> {
   }
 
   // This creates the Navigation Bar (Menu) at the top
-  PreferredSize preferredSizeAppBar(Size size, BuildContext context) {
+  PreferredSize preferredSizeAppBar(Size size, BuildContext context, NavigationProvider navProvider) {
     return PreferredSize(
       preferredSize: const Size(
         double.infinity,
@@ -99,13 +80,13 @@ class _ComputerHomePageState extends State<ComputerHomePage> {
               mainAxisSize: MainAxisSize.min,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                appBarButton('Home', 0),
+                appBarButton('Home', 0, navProvider),
                 const SizedBox(width: 8),
-                appBarButton('About', 1),
+                appBarButton('About', 1, navProvider),
                 const SizedBox(width: 8),
-                appBarButton('Projects', 2),
+                appBarButton('Projects', 2, navProvider),
                 const SizedBox(width: 8),
-                appBarButton('Contact', 3),
+                appBarButton('Contact', 3, navProvider),
               ],
             ),
           ),
@@ -115,9 +96,10 @@ class _ComputerHomePageState extends State<ComputerHomePage> {
   }
 
   // A helper function to create each menu button
-  Widget appBarButton(String title, int pageIndex) {
+  Widget appBarButton(String title, int pageIndex, NavigationProvider navProvider) {
     return ButtonWidget(
-      onPressed: () => scrollToSection(pageIndex),
+      // Use the provider's scroll method instead of local logic
+      onPressed: () => navProvider.scrollToSection(pageIndex),
       backgroundColor: const Color(0xFF001F9F),
       elevation: const WidgetStatePropertyAll(0),
       textStyle: const WidgetStatePropertyAll(

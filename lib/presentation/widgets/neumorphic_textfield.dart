@@ -36,7 +36,7 @@ class NeumorphicTextField extends StatelessWidget {
         controller: controller,
         maxLines: maxLines,
         style: TextStyle(
-          color: Theme.of(context).textTheme.bodyLarge?.color ?? Colors.black,
+          color: Theme.of(context).textTheme.bodyLarge?.color ?? Colors.white,
           fontSize: 16,
         ),
         decoration: InputDecoration(
