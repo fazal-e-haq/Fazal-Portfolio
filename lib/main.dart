@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:fazal_portfolio/providers/hover_provider.dart';
 import 'package:fazal_portfolio/providers/contact_provider.dart';
 import 'package:fazal_portfolio/providers/navigation_provider.dart';
+import 'package:fazal_portfolio/providers/project_provider.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 
@@ -34,6 +35,7 @@ class MyPortfolio extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => ContactProvider()),
         // NavigationProvider manages section scrolling logic
         ChangeNotifierProvider(create: (_) => NavigationProvider()),
+        ChangeNotifierProvider(create: (_) => ProjectProvider()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

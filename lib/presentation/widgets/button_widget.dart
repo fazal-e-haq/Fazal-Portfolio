@@ -17,6 +17,7 @@ class ButtonWidget extends StatelessWidget {
     this.textStyle,
     this.url, // If provided, clicking the button opens this website link
     this.id,
+    this.padding,
   });
 
   final void Function()? onPressed;
@@ -28,6 +29,7 @@ class ButtonWidget extends StatelessWidget {
   final Icon? icon;
   final String? url;
   final String? id;
+  final EdgeInsets? padding;
 
   // This helper function opens a website link when the button is clicked
   Future<void> _launchUrl() async {
@@ -97,8 +99,8 @@ class ButtonWidget extends StatelessWidget {
                 : Matrix4.identity(),
             child: ElevatedButton(
               style: ButtonStyle(
-                padding: const WidgetStatePropertyAll(
-                  EdgeInsets.symmetric(horizontal: 24, vertical: 14),
+                padding: WidgetStatePropertyAll(
+                  padding ?? const EdgeInsets.symmetric(horizontal: 24, vertical: 14),
                 ),
                 backgroundColor: const WidgetStatePropertyAll(Colors.transparent),
                 shadowColor: const WidgetStatePropertyAll(Colors.transparent),
