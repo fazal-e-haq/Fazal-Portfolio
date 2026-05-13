@@ -94,7 +94,7 @@ class TabletAboutSection extends StatelessWidget {
                       alignment: WrapAlignment.center,
                       spacing: 10,
                       runSpacing: 10,
-                      children: const [
+                      children: [
                         // Skills with intermediate sizes for tablet
                         SkillsWidget(text: 'Flutter', icon: Icons.flutter_dash, color: Colors.blue, fontSize: 15, iconSize: 24, horizontalPadding: 16, verticalPadding: 8),
                         SkillsWidget(text: 'Dart', icon: Icons.code, color: Colors.teal, fontSize: 15, iconSize: 24, horizontalPadding: 16, verticalPadding: 8),

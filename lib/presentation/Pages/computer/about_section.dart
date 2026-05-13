@@ -122,7 +122,7 @@ class AboutSection extends StatelessWidget {
                         alignment: WrapAlignment.center,
                         spacing: 12,
                         runSpacing: 12,
-                        children: const [
+                        children: [
                           SkillsWidget(text: 'Flutter', icon: Icons.flutter_dash, color: Colors.blue),
                           SkillsWidget(text: 'Dart', icon: Icons.code, color: Colors.teal),
                           SkillsWidget(text: 'Figma', icon: Icons.design_services, color: Colors.pinkAccent),

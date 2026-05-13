@@ -90,7 +90,7 @@ class MobileAboutSection extends StatelessWidget {
                     alignment: WrapAlignment.center,
                     spacing: 5,
                     runSpacing: 5,
-                    children: const [
+                    children: [
                       SkillsWidget(text: 'Flutter', icon: Icons.flutter_dash, color: Colors.blue, fontSize: 11, iconSize: 15, horizontalPadding: 10, verticalPadding: 5),
                       SkillsWidget(text: 'Dart', icon: Icons.code, color: Colors.teal, fontSize: 11, iconSize: 15, horizontalPadding: 10, verticalPadding: 5),
                       SkillsWidget(text: 'Figma', icon: Icons.design_services, color: Colors.pinkAccent, fontSize: 11, iconSize: 15, horizontalPadding: 10, verticalPadding: 5),
