@@ -5,6 +5,10 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:provider/provider.dart';
 import 'package:fazal_portfolio/providers/hover_provider.dart';
 import 'package:fazal_portfolio/providers/contact_provider.dart';
+import 'package:fazal_portfolio/providers/navigation_provider.dart';
+import 'package:fazal_portfolio/providers/project_provider.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
 
 // This is the starting point of the application
 Future<void> main() async {
@@ -12,6 +16,7 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   // Load environment variables from the .env file
   await dotenv.load(fileName: ".env");
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   // Start the application
   runApp(const MyPortfolio());
 }
@@ -28,6 +33,9 @@ class MyPortfolio extends StatelessWidget {
         // HoverProvider handles mouse hover effects for buttons/cards
         ChangeNotifierProvider(create: (_) => HoverProvider()),
         ChangeNotifierProvider(create: (_) => ContactProvider()),
+        // NavigationProvider manages section scrolling logic
+        ChangeNotifierProvider(create: (_) => NavigationProvider()),
+        ChangeNotifierProvider(create: (_) => ProjectProvider()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -40,4 +48,3 @@ class MyPortfolio extends StatelessWidget {
     );
   }
 }
-

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:vector_math/vector_math_64.dart' show Vector3;
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:fazal_portfolio/providers/hover_provider.dart';
@@ -16,6 +17,7 @@ class ButtonWidget extends StatelessWidget {
     this.textStyle,
     this.url, // If provided, clicking the button opens this website link
     this.id,
+    this.padding,
   });
 
   final void Function()? onPressed;
@@ -27,6 +29,7 @@ class ButtonWidget extends StatelessWidget {
   final Icon? icon;
   final String? url;
   final String? id;
+  final EdgeInsets? padding;
 
   // This helper function opens a website link when the button is clicked
   Future<void> _launchUrl() async {
@@ -92,12 +95,12 @@ class ButtonWidget extends StatelessWidget {
             ),
             // Slightly move the button up and make it bigger when hovered
             transform: isHovered
-                ? (Matrix4.identity()..translate(0, -2)..scale(1.02))
+                ? (Matrix4.identity()..translateByVector3(Vector3(0.0, -2.0, 0.0))..scaleByVector3(Vector3(1.02, 1.02, 1.02)))
                 : Matrix4.identity(),
             child: ElevatedButton(
               style: ButtonStyle(
-                padding: const WidgetStatePropertyAll(
-                  EdgeInsets.symmetric(horizontal: 24, vertical: 14),
+                padding: WidgetStatePropertyAll(
+                  padding ?? const EdgeInsets.symmetric(horizontal: 24, vertical: 14),
                 ),
                 backgroundColor: const WidgetStatePropertyAll(Colors.transparent),
                 shadowColor: const WidgetStatePropertyAll(Colors.transparent),
