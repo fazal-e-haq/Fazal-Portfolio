@@ -11,6 +11,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+      - name: Create stub firebase_options.dart
+        run: |
+          echo "import 'package:firebase_core/firebase_core.dart' show FirebaseOptions; class DefaultFirebaseOptions { static FirebaseOptions get currentPlatform => web; static const FirebaseOptions web = FirebaseOptions(apiKey: 'stub', appId: 'stub', messagingSenderId: 'stub', projectId: 'stub'); }" > lib/firebase_options.dart
       - run: flutter build web
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
