@@ -35,7 +35,7 @@ class _SkillsWidgetState extends State<SkillsWidget> {
       onEnter: (_) => setState(() => _isHovered = true),
       onExit: (_) => setState(() => _isHovered = false),
       child: AnimatedScale(
-        scale: _isHovered ? 1.05 : 1.0,
+        scale: _isHovered ? 1.15 : 1.0,
         duration: const Duration(milliseconds: 200),
         curve: Curves.easeInOut,
         child: Container(

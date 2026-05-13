@@ -33,7 +33,7 @@ class MobileHomeSection extends StatelessWidget {
                 child: Image.asset(
                   'assets/Images/my_portfolio_pic.png',
                   height:
-                      size.height * 0.6, // Slightly taller to be more prominent
+                      size.height * 0.62, // Slightly taller to be more prominent
                   fit: BoxFit.contain,
                 ),
               ),
@@ -59,6 +59,7 @@ class MobileHomeSection extends StatelessWidget {
                       isRepeatingAnimation: false,
                       totalRepeatCount: 1,
                       animatedTexts: [
+                        // My name
                         ScrambleAnimatedText(
                           speed: const Duration(milliseconds: 300),
                           'FAZAL-E-HAQ',
@@ -72,6 +73,7 @@ class MobileHomeSection extends StatelessWidget {
                       ],
                     ),
                     const SizedBox(height: 15),
+                   // My skills
                     AnimatedTextKit(
                       repeatForever: true,
                       pause: const Duration(seconds: 3),
@@ -112,6 +114,7 @@ class MobileHomeSection extends StatelessWidget {
   }
 }
 
+// Animated arrow
 class _AnimatedArrowIndicator extends StatefulWidget {
   @override
   State<_AnimatedArrowIndicator> createState() =>
@@ -152,7 +155,7 @@ class _AnimatedArrowIndicatorState extends State<_AnimatedArrowIndicator>
           child: const Icon(
             Icons.keyboard_arrow_down,
             color: Colors.blueAccent,
-            size: 40,
+            size: 60,
           ),
         );
       },

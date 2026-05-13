@@ -27,39 +27,17 @@ class MobileProjectSection extends StatelessWidget {
             children: [
               const ResponsiveText(
                 'My Projects',
-                style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                ),
                 minFontSize: 24,
                 maxFontSize: 30,
               ),
-              const SizedBox(height: 20),
+              const SizedBox(height: 30),
               // Changed to horizontal scrolling as requested
-              SizedBox(
-                height: 380, // Height for the horizontal card
-                child: ListView.builder(
-                  scrollDirection: Axis.horizontal, // Horizontal scrolling on mobile
-                  physics: const BouncingScrollPhysics(),
-                  itemCount: projects.length,
-                  itemBuilder: (context, index) {
-                    final project = projects[index];
-                    
-                    return TweenAnimationBuilder<double>(
-                      tween: Tween(begin: 0.0, end: 1.0),
-                      duration: Duration(milliseconds: 500 + (index * 150)),
-                      curve: Curves.easeOutCubic,
-                      builder: (context, value, child) {
-                        return Opacity(
-                          opacity: value,
-                          child: Transform.translate(
-                            offset: Offset(30 * (1 - value), 0),
-                            child: child,
-                          ),
-                        );
-                      },
-                      child: _MobileProjectCard(project: project),
-                    );
-                  },
-                ),
-              ),
+            _MobileProjectsCards( ),
+
             ],
           ),
         ),
@@ -68,19 +46,19 @@ class MobileProjectSection extends StatelessWidget {
   }
 }
 
-class _MobileProjectCard extends StatelessWidget {
-  final ProjectModel project;
-
-  const _MobileProjectCard({required this.project});
-
+class _MobileProjectsCards extends StatelessWidget {
+ const _MobileProjectsCards({super.key,   });
+   // final ProjectModel project;
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: MediaQuery.of(context).size.width * 0.8, // Take most of the screen width
-      margin: const EdgeInsets.only(right: 15),
-      padding: const EdgeInsets.all(15),
-      decoration: BoxDecoration(
-        color: const Color(0xFF151515),
+    final size = MediaQuery.of(context).size;
+    return Stack(
+      children: [
+        Container(
+         height: size.height * 0.6,
+          width: size.width * 0.65,
+          decoration: BoxDecoration(
+            color: const Color(0xFF151515),
         borderRadius: BorderRadius.circular(20),
         border: Border.all(color: const Color(0xFF2A2A2A)),
         boxShadow: [
@@ -90,48 +68,124 @@ class _MobileProjectCard extends StatelessWidget {
             offset: const Offset(4, 4),
           ),
         ],
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          ClipRRect(
-            borderRadius: BorderRadius.circular(15),
-            child: Container(
-              height: 140,
-              width: double.infinity,
-              decoration: BoxDecoration(
-                color: const Color(0xFF222222),
-                image: DecorationImage(
-                  image: AssetImage(project.imagePath),
-                  fit: BoxFit.cover,
-                  opacity: 0.2,
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(12.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                ClipRRect(
+              borderRadius: BorderRadius.circular(15),
+              child: Container(
+                height: 140,
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  color: const Color(0xFF222222),
+                  image: DecorationImage(
+                    image: AssetImage( ''),
+                    fit: BoxFit.cover,
+                    opacity: 0.2,
+                  ),
+                ),
+                child: const Center(
+                  child: Icon(
+                    Icons.code_rounded,
+                    size: 40,
+                    color: Colors.blueAccent,
+                  ),
                 ),
               ),
-              child: const Center(
-                child: Icon(Icons.code_rounded, size: 40, color: Colors.blueAccent),
-              ),
             ),
+              Text('prjt name'),
+              Text('decri '),
+              Text('button'),
+
+            ],),
           ),
-          const SizedBox(height: 15),
-          Text(
-            project.title, 
-            style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white),
-          ),
-          const SizedBox(height: 8),
-          Text(
-            project.description, 
-            style: const TextStyle(color: Colors.grey, fontSize: 13, height: 1.4),
-            maxLines: 3,
-            overflow: TextOverflow.ellipsis,
-          ),
-          const Spacer(),
-          ButtonWidget(
-            url: project.projectUrl,
-            padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 8),
-            child: const Text('View Project', style: TextStyle(fontSize: 11)),
-          ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }
+
+// class _MobileProjectCard extends StatelessWidget {
+//   final ProjectModel project;
+//
+//   const _MobileProjectCard({required this.project});
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     return Container(
+//       width:
+//           MediaQuery.of(context).size.width *
+//           0.8, // Take most of the screen width
+//       margin: const EdgeInsets.only(right: 15),
+//       padding: const EdgeInsets.all(15),
+//       decoration: BoxDecoration(
+//         color: const Color(0xFF151515),
+//         borderRadius: BorderRadius.circular(20),
+//         border: Border.all(color: const Color(0xFF2A2A2A)),
+//         boxShadow: [
+//           BoxShadow(
+//             color: Colors.black.withValues(alpha: 0.3),
+//             blurRadius: 10,
+//             offset: const Offset(4, 4),
+//           ),
+//         ],
+//       ),
+//       child: Column(
+//         crossAxisAlignment: CrossAxisAlignment.start,
+//         children: [
+//           ClipRRect(
+//             borderRadius: BorderRadius.circular(15),
+//             child: Container(
+//               height: 140,
+//               width: double.infinity,
+//               decoration: BoxDecoration(
+//                 color: const Color(0xFF222222),
+//                 image: DecorationImage(
+//                   image: AssetImage(project.imagePath),
+//                   fit: BoxFit.cover,
+//                   opacity: 0.2,
+//                 ),
+//               ),
+//               child: const Center(
+//                 child: Icon(
+//                   Icons.code_rounded,
+//                   size: 40,
+//                   color: Colors.blueAccent,
+//                 ),
+//               ),
+//             ),
+//           ),
+//           const SizedBox(height: 15),
+//           Text(
+//             project.title,
+//             style: const TextStyle(
+//               fontSize: 18,
+//               fontWeight: FontWeight.bold,
+//               color: Colors.white,
+//             ),
+//           ),
+//           const SizedBox(height: 8),
+//           Text(
+//             project.description,
+//             style: const TextStyle(
+//               color: Colors.grey,
+//               fontSize: 13,
+//               height: 1.4,
+//             ),
+//             maxLines: 3,
+//             overflow: TextOverflow.ellipsis,
+//           ),
+//           const Spacer(),
+//           ButtonWidget(
+//             url: project.projectUrl,
+//             padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 8),
+//             child: const Text('View Project', style: TextStyle(fontSize: 11)),
+//           ),
+//         ],
+//       ),
+//     );
+//   }
+// }

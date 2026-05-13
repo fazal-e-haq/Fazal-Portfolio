@@ -47,7 +47,7 @@ class AboutSection extends StatelessWidget {
                 Expanded(
                   flex: 5,
                   child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       const ResponsiveText(
@@ -107,7 +107,7 @@ class AboutSection extends StatelessWidget {
                 Expanded(
                   flex: 4,
                   child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.end,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       const ResponsiveText(

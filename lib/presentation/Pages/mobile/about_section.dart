@@ -64,8 +64,8 @@ class MobileAboutSection extends StatelessWidget {
                   // Social buttons with smaller padding and font
                   Wrap(
                     alignment: WrapAlignment.center,
-                    runSpacing: 8,
-                    spacing: 8,
+                    runSpacing: 7,
+                    spacing: 7,
                     children: [
                       _buildMobileSocialButton(linkedin, Icons.link, 'LinkedIn'),
                       _buildMobileSocialButton(github, Icons.code, 'GitHub'),
@@ -73,6 +73,7 @@ class MobileAboutSection extends StatelessWidget {
                       _buildMobileSocialButton(email, Icons.email, 'Email'),
                     ],
                   ),
+                  // Divider
                   const Padding(
                     padding: EdgeInsets.symmetric(vertical: 15),
                     child: Divider(color: Colors.white10, height: 1),
@@ -87,17 +88,17 @@ class MobileAboutSection extends StatelessWidget {
                   // Skills with smaller sizes for mobile
                   Wrap(
                     alignment: WrapAlignment.center,
-                    spacing: 6,
-                    runSpacing: 6,
+                    spacing: 5,
+                    runSpacing: 5,
                     children: const [
-                      SkillsWidget(text: 'Flutter', icon: Icons.flutter_dash, color: Colors.blue, fontSize: 13, iconSize: 20, horizontalPadding: 12, verticalPadding: 6),
-                      SkillsWidget(text: 'Dart', icon: Icons.code, color: Colors.teal, fontSize: 13, iconSize: 20, horizontalPadding: 12, verticalPadding: 6),
-                      SkillsWidget(text: 'Figma', icon: Icons.design_services, color: Colors.pinkAccent, fontSize: 13, iconSize: 20, horizontalPadding: 12, verticalPadding: 6),
-                      SkillsWidget(text: 'Firebase', icon: Icons.local_fire_department, color: Colors.orange, fontSize: 13, iconSize: 20, horizontalPadding: 12, verticalPadding: 6),
-                      SkillsWidget(text: 'Git', icon: Icons.call_merge, color: Colors.deepOrange, fontSize: 13, iconSize: 20, horizontalPadding: 12, verticalPadding: 6),
-                      SkillsWidget(text: 'Android Studio', icon: Icons.android, color: Colors.green, fontSize: 13, iconSize: 20, horizontalPadding: 12, verticalPadding: 6),
-                      SkillsWidget(text: 'Stitch', icon: Icons.api, color: Colors.purple, fontSize: 13, iconSize: 20, horizontalPadding: 12, verticalPadding: 6),
-                      SkillsWidget(text: 'Antigravity', icon: Icons.rocket_launch, color: Colors.cyan, fontSize: 13, iconSize: 20, horizontalPadding: 12, verticalPadding: 6),
+                      SkillsWidget(text: 'Flutter', icon: Icons.flutter_dash, color: Colors.blue, fontSize: 11, iconSize: 15, horizontalPadding: 10, verticalPadding: 5),
+                      SkillsWidget(text: 'Dart', icon: Icons.code, color: Colors.teal, fontSize: 11, iconSize: 15, horizontalPadding: 10, verticalPadding: 5),
+                      SkillsWidget(text: 'Figma', icon: Icons.design_services, color: Colors.pinkAccent, fontSize: 11, iconSize: 15, horizontalPadding: 10, verticalPadding: 5),
+                      SkillsWidget(text: 'Firebase', icon: Icons.local_fire_department, color: Colors.orange, fontSize: 11, iconSize: 15, horizontalPadding: 10, verticalPadding: 5),
+                      SkillsWidget(text: 'Git', icon: Icons.call_merge, color: Colors.deepOrange, fontSize: 11, iconSize: 15, horizontalPadding: 10, verticalPadding: 5),
+                      SkillsWidget(text: 'Android Studio', icon: Icons.android, color: Colors.green, fontSize: 11, iconSize: 15, horizontalPadding: 10, verticalPadding: 5),
+                      SkillsWidget(text: 'Stitch', icon: Icons.api, color: Colors.purple, fontSize: 11, iconSize: 15, horizontalPadding: 10, verticalPadding: 5),
+                      SkillsWidget(text: 'Antigravity', icon: Icons.rocket_launch, color: Colors.cyan, fontSize: 11, iconSize: 15, horizontalPadding: 10, verticalPadding: 5),
                     ],
                   ),
                 ],
