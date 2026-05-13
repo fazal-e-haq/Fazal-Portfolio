@@ -8,12 +8,18 @@ import 'package:fazal_portfolio/providers/contact_provider.dart';
 import 'package:fazal_portfolio/providers/navigation_provider.dart';
 import 'package:fazal_portfolio/providers/project_provider.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'firebase_options.dart';
 
 // This is the starting point of the application
 Future<void> main() async {
   // Ensure that plugin services are initialized
   WidgetsFlutterBinding.ensureInitialized();
+  
+  // PERFORMANCE: Disable runtime font fetching to improve Lighthouse scores
+  // This tells Flutter to use the fonts bundled in the assets instead of fetching them
+  GoogleFonts.config.allowRuntimeFetching = false;
+
   // Load environment variables from the .env file
   await dotenv.load(fileName: ".env");
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
@@ -38,6 +44,7 @@ class MyPortfolio extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => ProjectProvider()),
       ],
       child: MaterialApp(
+        title: 'Fazal-E-Haq | Portfolio',
         debugShowCheckedModeBanner: false,
         // Set the visual theme of the app (colors, fonts, etc.)
         darkTheme: mainTheme,

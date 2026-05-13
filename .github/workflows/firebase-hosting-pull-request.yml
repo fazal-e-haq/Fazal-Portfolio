@@ -26,7 +26,7 @@ jobs:
           echo "LINKEDIN_URL=https://linkedin.com" >> .env
           echo "GITHUB_URL=https://github.com" >> .env
           echo "INSTAGRAM_URL=https://instagram.com" >> .env
-      - run: flutter build web
+      - run: flutter build web --web-renderer auto --release
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: ${{ secrets.GITHUB_TOKEN }}
