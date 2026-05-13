@@ -27,66 +27,71 @@ class HomeSection extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const ResponsiveText(
-                      'Hello,i am',
-                      style: TextStyle(
-                        letterSpacing: 2,
-                        color: Colors.white12,
-                        wordSpacing: 5,
+                    const RepaintBoundary(
+                      child: ResponsiveText(
+                        'Hello,i am',
+                        style: TextStyle(
+                          letterSpacing: 2,
+                          color: Colors.white70,
+                          wordSpacing: 5,
+                        ),
+                        minFontSize: 13,
+                        maxFontSize: 18,
                       ),
-                      minFontSize: 13,
-
-                      maxFontSize: 18,
                     ),
                     const SizedBox(height: 1),
-                    // This animates the main name "Fazal-e-haq"
-                    AnimatedTextKit(
-                      isRepeatingAnimation: false,
-                      stopPauseOnTap: false,
-                      totalRepeatCount: 1,
-                      animatedTexts: [
-                        ScrambleAnimatedText(
-                          speed: const Duration(milliseconds: 300),
-                          'FAZAL-E-HAQ',
-                          textAlign: TextAlign.start,
-                          textStyle: const TextStyle(
-                            fontSize: 65,
-                            wordSpacing: 4,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white12,
+                    // PERFORMANCE: Wrapped in RepaintBoundary
+                    RepaintBoundary(
+                      child: AnimatedTextKit(
+                        isRepeatingAnimation: false,
+                        stopPauseOnTap: false,
+                        totalRepeatCount: 1,
+                        animatedTexts: [
+                          ScrambleAnimatedText(
+                            speed: const Duration(milliseconds: 300),
+                            'FAZAL-E-HAQ',
+                            textAlign: TextAlign.start,
+                            textStyle: const TextStyle(
+                              fontSize: 65,
+                              wordSpacing: 4,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                     const SizedBox(height: 10),
-                    // This types out "UI/UX Designer" and "Flutter Developer" on a loop
-                    AnimatedTextKit(
-                      repeatForever: true,
-                      stopPauseOnTap: false,
-                      isRepeatingAnimation: true,
-                      pause: const Duration(seconds: 3),
-                      animatedTexts: [
-                        TyperAnimatedText(
-                          textAlign: TextAlign.start,
-                          'UI/UX Designer',
-                          textStyle: const TextStyle(
-                            letterSpacing: 5,
-                            fontSize: 35,
-                            fontWeight: FontWeight.w400,
-                            color: Colors.blueAccent,
+                    // PERFORMANCE: Wrapped in RepaintBoundary
+                    RepaintBoundary(
+                      child: AnimatedTextKit(
+                        repeatForever: true,
+                        stopPauseOnTap: false,
+                        isRepeatingAnimation: true,
+                        pause: const Duration(seconds: 3),
+                        animatedTexts: [
+                          TyperAnimatedText(
+                            textAlign: TextAlign.start,
+                            'UI/UX Designer',
+                            textStyle: const TextStyle(
+                              letterSpacing: 5,
+                              fontSize: 35,
+                              fontWeight: FontWeight.w400,
+                              color: Colors.blueAccent,
+                            ),
                           ),
-                        ),
-                        TyperAnimatedText(
-                          textAlign: TextAlign.start,
-                          'Flutter Developer',
-                          textStyle: const TextStyle(
-                            fontSize: 35,
-                            letterSpacing: 5,
-                            fontWeight: FontWeight.w400,
-                            color: Colors.blueAccent,
+                          TyperAnimatedText(
+                            textAlign: TextAlign.start,
+                            'Flutter Developer',
+                            textStyle: const TextStyle(
+                              fontSize: 35,
+                              letterSpacing: 5,
+                              fontWeight: FontWeight.w400,
+                              color: Colors.blueAccent,
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ],
                 ),
@@ -95,20 +100,22 @@ class HomeSection extends StatelessWidget {
               // Right side: Profile image
               Expanded(
                 flex: 2,
-                child: Container(
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.blueAccent.withValues(alpha: 0.2),
-                        blurRadius: 50,
-                        spreadRadius: 10,
-                      ),
-                    ],
-                  ),
-                  child: Image.asset(
-                    'assets/Images/my_portfolio_pic.png',
-                    fit: BoxFit.contain,
+                child: RepaintBoundary(
+                  child: Container(
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.blueAccent.withValues(alpha: 0.2),
+                          blurRadius: 50,
+                          spreadRadius: 10,
+                        ),
+                      ],
+                    ),
+                    child: Image.asset(
+                      'assets/Images/my_portfolio_pic.png',
+                      fit: BoxFit.contain,
+                    ),
                   ),
                 ),
               ),

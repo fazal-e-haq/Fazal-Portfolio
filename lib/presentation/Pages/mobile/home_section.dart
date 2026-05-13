@@ -48,57 +48,63 @@ class MobileHomeSection extends StatelessWidget {
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    const ResponsiveText(
-                      'Hello,i am',
-                      style: TextStyle(letterSpacing: 4, color: Colors.white12),
-                      minFontSize: 12,
-                      maxFontSize: 16,
+                    const RepaintBoundary(
+                      child: ResponsiveText(
+                        'Hello,i am',
+                        style: TextStyle(letterSpacing: 4, color: Colors.white70),
+                        minFontSize: 12,
+                        maxFontSize: 16,
+                      ),
                     ),
                     const SizedBox(height: 10),
-                    AnimatedTextKit(
-                      isRepeatingAnimation: false,
-                      totalRepeatCount: 1,
-                      animatedTexts: [
-                        // My name
-                        ScrambleAnimatedText(
-                          speed: const Duration(milliseconds: 300),
-                          'FAZAL-E-HAQ',
-                          textAlign: TextAlign.center,
-                          textStyle: const TextStyle(
-                            fontSize: 35,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white12,
+                    RepaintBoundary(
+                      child: AnimatedTextKit(
+                        isRepeatingAnimation: false,
+                        totalRepeatCount: 1,
+                        animatedTexts: [
+                          // My name - Changed from white12 to white for visibility
+                          ScrambleAnimatedText(
+                            speed: const Duration(milliseconds: 300),
+                            'FAZAL-E-HAQ',
+                            textAlign: TextAlign.center,
+                            textStyle: const TextStyle(
+                              fontSize: 35,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                     const SizedBox(height: 15),
-                   // My skills
-                    AnimatedTextKit(
-                      repeatForever: true,
-                      pause: const Duration(seconds: 3),
-                      animatedTexts: [
-                        TyperAnimatedText(
-                          textAlign: TextAlign.center,
-                          'UI/UX Designer',
-                          textStyle: const TextStyle(
-                            fontSize: 20,
-                            letterSpacing: 5,
-                            fontWeight: FontWeight.w400,
-                            color: Colors.blueAccent,
+                   // My skills - Wrapped in RepaintBoundary
+                    RepaintBoundary(
+                      child: AnimatedTextKit(
+                        repeatForever: true,
+                        pause: const Duration(seconds: 3),
+                        animatedTexts: [
+                          TyperAnimatedText(
+                            textAlign: TextAlign.center,
+                            'UI/UX Designer',
+                            textStyle: const TextStyle(
+                              fontSize: 20,
+                              letterSpacing: 5,
+                              fontWeight: FontWeight.w400,
+                              color: Colors.blueAccent,
+                            ),
                           ),
-                        ),
-                        TyperAnimatedText(
-                          textAlign: TextAlign.center,
-                          'Flutter Developer',
-                          textStyle: const TextStyle(
-                            fontSize: 20,
-                            letterSpacing: 5,
-                            fontWeight: FontWeight.w400,
-                            color: Colors.blueAccent,
+                          TyperAnimatedText(
+                            textAlign: TextAlign.center,
+                            'Flutter Developer',
+                            textStyle: const TextStyle(
+                              fontSize: 20,
+                              letterSpacing: 5,
+                              fontWeight: FontWeight.w400,
+                              color: Colors.blueAccent,
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ],
                 ),
@@ -106,7 +112,7 @@ class MobileHomeSection extends StatelessWidget {
             ),
 
             // Scroll indicator arrow at the bottom
-            Positioned(bottom: 20, child: _AnimatedArrowIndicator()),
+            Positioned(bottom: 20, child: RepaintBoundary(child: _AnimatedArrowIndicator())),
           ],
         ),
       ),
