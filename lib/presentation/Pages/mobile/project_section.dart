@@ -21,11 +21,11 @@ class MobileProjectSection extends StatelessWidget {
       child: Center(
         child: InfoCardWidget(
           width: size.width * 0.92,
-          child: Column(
+          child: const Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const ResponsiveText(
+              ResponsiveText(
                 'My Projects',
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
@@ -34,10 +34,9 @@ class MobileProjectSection extends StatelessWidget {
                 minFontSize: 24,
                 maxFontSize: 30,
               ),
-              const SizedBox(height: 30),
+              SizedBox(height: 30),
               // Changed to horizontal scrolling as requested
-            _MobileProjectsCards( ),
-
+              _MobileProjectsCards(),
             ],
           ),
         ),
@@ -75,7 +74,8 @@ class _MobileProjectsCardsState extends State<_MobileProjectsCards> {
             children: List.generate(
               (projects.length - _currentIndex).clamp(0, 3),
               (index) {
-                int stackIndex = (projects.length - _currentIndex).clamp(0, 3) - 1 - index;
+                int stackIndex =
+                    (projects.length - _currentIndex).clamp(0, 3) - 1 - index;
                 ProjectModel project = projects[_currentIndex + stackIndex];
 
                 return _buildProjectCard(
@@ -101,10 +101,17 @@ class _MobileProjectsCardsState extends State<_MobileProjectsCards> {
               height: 8,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(4),
-                color: _currentIndex == index ? Colors.blueAccent : Colors.white24,
-                boxShadow: _currentIndex == index ? [
-                  BoxShadow(color: Colors.blueAccent.withValues(alpha: 0.4), blurRadius: 8)
-                ] : [],
+                color: _currentIndex == index
+                    ? Colors.blueAccent
+                    : Colors.white24,
+                boxShadow: _currentIndex == index
+                    ? [
+                        BoxShadow(
+                          color: Colors.blueAccent.withValues(alpha: 0.4),
+                          blurRadius: 8,
+                        ),
+                      ]
+                    : [],
               ),
             ),
           ),
@@ -121,7 +128,7 @@ class _MobileProjectsCardsState extends State<_MobileProjectsCards> {
   }) {
     // Elegant, subtle rotations for a smooth fanning effect
     double baseRotation = (index == 0) ? -0.015 : (index == 1 ? 0.025 : -0.035);
-    
+
     double scale = 1.0 - (index * 0.05);
     double opacity = 1.0 - (index * 0.25);
     double verticalOffset = index * 20.0;
@@ -137,11 +144,15 @@ class _MobileProjectsCardsState extends State<_MobileProjectsCards> {
         onHorizontalDragEnd: (details) {
           if (_dragOffset.abs() > 140) {
             setState(() {
-              _currentIndex = (_currentIndex + 1) % context.read<ProjectProvider>().projects.length;
+              _currentIndex =
+                  (_currentIndex + 1) %
+                  context.read<ProjectProvider>().projects.length;
               _dragOffset = 0;
             });
           } else {
-            setState(() { _dragOffset = 0; });
+            setState(() {
+              _dragOffset = 0;
+            });
           }
           _isDragging = false;
         },
@@ -162,7 +173,12 @@ class _MobileProjectsCardsState extends State<_MobileProjectsCards> {
               ),
             );
           },
-          child: _ProjectCardContent(project: project, size: size, isTop: true, dragOffset: _dragOffset),
+          child: _ProjectCardContent(
+            project: project,
+            size: size,
+            isTop: true,
+            dragOffset: _dragOffset,
+          ),
         ),
       );
     }
@@ -177,7 +193,11 @@ class _MobileProjectsCardsState extends State<_MobileProjectsCards> {
           ..rotateZ(baseRotation),
         child: Opacity(
           opacity: opacity.clamp(0.0, 1.0),
-          child: _ProjectCardContent(project: project, size: size, isTop: false),
+          child: _ProjectCardContent(
+            project: project,
+            size: size,
+            isTop: false,
+          ),
         ),
       ),
     );
@@ -191,8 +211,8 @@ class _ProjectCardContent extends StatelessWidget {
   final double dragOffset;
 
   const _ProjectCardContent({
-    required this.project, 
-    required this.size, 
+    required this.project,
+    required this.size,
     this.isTop = false,
     this.dragOffset = 0,
   });
@@ -201,8 +221,11 @@ class _ProjectCardContent extends StatelessWidget {
   Widget build(BuildContext context) {
     // PERFORMANCE: Pre-calculate values to avoid logic in build
     final double dragAbs = dragOffset.abs();
-    final double glowAlpha = (dragAbs / 500).clamp(0.0, 0.2); // Reduced max alpha
-    
+    final double glowAlpha = (dragAbs / 500).clamp(
+      0.0,
+      0.2,
+    ); // Reduced max alpha
+
     Color glowColor = Colors.transparent;
     if (isTop && dragOffset != 0) {
       glowColor = dragOffset > 0 ? Colors.greenAccent : Colors.redAccent;
@@ -216,8 +239,8 @@ class _ProjectCardContent extends StatelessWidget {
         borderRadius: BorderRadius.circular(32),
         gradient: LinearGradient(
           colors: [
-            Colors.white.withValues(alpha: 0.15), 
-            Colors.white.withValues(alpha: 0.05)
+            Colors.white.withValues(alpha: 0.15),
+            Colors.white.withValues(alpha: 0.05),
           ],
         ),
         boxShadow: [
@@ -272,7 +295,8 @@ class _ProjectCardContent extends StatelessWidget {
                               width: double.infinity,
                               height: double.infinity,
                               opacity: const AlwaysStoppedAnimation(0.4),
-                              errorBuilder: (context, error, stackTrace) => const SizedBox(),
+                              errorBuilder: (context, error, stackTrace) =>
+                                  const SizedBox(),
                             ),
                           ],
                         ),
@@ -282,13 +306,20 @@ class _ProjectCardContent extends StatelessWidget {
                       top: 15,
                       right: 15,
                       child: Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 10,
+                          vertical: 5,
+                        ),
                         decoration: BoxDecoration(
                           color: Colors.black45,
                           borderRadius: BorderRadius.circular(10),
                           border: Border.all(color: Colors.white10),
                         ),
-                        child: const Icon(Icons.arrow_outward_rounded, size: 14, color: Colors.blueAccent),
+                        child: const Icon(
+                          Icons.arrow_outward_rounded,
+                          size: 14,
+                          color: Colors.blueAccent,
+                        ),
                       ),
                     ),
                   ],
