@@ -18,7 +18,7 @@ jobs:
         run: |
           echo "import 'package:firebase_core/firebase_core.dart' show FirebaseOptions; class DefaultFirebaseOptions { static FirebaseOptions get currentPlatform => web; static const FirebaseOptions web = FirebaseOptions(apiKey: 'stub', appId: 'stub', messagingSenderId: 'stub', projectId: 'stub'); }" > lib/firebase_options.dart
 
-      - run: flutter build web --release
+      - run: flutter build web --web-renderer canvaskit --release
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: ${{ secrets.GITHUB_TOKEN }}
