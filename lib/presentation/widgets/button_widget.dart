@@ -32,14 +32,27 @@ class ButtonWidget extends StatelessWidget {
   final EdgeInsets? padding;
 
   // This helper function opens a website link when the button is clicked
-  Future<void> _launchUrl() async {
-    if (url != null) {
-      final Uri uri = Uri.parse(url!);
-      // Use externalApplication mode to ensure links open in a new tab/browser
-      if (!await launchUrl(uri, mode: LaunchMode.externalApplication)) {
-        throw Exception('Could not launch $url');
-      }
+  Future<void> _launchUrl(String value) async {
+    if (value.isEmpty) return;
+
+    final Uri uri;
+
+    // detect email
+    if (value.contains('@') && !value.startsWith('http')) {
+      uri = Uri(
+        scheme: 'mailto',
+        path: value,
+      );
+    } else {
+      uri = Uri.parse(value);
     }
+
+    await launchUrl(
+      uri,
+      mode: uri.scheme == 'mailto'
+          ? LaunchMode.platformDefault
+          : LaunchMode.externalApplication,
+    );
   }
 
   @override
@@ -110,7 +123,7 @@ class ButtonWidget extends StatelessWidget {
                 ),
               ),
               // If a URL is provided, open the link. Otherwise, call the onPressed function.
-              onPressed: url != null ? _launchUrl : onPressed,
+              onPressed: url != null ? () => _launchUrl(url!) : onPressed,
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [

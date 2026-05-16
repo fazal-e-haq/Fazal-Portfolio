@@ -1,11 +1,20 @@
 import 'package:animated_text_kit/animated_text_kit.dart';
+import 'package:fazal_portfolio/presentation/widgets/button_widget.dart';
 import 'package:fazal_portfolio/presentation/widgets/info_card_widget.dart';
 import 'package:fazal_portfolio/presentation/widgets/responsive_text.dart';
 import 'package:flutter/material.dart';
+import 'dart:js_interop';
+import 'package:js_interop/js_interop.dart';
+
+@JS('window.open')
+external JSAny? openWindow(JSString url, JSString target);
 
 // This is the "Home" or "Hero" section that visitors see first
 class HomeSection extends StatelessWidget {
   const HomeSection({super.key});
+  void downloadResume() {
+    openWindow('assets/Resume.pdf'.toJS, '_blank'.toJS);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +38,7 @@ class HomeSection extends StatelessWidget {
                   children: [
                     const RepaintBoundary(
                       child: ResponsiveText(
-                        'Hello,i am',
+                        'Hello , i am',
                         style: TextStyle(
                           letterSpacing: 2,
                           color: Colors.white70,
@@ -55,13 +64,13 @@ class HomeSection extends StatelessWidget {
                               fontSize: 65,
                               wordSpacing: 4,
                               fontWeight: FontWeight.bold,
-                              color: Colors.white,
+                              color: Colors.deepOrange,
                             ),
                           ),
                         ],
                       ),
                     ),
-                    const SizedBox(height: 10),
+
                     // PERFORMANCE: Wrapped in RepaintBoundary
                     RepaintBoundary(
                       child: AnimatedTextKit(
@@ -92,6 +101,12 @@ class HomeSection extends StatelessWidget {
                           ),
                         ],
                       ),
+                    ),
+                    SizedBox(height: size.height * 0.05),
+                    ButtonWidget(
+                      onPressed: downloadResume,
+                      icon: const Icon(Icons.arrow_downward),
+                      child: Text('Download Resume'),
                     ),
                   ],
                 ),

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
+
 import 'package:fazal_portfolio/presentation/widgets/button_widget.dart';
 import 'package:fazal_portfolio/presentation/widgets/info_card_widget.dart';
 import 'package:fazal_portfolio/presentation/widgets/skills_widget.dart';
@@ -11,12 +11,12 @@ class TabletAboutSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Load bio and links from environment variables
-    String aboutMe = dotenv.env['BIO'] ?? 'I am a Flutter developer with experience...';
-    String linkedin = dotenv.env['LINKEDIN_URL'] ?? 'https://linkedin.com';
-    String github = dotenv.env['GITHUB_URL'] ?? 'https://github.com';
-    String instagram = dotenv.env['INSTAGRAM_URL'] ?? 'https://instagram.com';
-    String email = dotenv.env['EMAIL_URL'] ?? 'mailto:fazal@example.com';
+    // Define bio and links directly
+    const String aboutMe = 'I am a Flutter developer with experience in building cross-platform applications with a focus on UI/UX design and state management.';
+    const String linkedin = 'https://linkedin.com';
+    const String github = 'https://github.com';
+    const String instagram = 'https://instagram.com';
+    const String email = 'mailto:fazal@example.com';
 
     Size size = MediaQuery.of(context).size;
 
