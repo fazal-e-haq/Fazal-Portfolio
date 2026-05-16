@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
+
 import 'package:fazal_portfolio/presentation/widgets/button_widget.dart';
 import 'package:fazal_portfolio/presentation/widgets/info_card_widget.dart';
 import 'package:fazal_portfolio/presentation/widgets/skills_widget.dart';
@@ -11,12 +11,13 @@ class AboutSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Get the bio and social links from the .env file (or use defaults)
-    String aboutMe = dotenv.env['BIO'] ?? 'I am a Flutter developer with experience...';
-    String linkedin = dotenv.env['LINKEDIN_URL'] ?? 'https://linkedin.com';
-    String github = dotenv.env['GITHUB_URL'] ?? 'https://github.com';
-    String instagram = dotenv.env['INSTAGRAM_URL'] ?? 'https://instagram.com';
-    String email = dotenv.env['EMAIL_URL'] ?? 'mailto:fazal@example.com';
+    // Define bio and links directly
+    const String aboutMe =
+        'I am a Flutter developer with experience in building cross-platform applications with a focus on UI/UX design and state management.';
+    const String linkedin = 'https://www.linkedin.com/in/fazal-e-haq3';
+    const String github = 'https://github.com/fazal-e-haq';
+    const String instagram = 'https://www.instagram.com/code.o.design';
+    const String email = 'fazalehaq37405@gmail.com';
 
     Size size = MediaQuery.of(context).size;
 
@@ -50,9 +51,9 @@ class AboutSection extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const ResponsiveText(
+                      ResponsiveText(
                         'About me',
-                        style: TextStyle(fontWeight: FontWeight.bold),
+                        style: Theme.of(context).textTheme.headlineMedium,
                         minFontSize: 30,
                         maxFontSize: 60,
                         scaleFactor: 0.04,
@@ -80,22 +81,22 @@ class AboutSection extends StatelessWidget {
                           ButtonWidget(
                             url: linkedin,
                             icon: const Icon(Icons.link),
-                            child: const Text('LinkedIn'),
+                            child: Text('LinkedIn'),
                           ),
                           ButtonWidget(
                             url: github,
                             icon: const Icon(Icons.code),
-                            child: const Text('GitHub'),
+                            child: Text('GitHub'),
                           ),
                           ButtonWidget(
                             url: instagram,
                             icon: const Icon(Icons.camera_alt),
-                            child: const Text('Instagram'),
+                            child: Text('Instagram'),
                           ),
                           ButtonWidget(
                             url: email,
                             icon: const Icon(Icons.email),
-                            child: const Text('Email'),
+                            child: Text('Email'),
                           ),
                         ],
                       ),
@@ -110,9 +111,9 @@ class AboutSection extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.end,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      const ResponsiveText(
+                      ResponsiveText(
                         'Skills',
-                        style: TextStyle(fontWeight: FontWeight.bold),
+                        style: Theme.of(context).textTheme.headlineMedium,
                         minFontSize: 30,
                         maxFontSize: 60,
                         scaleFactor: 0.04,
@@ -123,14 +124,47 @@ class AboutSection extends StatelessWidget {
                         spacing: 12,
                         runSpacing: 12,
                         children: [
-                          SkillsWidget(text: 'Flutter', icon: Icons.flutter_dash, color: Colors.blue),
-                          SkillsWidget(text: 'Dart', icon: Icons.code, color: Colors.teal),
-                          SkillsWidget(text: 'Figma', icon: Icons.design_services, color: Colors.pinkAccent),
-                          SkillsWidget(text: 'Firebase', icon: Icons.local_fire_department, color: Colors.orange),
-                          SkillsWidget(text: 'Git', icon: Icons.call_merge, color: Colors.deepOrange),
-                          SkillsWidget(text: 'Android Studio', icon: Icons.android, color: Colors.green),
-                          SkillsWidget(text: 'Stitch', icon: Icons.api, color: Colors.purple),
-                          SkillsWidget(text: 'Antigravity', icon: Icons.rocket_launch, color: Colors.cyan),
+                          SkillsWidget(
+                            text: 'Flutter',
+                            icon: Icons.flutter_dash,
+                            color: Colors.blue,
+                          ),
+                          SkillsWidget(
+                            text: 'Dart',
+                            icon: Icons.code,
+                            color: Colors.teal,
+                          ),
+                          SkillsWidget(
+                            text: 'Android Studio',
+                            icon: Icons.android,
+                            color: Colors.green,
+                          ),
+                          SkillsWidget(
+                            text: 'Figma',
+                            icon: Icons.design_services,
+                            color: Colors.pinkAccent,
+                          ),
+                          SkillsWidget(
+                            text: 'Firebase',
+                            icon: Icons.local_fire_department,
+                            color: Colors.orange,
+                          ),
+                          SkillsWidget(
+                            text: 'Git',
+                            icon: Icons.call_merge,
+                            color: Colors.deepOrange,
+                          ),
+
+                          SkillsWidget(
+                            text: 'Stitch',
+                            icon: Icons.api,
+                            color: Colors.purple,
+                          ),
+                          SkillsWidget(
+                            text: 'Antigravity',
+                            icon: Icons.rocket_launch,
+                            color: Colors.cyan,
+                          ),
                         ],
                       ),
                     ],

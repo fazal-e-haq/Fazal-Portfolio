@@ -1,13 +1,23 @@
+import 'dart:js_interop';
+
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:fazal_portfolio/presentation/widgets/info_card_widget.dart';
 import 'package:fazal_portfolio/presentation/widgets/responsive_text.dart';
 import 'package:flutter/material.dart';
 
+import '../../widgets/button_widget.dart';
+import '../computer/home_section.dart';
+@JS('window.open')
+external JSAny? openWindow(JSString url, JSString target);
 class MobileHomeSection extends StatelessWidget {
   const MobileHomeSection({super.key});
 
   @override
   Widget build(BuildContext context) {
+    void downloadResume() {
+      openWindow('assets/Resume.pdf'.toJS, '_blank'.toJS);
+    }
+
     Size size = MediaQuery.of(context).size;
     return SingleChildScrollView(
       child: SizedBox(
@@ -70,13 +80,13 @@ class MobileHomeSection extends StatelessWidget {
                             textStyle: const TextStyle(
                               fontSize: 35,
                               fontWeight: FontWeight.bold,
-                              color: Colors.white,
+                              color: Colors.deepOrange,
                             ),
                           ),
                         ],
                       ),
                     ),
-                    const SizedBox(height: 15),
+
                    // My skills - Wrapped in RepaintBoundary
                     RepaintBoundary(
                       child: AnimatedTextKit(
@@ -105,6 +115,12 @@ class MobileHomeSection extends StatelessWidget {
                           ),
                         ],
                       ),
+                    ),
+                    SizedBox(height: size.height * 0.05),
+                    ButtonWidget(
+                      onPressed: downloadResume,
+                      icon: const Icon(Icons.arrow_downward),
+                      child: Text('Download Resume'),
                     ),
                   ],
                 ),

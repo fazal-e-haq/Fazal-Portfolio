@@ -1,7 +1,7 @@
 import 'package:fazal_portfolio/core/themes/theme.dart';
 import 'package:fazal_portfolio/presentation/Pages/web_page.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
+
 import 'package:provider/provider.dart';
 import 'package:fazal_portfolio/providers/hover_provider.dart';
 import 'package:fazal_portfolio/providers/contact_provider.dart';
@@ -15,13 +15,11 @@ import 'firebase_options.dart';
 Future<void> main() async {
   // Ensure that plugin services are initialized
   WidgetsFlutterBinding.ensureInitialized();
-  
+
   // PERFORMANCE: Disable runtime font fetching to improve Lighthouse scores
   // This tells Flutter to use the fonts bundled in the assets instead of fetching them
   GoogleFonts.config.allowRuntimeFetching = false;
 
-  // Load environment variables from the .env file
-  await dotenv.load(fileName: ".env");
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   // Start the application
   runApp(const MyPortfolio());
