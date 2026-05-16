@@ -1,10 +1,20 @@
+import 'dart:js_interop';
+
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:fazal_portfolio/presentation/widgets/info_card_widget.dart';
 import 'package:fazal_portfolio/presentation/widgets/responsive_text.dart';
 import 'package:flutter/material.dart';
 
+import '../../widgets/button_widget.dart';
+
+@JS('window.open')
+external JSAny? openWindow(JSString url, JSString target);
+
 class TabletHomeSection extends StatelessWidget {
   const TabletHomeSection({super.key});
+  void downloadResume() {
+    openWindow('assets/Resume.pdf'.toJS, '_blank'.toJS);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -47,13 +57,13 @@ class TabletHomeSection extends StatelessWidget {
                           textStyle: const TextStyle(
                             fontSize: 45,
                             fontWeight: FontWeight.bold,
-                            color: Colors.white,
+                            color: Colors.deepOrange,
                           ),
                         ),
                       ],
                     ),
                   ),
-                  const SizedBox(height: 15),
+
                   RepaintBoundary(
                     child: AnimatedTextKit(
                       repeatForever: true,
@@ -85,6 +95,12 @@ class TabletHomeSection extends StatelessWidget {
                         ),
                       ],
                     ),
+                  ),
+                  SizedBox(height: size.height * 0.05),
+                  ButtonWidget(
+                    onPressed: downloadResume,
+                    icon: const Icon(Icons.arrow_downward),
+                    child: Text('Download Resume'),
                   ),
                 ],
               );
