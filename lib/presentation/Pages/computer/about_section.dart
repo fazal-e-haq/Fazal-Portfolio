@@ -1,5 +1,6 @@
+import 'package:fazal_portfolio/core/constants/social_medias_links.dart';
+import 'package:fazal_portfolio/presentation/widgets/link_button_widget.dart';
 import 'package:flutter/material.dart';
-
 import 'package:fazal_portfolio/presentation/widgets/button_widget.dart';
 import 'package:fazal_portfolio/presentation/widgets/info_card_widget.dart';
 import 'package:fazal_portfolio/presentation/widgets/skills_widget.dart';
@@ -12,12 +13,7 @@ class AboutSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // Define bio and links directly
-    const String aboutMe =
-        'I am a Flutter developer with experience in building cross-platform applications with a focus on UI/UX design and state management.';
-    const String linkedin = 'https://www.linkedin.com/in/fazal-e-haq3';
-    const String github = 'https://github.com/fazal-e-haq';
-    const String instagram = 'https://www.instagram.com/code.o.design';
-    const String email = 'fazalehaq37405@gmail.com';
+    final socialLinks = SocialMediasLinks();
 
     Size size = MediaQuery.of(context).size;
 
@@ -58,7 +54,7 @@ class AboutSection extends StatelessWidget {
                         maxFontSize: 60,
                         scaleFactor: 0.04,
                       ),
-                      SizedBox(height: size.height * 0.04),
+                      SizedBox(height: size.height * 0.03),
                       const ResponsiveText(
                         'I am a Flutter Developer and UI/UX Designer',
                         style: TextStyle(fontWeight: FontWeight.w500),
@@ -67,7 +63,7 @@ class AboutSection extends StatelessWidget {
                       ),
                       SizedBox(height: size.height * 0.02),
                       ResponsiveText(
-                        aboutMe,
+                        '${socialLinks.aboutMeOfFlutter}\n\n ${socialLinks.aboutMeOfDesigner}',
                         style: const TextStyle(height: 1.5, color: Colors.grey),
                         minFontSize: 14,
                         maxFontSize: 20,
@@ -79,25 +75,26 @@ class AboutSection extends StatelessWidget {
                         spacing: 15,
                         children: [
                           ButtonWidget(
-                            url: linkedin,
+                            url: socialLinks.linkedinAccountLink,
                             icon: const Icon(Icons.link),
                             child: Text('LinkedIn'),
                           ),
                           ButtonWidget(
-                            url: github,
+                            url: socialLinks.githubAccountLink,
                             icon: const Icon(Icons.code),
                             child: Text('GitHub'),
                           ),
                           ButtonWidget(
-                            url: instagram,
+                            url: socialLinks.instagramAccountLink,
                             icon: const Icon(Icons.camera_alt),
                             child: Text('Instagram'),
                           ),
                           ButtonWidget(
-                            url: email,
+                            url: socialLinks.emailAccountLink,
                             icon: const Icon(Icons.email),
                             child: Text('Email'),
                           ),
+
                         ],
                       ),
                     ],

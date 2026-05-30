@@ -5,6 +5,8 @@ import 'package:fazal_portfolio/presentation/widgets/info_card_widget.dart';
 import 'package:fazal_portfolio/presentation/widgets/skills_widget.dart';
 import 'package:fazal_portfolio/presentation/widgets/responsive_text.dart';
 
+import '../../../core/constants/social_medias_links.dart';
+
 // This is the About section tailored for tablet devices
 class TabletAboutSection extends StatelessWidget {
   const TabletAboutSection({super.key});
@@ -12,11 +14,7 @@ class TabletAboutSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // Define bio and links directly
-    const String aboutMe = 'I am a Flutter developer with experience in building cross-platform applications with a focus on UI/UX design and state management.';
-    const String linkedin = 'https://linkedin.com';
-    const String github = 'https://github.com';
-    const String instagram = 'https://instagram.com';
-    const String email = 'mailto:fazal@example.com';
+    final socialLinks = SocialMediasLinks();
 
     Size size = MediaQuery.of(context).size;
 
@@ -42,22 +40,26 @@ class TabletAboutSection extends StatelessWidget {
               builder: (context, constraints) {
                 // If the tablet is in portrait or narrow, use vertical layout
                 bool useVertical = constraints.maxWidth < 700;
-                
+
                 // Content for the "About" side
                 Widget aboutContent = Column(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: useVertical ? CrossAxisAlignment.center : CrossAxisAlignment.start,
+                  crossAxisAlignment: useVertical
+                      ? CrossAxisAlignment.center
+                      : CrossAxisAlignment.start,
                   children: [
-                    const ResponsiveText(
+                    ResponsiveText(
                       'About me',
-                      style: TextStyle(fontWeight: FontWeight.bold),
+                      style: Theme.of(context).textTheme.headlineMedium,
                       minFontSize: 28,
                       maxFontSize: 36,
                     ),
                     const SizedBox(height: 15),
                     ResponsiveText(
-                      aboutMe,
-                      textAlign: useVertical ? TextAlign.center : TextAlign.left,
+                      '${socialLinks.aboutMeOfFlutter}\n\n ${socialLinks.aboutMeOfDesigner}',
+                      textAlign: useVertical
+                          ? TextAlign.center
+                          : TextAlign.left,
                       style: const TextStyle(height: 1.4, color: Colors.grey),
                       minFontSize: 13,
                       maxFontSize: 16,
@@ -65,14 +67,32 @@ class TabletAboutSection extends StatelessWidget {
                     const SizedBox(height: 20),
                     // Intermediate sized social buttons
                     Wrap(
-                      alignment: useVertical ? WrapAlignment.center : WrapAlignment.start,
+                      alignment: useVertical
+                          ? WrapAlignment.center
+                          : WrapAlignment.start,
                       runSpacing: 10,
                       spacing: 10,
                       children: [
-                        _buildTabletSocialButton(linkedin, Icons.link, 'LinkedIn'),
-                        _buildTabletSocialButton(github, Icons.code, 'GitHub'),
-                        _buildTabletSocialButton(instagram, Icons.camera_alt, 'Instagram'),
-                        _buildTabletSocialButton(email, Icons.email, 'Email'),
+                        _buildTabletSocialButton(
+                          socialLinks.linkedinAccountLink,
+                          Icons.link,
+                          'LinkedIn',
+                        ),
+                        _buildTabletSocialButton(
+                          socialLinks.githubAccountLink,
+                          Icons.code,
+                          'GitHub',
+                        ),
+                        _buildTabletSocialButton(
+                          socialLinks.instagramAccountLink,
+                          Icons.camera_alt,
+                          'Instagram',
+                        ),
+                        _buildTabletSocialButton(
+                          socialLinks.emailAccountLink,
+                          Icons.email,
+                          'Email',
+                        ),
                       ],
                     ),
                   ],
@@ -83,9 +103,9 @@ class TabletAboutSection extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    const ResponsiveText(
+                    ResponsiveText(
                       'Skills',
-                      style: TextStyle(fontWeight: FontWeight.bold),
+                      style: Theme.of(context).textTheme.headlineMedium,
                       minFontSize: 28,
                       maxFontSize: 36,
                     ),
@@ -96,14 +116,78 @@ class TabletAboutSection extends StatelessWidget {
                       runSpacing: 10,
                       children: [
                         // Skills with intermediate sizes for tablet
-                        SkillsWidget(text: 'Flutter', icon: Icons.flutter_dash, color: Colors.blue, fontSize: 15, iconSize: 24, horizontalPadding: 16, verticalPadding: 8),
-                        SkillsWidget(text: 'Dart', icon: Icons.code, color: Colors.teal, fontSize: 15, iconSize: 24, horizontalPadding: 16, verticalPadding: 8),
-                        SkillsWidget(text: 'Figma', icon: Icons.design_services, color: Colors.pinkAccent, fontSize: 15, iconSize: 24, horizontalPadding: 16, verticalPadding: 8),
-                        SkillsWidget(text: 'Firebase', icon: Icons.local_fire_department, color: Colors.orange, fontSize: 15, iconSize: 24, horizontalPadding: 16, verticalPadding: 8),
-                        SkillsWidget(text: 'Git', icon: Icons.call_merge, color: Colors.deepOrange, fontSize: 15, iconSize: 24, horizontalPadding: 16, verticalPadding: 8),
-                        SkillsWidget(text: 'Android Studio', icon: Icons.android, color: Colors.green, fontSize: 15, iconSize: 24, horizontalPadding: 16, verticalPadding: 8),
-                        SkillsWidget(text: 'Stitch', icon: Icons.api, color: Colors.purple, fontSize: 15, iconSize: 24, horizontalPadding: 16, verticalPadding: 8),
-                        SkillsWidget(text: 'Antigravity', icon: Icons.rocket_launch, color: Colors.cyan, fontSize: 15, iconSize: 24, horizontalPadding: 16, verticalPadding: 8),
+                        SkillsWidget(
+                          text: 'Flutter',
+                          icon: Icons.flutter_dash,
+                          color: Colors.blue,
+                          fontSize: 15,
+                          iconSize: 24,
+                          horizontalPadding: 16,
+                          verticalPadding: 8,
+                        ),
+                        SkillsWidget(
+                          text: 'Dart',
+                          icon: Icons.code,
+                          color: Colors.teal,
+                          fontSize: 15,
+                          iconSize: 24,
+                          horizontalPadding: 16,
+                          verticalPadding: 8,
+                        ),
+                        SkillsWidget(
+                          text: 'Figma',
+                          icon: Icons.design_services,
+                          color: Colors.pinkAccent,
+                          fontSize: 15,
+                          iconSize: 24,
+                          horizontalPadding: 16,
+                          verticalPadding: 8,
+                        ),
+                        SkillsWidget(
+                          text: 'Firebase',
+                          icon: Icons.local_fire_department,
+                          color: Colors.orange,
+                          fontSize: 15,
+                          iconSize: 24,
+                          horizontalPadding: 16,
+                          verticalPadding: 8,
+                        ),
+                        SkillsWidget(
+                          text: 'Git',
+                          icon: Icons.call_merge,
+                          color: Colors.deepOrange,
+                          fontSize: 15,
+                          iconSize: 24,
+                          horizontalPadding: 16,
+                          verticalPadding: 8,
+                        ),
+                        SkillsWidget(
+                          text: 'Android Studio',
+                          icon: Icons.android,
+                          color: Colors.green,
+                          fontSize: 15,
+                          iconSize: 24,
+                          horizontalPadding: 16,
+                          verticalPadding: 8,
+                        ),
+                        SkillsWidget(
+                          text: 'Stitch',
+                          icon: Icons.api,
+                          color: Colors.purple,
+                          fontSize: 15,
+                          iconSize: 24,
+                          horizontalPadding: 16,
+                          verticalPadding: 8,
+                        ),
+                        SkillsWidget(
+                          text: 'Antigravity',
+                          icon: Icons.rocket_launch,
+                          color: Colors.cyan,
+                          fontSize: 15,
+                          iconSize: 24,
+                          horizontalPadding: 16,
+                          verticalPadding: 8,
+                        ),
                       ],
                     ),
                   ],

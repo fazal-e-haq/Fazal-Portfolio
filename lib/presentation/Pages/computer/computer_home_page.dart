@@ -29,7 +29,9 @@ class ComputerHomePage extends StatelessWidget {
         child: PageView(
           controller: navProvider.pageController,
           scrollDirection: Axis.horizontal,
-          physics: const BouncingScrollPhysics(), // Allows smooth manual swiping too
+          physics: const BouncingScrollPhysics(
+            decelerationRate: ScrollDecelerationRate.fast,
+          ), // Allows smooth manual swiping too
           children: const [
             HomeSection(),
             AboutSection(),
@@ -42,12 +44,13 @@ class ComputerHomePage extends StatelessWidget {
   }
 
   // This creates the Navigation Bar (Menu) at the top
-  PreferredSize preferredSizeAppBar(Size size, BuildContext context, NavigationProvider navProvider) {
+  PreferredSize preferredSizeAppBar(
+    Size size,
+    BuildContext context,
+    NavigationProvider navProvider,
+  ) {
     return PreferredSize(
-      preferredSize: const Size(
-        double.infinity,
-        120,
-      ),
+      preferredSize: const Size(double.infinity, 120),
       child: AppBar(
         elevation: 0,
         centerTitle: true,
@@ -96,7 +99,11 @@ class ComputerHomePage extends StatelessWidget {
   }
 
   // A helper function to create each menu button
-  Widget appBarButton(String title, int pageIndex, NavigationProvider navProvider) {
+  Widget appBarButton(
+    String title,
+    int pageIndex,
+    NavigationProvider navProvider,
+  ) {
     return ButtonWidget(
       // Use the provider's scroll method instead of local logic
       onPressed: () => navProvider.scrollToSection(pageIndex),

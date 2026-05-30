@@ -18,9 +18,11 @@ class MobileProjectSection extends StatelessWidget {
 
     return SizedBox(
       width: size.width,
+
       child: Center(
         child: InfoCardWidget(
           width: size.width * 0.92,
+          height: size.height* 0.9,
           child: const Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
@@ -67,7 +69,7 @@ class _MobileProjectsCardsState extends State<_MobileProjectsCards> {
     return Column(
       children: [
         SizedBox(
-          height: size.height * 0.7, // Increased height
+          height: size.height * 0.6, // Increased height
           width: size.width,
           child: Stack(
             alignment: Alignment.center,
