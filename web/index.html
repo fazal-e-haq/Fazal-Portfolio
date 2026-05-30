@@ -1,6 +1,20 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <!-- FIX: removes white/flash splash -->
+  <style>
+    body {
+      margin: 0;
+      background-color: #1A1A1A;
+    }
+
+    /* hides early white flash */
+    html, body {
+      height: 100%;
+      overflow: hidden;
+    }
+  </style>
+  <meta name="theme-color" content="#1A1A1A">
   <!--
     If you are serving your web app in a path other than the root, change the
     href value below to reflect the base path you are serving from.
@@ -22,7 +36,7 @@
 
   <!-- iOS meta tags & icons -->
   <meta name="mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="apple-mobile-web-app-status-bar-style" content="#1A1A1A">
   <meta name="apple-mobile-web-app-title" content="Fazal Portfolio">
   <link rel="apple-touch-icon" href="icons/Icon-192.png">
 

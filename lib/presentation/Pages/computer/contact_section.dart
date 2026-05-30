@@ -26,13 +26,13 @@ class ContactSection extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               // Left side: Large call-to-action text
-              const Expanded(
+                Expanded(
                 flex: 4,
                 child: Padding(
                   padding: EdgeInsets.all(20.0),
                   child: ResponsiveText(
                     'Got a Project in\nmind?',
-                    style: TextStyle(fontWeight: FontWeight.bold),
+                    style:Theme.of(context).textTheme.headlineLarge,
                     textAlign: TextAlign.left,
                     minFontSize: 30,
                     maxFontSize: 60,

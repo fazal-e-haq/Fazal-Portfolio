@@ -5,6 +5,8 @@ import 'package:fazal_portfolio/presentation/widgets/info_card_widget.dart';
 import 'package:fazal_portfolio/presentation/widgets/skills_widget.dart';
 import 'package:fazal_portfolio/presentation/widgets/responsive_text.dart';
 
+import '../../../core/constants/social_medias_links.dart';
+
 // This is the About section tailored for mobile devices
 class MobileAboutSection extends StatelessWidget {
   const MobileAboutSection({super.key});
@@ -12,11 +14,7 @@ class MobileAboutSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // Define bio and links directly
-    const String aboutMe = 'I am a Flutter Developer and UI/UX Designer passionate about creating beautiful and functional mobile applications.';
-    const String linkedin = 'https://linkedin.com';
-    const String github = 'https://github.com';
-    const String instagram = 'https://instagram.com';
-    const String email = 'mailto:fazal@example.com';
+    final socialLinks = SocialMediasLinks();
 
     Size size = MediaQuery.of(context).size;
 
@@ -46,15 +44,15 @@ class MobileAboutSection extends StatelessWidget {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  const ResponsiveText(
+                    ResponsiveText(
                     'About me',
-                    style: TextStyle(fontWeight: FontWeight.bold),
+                    style: Theme.of(context).textTheme.headlineMedium,
                     minFontSize: 22,
                     maxFontSize: 26,
                   ),
                   const SizedBox(height: 10),
                   ResponsiveText(
-                    aboutMe,
+                    '${socialLinks.aboutMeOfFlutter}\n\n ${socialLinks.aboutMeOfDesigner}',
                     textAlign: TextAlign.center,
                     style: const TextStyle(height: 1.4, color: Colors.grey),
                     minFontSize: 12,
@@ -67,10 +65,10 @@ class MobileAboutSection extends StatelessWidget {
                     runSpacing: 7,
                     spacing: 7,
                     children: [
-                      _buildMobileSocialButton(linkedin, Icons.link, 'LinkedIn'),
-                      _buildMobileSocialButton(github, Icons.code, 'GitHub'),
-                      _buildMobileSocialButton(instagram, Icons.camera_alt, 'Instagram'),
-                      _buildMobileSocialButton(email, Icons.email, 'Email'),
+                      _buildMobileSocialButton( socialLinks.linkedinAccountLink, Icons.link, 'LinkedIn'),
+                      _buildMobileSocialButton( socialLinks.githubAccountLink, Icons.code, 'GitHub'),
+                      _buildMobileSocialButton(socialLinks.instagramAccountLink, Icons.camera_alt, 'Instagram'),
+                      _buildMobileSocialButton(socialLinks.emailAccountLink, Icons.email, 'Email'),
                     ],
                   ),
                   // Divider
@@ -78,9 +76,9 @@ class MobileAboutSection extends StatelessWidget {
                     padding: EdgeInsets.symmetric(vertical: 15),
                     child: Divider(color: Colors.white10, height: 1),
                   ),
-                  const ResponsiveText(
+                    ResponsiveText(
                     'Skills',
-                    style: TextStyle(fontWeight: FontWeight.bold),
+                    style: Theme.of(context).textTheme.headlineMedium,
                     minFontSize: 22,
                     maxFontSize: 26,
                   ),
@@ -114,9 +112,9 @@ class MobileAboutSection extends StatelessWidget {
   Widget _buildMobileSocialButton(String url, IconData icon, String label) {
     return ButtonWidget(
       url: url,
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       icon: Icon(icon, size: 14),
-      child: Text(label, style: const TextStyle(fontSize: 11)),
+      child: Text(label, style: const TextStyle(fontSize: 12)),
     );
   }
 }

@@ -39,10 +39,7 @@ class ButtonWidget extends StatelessWidget {
 
     // detect email
     if (value.contains('@') && !value.startsWith('http')) {
-      uri = Uri(
-        scheme: 'mailto',
-        path: value,
-      );
+      uri = Uri(scheme: 'mailto', path: value);
     } else {
       uri = Uri.parse(value);
     }
@@ -59,12 +56,12 @@ class ButtonWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     // Generate a unique ID for this button to track hover state
     final String buttonId = id ?? child.hashCode.toString();
-    
+
     return Consumer<HoverProvider>(
       builder: (context, hoverProvider, childWidget) {
         // Check if the mouse is currently over this button
         bool isHovered = hoverProvider.isHovered(buttonId);
-        
+
         return MouseRegion(
           // When the mouse enters the button area
           onEnter: (_) => hoverProvider.setHovered(buttonId, true),
@@ -108,18 +105,25 @@ class ButtonWidget extends StatelessWidget {
             ),
             // Slightly move the button up and make it bigger when hovered
             transform: isHovered
-                ? (Matrix4.identity()..translateByVector3(Vector3(0.0, -2.0, 0.0))..scaleByVector3(Vector3(1.02, 1.02, 1.02)))
+                ? (Matrix4.identity()
+                    ..translateByVector3(Vector3(0.0, -2.0, 0.0))
+                    ..scaleByVector3(Vector3(1.02, 1.02, 1.02)))
                 : Matrix4.identity(),
             child: ElevatedButton(
               style: ButtonStyle(
                 padding: WidgetStatePropertyAll(
-                  padding ?? const EdgeInsets.symmetric(horizontal: 24, vertical: 14),
+                  padding ??
+                      const EdgeInsets.symmetric(horizontal: 24, vertical: 14),
                 ),
-                backgroundColor: const WidgetStatePropertyAll(Colors.transparent),
+                backgroundColor: const WidgetStatePropertyAll(
+                  Colors.transparent,
+                ),
                 shadowColor: const WidgetStatePropertyAll(Colors.transparent),
                 elevation: const WidgetStatePropertyAll(0),
                 shape: WidgetStatePropertyAll(
-                  RoundedRectangleBorder(borderRadius: BorderRadius.circular(100))
+                  RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(100),
+                  ),
                 ),
               ),
               // If a URL is provided, open the link. Otherwise, call the onPressed function.
@@ -128,10 +132,7 @@ class ButtonWidget extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   // Show icon if one is provided
-                  if (icon != null) ...[
-                    icon!,
-                    const SizedBox(width: 8),
-                  ],
+                  if (icon != null) ...[icon!, const SizedBox(width: 8)],
                   childWidget!,
                 ],
               ),

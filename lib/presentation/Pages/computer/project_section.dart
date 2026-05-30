@@ -27,16 +27,11 @@ class ProjectSection extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const Padding(
+                Padding(
                 padding: EdgeInsets.only(left: 10, bottom: 30),
                 child: Text(
                   'Featured Work',
-                  style: TextStyle(
-                    fontSize: 45,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
-                    letterSpacing: -1,
-                  ),
+                  style: Theme.of(context).textTheme.headlineLarge
                 ),
               ),
               // Horizontal list of projects with staggered animations

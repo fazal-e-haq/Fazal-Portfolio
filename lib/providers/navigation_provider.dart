@@ -16,13 +16,12 @@ class NavigationProvider extends ChangeNotifier {
   /// Navigates the [PageView] to the specified section index.
   /// 
   /// [pageIndex] is the index of the section to scroll to.
-  /// The animation uses a premium [Curves.easeOutCubic] for a smooth feel.
-  void scrollToSection(int pageIndex) {
+   void scrollToSection(int pageIndex) {
     if (_pageController.hasClients) {
       _pageController.animateToPage(
         pageIndex,
-        duration: const Duration(milliseconds: 800),
-        curve: Curves.easeOutCubic,
+        duration: const Duration(seconds: 1),
+        curve: Curves.fastOutSlowIn,
       );
     }
   }

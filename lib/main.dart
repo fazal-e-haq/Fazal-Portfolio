@@ -44,6 +44,8 @@ class MyPortfolio extends StatelessWidget {
       child: MaterialApp(
         title: 'Fazal-E-Haq | Portfolio',
         debugShowCheckedModeBanner: false,
+        themeAnimationCurve: Curves.easeOut,
+
         // Set the visual theme of the app (colors, fonts, etc.)
         darkTheme: mainTheme,
         theme: mainTheme,
