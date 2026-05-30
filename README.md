@@ -1,6 +1,5 @@
-# fazal_portfolio
+# My portfolio
 
-A new Flutter project.
 
 ## Getting Started
 
