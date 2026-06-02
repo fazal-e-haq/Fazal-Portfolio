@@ -1,5 +1,5 @@
 name: fazal_portfolio
-description: "A  Flutter project of my portfolio."
+description: "A  Flutter web of my portfolio."
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
@@ -37,8 +37,6 @@ dependencies:
   lottie: ^3.3.2
   provider: ^6.1.5+1
   url_launcher: ^6.3.2
-  firebase_core: ^4.7.0
-  cloud_firestore: ^6.3.0
   js_interop: ^0.0.1
 
 dev_dependencies:

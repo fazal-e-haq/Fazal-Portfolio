@@ -22,22 +22,19 @@ class MobileProjectSection extends StatelessWidget {
       child: Center(
         child: InfoCardWidget(
           width: size.width * 0.92,
-          height: size.height* 0.9,
-          child: const Column(
+          height: size.height * 0.9,
+          child:   Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               ResponsiveText(
                 'My Projects',
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white,
-                ),
+                style: Theme.of(context).textTheme.headlineMedium,
                 minFontSize: 24,
                 maxFontSize: 30,
               ),
               SizedBox(height: 30),
-              // Changed to horizontal scrolling as requested
+              // Horizontal scrolling
               _MobileProjectsCards(),
             ],
           ),

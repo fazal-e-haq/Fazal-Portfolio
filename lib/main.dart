@@ -1,15 +1,13 @@
 import 'package:fazal_portfolio/core/themes/theme.dart';
 import 'package:fazal_portfolio/presentation/Pages/web_page.dart';
+import 'package:fazal_portfolio/presentation/pages/intro_section.dart';
 import 'package:flutter/material.dart';
-
 import 'package:provider/provider.dart';
 import 'package:fazal_portfolio/providers/hover_provider.dart';
 import 'package:fazal_portfolio/providers/contact_provider.dart';
 import 'package:fazal_portfolio/providers/navigation_provider.dart';
 import 'package:fazal_portfolio/providers/project_provider.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'firebase_options.dart';
 
 // This is the starting point of the application
 Future<void> main() async {
@@ -18,9 +16,8 @@ Future<void> main() async {
 
   // PERFORMANCE: Disable runtime font fetching to improve Lighthouse scores
   // This tells Flutter to use the fonts bundled in the assets instead of fetching them
-  GoogleFonts.config.allowRuntimeFetching = false;
+  GoogleFonts.config.allowRuntimeFetching = true;
 
-  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   // Start the application
   runApp(const MyPortfolio());
 }
@@ -50,7 +47,7 @@ class MyPortfolio extends StatelessWidget {
         darkTheme: mainTheme,
         theme: mainTheme,
         // The first page to show when the app opens
-        home: const WebPage(),
+        home: const IntroSection(),
       ),
     );
   }
