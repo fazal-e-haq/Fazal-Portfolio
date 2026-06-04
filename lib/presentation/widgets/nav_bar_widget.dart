@@ -1,80 +1,118 @@
+import 'package:fazal_portfolio/models/nav_bar_item_model.dart';
+import 'package:fazal_portfolio/presentation/widgets/button_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../providers/navigation_provider.dart';
-import 'button_widget.dart';
 
+// NavBar
 class NavBarWidget extends StatelessWidget {
   const NavBarWidget({super.key});
+  // List of items which include in NavBar
+  static const List<NavBarItem> items = [
+    NavBarItem(title: 'Home', index: 0, icon: Icons.home),
+    NavBarItem(title: 'About', index: 1, icon: Icons.info),
+    NavBarItem(title: 'Projects', index: 2, icon: Icons.work),
+    NavBarItem(title: 'Contact', index: 3, icon: Icons.mail),
+  ];
 
   @override
   Widget build(BuildContext context) {
-    final navProvider = context.read<NavigationProvider>();
-
     return LayoutBuilder(
       builder: (context, constraints) {
-        if (constraints.maxWidth > 500) {
-          return PreferredSize(
-            preferredSize: const Size(double.infinity, 120),
-            child: AppBar(
-              elevation: 0,
-              centerTitle: true,
-              toolbarHeight: 120,
-              title: Container(
-                height: 80,
-                margin: const EdgeInsets.only(top: 20),
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                // Neumorphic design for the menu bar
-                decoration: BoxDecoration(
-                  color: const Color(0xFF1A1A1A),
-                  borderRadius: BorderRadius.circular(100),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withValues(alpha: 0.5),
-                      blurRadius: 15,
-                      offset: const Offset(8, 8),
-                    ),
-                    BoxShadow(
-                      color: Colors.white.withValues(alpha: 0.03),
-                      blurRadius: 15,
-                      offset: const Offset(-8, -8),
-                    ),
-                  ],
-                ),
-                // Horizontal list of buttons for the menu
-                child: SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      appBarButton('Home', 0, navProvider),
-                      const SizedBox(width: 8),
-                      appBarButton('About', 1, navProvider),
-                      const SizedBox(width: 8),
-                      appBarButton('Projects', 2, navProvider),
-                      const SizedBox(width: 8),
-                      appBarButton('Contact', 3, navProvider),
-                    ],
+        if (constraints.maxWidth > 600) {
+          return AppBar(
+            elevation: 0,
+            centerTitle: true,
+            toolbarHeight: 120,
+            title: Container(
+              height: 80,
+              margin: const EdgeInsets.only(top: 20),
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              // Monomorphic design for the menu bar
+              decoration: BoxDecoration(
+                color: const Color(0xFF1A1A1A),
+                borderRadius: BorderRadius.circular(100),
+
+                // boxShadow: [
+                //   BoxShadow(
+                //     color: Colors.black.withValues(alpha: 0.6),
+                //     blurRadius: 5,
+                //     spreadRadius: 1,
+                //     offset: const Offset(4, 4),
+                //   ),
+                //   BoxShadow(
+                //     color: Colors.white.withValues(alpha: 0.03),
+                //     blurRadius: 5,
+                //     spreadRadius: 1,
+                //     offset: const Offset(-4, -4),
+                //   ),
+                // ],
+                boxShadow: [
+                  BoxShadow(
+                    spreadRadius: 1,
+                    blurRadius: 5,
+                    offset: Offset(4, 4),
+                    color: Colors.white.withValues(alpha: 0.5),
                   ),
-                ),
+                  BoxShadow(
+                    spreadRadius: 1,
+                    blurRadius: 5,
+                    offset: Offset(-4, -4),
+                    color: Colors.white.withValues(alpha: 0.5),
+                  ),
+                ],
+                shape: BoxShape.rectangle,
+              ),
+              // Horizontal list of buttons for the menu
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisSize: MainAxisSize.min,
+                children: List.generate(items.length, (index) {
+                  final item = items[index];
+                  return Consumer<NavigationProvider>(
+                    builder: (context, value, child) {
+                      return NavBarButton(
+                        title: item.title,
+                        icon: item.icon,
+                        pageIndex: item.index,
+
+                        isSelected: value.currentIndex == item.index,
+                      );
+                    },
+                  );
+                }),
               ),
             ),
           );
         }
-        return SizedBox();
+        return const SizedBox(height: 1);
       },
     );
   }
+}
 
-  Widget appBarButton(
-    String title,
-    int pageIndex,
-    NavigationProvider navProvider,
-  ) {
+// NavBar button
+class NavBarButton extends StatelessWidget {
+  // Constructor
+  const NavBarButton({
+    super.key,
+    required this.title,
+    required this.pageIndex,
+    required this.icon,
+    this.isSelected = false,
+  });
+  // Global variables
+  final String title;
+  final int pageIndex;
+  final IconData icon;
+  final bool isSelected;
+  @override
+  Widget build(BuildContext context) {
     return ButtonWidget(
       // Use the provider's scroll method instead of local logic
-      onPressed: () => navProvider.scrollToSection(pageIndex),
+      onPressed: () =>
+          context.read<NavigationProvider>().scrollToSection(pageIndex),
       backgroundColor: const Color(0xFF001F9F),
       elevation: const WidgetStatePropertyAll(0),
       textStyle: const WidgetStatePropertyAll(
@@ -85,6 +123,10 @@ class NavBarWidget extends StatelessWidget {
           letterSpacing: 0.5,
         ),
       ),
+      color: isSelected
+          ? Colors.white.withValues(alpha: 0.3)
+          : Theme.of(context).cardColor,
+      icon: Icon(icon),
       child: Text(title),
     );
   }

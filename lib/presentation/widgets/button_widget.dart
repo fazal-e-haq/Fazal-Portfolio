@@ -1,11 +1,11 @@
+import 'package:fazal_portfolio/providers/button_widget_provider.dart';
 import 'package:flutter/material.dart';
-import 'package:vector_math/vector_math_64.dart' show Vector3;
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:fazal_portfolio/providers/hover_provider.dart';
 
 // This widget creates a special interactive button with hover effects
 class ButtonWidget extends StatelessWidget {
+  // Constructor
   const ButtonWidget({
     super.key,
     this.onPressed, // What happens when you click the button
@@ -18,8 +18,10 @@ class ButtonWidget extends StatelessWidget {
     this.url, // If provided, clicking the button opens this website link
     this.id,
     this.padding,
+    this.color,
   });
 
+  // Global variables
   final void Function()? onPressed;
   final Widget child;
   final Color? backgroundColor;
@@ -30,6 +32,7 @@ class ButtonWidget extends StatelessWidget {
   final String? url;
   final String? id;
   final EdgeInsets? padding;
+  final Color? color;
 
   // This helper function opens a website link when the button is clicked
   Future<void> _launchUrl(String value) async {
@@ -57,7 +60,7 @@ class ButtonWidget extends StatelessWidget {
     // Generate a unique ID for this button to track hover state
     final String buttonId = id ?? child.hashCode.toString();
 
-    return Consumer<HoverProvider>(
+    return Consumer<ButtonWidgetProvider>(
       builder: (context, hoverProvider, childWidget) {
         // Check if the mouse is currently over this button
         bool isHovered = hoverProvider.isHovered(buttonId);
@@ -69,11 +72,10 @@ class ButtonWidget extends StatelessWidget {
           onExit: (_) => hoverProvider.setHovered(buttonId, false),
           child: AnimatedContainer(
             duration: const Duration(milliseconds: 300),
-            curve: Curves.easeOutCubic,
+            curve: Curves.easeOut,
             margin: const EdgeInsets.symmetric(horizontal: 4, vertical: 4),
-            // Neumorphic decoration that changes when hovered
             decoration: BoxDecoration(
-              color: Theme.of(context).cardColor,
+              color: color ?? Theme.of(context).cardColor,
               borderRadius: BorderRadius.circular(100),
               boxShadow: isHovered
                   ? [
@@ -92,28 +94,34 @@ class ButtonWidget extends StatelessWidget {
                   : [
                       // Deeper shadows when not hovered (makes it look "popped out")
                       BoxShadow(
-                        offset: const Offset(6, 6),
+                        offset: const Offset(2, 2),
                         color: Colors.black.withValues(alpha: 0.5),
-                        blurRadius: 12,
+                        blurRadius: 5,
+                        spreadRadius: 1,
                       ),
                       BoxShadow(
-                        offset: const Offset(-6, -6),
+                        offset: const Offset(-2, -2),
                         color: Colors.white.withValues(alpha: 0.03),
-                        blurRadius: 12,
+                        blurRadius: 5,
+                        spreadRadius: 1,
                       ),
                     ],
             ),
             // Slightly move the button up and make it bigger when hovered
-            transform: isHovered
-                ? (Matrix4.identity()
-                    ..translateByVector3(Vector3(0.0, -2.0, 0.0))
-                    ..scaleByVector3(Vector3(1.02, 1.02, 1.02)))
-                : Matrix4.identity(),
+            transform: Matrix4.identity()
+              ..translateByDouble(0, isHovered ? -3 : 0, 0, 1)
+              ..scaleByDouble(
+                isHovered ? 1.05 : 1.0,
+                isHovered ? 1.05 : 1.0,
+                1,
+                1,
+              ),
+
             child: ElevatedButton(
               style: ButtonStyle(
                 padding: WidgetStatePropertyAll(
                   padding ??
-                      const EdgeInsets.symmetric(horizontal: 24, vertical: 14),
+                      const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
                 ),
                 backgroundColor: const WidgetStatePropertyAll(
                   Colors.transparent,

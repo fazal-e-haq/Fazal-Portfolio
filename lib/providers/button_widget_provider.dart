@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class HoverProvider extends ChangeNotifier {
+class ButtonWidgetProvider with ChangeNotifier {
   final Map<String, bool> _hoverStates = {};
 
   bool isHovered(String key) {

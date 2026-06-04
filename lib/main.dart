@@ -1,9 +1,8 @@
 import 'package:fazal_portfolio/core/themes/theme.dart';
-import 'package:fazal_portfolio/presentation/Pages/web_page.dart';
-import 'package:fazal_portfolio/presentation/pages/intro_section.dart';
+import 'package:fazal_portfolio/presentation/pages/web_home_page.dart';
+import 'package:fazal_portfolio/providers/button_widget_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:fazal_portfolio/providers/hover_provider.dart';
 import 'package:fazal_portfolio/providers/contact_provider.dart';
 import 'package:fazal_portfolio/providers/navigation_provider.dart';
 import 'package:fazal_portfolio/providers/project_provider.dart';
@@ -32,7 +31,7 @@ class MyPortfolio extends StatelessWidget {
     return MultiProvider(
       providers: [
         // HoverProvider handles mouse hover effects for buttons/cards
-        ChangeNotifierProvider(create: (_) => HoverProvider()),
+        ChangeNotifierProvider(create: (_) => ButtonWidgetProvider()),
         ChangeNotifierProvider(create: (_) => ContactProvider()),
         // NavigationProvider manages section scrolling logic
         ChangeNotifierProvider(create: (_) => NavigationProvider()),
@@ -47,7 +46,7 @@ class MyPortfolio extends StatelessWidget {
         darkTheme: mainTheme,
         theme: mainTheme,
         // The first page to show when the app opens
-        home: const IntroSection(),
+        home: WebHomePage(),
       ),
     );
   }
