@@ -67,7 +67,6 @@ final ThemeData mainTheme = ThemeData(
     bodySmall: GoogleFonts.inter(fontSize: 13, color: AppColors.textSecondary),
   ),
 
-
   elevatedButtonTheme: ElevatedButtonThemeData(
     style: ElevatedButton.styleFrom(
       backgroundColor: AppColors.primary,

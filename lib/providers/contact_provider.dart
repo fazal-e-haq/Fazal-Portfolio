@@ -26,26 +26,21 @@ class ContactProvider extends ChangeNotifier {
 
     _setSending(true);
 
-    final String recipientEmail = 'fazalehaq37405@gmail.com';
-    final String subject = 'Portfolio Contact: $name';
-    final String body = 'Name: $name\nEmail: $email\n\nMessage:\n$message';
-
-    final Uri emailLaunchUri = Uri(
-      scheme: 'mailto',
-      path: recipientEmail,
-      query: _encodeQueryParameters(<String, String>{
-        'subject': subject,
-        'body': body,
-      }),
-    );
+    final Uri emailLaunchUri = Uri.https('mail.google.com', '/mail/', {
+      'view': 'cm',
+      'fs': '1',
+      'to': 'fazalehaq37405@gmail.com',
+      'su': 'Portfolio Contact: $name',
+      'body': 'Name: $name\nEmail: $email\n\nMessage:\n$message',
+    });
 
     try {
       if (await canLaunchUrl(emailLaunchUri)) {
         await launchUrl(emailLaunchUri);
-        // Optional: clear fields after success
-        // nameController.clear();
-        // emailController.clear();
-        // messageController.clear();
+
+        nameController.clear();
+        emailController.clear();
+        messageController.clear();
       } else {
         debugPrint('Could not launch email client');
       }
@@ -54,13 +49,6 @@ class ContactProvider extends ChangeNotifier {
     } finally {
       _setSending(false);
     }
-  }
-
-  String? _encodeQueryParameters(Map<String, String> params) {
-    return params.entries
-        .map((MapEntry<String, String> e) =>
-            '${Uri.encodeComponent(e.key)}=${Uri.encodeComponent(e.value)}')
-        .join('&');
   }
 
   @override

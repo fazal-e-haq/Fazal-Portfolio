@@ -9,14 +9,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "4.3.0"
-  archive:
-    dependency: transitive
-    description:
-      name: archive
-      sha256: a96e8b390886ee8abb49b7bd3ac8df6f451c621619f52a26e815fdcf568959ff
-      url: "https://pub.dev"
-    source: hosted
-    version: "4.0.9"
   async:
     dependency: transitive
     description:
@@ -99,14 +91,6 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
-  flutter_vector_icons:
-    dependency: "direct main"
-    description:
-      name: flutter_vector_icons
-      sha256: "20a77e282f8cb438c8edcee4eec85d8497d5f4cbeb07d116e9d2d01c9edfc5e2"
-      url: "https://pub.dev"
-    source: hosted
-    version: "2.0.0"
   flutter_web_plugins:
     dependency: transitive
     description: flutter
@@ -136,22 +120,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "4.1.2"
-  js:
-    dependency: transitive
-    description:
-      name: js
-      sha256: f2c445dce49627136094980615a031419f7f3eb393237e4ecd97ac15dea343f3
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.6.7"
-  js_interop:
-    dependency: "direct main"
-    description:
-      name: js_interop
-      sha256: "7ec859c296958ccea34dc770504bd3ff4ae52fdd9e7eeb2bacc7081ad476a1f5"
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.0.1"
   leak_tracker:
     dependency: transitive
     description:
@@ -184,14 +152,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "6.0.0"
-  lottie:
-    dependency: "direct main"
-    description:
-      name: lottie
-      sha256: "8ae0be46dbd9e19641791dc12ee480d34e1fd3f84c749adc05f3ad9342b71b95"
-      url: "https://pub.dev"
-    source: hosted
-    version: "3.3.2"
   matcher:
     dependency: transitive
     description:
@@ -296,14 +256,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.8"
-  posix:
-    dependency: transitive
-    description:
-      name: posix
-      sha256: "185ef7606574f789b40f289c233efa52e96dead518aed988e040a10737febb07"
-      url: "https://pub.dev"
-    source: hosted
-    version: "6.5.0"
   provider:
     dependency: "direct main"
     description:
@@ -454,7 +406,7 @@ packages:
     source: hosted
     version: "15.0.2"
   web:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: web
       sha256: "868d88a33d8a87b18ffc05f9f030ba328ffefba92d6c127917a2ba740f9cfe4a"

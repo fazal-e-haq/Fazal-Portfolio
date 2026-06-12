@@ -10,7 +10,7 @@ class ButtonWidget extends StatelessWidget {
     super.key,
     this.onPressed, // What happens when you click the button
     this.icon, // Optional icon to show next to the text
-    required this.child, // The text or content inside the button
+    required this.text, // The text or content inside the button
     this.side,
     this.backgroundColor,
     this.elevation,
@@ -23,7 +23,7 @@ class ButtonWidget extends StatelessWidget {
 
   // Global variables
   final void Function()? onPressed;
-  final Widget child;
+  final Text text;
   final Color? backgroundColor;
   final WidgetStateProperty<BorderSide?>? side;
   final WidgetStateProperty<TextStyle?>? textStyle;
@@ -47,18 +47,25 @@ class ButtonWidget extends StatelessWidget {
       uri = Uri.parse(value);
     }
 
-    await launchUrl(
-      uri,
-      mode: uri.scheme == 'mailto'
-          ? LaunchMode.platformDefault
-          : LaunchMode.externalApplication,
-    );
+    try {
+      final launched = await launchUrl(
+        uri,
+        mode: uri.scheme == 'mailto'
+            ? LaunchMode.platformDefault
+            : LaunchMode.externalApplication,
+      );
+      if (!launched) {
+        debugPrint('Could not launch $uri');
+      }
+    } catch (error) {
+      debugPrint('Error launching $uri: $error');
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     // Generate a unique ID for this button to track hover state
-    final String buttonId = id ?? child.hashCode.toString();
+    final String buttonId = id ?? text.hashCode.toString();
 
     return Consumer<ButtonWidgetProvider>(
       builder: (context, hoverProvider, childWidget) {
@@ -121,7 +128,7 @@ class ButtonWidget extends StatelessWidget {
               style: ButtonStyle(
                 padding: WidgetStatePropertyAll(
                   padding ??
-                      const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+                      const EdgeInsets.symmetric(horizontal: 24, vertical: 14),
                 ),
                 backgroundColor: const WidgetStatePropertyAll(
                   Colors.transparent,
@@ -140,7 +147,10 @@ class ButtonWidget extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   // Show icon if one is provided
-                  if (icon != null) ...[icon!, const SizedBox(width: 8)],
+                  if (icon != null) ...[
+                    icon!,
+                    SizedBox(width: MediaQuery.of(context).size.width * 0.009),
+                  ],
                   childWidget!,
                 ],
               ),
@@ -148,7 +158,7 @@ class ButtonWidget extends StatelessWidget {
           ),
         );
       },
-      child: child,
+      child: text,
     );
   }
 }

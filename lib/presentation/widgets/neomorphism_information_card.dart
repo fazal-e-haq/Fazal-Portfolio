@@ -15,41 +15,35 @@ class NeomorphismInformationCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
+    bool isMobile = size.width < 700;
     return Center(
       child: Container(
-        height: height ?? 200,
-        width: width ?? 200,
-        padding: EdgeInsets.symmetric(horizontal: 26, vertical: 16),
-        margin: EdgeInsets.symmetric(horizontal: 36, vertical: 16),
+        height: height,
+        width: width,
+        padding: EdgeInsets.symmetric(
+          horizontal: isMobile ? 10 : 26,
+          vertical: isMobile ? 5 : 16,
+        ),
+        margin: EdgeInsets.symmetric(
+          horizontal: isMobile ? 16 : 36,
+          vertical: isMobile ? 10 : 16,
+        ),
         decoration: BoxDecoration(
           color: Color(0xff1a1a1a),
           borderRadius: BorderRadius.circular(50),
-          // boxShadow: [
-          //   BoxShadow(
-          //     spreadRadius: 1,
-          //     blurRadius: 7,
-          //     offset: Offset(4, 4),
-          //     color: Colors.black.withValues(alpha: 0.6),
-          //   ),
-          //   BoxShadow(
-          //     spreadRadius: 1,
-          //     blurRadius: 7,
-          //     offset: Offset(-4, -4),
-          //     color: Colors.white.withValues(alpha: 0.03),
-          //   ),
-          // ],
           boxShadow: [
             BoxShadow(
               spreadRadius: 1,
-              blurRadius: 30,
+              blurRadius: 7,
               offset: Offset(4, 4),
-              color: Colors.white.withValues(alpha: 0.5),
+              color: Colors.black.withValues(alpha: 0.6),
             ),
             BoxShadow(
               spreadRadius: 1,
-              blurRadius: 15,
+              blurRadius: 7,
               offset: Offset(-4, -4),
-              color: Colors.white.withValues(alpha: 0.5),
+              color: Colors.white.withValues(alpha: 0.03),
             ),
           ],
         ),

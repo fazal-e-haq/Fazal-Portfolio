@@ -34,59 +34,47 @@ class NavBarWidget extends StatelessWidget {
                 color: const Color(0xFF1A1A1A),
                 borderRadius: BorderRadius.circular(100),
 
-                // boxShadow: [
-                //   BoxShadow(
-                //     color: Colors.black.withValues(alpha: 0.6),
-                //     blurRadius: 5,
-                //     spreadRadius: 1,
-                //     offset: const Offset(4, 4),
-                //   ),
-                //   BoxShadow(
-                //     color: Colors.white.withValues(alpha: 0.03),
-                //     blurRadius: 5,
-                //     spreadRadius: 1,
-                //     offset: const Offset(-4, -4),
-                //   ),
-                // ],
                 boxShadow: [
                   BoxShadow(
-                    spreadRadius: 1,
+                    color: Colors.black.withValues(alpha: 0.6),
                     blurRadius: 5,
-                    offset: Offset(4, 4),
-                    color: Colors.white.withValues(alpha: 0.5),
+                    spreadRadius: 1,
+                    offset: const Offset(4, 4),
                   ),
                   BoxShadow(
-                    spreadRadius: 1,
+                    color: Colors.white.withValues(alpha: 0.03),
                     blurRadius: 5,
-                    offset: Offset(-4, -4),
-                    color: Colors.white.withValues(alpha: 0.5),
+                    spreadRadius: 1,
+                    offset: const Offset(-4, -4),
                   ),
                 ],
+
                 shape: BoxShape.rectangle,
               ),
               // Horizontal list of buttons for the menu
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                mainAxisSize: MainAxisSize.min,
-                children: List.generate(items.length, (index) {
-                  final item = items[index];
-                  return Consumer<NavigationProvider>(
-                    builder: (context, value, child) {
+              child: Selector<NavigationProvider, int>(
+                builder: (context, value, child) {
+                  return Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.min,
+                    children: List.generate(items.length, (index) {
+                      final item = items[index];
                       return NavBarButton(
                         title: item.title,
                         icon: item.icon,
                         pageIndex: item.index,
 
-                        isSelected: value.currentIndex == item.index,
+                        isSelected: value == item.index,
                       );
-                    },
+                    }),
                   );
-                }),
+                },
+                selector: (_, p) => p.currentIndex,
               ),
             ),
           );
         }
-        return const SizedBox(height: 1);
+        return SizedBox();
       },
     );
   }
@@ -97,13 +85,13 @@ class NavBarButton extends StatelessWidget {
   // Constructor
   const NavBarButton({
     super.key,
-    required this.title,
+    this.title,
     required this.pageIndex,
     required this.icon,
     this.isSelected = false,
   });
   // Global variables
-  final String title;
+  final String? title;
   final int pageIndex;
   final IconData icon;
   final bool isSelected;
@@ -127,7 +115,7 @@ class NavBarButton extends StatelessWidget {
           ? Colors.white.withValues(alpha: 0.3)
           : Theme.of(context).cardColor,
       icon: Icon(icon),
-      child: Text(title),
+      text: Text(title!),
     );
   }
 }
