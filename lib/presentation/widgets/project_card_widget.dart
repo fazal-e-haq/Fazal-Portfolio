@@ -135,7 +135,12 @@ class _ProjectContent extends StatelessWidget {
 
         const SizedBox(height: 10),
 
-        Text(project.title, style: Theme.of(context).textTheme.titleLarge),
+        Text(
+          project.title,
+          style: Theme.of(
+            context,
+          ).textTheme.titleLarge?.copyWith(color: Colors.deepOrange),
+        ),
 
         const SizedBox(height: 4),
 

@@ -95,8 +95,12 @@ class _Title extends StatelessWidget {
         'Got a Project\nin mind?',
         textAlign: center ? TextAlign.center : TextAlign.left,
         style: center
-            ? Theme.of(context).textTheme.headlineMedium
-            : Theme.of(context).textTheme.headlineLarge,
+            ? Theme.of(
+                context,
+              ).textTheme.headlineMedium?.copyWith(color: Colors.deepOrange)
+            : Theme.of(
+                context,
+              ).textTheme.headlineLarge?.copyWith(color: Colors.deepOrange),
       ),
     );
   }
