@@ -63,7 +63,7 @@ flutter:
     - assets/Images/my_portfolio_pic.webp
     - assets/Images/o-news.webp
     - assets/Images/cut_count.webp
-    - assets/Resume.pdf
+    - assets/Fazal-Resume.pdf
 
 
   # An image asset can refer to one or more resolution-specific "variants", see
