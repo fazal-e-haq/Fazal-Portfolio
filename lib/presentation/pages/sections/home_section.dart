@@ -25,7 +25,7 @@ class HomeSection extends StatelessWidget {
           );
         } else {
           return InfoCardForMobile(
-            height: constraints.maxHeight * 0.37,
+            height: constraints.maxHeight * 0.35,
             width: constraints.maxWidth * 0.9,
             heightOfImage: constraints.maxHeight * 0.55,
             topPositionOfInfoCard: constraints.maxHeight * 0.53,
