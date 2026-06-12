@@ -13,7 +13,7 @@ class SkillsWidget extends StatefulWidget {
     this.horizontalPadding = 20, // Default horizontal padding
     this.verticalPadding = 8, // Default vertical padding
   });
-  
+
   final String text;
   final IconData icon;
   final Color color;
@@ -41,16 +41,18 @@ class _SkillsWidgetState extends State<SkillsWidget> {
         child: Container(
           margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 5),
           padding: EdgeInsets.symmetric(
-            vertical: widget.verticalPadding, 
-            horizontal: widget.horizontalPadding
+            vertical: widget.verticalPadding,
+            horizontal: widget.horizontalPadding,
           ),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(100), // Makes it pill-shaped
-            color: widget.color.withValues(alpha: 0.15), // Background is a faint version of the skill color
+            color: widget.color.withValues(
+              alpha: 0.15,
+            ), // Background is a faint version of the skill color
             boxShadow: [
               BoxShadow(
-                offset: const Offset(2, 2), 
-                color: Colors.black26, 
+                offset: const Offset(2, 2),
+                color: Colors.black26,
                 blurRadius: _isHovered ? 8 : 5,
               ),
             ],
@@ -58,7 +60,11 @@ class _SkillsWidgetState extends State<SkillsWidget> {
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Icon(widget.icon, color: widget.color, size: widget.iconSize), // The skill icon
+              Icon(
+                widget.icon,
+                color: widget.color,
+                size: widget.iconSize,
+              ), // The skill icon
               SizedBox(width: widget.iconSize * 0.25),
               Text(
                 widget.text,

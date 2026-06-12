@@ -1,34 +1,45 @@
 import 'package:flutter/material.dart';
 
-/// A provider that manages navigation state for the portfolio.
-/// 
-/// This provider holds the [PageController] used to navigate between different
-/// sections (Home, About, Projects, Contact) across desktop, tablet, and mobile views.
-/// By moving the controller here, we can convert stateful home pages into
-/// stateless widgets, improving code organization and state management.
 class NavigationProvider extends ChangeNotifier {
-  /// Controller for the [PageView] in home pages
   final PageController _pageController = PageController();
 
-  /// Getter for the page controller
+  int _currentIndex = 0;
+  double _pageOffset = 0.0;
+
+  int get currentIndex => _currentIndex;
+  double get pageOffset => _pageOffset;
+
   PageController get pageController => _pageController;
 
-  /// Navigates the [PageView] to the specified section index.
-  /// 
-  /// [pageIndex] is the index of the section to scroll to.
-   void scrollToSection(int pageIndex) {
+  void scrollToSection(int pageIndex) {
     if (_pageController.hasClients) {
       _pageController.animateToPage(
         pageIndex,
-        duration: const Duration(seconds: 1),
+        duration: const Duration(milliseconds: 700),
         curve: Curves.fastOutSlowIn,
       );
     }
+
+    _setIndex(pageIndex);
+  }
+
+  void updateIndexFromScroll(int pageIndex) {
+    _setIndex(pageIndex);
+  }
+
+  void updatePageOffset(double offset) {
+    _pageOffset = offset;
+    notifyListeners();
+  }
+
+  void _setIndex(int value) {
+    if (_currentIndex == value) return;
+    _currentIndex = value;
+    notifyListeners();
   }
 
   @override
   void dispose() {
-    // Clean up the controller when the provider is destroyed
     _pageController.dispose();
     super.dispose();
   }

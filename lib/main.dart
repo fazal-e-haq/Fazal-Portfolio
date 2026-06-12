@@ -1,26 +1,23 @@
 import 'package:fazal_portfolio/core/themes/theme.dart';
-import 'package:fazal_portfolio/presentation/Pages/web_page.dart';
+import 'package:fazal_portfolio/presentation/pages/web_home_page.dart';
+import 'package:fazal_portfolio/providers/button_widget_provider.dart';
+import 'package:fazal_portfolio/providers/project_provider.dart';
 import 'package:flutter/material.dart';
-
 import 'package:provider/provider.dart';
-import 'package:fazal_portfolio/providers/hover_provider.dart';
 import 'package:fazal_portfolio/providers/contact_provider.dart';
 import 'package:fazal_portfolio/providers/navigation_provider.dart';
-import 'package:fazal_portfolio/providers/project_provider.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'firebase_options.dart';
+
+import 'core/constants/smooth_scroll.dart';
 
 // This is the starting point of the application
 Future<void> main() async {
   // Ensure that plugin services are initialized
   WidgetsFlutterBinding.ensureInitialized();
 
-  // PERFORMANCE: Disable runtime font fetching to improve Lighthouse scores
-  // This tells Flutter to use the fonts bundled in the assets instead of fetching them
-  GoogleFonts.config.allowRuntimeFetching = false;
+  // Enable runtime font fetching so GoogleFonts can download the required fonts at runtime.
+  GoogleFonts.config.allowRuntimeFetching = true;
 
-  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   // Start the application
   runApp(const MyPortfolio());
 }
@@ -35,7 +32,7 @@ class MyPortfolio extends StatelessWidget {
     return MultiProvider(
       providers: [
         // HoverProvider handles mouse hover effects for buttons/cards
-        ChangeNotifierProvider(create: (_) => HoverProvider()),
+        ChangeNotifierProvider(create: (_) => ButtonWidgetProvider()),
         ChangeNotifierProvider(create: (_) => ContactProvider()),
         // NavigationProvider manages section scrolling logic
         ChangeNotifierProvider(create: (_) => NavigationProvider()),
@@ -49,8 +46,9 @@ class MyPortfolio extends StatelessWidget {
         // Set the visual theme of the app (colors, fonts, etc.)
         darkTheme: mainTheme,
         theme: mainTheme,
+        scrollBehavior: SmoothScrollBehavior(),
         // The first page to show when the app opens
-        home: const WebPage(),
+        home: const WebHomePage(),
       ),
     );
   }
