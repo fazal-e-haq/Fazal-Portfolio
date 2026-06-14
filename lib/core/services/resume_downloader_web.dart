@@ -1,7 +1,7 @@
 import 'package:web/web.dart' as web;
 
 void downloadResume() {
-  const url = 'assets/Fazal-Resume.pdf';
+  const url = 'Fazal-Resume.pdf';
 
   final newTab = web.window.open(url, '_blank');
 
