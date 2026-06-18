@@ -45,15 +45,17 @@ class _MobileLayout extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        _Title(center: true),
-        const SizedBox(height: 15),
+    return SingleChildScrollView(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          _Title(center: true),
+          const SizedBox(height: 15),
 
-        _Form(provider: provider, isMobile: true),
-      ],
+          _Form(provider: provider, isMobile: true),
+        ],
+      ),
     );
   }
 }
