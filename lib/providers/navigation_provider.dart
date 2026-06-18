@@ -4,10 +4,8 @@ class NavigationProvider extends ChangeNotifier {
   final PageController _pageController = PageController();
 
   int _currentIndex = 0;
-  double _pageOffset = 0.0;
 
   int get currentIndex => _currentIndex;
-  double get pageOffset => _pageOffset;
 
   PageController get pageController => _pageController;
 
@@ -25,11 +23,6 @@ class NavigationProvider extends ChangeNotifier {
 
   void updateIndexFromScroll(int pageIndex) {
     _setIndex(pageIndex);
-  }
-
-  void updatePageOffset(double offset) {
-    _pageOffset = offset;
-    notifyListeners();
   }
 
   void _setIndex(int value) {

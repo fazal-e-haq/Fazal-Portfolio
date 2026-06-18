@@ -102,7 +102,7 @@ class InfoCardForDesktopAndTablet extends StatelessWidget {
                       TyperAnimatedText(
                         textAlign: TextAlign.start,
                         'UI/UX Designer',
-                        textStyle: TextStyle(
+                        textStyle:   TextStyle(
                           letterSpacing: 5,
                           fontSize: fontSizeOfSkills,
                           fontWeight: FontWeight.w400,
@@ -128,7 +128,7 @@ class InfoCardForDesktopAndTablet extends StatelessWidget {
                 ButtonWidget(
                   onPressed: downloadResume,
                   icon: const Icon(Icons.arrow_downward),
-                  text: Text('Download Resume'),
+                  text: const Text('My Resume'),
                 ),
               ],
             ),
@@ -182,7 +182,7 @@ class InfoCardForMobile extends StatelessWidget {
       children: [
         Expanded(
           child: Stack(
-            alignment: .center,
+            alignment: AlignmentGeometry.center,
             children: [
               // Profile Image
               Positioned(
@@ -264,7 +264,7 @@ class InfoCardForMobile extends StatelessWidget {
                             TyperAnimatedText(
                               textAlign: TextAlign.start,
                               'UI/UX Designer',
-                              textStyle: TextStyle(
+                              textStyle: const TextStyle(
                                 letterSpacing: 5,
                                 fontSize: 20,
                                 fontWeight: FontWeight.w400,
@@ -274,7 +274,7 @@ class InfoCardForMobile extends StatelessWidget {
                             TyperAnimatedText(
                               textAlign: TextAlign.start,
                               'Flutter Developer',
-                              textStyle: TextStyle(
+                              textStyle: const TextStyle(
                                 fontSize: 20,
                                 letterSpacing: 5,
                                 fontWeight: FontWeight.w400,
@@ -289,7 +289,7 @@ class InfoCardForMobile extends StatelessWidget {
                       ButtonWidget(
                         onPressed: downloadResume,
                         icon: const Icon(Icons.arrow_downward),
-                        text: Text('Download Resume'),
+                        text: const Text('My Resume'),
                       ),
                     ],
                   ),

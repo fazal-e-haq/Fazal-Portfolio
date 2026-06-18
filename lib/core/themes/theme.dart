@@ -38,22 +38,6 @@ final ThemeData mainTheme = ThemeData(
 
   // Define the text appearance across the app
   textTheme: TextTheme(
-    headlineLarge: GoogleFonts.outfit(
-      fontSize: 56,
-      fontWeight: FontWeight.w900,
-      color: AppColors.textMain,
-      letterSpacing: -1.5,
-    ),
-    headlineMedium: GoogleFonts.outfit(
-      fontSize: 32,
-      fontWeight: FontWeight.bold,
-      color: AppColors.textMain,
-    ),
-    headlineSmall: GoogleFonts.outfit(
-      fontSize: 22,
-      fontWeight: FontWeight.w600,
-      color: AppColors.textMain,
-    ),
     bodyLarge: GoogleFonts.inter(
       fontSize: 18,
       color: AppColors.textMain,
