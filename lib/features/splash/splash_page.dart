@@ -1,8 +1,9 @@
 import 'package:animated_text_kit/animated_text_kit.dart';
-import 'package:fazal_portfolio/providers/splash_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+
+import 'splash_provider.dart';
 
 class SplashPage extends StatefulWidget {
   const SplashPage({super.key});
@@ -26,7 +27,7 @@ class _SplashPageState extends State<SplashPage> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 SizedBox(
-                  height: 35,
+                  height: 45,
                   child: Center(
                     child: AnimatedTextKit(
                       totalRepeatCount: 1,

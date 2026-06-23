@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'package:fazal_portfolio/core/constants/projects_details.dart';
-import 'package:fazal_portfolio/models/project_detail_model.dart';
-import 'package:fazal_portfolio/presentation/widgets/button_widget.dart';
-import 'package:fazal_portfolio/providers/project_provider.dart';
+
+import '../../../../core/widgets/button_widget.dart';
+import '../project_detail_model.dart';
+import '../project_provider.dart';
 
 class ProjectCardWidget extends StatelessWidget {
   ProjectCardWidget({super.key});
@@ -16,15 +17,28 @@ class ProjectCardWidget extends StatelessWidget {
     final size = MediaQuery.of(context).size;
     final isMobile = size.width < 700;
 
-    return ListView.builder(
-      itemCount: allProjects.length,
-      scrollDirection: isMobile ? Axis.vertical : Axis.horizontal,
-      physics: const BouncingScrollPhysics(),
-      itemBuilder: (context, index) {
-        final project = allProjects[index];
+    if (isMobile) {
+      return Column(
+        children: allProjects.map((project) {
+          return Padding(
+            padding: const EdgeInsets.only(bottom: 20),
+            child: _ProjectCardItem(project: project, isMobile: true),
+          );
+        }).toList(),
+      );
+    }
 
-        return _ProjectCardItem(project: project, isMobile: isMobile);
-      },
+    return SizedBox(
+      height: 520,
+      child: ListView.builder(
+        itemCount: allProjects.length,
+        scrollDirection: Axis.horizontal,
+        physics: const BouncingScrollPhysics(),
+        itemBuilder: (context, index) {
+          final project = allProjects[index];
+          return _ProjectCardItem(project: project, isMobile: false);
+        },
+      ),
     );
   }
 }

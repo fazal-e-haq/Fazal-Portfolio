@@ -1,8 +1,8 @@
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:fazal_portfolio/core/services/resume_downloader.dart';
-import 'package:fazal_portfolio/presentation/widgets/neomorphism_information_card.dart';
-import 'package:flutter/material.dart';
-import '../../widgets/button_widget.dart';
+ import 'package:flutter/material.dart';
+
+import '../../../core/widgets/button_widget.dart';
 
 class HomeSection extends StatelessWidget {
   const HomeSection({super.key});
@@ -55,10 +55,11 @@ class InfoCardForDesktopAndTablet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return NeomorphismInformationCard(
-      height: height,
-      width: width,
-      child: Row(
+    return Center(
+      child: SizedBox(
+        height: height,
+        width: width,
+        child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           // Widget for name and some other details
@@ -102,7 +103,7 @@ class InfoCardForDesktopAndTablet extends StatelessWidget {
                       TyperAnimatedText(
                         textAlign: TextAlign.start,
                         'UI/UX Designer',
-                        textStyle:   TextStyle(
+                        textStyle: TextStyle(
                           letterSpacing: 5,
                           fontSize: fontSizeOfSkills,
                           fontWeight: FontWeight.w400,
@@ -156,8 +157,9 @@ class InfoCardForDesktopAndTablet extends StatelessWidget {
           ),
         ],
       ),
-    );
-  }
+    ),
+  );
+}
 }
 
 // Info card for mobile
@@ -225,7 +227,7 @@ class InfoCardForMobile extends StatelessWidget {
               ),
               Positioned(
                 top: topPositionOfInfoCard,
-                child: NeomorphismInformationCard(
+                child: SizedBox(
                   height: height,
                   width: width,
                   child: Column(

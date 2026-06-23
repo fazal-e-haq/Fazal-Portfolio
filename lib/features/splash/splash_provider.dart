@@ -8,7 +8,9 @@ class SplashProvider extends ChangeNotifier {
   void init() {
     if (kIsWeb) {
       try {
-        final hasSeenSplash = web.window.sessionStorage.getItem('hasSeenSplash');
+        final hasSeenSplash = web.window.sessionStorage.getItem(
+          'hasSeenSplash',
+        );
 
         if (hasSeenSplash == null) {
           // First time opening browser tab/session → show splash

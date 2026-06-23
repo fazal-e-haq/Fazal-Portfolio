@@ -1,15 +1,16 @@
 import 'package:fazal_portfolio/core/themes/theme.dart';
-import 'package:fazal_portfolio/presentation/pages/splash_page.dart';
-import 'package:fazal_portfolio/presentation/pages/web_home_page.dart';
-import 'package:fazal_portfolio/providers/project_provider.dart';
-import 'package:fazal_portfolio/providers/splash_provider.dart';
-import 'package:flutter/material.dart';
+import 'package:fazal_portfolio/features/splash/splash_page.dart';
+ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:fazal_portfolio/providers/contact_provider.dart';
-import 'package:fazal_portfolio/providers/navigation_provider.dart';
-import 'package:google_fonts/google_fonts.dart';
+ import 'package:google_fonts/google_fonts.dart';
 
 import 'core/constants/smooth_scroll.dart';
+import 'features/app_shell/web_home_page.dart';
+import 'features/app_shell/navigation_provider.dart';
+import 'features/sections/contact/contact_provider.dart';
+import 'features/sections/project/project_provider.dart';
+import 'features/splash/splash_provider.dart';
+
 
 // This is the starting point of the application
 Future<void> main() async {

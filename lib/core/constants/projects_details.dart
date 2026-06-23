@@ -1,4 +1,4 @@
-import '../../models/project_detail_model.dart';
+import '../../features/sections/project/project_detail_model.dart';
 
 class Projects {
   static final List<ProjectDetail> _projectDetails = [

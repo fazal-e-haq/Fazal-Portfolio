@@ -1,6 +1,6 @@
+import 'package:fazal_portfolio/features/sections/contact/contact_provider.dart';
 import 'package:fazal_portfolio/main.dart';
-import 'package:fazal_portfolio/providers/contact_provider.dart';
-import 'package:flutter_test/flutter_test.dart';
+ import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   testWidgets('portfolio app renders the landing content', (tester) async {
