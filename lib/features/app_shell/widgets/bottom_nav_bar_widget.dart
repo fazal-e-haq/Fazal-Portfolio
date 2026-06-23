@@ -1,9 +1,9 @@
-import 'package:fazal_portfolio/presentation/widgets/button_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../models/nav_bar_item_model.dart';
-import '../../providers/navigation_provider.dart';
+import '../../../core/widgets/button_widget.dart';
+import '../nav_bar_item_model.dart';
+import '../navigation_provider.dart';
 
 class BottomNavBarWidget extends StatelessWidget {
   const BottomNavBarWidget({super.key});

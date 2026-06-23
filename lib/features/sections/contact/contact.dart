@@ -1,9 +1,10 @@
-import 'package:fazal_portfolio/presentation/widgets/neomorphism_information_card.dart';
-import 'package:flutter/material.dart';
-import 'package:fazal_portfolio/presentation/widgets/neumorphic_textfield.dart';
-import 'package:fazal_portfolio/presentation/widgets/button_widget.dart';
-import 'package:fazal_portfolio/providers/contact_provider.dart';
-import 'package:provider/provider.dart';
+ import 'package:flutter/material.dart';
+
+ import 'package:provider/provider.dart';
+
+import '../../../core/widgets/button_widget.dart';
+import '../../../core/widgets/neumorphic_textfield.dart';
+import 'contact_provider.dart';
 
 class ContactSection extends StatelessWidget {
   const ContactSection({super.key});
@@ -19,13 +20,12 @@ class ContactSection extends StatelessWidget {
     final mobile = isMobile(size.width);
 
     return Center(
-      child: NeomorphismInformationCard(
-        width: mobile ? size.width : size.width * 0.8,
-        height: mobile ? null : size.height * 0.65,
+      child: ConstrainedBox(
+        constraints: const BoxConstraints(maxWidth: 1000),
         child: Padding(
           padding: EdgeInsets.symmetric(
-            horizontal: mobile ? 3 : 20,
-            vertical: mobile ? 10 : 20,
+            horizontal: mobile ? 24 : 48,
+            vertical: mobile ? 40 : 80,
           ),
           child: mobile
               ? _MobileLayout(provider: provider)

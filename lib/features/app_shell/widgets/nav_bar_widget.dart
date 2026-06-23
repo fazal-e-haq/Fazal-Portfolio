@@ -1,9 +1,9 @@
-import 'package:fazal_portfolio/models/nav_bar_item_model.dart';
-import 'package:fazal_portfolio/presentation/widgets/button_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../providers/navigation_provider.dart';
+import '../../../core/widgets/button_widget.dart';
+import '../nav_bar_item_model.dart';
+import '../navigation_provider.dart';
 
 // NavBar
 class NavBarWidget extends StatelessWidget {
@@ -22,6 +22,10 @@ class NavBarWidget extends StatelessWidget {
       builder: (context, constraints) {
         if (constraints.maxWidth > 600) {
           return AppBar(
+            backgroundColor: Colors.transparent,
+            surfaceTintColor: Colors.transparent,
+            forceMaterialTransparency: true,
+            scrolledUnderElevation: 0,
             elevation: 0,
             centerTitle: true,
             toolbarHeight: 120,
