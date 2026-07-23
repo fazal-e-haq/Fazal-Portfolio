@@ -23,7 +23,7 @@ Building modern, scalable, and meaningful digital experiences with Flutter and h
 
 ---
 
-## ⚙️ SKILLS
+## ⚙️ S K I L L S
 
 <div align="center">
 
@@ -44,7 +44,7 @@ box-shadow: 10px 10px 25px #05070d,
 
 ---
 
-## 🧠 ABOUT
+## 🧠 A B O U T
 
 <div align="center">
 
