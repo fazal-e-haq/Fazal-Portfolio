@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class ContactProvider extends ChangeNotifier {
+class ContactController extends GetxController {
   final TextEditingController nameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController messageController = TextEditingController();
 
-  bool _isSending = false;
-  bool get isSending => _isSending;
+  final _isSending = false.obs;
+  bool get isSending => _isSending.value;
 
   void _setSending(bool value) {
-    _isSending = value;
-    notifyListeners();
+    _isSending.value = value;
   }
 
   Future<void> sendEmail() async {
@@ -20,7 +20,6 @@ class ContactProvider extends ChangeNotifier {
     final String message = messageController.text.trim();
 
     if (name.isEmpty || email.isEmpty || message.isEmpty) {
-      // You could add validation logic here
       return;
     }
 
@@ -37,7 +36,6 @@ class ContactProvider extends ChangeNotifier {
     try {
       if (await canLaunchUrl(emailLaunchUri)) {
         await launchUrl(emailLaunchUri);
-
         nameController.clear();
         emailController.clear();
         messageController.clear();
@@ -52,10 +50,10 @@ class ContactProvider extends ChangeNotifier {
   }
 
   @override
-  void dispose() {
+  void onClose() {
     nameController.dispose();
     emailController.dispose();
     messageController.dispose();
-    super.dispose();
+    super.onClose();
   }
 }

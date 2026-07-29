@@ -1,84 +1,79 @@
 import 'package:fazal_portfolio/core/themes/theme.dart';
 import 'package:fazal_portfolio/features/splash/splash_page.dart';
- import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
- import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import 'core/constants/smooth_scroll.dart';
 import 'features/app_shell/web_home_page.dart';
-import 'features/app_shell/navigation_provider.dart';
-import 'features/sections/contact/contact_provider.dart';
-import 'features/sections/project/project_provider.dart';
-import 'features/splash/splash_provider.dart';
+import 'features/app_shell/navigation_controller.dart';
+import 'features/contact/contact_controller.dart';
+import 'features/project/project_controller.dart';
+import 'features/splash/splash_controller.dart';
 
-
-// This is the starting point of the application
 Future<void> main() async {
-  // Ensure that plugin services are initialized
   WidgetsFlutterBinding.ensureInitialized();
 
-  // Enable runtime font fetching so GoogleFonts can download the required fonts at runtime.
-  try {
-    GoogleFonts.config.allowRuntimeFetching = true;
-    await GoogleFonts.pendingFonts([
-      GoogleFonts.poppins,
-      GoogleFonts.unbounded,
-      GoogleFonts.inter,
-    ]).timeout(const Duration(seconds: 3));
-  } catch (e) {
-    debugPrint('Error prefetching fonts: $e');
-  }
+  // Initialize GetX Controllers globally
+  Get.put(SplashController());
+  Get.put(NavigationController());
+  Get.put(ContactController());
+  Get.put(ProjectController());
 
-  // Start the application
   runApp(const MyPortfolio());
 }
 
-// This is the main widget for the entire app
-class MyPortfolio extends StatefulWidget {
+class MyPortfolio extends StatelessWidget {
   const MyPortfolio({super.key});
 
   @override
-  State<MyPortfolio> createState() => _MyPortfolioState();
-}
-
-class _MyPortfolioState extends State<MyPortfolio> {
-  late final SplashProvider splashProvider;
-  @override
-  void initState() {
-    splashProvider = SplashProvider();
-    splashProvider.init();
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
-    // MultiProvider is used to manage state across the app
-    return MultiProvider(
-      providers: [
-        ChangeNotifierProvider(create: (_) => ContactProvider()),
-        // NavigationProvider manages section scrolling logic
-        ChangeNotifierProvider(create: (_) => NavigationProvider()),
-        ChangeNotifierProvider(create: (_) => ProjectProvider()),
-        ChangeNotifierProvider<SplashProvider>.value(value: splashProvider),
-      ],
-      child: Builder(
-        builder: (context) {
-          return MaterialApp(
-            title: 'Fazal-E-Haq | Portfolio',
-            debugShowCheckedModeBanner: false,
-            themeAnimationCurve: Curves.easeOut,
+    return GetMaterialApp(
+      title: 'Fazal-E-Haq | Portfolio',
+      debugShowCheckedModeBanner: false,
+      darkTheme: mainTheme,
+      theme: mainTheme,
+      scrollBehavior: SmoothScrollBehavior(),
 
-            // Set the visual theme of the app (colors, fonts, etc.)
-            darkTheme: mainTheme,
-            theme: mainTheme,
-            scrollBehavior: SmoothScrollBehavior(),
-            // The first page to show when the app opens
-            home: context.watch<SplashProvider>().showIntro
-                ? const WebHomePage()
-                : const SplashPage(),
-          );
-        },
-      ),
+      // ── Dogstudio Full-Page Splash Reveal ─────
+      home: Obx(() {
+        final splashController = Get.find<SplashController>();
+        return AnimatedSwitcher(
+          duration: const Duration(milliseconds: 1400),
+          switchInCurve: const Cubic(0.77, 0.0, 0.175, 1.0), // Classic Dogstudio/Locomotive curve
+          switchOutCurve: const Cubic(0.77, 0.0, 0.175, 1.0),
+          // Ensure the outgoing SplashPage stays ON TOP of the incoming WebHomePage
+          layoutBuilder: (Widget? currentChild, List<Widget> previousChildren) {
+            return Stack(
+              alignment: Alignment.center,
+              children: <Widget>[
+                if (currentChild != null) currentChild, // Background (WebHomePage)
+                ...previousChildren,                    // Foreground (SplashPage)
+              ],
+            );
+          },
+          transitionBuilder: (child, animation) {
+            final isHomePage = child.key == const ValueKey('WebHomePage');
+
+            if (isHomePage) {
+              // The Home Page fades in gently as it is revealed.
+              return FadeTransition(
+                opacity: animation,
+                child: child,
+              );
+            } else {
+              // The Splash Page — just hold it in place. 
+              // The cinematic zoom inside SplashPage handles the exit visually.
+              return FadeTransition(
+                opacity: animation,
+                child: child,
+              );
+            }
+          },
+          child: splashController.showIntro
+              ? const WebHomePage(key: ValueKey('WebHomePage'))
+              : const SplashPage(key: ValueKey('SplashPage')),
+        );
+      }),
     );
   }
 }

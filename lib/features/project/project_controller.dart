@@ -1,7 +1,7 @@
-import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
-class ProjectProvider with ChangeNotifier {
-  final Map<String, bool> _hoverStates = {};
+class ProjectController extends GetxController {
+  final _hoverStates = <String, bool>{}.obs;
 
   bool isHovered(String key) {
     return _hoverStates[key] ?? false;
@@ -10,7 +10,6 @@ class ProjectProvider with ChangeNotifier {
   void setHovered(String key, bool value) {
     if (_hoverStates[key] != value) {
       _hoverStates[key] = value;
-      notifyListeners();
     }
   }
 }
