@@ -2,33 +2,34 @@ import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:web/web.dart' as web;
 
-/// SplashController handles state management for the portfolio Splash Screen using GetX.
-/// Controls the typewriter animation lifecycle and triggers the Locomotive / Dogstudio
-/// style page transition upon completion.
+/// SplashController — Orchestrates the cinematic splash lifecycle.
+///
+/// Flow:
+/// 1. Typing animation plays (headline → divider → subtitle)
+/// 2. [onTypingFinished] is called → waits a beat → triggers zoom
+/// 3. [startZoom] fires → SplashPage's AnimationController drives the zoom
+/// 4. When zoom fills the screen with dark → [completeSplash] swaps to WebHomePage
 class SplashController extends GetxController {
-  // ── Reactive Observables (GetX State Management) ──────────────────────────
-
-  /// Controls exit state when transitioning to WebHomePage.
-  final RxBool _isExiting = false.obs;
-  bool get isExiting => _isExiting.value;
-
-  /// Flag indicating whether the splash is completed and main page is ready.
+  // ── State ──────────────────────────────────────────────────────────────
   final RxBool _showIntro = false.obs;
   bool get showIntro => _showIntro.value;
+
+  /// Callback that SplashPage sets so the controller can trigger the zoom
+  /// animation without tight coupling.
+  VoidCallback? onZoomStart;
 
   static const _splashKey = 'has_seen_splash';
 
   @override
   void onInit() {
     super.onInit();
-    // _checkIfSplashSeen();
+    _checkIfSplashSeen();
   }
 
   void _checkIfSplashSeen() {
     if (kIsWeb) {
       final hasSeen = web.window.sessionStorage.getItem(_splashKey);
       if (hasSeen == 'true') {
-        _isExiting.value = true;
         _showIntro.value = true;
       }
     }
@@ -36,30 +37,18 @@ class SplashController extends GetxController {
 
   /// Called by SplashTypingText when the typewriter animation completes.
   void onTypingFinished() async {
-    // Wait 600ms for user to read text, then trigger Locomotive curtain reveal
-    await Future.delayed(const Duration(milliseconds: 600));
-    _markSplashSeenAndTransition();
+    // Brief pause so the user can read the completed text
+    await Future.delayed(const Duration(milliseconds: 500));
+    // Trigger the cinematic zoom
+    onZoomStart?.call();
   }
 
-  /// Manual trigger to skip splash screen immediately if tapped anywhere.
-  void skipSplash() {
-    if (_showIntro.value) return;
-    _markSplashSeenAndTransition();
-  }
-
-  void _markSplashSeenAndTransition() async {
+  /// Called by SplashPage when the zoom animation is fully complete
+  /// and the screen is guaranteed to be entirely covered in dark color.
+  void completeSplash() {
     if (kIsWeb) {
       web.window.sessionStorage.setItem(_splashKey, 'true');
     }
-    // Step 1: Trigger the slow cinematic zoom animation inside SplashPage
-    _isExiting.value = true;
-
-    // Step 2: Wait for the zoom to fill the screen with dark color
-    // Slightly shorter than the 2800ms animation so the swap happens
-    // while the screen is already fully dark — seamless handoff.
-    await Future.delayed(const Duration(milliseconds: 2400));
-
-    // Step 3: Now swap to WebHomePage (screen is already dark)
     _showIntro.value = true;
   }
 }
