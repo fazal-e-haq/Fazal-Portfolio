@@ -34,45 +34,15 @@ class MyPortfolio extends StatelessWidget {
       theme: mainTheme,
       scrollBehavior: SmoothScrollBehavior(),
 
-      // ── Dogstudio Full-Page Splash Reveal ─────
+      // ── Splash → Home transition ──────────────────
+      // The zoom animation inside SplashPage fills the entire screen
+      // with dark color before completeSplash() is called.
+      // By the time we swap, the viewport is already dark — seamless.
       home: Obx(() {
         final splashController = Get.find<SplashController>();
-        return AnimatedSwitcher(
-          duration: const Duration(milliseconds: 1400),
-          switchInCurve: const Cubic(0.77, 0.0, 0.175, 1.0), // Classic Dogstudio/Locomotive curve
-          switchOutCurve: const Cubic(0.77, 0.0, 0.175, 1.0),
-          // Ensure the outgoing SplashPage stays ON TOP of the incoming WebHomePage
-          layoutBuilder: (Widget? currentChild, List<Widget> previousChildren) {
-            return Stack(
-              alignment: Alignment.center,
-              children: <Widget>[
-                if (currentChild != null) currentChild, // Background (WebHomePage)
-                ...previousChildren,                    // Foreground (SplashPage)
-              ],
-            );
-          },
-          transitionBuilder: (child, animation) {
-            final isHomePage = child.key == const ValueKey('WebHomePage');
-
-            if (isHomePage) {
-              // The Home Page fades in gently as it is revealed.
-              return FadeTransition(
-                opacity: animation,
-                child: child,
-              );
-            } else {
-              // The Splash Page — just hold it in place. 
-              // The cinematic zoom inside SplashPage handles the exit visually.
-              return FadeTransition(
-                opacity: animation,
-                child: child,
-              );
-            }
-          },
-          child: splashController.showIntro
-              ? const WebHomePage(key: ValueKey('WebHomePage'))
-              : const SplashPage(key: ValueKey('SplashPage')),
-        );
+        return splashController.showIntro
+            ? const WebHomePage()
+            : const SplashPage();
       }),
     );
   }

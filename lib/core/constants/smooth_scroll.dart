@@ -13,4 +13,9 @@ class SmoothScrollBehavior extends MaterialScrollBehavior {
   ScrollPhysics getScrollPhysics(BuildContext context) {
     return const BouncingScrollPhysics(parent: ClampingScrollPhysics());
   }
+
+  @override
+  Widget buildScrollbar(BuildContext context, Widget child, ScrollableDetails details) {
+    return child; // Hides the scrollbar completely
+  }
 }

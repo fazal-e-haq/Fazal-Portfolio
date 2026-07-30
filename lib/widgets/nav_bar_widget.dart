@@ -1,10 +1,9 @@
-import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../models/navbar_model/nav_bar_item_model.dart';
 import '../features/app_shell/navigation_controller.dart';
-
 
 // NavBar
 class NavBarWidget extends StatelessWidget implements PreferredSizeWidget {
@@ -154,28 +153,32 @@ class _NavBarButtonState extends State<NavBarButton> {
               margin: const EdgeInsets.symmetric(horizontal: 8),
               padding: const EdgeInsets.all(12),
               decoration: BoxDecoration(
-                color: widget.isSelected 
+                color: widget.isSelected
                     ? theme.primaryColor.withValues(alpha: 0.15)
-                    : (_isHovered ? Colors.white.withValues(alpha: 0.05) : Colors.transparent),
+                    : (_isHovered
+                          ? Colors.white.withValues(alpha: 0.05)
+                          : Colors.transparent),
                 shape: BoxShape.circle,
                 border: Border.all(
-                  color: widget.isSelected 
-                      ? theme.primaryColor.withValues(alpha: 0.5) 
+                  color: widget.isSelected
+                      ? theme.primaryColor.withValues(alpha: 0.5)
                       : Colors.transparent,
                   width: 1,
                 ),
-                boxShadow: widget.isSelected ? [
-                  BoxShadow(
-                    color: theme.primaryColor.withValues(alpha: 0.3),
-                    blurRadius: 12,
-                    spreadRadius: 1,
-                  ),
-                ] : [],
+                boxShadow: widget.isSelected
+                    ? [
+                        BoxShadow(
+                          color: theme.primaryColor.withValues(alpha: 0.3),
+                          blurRadius: 12,
+                          spreadRadius: 1,
+                        ),
+                      ]
+                    : [],
               ),
               child: Icon(
                 widget.icon,
-                color: widget.isSelected 
-                    ? theme.primaryColor 
+                color: widget.isSelected
+                    ? theme.primaryColor
                     : (_isHovered ? Colors.white : Colors.white54),
                 size: 22,
               ),

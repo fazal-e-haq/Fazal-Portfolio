@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -22,11 +23,36 @@ class Introduction extends StatelessWidget {
         final bool isMobile = width < 600;
         final bool isTablet = width >= 600 && width < 1100;
 
-        if (isMobile) {
-          return const _MobileIntro();
-        } else {
-          return _DesktopTabletIntro(isTablet: isTablet);
-        }
+        final Widget content = isMobile ? const _MobileIntro() : _DesktopTabletIntro(isTablet: isTablet);
+
+        return Stack(
+          children: [
+            Positioned.fill(
+              child: Center(
+                child: IgnorePointer(
+                  child: FittedBox(
+                    fit: BoxFit.scaleDown,
+                    child: Text(
+                      'HELLO',
+                      style: TextStyle(
+                        fontFamily: 'Unbounded',
+                        fontSize: 400,
+                        fontWeight: FontWeight.w900,
+                        height: 1.0,
+                        letterSpacing: 20,
+                        foreground: Paint()
+                          ..style = PaintingStyle.stroke
+                          ..strokeWidth = isMobile ? 1.5 : 3.0
+                          ..color = Colors.white.withValues(alpha: 0.03),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            Positioned.fill(child: content),
+          ],
+        );
       },
     );
   }
@@ -44,7 +70,8 @@ class _DesktopTabletIntro extends StatelessWidget {
   Widget build(BuildContext context) {
     final double nameFontSize = isTablet ? 36.0 : 56.0;
     final double roleFontSize = isTablet ? 22.0 : 35.0;
-    final double imageSize = isTablet ? 300.0 : 420.0;
+    final double imageWidth = isTablet ? 280.0 : 380.0;
+    final double imageHeight = isTablet ? 380.0 : 500.0; // Rectangular portrait
 
     return Center(
       child: ConstrainedBox(
@@ -58,7 +85,12 @@ class _DesktopTabletIntro extends StatelessWidget {
               // LEFT: Profile Image
               Expanded(
                 flex: 4,
-                child: Center(child: ImagePreview(size: imageSize)),
+                child: Center(
+                  child: _FadeInUp(
+                    delay: const Duration(milliseconds: 200),
+                    child: _DesktopImagePreview(width: imageWidth, height: imageHeight),
+                  ),
+                ),
               ),
               SizedBox(width: isTablet ? 40 : 80),
               // RIGHT: Text Content
@@ -87,23 +119,26 @@ class _MobileIntro extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      physics: const BouncingScrollPhysics(),
+    return const SingleChildScrollView(
+      physics: BouncingScrollPhysics(),
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 40),
+        padding: EdgeInsets.symmetric(horizontal: 24, vertical: 40),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            const ImagePreview(size: 260),
-            const SizedBox(height: 40),
-            const _IntroContent(
+            _FadeInUp(
+              delay: Duration(milliseconds: 200),
+              child: _MobileImagePreview(size: 260),
+            ),
+            SizedBox(height: 40),
+            _IntroContent(
               nameFontSize: 28.0,
               roleFontSize: 18.0,
               alignment: CrossAxisAlignment.center,
               textAlign: TextAlign.center,
             ),
-            const SizedBox(height: 80), // extra padding at bottom
+            SizedBox(height: 80), // extra padding at bottom
           ],
         ),
       ),
@@ -133,116 +168,145 @@ class _IntroContent extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: alignment,
       children: [
+        // Active Signal relocated to the top to serve as an attractive badge
+        const _FadeInUp(
+          delay: Duration(milliseconds: 200),
+          child: _ActiveSignal(),
+        ),
+        const SizedBox(height: 16),
+        
         // Greeting badge
-        Container(
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-          decoration: BoxDecoration(
-            color: AppColors.surface,
-            borderRadius: BorderRadius.circular(20),
-            boxShadow: AppColors.neumorphicShadows(isPressed: true),
-          ),
-          child: const Text(
-            '👋 Hello, I am',
-            style: TextStyle(
-              fontFamily: 'Poppins',
-              fontSize: 14,
-              color: AppColors.textSecondary,
-              letterSpacing: 1.2,
-              fontWeight: FontWeight.w500,
+        _FadeInUp(
+          delay: const Duration(milliseconds: 400),
+          child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+            decoration: BoxDecoration(
+              color: AppColors.surface,
+              borderRadius: BorderRadius.circular(20),
+              boxShadow: AppColors.neumorphicShadows(isPressed: true),
+            ),
+            child: const Text(
+              '👋 Hello, I am',
+              style: TextStyle(
+                fontFamily: 'Poppins',
+                fontSize: 14,
+                color: AppColors.textSecondary,
+                letterSpacing: 1.2,
+                fontWeight: FontWeight.w500,
+              ),
             ),
           ),
         ),
         const SizedBox(height: 24),
+        
         // Name
-        FittedBox(
-          fit: BoxFit.scaleDown,
+        _FadeInUp(
+          delay: const Duration(milliseconds: 600),
+          child: FittedBox(
+            fit: BoxFit.scaleDown,
+            child: _AnimatedGradientText(
+              child: AnimatedTextKit(
+                isRepeatingAnimation: false,
+                totalRepeatCount: 1,
+                animatedTexts: [
+                  ScrambleAnimatedText(
+                    'FAZAL-E-HAQ',
+                    speed: const Duration(milliseconds: 200),
+                    textAlign: textAlign,
+                    textStyle: TextStyle(
+                      fontFamily: 'Unbounded',
+                      fontSize: nameFontSize,
+                      fontWeight: FontWeight.w900,
+                      color: Colors.white, // The gradient colors will show through this
+                      letterSpacing: 2.0,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+        const SizedBox(height: 12),
+        
+        // Role
+        _FadeInUp(
+          delay: const Duration(milliseconds: 800),
           child: RepaintBoundary(
             child: AnimatedTextKit(
-              isRepeatingAnimation: false,
-              totalRepeatCount: 1,
+              repeatForever: true,
+              pause: const Duration(seconds: 3),
               animatedTexts: [
-                ScrambleAnimatedText(
-                  'FAZAL-E-HAQ',
-                  speed: const Duration(milliseconds: 200),
+                TyperAnimatedText(
+                  'UI/UX Designer',
                   textAlign: textAlign,
+                  speed: const Duration(milliseconds: 80),
                   textStyle: TextStyle(
                     fontFamily: 'Unbounded',
-                    fontSize: nameFontSize,
-                    fontWeight: FontWeight.w900,
-                    color: AppColors.primary,
-                    letterSpacing: 2.0,
-                    shadows: [
-                      Shadow(
-                        color: AppColors.primary.withValues(alpha: 0.3),
-                        blurRadius: 12,
-                        offset: const Offset(0, 4),
-                      ),
-                    ],
+                    fontSize: roleFontSize,
+                    fontWeight: FontWeight.w600,
+                    color: AppColors.secondary,
+                    letterSpacing: 3.0,
+                  ),
+                ),
+                TyperAnimatedText(
+                  'Flutter Developer',
+                  textAlign: textAlign,
+                  speed: const Duration(milliseconds: 80),
+                  textStyle: TextStyle(
+                    fontFamily: 'Unbounded',
+                    fontSize: roleFontSize,
+                    fontWeight: FontWeight.w600,
+                    color: AppColors.secondary,
+                    letterSpacing: 3.0,
                   ),
                 ),
               ],
             ),
           ),
         ),
-        const SizedBox(height: 12),
-        // Role
-        RepaintBoundary(
-          child: AnimatedTextKit(
-            repeatForever: true,
-            pause: const Duration(seconds: 3),
-            animatedTexts: [
-              TyperAnimatedText(
-                'UI/UX Designer',
-                textAlign: textAlign,
-                speed: const Duration(milliseconds: 80),
-                textStyle: TextStyle(
-                  fontFamily: 'Unbounded',
-                  fontSize: roleFontSize,
-                  fontWeight: FontWeight.w600,
-                  color: AppColors.secondary,
-                  letterSpacing: 3.0,
-                ),
-              ),
-              TyperAnimatedText(
-                'Flutter Developer',
-                textAlign: textAlign,
-                speed: const Duration(milliseconds: 80),
-                textStyle: TextStyle(
-                  fontFamily: 'Unbounded',
-                  fontSize: roleFontSize,
-                  fontWeight: FontWeight.w600,
-                  color: AppColors.secondary,
-                  letterSpacing: 3.0,
-                ),
-              ),
-            ],
-          ),
-        ),
         const SizedBox(height: 24),
+        
         // Bio tagline
-        ResponsiveText(
-          'Crafting pixel-perfect, high-performance applications with a focus on exceptional user experiences and clean architecture.',
-          textAlign: textAlign,
-          style: const TextStyle(
-            fontFamily: 'Poppins',
-            fontSize: 15,
-            color: AppColors.textSecondary,
-            height: 1.6,
-            letterSpacing: 0.5,
+        _FadeInUp(
+          delay: const Duration(milliseconds: 1000),
+          child: ResponsiveText(
+            'I believe great software is built with intention, not haste. Every interface, interaction, and line of code is carefully crafted to create products that are fast, intuitive, and built to last.',
+            textAlign: textAlign,
+            style: const TextStyle(
+              fontFamily: 'Poppins',
+              fontSize: 15,
+              color: AppColors.textSecondary,
+              height: 1.6,
+              letterSpacing: 0.5,
+            ),
           ),
         ),
         const SizedBox(height: 40),
-        // Resume Button
-        ButtonWidget(
-          onPressed: downloadResume,
-          icon: const Icon(CupertinoIcons.arrow_down, size: 20),
-          text: const Text(
-            'My Resume',
-            style: TextStyle(
-              fontFamily: 'Poppins',
-              fontWeight: FontWeight.w600,
-              letterSpacing: 1.0,
-            ),
+        
+        // Action Row: Resume Button + Active Signal
+        _FadeInUp(
+          delay: const Duration(milliseconds: 1200),
+          child: Wrap(
+            crossAxisAlignment: WrapCrossAlignment.center,
+            alignment: textAlign == TextAlign.center ? WrapAlignment.center : WrapAlignment.start,
+            spacing: 24,
+            runSpacing: 24,
+            children: const [
+              _MagneticButton(
+                child: ButtonWidget(
+                  onPressed: downloadResume,
+                  icon: Icon(CupertinoIcons.arrow_down, size: 20),
+                  text: Text(
+                    'My Resume',
+                    style: TextStyle(
+                      fontFamily: 'Poppins',
+                      fontWeight: FontWeight.w600,
+                      letterSpacing: 1.0,
+                    ),
+                  ),
+                ),
+              ),
+            ],
           ),
         ),
       ],
@@ -251,62 +315,457 @@ class _IntroContent extends StatelessWidget {
 }
 
 // ────────────────────────────────────────────────────────────────────────────
-//  Image Preview with Neomorphic Hover Effects
+//  Desktop Stacked Rectangular Image Preview
 // ────────────────────────────────────────────────────────────────────────────
-class ImagePreview extends StatelessWidget {
-  const ImagePreview({super.key, required this.size});
-  final double size;
+class _DesktopImagePreview extends StatefulWidget {
+  const _DesktopImagePreview({required this.width, required this.height});
+  
+  final double width;
+  final double height;
+
+  @override
+  State<_DesktopImagePreview> createState() => _DesktopImagePreviewState();
+}
+
+class _DesktopImagePreviewState extends State<_DesktopImagePreview> {
+  final ValueNotifier<Offset> _localMousePos = ValueNotifier<Offset>(Offset.zero);
+  bool _isHovered = false;
+
+  @override
+  void dispose() {
+    _localMousePos.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     final controller = Get.find<ProjectController>();
     return MouseRegion(
-      onEnter: (_) => controller.setHovered('intro_image', true),
-      onExit: (_) => controller.setHovered('intro_image', false),
+      onEnter: (_) {
+        setState(() => _isHovered = true);
+        controller.setHovered('intro_image', true);
+      },
+      onExit: (_) {
+        setState(() => _isHovered = false);
+        _localMousePos.value = Offset.zero; // reset
+        controller.setHovered('intro_image', false);
+      },
+      onHover: (event) {
+        final RenderBox? box = context.findRenderObject() as RenderBox?;
+        if (box != null) {
+          final Offset center = Offset(box.size.width / 2, box.size.height / 2);
+          _localMousePos.value = event.localPosition - center; // delta from center
+        }
+      },
       cursor: SystemMouseCursors.click,
-      child: Obx(() {
-        final isHovered = controller.isHovered('intro_image');
+      child: ValueListenableBuilder<Offset>(
+        valueListenable: _localMousePos,
+        builder: (context, delta, child) {
+          // Normalize the delta (-1 to 1) based on center
+          double dx = _isHovered ? (delta.dx / (widget.width / 2)) : 0;
+          double dy = _isHovered ? (delta.dy / (widget.height / 2)) : 0;
+          
+          // Max rotation is approx 0.1 radians
+          double maxTilt = 0.1;
+          double rotateX = dy * maxTilt * -1; // tilt towards mouse
+          double rotateY = dx * maxTilt;
+          
+          final Matrix4 transform = Matrix4.identity()
+            ..setEntry(3, 2, 0.001) // subtle perspective
+            ..rotateX(rotateX)
+            ..rotateY(rotateY);
 
-        return AnimatedContainer(
-          duration: const Duration(milliseconds: 400),
-          curve: Curves.easeOutCubic,
-          width: size,
-          height: size,
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            color: AppColors.surface,
-            boxShadow: AppColors.neumorphicShadows(
-              distance: isHovered ? 20 : 12,
-              blur: isHovered ? 30 : 20,
-              glowColor: isHovered ? AppColors.primary : null,
-            ),
-            border: Border.all(
-              color: isHovered
-                  ? AppColors.primary.withValues(alpha: 0.4)
-                  : AppColors.textMuted.withValues(alpha: 0.1),
-              width: isHovered ? 3 : 1,
-            ),
-          ),
-          child: Padding(
-            padding: const EdgeInsets.all(8.0), // Inner ring spacing
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(size),
-              child: AnimatedScale(
-                duration: const Duration(seconds: 10),
-                scale: isHovered ? 1.1 : 1.0,
-                curve: Curves.easeOutCubic,
-                child: Image.asset(
-                  isHovered
-                      ? 'assets/Images/my-filter-pic/full-preview.jpeg'
-                      : 'assets/Images/my-filter-pic/black-full.jpeg',
-                  fit: BoxFit.cover,
-                  filterQuality: FilterQuality.high,
+          return AnimatedContainer(
+            duration: const Duration(milliseconds: 150),
+            curve: Curves.easeOutCubic,
+            transform: transform,
+            transformAlignment: FractionalOffset.center,
+            width: widget.width,
+            height: widget.height,
+            child: Stack(
+              alignment: Alignment.center,
+              clipBehavior: Clip.none,
+              children: [
+                // 1. Backing Neomorphic Offset Frame (Parallax moving opposite)
+                AnimatedPositioned(
+                  duration: const Duration(milliseconds: 300),
+                  curve: Curves.easeOutCubic,
+                  top: _isHovered ? 24 - (dy * 15) : 0,
+                  left: _isHovered ? -24 - (dx * 15) : 0,
+                  right: _isHovered ? 24 + (dx * 15) : 0,
+                  bottom: _isHovered ? -24 + (dy * 15) : 0,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: AppColors.surface,
+                      borderRadius: BorderRadius.circular(24),
+                      border: Border.all(
+                        color: _isHovered 
+                            ? AppColors.primary.withValues(alpha: 0.6) 
+                            : AppColors.textMuted.withValues(alpha: 0.1),
+                        width: 2,
+                      ),
+                      boxShadow: AppColors.neumorphicShadows(
+                        distance: _isHovered ? 16 : 8,
+                        blur: _isHovered ? 24 : 16,
+                        glowColor: _isHovered ? AppColors.primary : null,
+                      ),
+                    ),
+                  ),
                 ),
-              ),
+                
+                // 2. Front Image Card
+                AnimatedPositioned(
+                  duration: const Duration(milliseconds: 300),
+                  curve: Curves.easeOutCubic,
+                  top: _isHovered ? -12 + (dy * 8) : 0,
+                  left: _isHovered ? 12 + (dx * 8) : 0,
+                  right: _isHovered ? -12 - (dx * 8) : 0,
+                  bottom: _isHovered ? 12 - (dy * 8) : 0,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(24),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withValues(alpha: 0.6),
+                          blurRadius: 30,
+                          offset: Offset(dx * -15, 15 + dy * -15),
+                        )
+                      ]
+                    ),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(24),
+                      child: AnimatedScale(
+                        duration: const Duration(seconds: 15), 
+                        scale: _isHovered ? 1.08 : 1.0,
+                        curve: Curves.easeOutCubic,
+                        child: Stack(
+                          fit: StackFit.expand,
+                          children: [
+                            Image.asset(
+                              'assets/Images/my-filter-pic/black-full.jpeg',
+                              fit: BoxFit.cover,
+                              filterQuality: FilterQuality.high,
+                            ),
+                            AnimatedOpacity(
+                              duration: const Duration(milliseconds: 1000), // Very smooth & attractive fade
+                              curve: Curves.easeInOutCubic,
+                              opacity: _isHovered ? 1.0 : 0.0,
+                              child: Image.asset(
+                                'assets/Images/my-filter-pic/full-preview.jpeg',
+                                fit: BoxFit.cover,
+                                filterQuality: FilterQuality.high,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          );
+        },
+      ),
+    );
+  }
+}
+
+// ────────────────────────────────────────────────────────────────────────────
+//  Mobile Circular Colored Image Preview
+// ────────────────────────────────────────────────────────────────────────────
+class _MobileImagePreview extends StatelessWidget {
+  const _MobileImagePreview({required this.size});
+  
+  final double size;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: size,
+      height: size,
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        color: AppColors.surface,
+        boxShadow: AppColors.neumorphicShadows(distance: 12, blur: 24),
+        border: Border.all(
+          color: AppColors.primary.withValues(alpha: 0.3),
+          width: 3,
+        ),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(6.0), // Inner ring gap
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(size),
+          child: Image.asset(
+            'assets/Images/my-filter-pic/full-preview.jpeg', // Pure color for mobile
+            fit: BoxFit.cover,
+            filterQuality: FilterQuality.high,
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+// ────────────────────────────────────────────────────────────────────────────
+//  Active Signal & Location (Based in Pakistan)
+// ────────────────────────────────────────────────────────────────────────────
+class _ActiveSignal extends StatefulWidget {
+  const _ActiveSignal();
+
+  @override
+  State<_ActiveSignal> createState() => _ActiveSignalState();
+}
+
+class _ActiveSignalState extends State<_ActiveSignal> with SingleTickerProviderStateMixin {
+  late final AnimationController _pulseController;
+  late final Animation<double> _pulseAnimation;
+
+  @override
+  void initState() {
+    super.initState();
+    _pulseController = AnimationController(
+      vsync: this,
+      duration: const Duration(seconds: 2),
+    )..repeat(reverse: true);
+    
+    _pulseAnimation = CurvedAnimation(
+      parent: _pulseController,
+      curve: Curves.easeInOut,
+    );
+  }
+
+  @override
+  void dispose() {
+    _pulseController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+      decoration: BoxDecoration(
+        color: AppColors.primary.withValues(alpha: 0.1),
+        borderRadius: BorderRadius.circular(30),
+        border: Border.all(
+          color: AppColors.primary.withValues(alpha: 0.3),
+          width: 1,
+        ),
+        boxShadow: [
+          BoxShadow(
+            color: AppColors.primary.withValues(alpha: 0.15),
+            blurRadius: 10,
+            spreadRadius: 2,
+          )
+        ],
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          // Pulsing Dot
+          AnimatedBuilder(
+            animation: _pulseAnimation,
+            builder: (context, child) {
+              return Container(
+                width: 8,
+                height: 8,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: Colors.greenAccent,
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.greenAccent.withValues(alpha: 0.8 * _pulseAnimation.value),
+                      blurRadius: 12 * _pulseAnimation.value,
+                      spreadRadius: 4 * _pulseAnimation.value,
+                    )
+                  ],
+                ),
+              );
+            },
+          ),
+          const SizedBox(width: 10),
+          // Location Text
+          const Text(
+            'Based in Pakistan',
+            style: TextStyle(
+              fontFamily: 'Poppins',
+              fontSize: 13,
+              color: Colors.white,
+              fontWeight: FontWeight.w600,
+              letterSpacing: 0.5,
             ),
           ),
+        ],
+      ),
+    );
+  }
+}
+
+// ────────────────────────────────────────────────────────────────────────────
+//  Animation Helper: FadeInUp
+// ────────────────────────────────────────────────────────────────────────────
+class _FadeInUp extends StatefulWidget {
+  final Widget child;
+  final Duration delay;
+  
+  const _FadeInUp({required this.child, required this.delay});
+
+  @override
+  State<_FadeInUp> createState() => _FadeInUpState();
+}
+
+class _FadeInUpState extends State<_FadeInUp> with SingleTickerProviderStateMixin {
+  late final AnimationController _controller;
+  late final Animation<double> _opacity;
+  late final Animation<Offset> _offset;
+  Timer? _timer;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      vsync: this, 
+      duration: const Duration(milliseconds: 800),
+    );
+    
+    _opacity = Tween<double>(begin: 0.0, end: 1.0).animate(
+      CurvedAnimation(parent: _controller, curve: Curves.easeOutCubic),
+    );
+    
+    _offset = Tween<Offset>(begin: const Offset(0, 0.2), end: Offset.zero).animate(
+      CurvedAnimation(parent: _controller, curve: Curves.easeOutCubic),
+    );
+
+    _timer = Timer(widget.delay, () {
+      if (mounted) _controller.forward();
+    });
+  }
+
+  @override
+  void dispose() {
+    _timer?.cancel();
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return FadeTransition(
+      opacity: _opacity,
+      child: SlideTransition(
+        position: _offset,
+        child: widget.child,
+      ),
+    );
+  }
+}
+
+// ────────────────────────────────────────────────────────────────────────────
+//  Advanced Micro-Interactions
+// ────────────────────────────────────────────────────────────────────────────
+
+/// Applies an animated shifting gradient mask to its child (e.g., text)
+class _AnimatedGradientText extends StatefulWidget {
+  final Widget child;
+  const _AnimatedGradientText({required this.child});
+
+  @override
+  State<_AnimatedGradientText> createState() => _AnimatedGradientTextState();
+}
+
+class _AnimatedGradientTextState extends State<_AnimatedGradientText> with SingleTickerProviderStateMixin {
+  late final AnimationController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(vsync: this, duration: const Duration(seconds: 3))..repeat(reverse: true);
+  }
+  
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return AnimatedBuilder(
+      animation: _controller,
+      builder: (context, child) {
+        return ShaderMask(
+          blendMode: BlendMode.srcIn,
+          shaderCallback: (bounds) {
+            return LinearGradient(
+              colors: const [
+                AppColors.primary,
+                AppColors.secondary,
+                AppColors.primary,
+              ],
+              stops: const [0.0, 0.5, 1.0],
+              transform: GradientRotation(_controller.value * 2 * 3.14159), // Rotate the gradient
+            ).createShader(bounds);
+          },
+          child: widget.child,
         );
-      }),
+      },
+      child: widget.child,
+    );
+  }
+}
+
+/// Makes a button slightly pull towards the mouse cursor
+class _MagneticButton extends StatefulWidget {
+  final Widget child;
+  const _MagneticButton({required this.child});
+
+  @override
+  State<_MagneticButton> createState() => _MagneticButtonState();
+}
+
+class _MagneticButtonState extends State<_MagneticButton> {
+  final ValueNotifier<Offset> _localMousePos = ValueNotifier<Offset>(Offset.zero);
+  bool _isHovered = false;
+
+  @override
+  void dispose() {
+    _localMousePos.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return MouseRegion(
+      onEnter: (_) => setState(() => _isHovered = true),
+      onExit: (_) {
+        setState(() => _isHovered = false);
+        _localMousePos.value = Offset.zero;
+      },
+      onHover: (event) {
+        final RenderBox? box = context.findRenderObject() as RenderBox?;
+        if (box != null) {
+          final Offset center = Offset(box.size.width / 2, box.size.height / 2);
+          final Offset delta = event.localPosition - center;
+          _localMousePos.value = delta * 0.25; // Pull strength
+        }
+      },
+      child: ValueListenableBuilder<Offset>(
+        valueListenable: _localMousePos,
+        builder: (context, offset, child) {
+          return AnimatedContainer(
+            duration: const Duration(milliseconds: 150),
+            curve: Curves.easeOutCubic,
+            transform: Matrix4.translationValues(
+              _isHovered ? offset.dx : 0, 
+              _isHovered ? offset.dy : 0, 
+              0,
+            ),
+            child: widget.child,
+          );
+        },
+      ),
     );
   }
 }
