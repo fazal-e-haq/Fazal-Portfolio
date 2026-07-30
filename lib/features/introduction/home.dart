@@ -12,21 +12,8 @@ import '../project/project_controller.dart';
 
 /// Introduction section — The Hero Page
 /// Features a stunning 10/10 Neomorphic layout, responsive across all screens.
-class Introduction extends StatefulWidget {
+class Introduction extends StatelessWidget {
   const Introduction({super.key});
-
-  @override
-  State<Introduction> createState() => _IntroductionState();
-}
-
-class _IntroductionState extends State<Introduction> {
-  final ValueNotifier<Offset> _mousePosition = ValueNotifier<Offset>(Offset.zero);
-
-  @override
-  void dispose() {
-    _mousePosition.dispose();
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -37,95 +24,10 @@ class _IntroductionState extends State<Introduction> {
         final bool isTablet = width >= 600 && width < 1100;
 
         if (isMobile) {
-          return const _MobileIntro(); // No magnetic bg on mobile
+          return const _MobileIntro();
         } 
 
-        final Widget content = _DesktopTabletIntro(isTablet: isTablet);
-
-        return MouseRegion(
-          cursor: isMobile || isTablet ? MouseCursor.defer : SystemMouseCursors.none,
-          onHover: (event) {
-            _mousePosition.value = event.localPosition;
-          },
-          child: Stack(
-            children: [
-              // Magnetic Glowing Orb Background
-              ValueListenableBuilder<Offset>(
-                valueListenable: _mousePosition,
-                builder: (context, offset, child) {
-                  return AnimatedPositioned(
-                    duration: const Duration(milliseconds: 150),
-                    curve: Curves.easeOutCubic,
-                    left: offset.dx - 300, // Center the 600x600 orb
-                    top: offset.dy - 300,
-                    child: IgnorePointer(
-                      child: Container(
-                        width: 600,
-                        height: 600,
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          gradient: RadialGradient(
-                            colors: [
-                              AppColors.primary.withValues(alpha: 0.05),
-                              AppColors.secondary.withValues(alpha: 0.02),
-                              Colors.transparent,
-                            ],
-                            stops: const [0.0, 0.4, 1.0],
-                          ),
-                        ),
-                      ),
-                    ),
-                  );
-                },
-              ),
-              content,
-              
-              // Custom Beautiful Cursor Follower (Desktop only)
-              if (!isMobile && !isTablet)
-                ValueListenableBuilder<Offset>(
-                  valueListenable: _mousePosition,
-                  builder: (context, offset, child) {
-                    return AnimatedPositioned(
-                      duration: const Duration(milliseconds: 75), // Slight lag makes it look smooth
-                      curve: Curves.easeOutQuad,
-                      left: offset.dx - 12, // Center of a 24x24 ring
-                      top: offset.dy - 12,
-                      child: IgnorePointer(
-                        child: Container(
-                          width: 24,
-                          height: 24,
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            border: Border.all(
-                              color: AppColors.primary.withValues(alpha: 0.8), 
-                              width: 2,
-                            ),
-                            boxShadow: [
-                              BoxShadow(
-                                color: AppColors.primary.withValues(alpha: 0.4),
-                                blurRadius: 8,
-                                spreadRadius: 2,
-                              )
-                            ],
-                          ),
-                          child: Center(
-                            child: Container(
-                              width: 4,
-                              height: 4,
-                              decoration: const BoxDecoration(
-                                shape: BoxShape.circle,
-                                color: AppColors.secondary,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    );
-                  },
-                ),
-            ],
-          ),
-        );
+        return _DesktopTabletIntro(isTablet: isTablet);
       },
     );
   }
