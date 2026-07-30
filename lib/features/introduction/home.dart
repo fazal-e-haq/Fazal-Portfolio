@@ -86,23 +86,23 @@ class _MobileIntro extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      physics: const BouncingScrollPhysics(),
+    return const SingleChildScrollView(
+      physics: BouncingScrollPhysics(),
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 40),
+        padding: EdgeInsets.symmetric(horizontal: 24, vertical: 40),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            const ImagePreview(size: 260),
-            const SizedBox(height: 40),
-            const _IntroContent(
+            ImagePreview(size: 260),
+            SizedBox(height: 40),
+            _IntroContent(
               nameFontSize: 28.0,
               roleFontSize: 18.0,
               alignment: CrossAxisAlignment.center,
               textAlign: TextAlign.center,
             ),
-            const SizedBox(height: 80), // extra padding at bottom
+            SizedBox(height: 80), // extra padding at bottom
           ],
         ),
       ),
@@ -232,10 +232,10 @@ class _IntroContent extends StatelessWidget {
         ),
         const SizedBox(height: 40),
         // Resume Button
-        ButtonWidget(
+        const ButtonWidget(
           onPressed: downloadResume,
-          icon: const Icon(CupertinoIcons.arrow_down, size: 20),
-          text: const Text(
+          icon: Icon(CupertinoIcons.arrow_down, size: 20),
+          text: Text(
             'My Resume',
             style: TextStyle(
               fontFamily: 'Poppins',

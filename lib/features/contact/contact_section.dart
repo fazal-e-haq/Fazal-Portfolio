@@ -112,18 +112,18 @@ class ContactSection extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 24),
-        Row(
+        const Row(
           children: [
             _SocialButton(
               icon: CupertinoIcons.mail,
               url: 'mailto:contact@fazal.dev',
             ),
-            const SizedBox(width: 16),
+            SizedBox(width: 16),
             _SocialButton(
               icon: CupertinoIcons.link,
               url: 'https://linkedin.com',
             ),
-            const SizedBox(width: 16),
+            SizedBox(width: 16),
             _SocialButton(
               icon: CupertinoIcons.chevron_left_slash_chevron_right,
               url: 'https://github.com',
@@ -146,25 +146,25 @@ class ContactSection extends StatelessWidget {
           width: 1,
         ),
       ),
-      child: Column(
+      child: const Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           _NeomorphicInput(label: 'Your Name', icon: CupertinoIcons.person),
-          const SizedBox(height: 24),
+          SizedBox(height: 24),
           _NeomorphicInput(label: 'Email Address', icon: CupertinoIcons.mail),
-          const SizedBox(height: 24),
+          SizedBox(height: 24),
           _NeomorphicInput(
             label: 'Your Message', 
             icon: CupertinoIcons.chat_bubble_text, 
             maxLines: 5,
           ),
-          const SizedBox(height: 32),
+          SizedBox(height: 32),
           SizedBox(
             width: double.infinity,
             child: ButtonWidget(
               url: 'mailto:contact@fazal.dev?subject=New%20Message%20from%20Portfolio',
-              icon: const Icon(CupertinoIcons.paperplane_fill, color: Colors.white),
-              text: const Text(
+              icon: Icon(CupertinoIcons.paperplane_fill, color: Colors.white),
+              text: Text(
                 'Send Message',
                 style: TextStyle(
                   color: Colors.white,

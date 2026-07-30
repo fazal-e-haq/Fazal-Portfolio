@@ -98,7 +98,7 @@ class AboutSection extends StatelessWidget {
               ),
               const SizedBox(height: 20),
               ResponsiveText(
-                "I am a passionate Flutter Developer and UI/UX Designer dedicated to crafting stunning, high-performance applications. With a strong eye for detail and a deep understanding of modern Neomorphic design principles, I build seamless cross-platform experiences that users love.",
+                'I am a passionate Flutter Developer and UI/UX Designer dedicated to crafting stunning, high-performance applications. With a strong eye for detail and a deep understanding of modern Neomorphic design principles, I build seamless cross-platform experiences that users love.',
                 style: theme.textTheme.bodyMedium?.copyWith(
                   height: 1.8,
                   fontSize: isMobile ? 14 : 16,
@@ -144,16 +144,16 @@ class AboutSection extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 24),
-        Wrap(
+        const Wrap(
           spacing: 16,
           runSpacing: 16,
-          children: const [
-            _SkillCard(icon: CupertinoIcons.device_phone_portrait, name: "Flutter"),
-            _SkillCard(icon: CupertinoIcons.chevron_left_slash_chevron_right, name: "Dart"),
-            _SkillCard(icon: CupertinoIcons.paintbrush, name: "UI/UX"),
-            _SkillCard(icon: CupertinoIcons.cloud, name: "Firebase"),
-            _SkillCard(icon: CupertinoIcons.layers_alt, name: "Figma"),
-            _SkillCard(icon: CupertinoIcons.rocket, name: "Animation"),
+          children: [
+            _SkillCard(icon: CupertinoIcons.device_phone_portrait, name: 'Flutter'),
+            _SkillCard(icon: CupertinoIcons.chevron_left_slash_chevron_right, name: 'Dart'),
+            _SkillCard(icon: CupertinoIcons.paintbrush, name: 'UI/UX'),
+            _SkillCard(icon: CupertinoIcons.cloud, name: 'Firebase'),
+            _SkillCard(icon: CupertinoIcons.layers_alt, name: 'Figma'),
+            _SkillCard(icon: CupertinoIcons.rocket, name: 'Animation'),
           ],
         ),
       ],

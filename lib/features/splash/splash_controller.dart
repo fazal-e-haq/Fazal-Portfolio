@@ -20,21 +20,6 @@ class SplashController extends GetxController {
 
   static const _splashKey = 'has_seen_splash';
 
-  @override
-  void onInit() {
-    super.onInit();
-    _checkIfSplashSeen();
-  }
-
-  void _checkIfSplashSeen() {
-    if (kIsWeb) {
-      final hasSeen = web.window.sessionStorage.getItem(_splashKey);
-      if (hasSeen == 'true') {
-        _showIntro.value = true;
-      }
-    }
-  }
-
   /// Called by SplashTypingText when the typewriter animation completes.
   void onTypingFinished() async {
     // Brief pause so the user can read the completed text
