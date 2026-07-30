@@ -110,7 +110,7 @@ class AboutSection extends StatelessWidget {
     return const _InfoCard(
       icon: CupertinoIcons.device_phone_portrait,
       title: 'Flutter Engineering',
-      content: 'I specialize in building high-performance, responsive, and seamless cross-platform applications. Utilizing Dart and advanced state management architectures, I construct robust solutions that deliver native-level experiences.',
+      content: 'I specialize in building high-performance, responsive, and seamless cross-platform applications. Drawing from my foundational experience as a Flutter Intern at NeuroApp, I utilize Dart and advanced state management to construct robust, production-ready solutions.',
       accentColor: Colors.blueAccent,
     );
   }
@@ -218,12 +218,18 @@ class _FloatingSkillsGrid extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final List<Map<String, dynamic>> skills = [
-      {'name': 'Flutter', 'icon': CupertinoIcons.device_phone_portrait, 'color': Colors.blueAccent},
-      {'name': 'Dart', 'icon': CupertinoIcons.chevron_left_slash_chevron_right, 'color': Colors.cyanAccent},
-      {'name': 'UI/UX', 'icon': CupertinoIcons.paintbrush, 'color': Colors.purpleAccent},
-      {'name': 'Firebase', 'icon': CupertinoIcons.cloud, 'color': Colors.orangeAccent},
-      {'name': 'Figma', 'icon': CupertinoIcons.layers_alt, 'color': Colors.pinkAccent},
-      {'name': 'Animation', 'icon': CupertinoIcons.rocket, 'color': Colors.greenAccent},
+      {'name': 'Flutter', 'icon': Icons.phone_iphone, 'color': Colors.blueAccent},
+      {'name': 'Dart', 'icon': Icons.code, 'color': Colors.cyanAccent},
+      {'name': 'Provider', 'icon': Icons.account_tree, 'color': Colors.lightBlue},
+      {'name': 'GetX', 'icon': Icons.bolt, 'color': Colors.deepPurpleAccent},
+      {'name': 'Firebase', 'icon': Icons.cloud, 'color': Colors.orangeAccent},
+      {'name': 'Isar', 'icon': Icons.storage, 'color': Colors.pinkAccent},
+      {'name': 'Supabase', 'icon': Icons.data_usage, 'color': Colors.greenAccent},
+      {'name': 'Figma', 'icon': Icons.draw, 'color': Colors.pink},
+      {'name': 'Git/GitHub', 'icon': Icons.merge_type, 'color': Colors.white},
+      {'name': 'Antigravity', 'icon': Icons.rocket_launch, 'color': Colors.deepOrangeAccent},
+      {'name': 'Android Studio', 'icon': Icons.laptop, 'color': Colors.green},
+      {'name': 'REST API / Postman', 'icon': Icons.http, 'color': Colors.orange},
     ];
 
     return Wrap(
