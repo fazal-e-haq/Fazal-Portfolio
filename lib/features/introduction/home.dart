@@ -43,6 +43,7 @@ class _IntroductionState extends State<Introduction> {
         final Widget content = _DesktopTabletIntro(isTablet: isTablet);
 
         return MouseRegion(
+          cursor: isMobile || isTablet ? MouseCursor.defer : SystemMouseCursors.none,
           onHover: (event) {
             _mousePosition.value = event.localPosition;
           },
@@ -78,6 +79,50 @@ class _IntroductionState extends State<Introduction> {
                 },
               ),
               content,
+              
+              // Custom Beautiful Cursor Follower (Desktop only)
+              if (!isMobile && !isTablet)
+                ValueListenableBuilder<Offset>(
+                  valueListenable: _mousePosition,
+                  builder: (context, offset, child) {
+                    return AnimatedPositioned(
+                      duration: const Duration(milliseconds: 75), // Slight lag makes it look smooth
+                      curve: Curves.easeOutQuad,
+                      left: offset.dx - 12, // Center of a 24x24 ring
+                      top: offset.dy - 12,
+                      child: IgnorePointer(
+                        child: Container(
+                          width: 24,
+                          height: 24,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            border: Border.all(
+                              color: AppColors.primary.withValues(alpha: 0.8), 
+                              width: 2,
+                            ),
+                            boxShadow: [
+                              BoxShadow(
+                                color: AppColors.primary.withValues(alpha: 0.4),
+                                blurRadius: 8,
+                                spreadRadius: 2,
+                              )
+                            ],
+                          ),
+                          child: Center(
+                            child: Container(
+                              width: 4,
+                              height: 4,
+                              decoration: const BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: AppColors.secondary,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    );
+                  },
+                ),
             ],
           ),
         );
@@ -196,6 +241,13 @@ class _IntroContent extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: alignment,
       children: [
+        // Active Signal relocated to the top to serve as an attractive badge
+        const _FadeInUp(
+          delay: Duration(milliseconds: 200),
+          child: _ActiveSignal(),
+        ),
+        const SizedBox(height: 16),
+        
         // Greeting badge
         _FadeInUp(
           delay: const Duration(milliseconds: 400),
@@ -327,7 +379,6 @@ class _IntroContent extends StatelessWidget {
                   ),
                 ),
               ),
-              _ActiveSignal(),
             ],
           ),
         ),
@@ -460,12 +511,25 @@ class _DesktopImagePreviewState extends State<_DesktopImagePreview> {
                         duration: const Duration(seconds: 15), 
                         scale: _isHovered ? 1.08 : 1.0,
                         curve: Curves.easeOutCubic,
-                        child: Image.asset(
-                          _isHovered
-                              ? 'assets/Images/my-filter-pic/full-preview.jpeg'
-                              : 'assets/Images/my-filter-pic/black-full.jpeg',
-                          fit: BoxFit.cover,
-                          filterQuality: FilterQuality.high,
+                        child: Stack(
+                          fit: StackFit.expand,
+                          children: [
+                            Image.asset(
+                              'assets/Images/my-filter-pic/black-full.jpeg',
+                              fit: BoxFit.cover,
+                              filterQuality: FilterQuality.high,
+                            ),
+                            AnimatedOpacity(
+                              duration: const Duration(milliseconds: 1000), // Very smooth & attractive fade
+                              curve: Curves.easeInOutCubic,
+                              opacity: _isHovered ? 1.0 : 0.0,
+                              child: Image.asset(
+                                'assets/Images/my-filter-pic/full-preview.jpeg',
+                                fit: BoxFit.cover,
+                                filterQuality: FilterQuality.high,
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                     ),
@@ -554,25 +618,20 @@ class _ActiveSignalState extends State<_ActiveSignal> with SingleTickerProviderS
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
       decoration: BoxDecoration(
-        color: AppColors.surfaceInner,
-        borderRadius: BorderRadius.circular(16),
+        color: AppColors.primary.withValues(alpha: 0.1),
+        borderRadius: BorderRadius.circular(30),
         border: Border.all(
-          color: Colors.white.withValues(alpha: 0.03),
+          color: AppColors.primary.withValues(alpha: 0.3),
           width: 1,
         ),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: 0.4),
-            offset: const Offset(2, 2),
-            blurRadius: 4,
-          ),
-          BoxShadow(
-            color: Colors.white.withValues(alpha: 0.02),
-            offset: const Offset(-2, -2),
-            blurRadius: 4,
-          ),
+            color: AppColors.primary.withValues(alpha: 0.15),
+            blurRadius: 10,
+            spreadRadius: 2,
+          )
         ],
       ),
       child: Row(
@@ -583,31 +642,31 @@ class _ActiveSignalState extends State<_ActiveSignal> with SingleTickerProviderS
             animation: _pulseAnimation,
             builder: (context, child) {
               return Container(
-                width: 10,
-                height: 10,
+                width: 8,
+                height: 8,
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   color: Colors.greenAccent,
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.greenAccent.withValues(alpha: 0.6 * _pulseAnimation.value),
+                      color: Colors.greenAccent.withValues(alpha: 0.8 * _pulseAnimation.value),
                       blurRadius: 12 * _pulseAnimation.value,
-                      spreadRadius: 2 * _pulseAnimation.value,
+                      spreadRadius: 4 * _pulseAnimation.value,
                     )
                   ],
                 ),
               );
             },
           ),
-          const SizedBox(width: 12),
+          const SizedBox(width: 10),
           // Location Text
           const Text(
             'Based in Pakistan',
             style: TextStyle(
               fontFamily: 'Poppins',
-              fontSize: 14,
-              color: AppColors.textSecondary,
-              fontWeight: FontWeight.w500,
+              fontSize: 13,
+              color: Colors.white,
+              fontWeight: FontWeight.w600,
               letterSpacing: 0.5,
             ),
           ),
