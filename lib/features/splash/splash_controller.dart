@@ -14,6 +14,17 @@ class SplashController extends GetxController {
   final RxBool _showIntro = false.obs;
   bool get showIntro => _showIntro.value;
 
+  @override
+  void onInit() {
+    super.onInit();
+    if (kIsWeb) {
+      final hasSeen = web.window.sessionStorage.getItem(_splashKey);
+      if (hasSeen == 'true') {
+        _showIntro.value = true;
+      }
+    }
+  }
+
   /// Callback that SplashPage sets so the controller can trigger the zoom
   /// animation without tight coupling.
   VoidCallback? onZoomStart;

@@ -23,11 +23,36 @@ class Introduction extends StatelessWidget {
         final bool isMobile = width < 600;
         final bool isTablet = width >= 600 && width < 1100;
 
-        if (isMobile) {
-          return const _MobileIntro();
-        } 
+        final Widget content = isMobile ? const _MobileIntro() : _DesktopTabletIntro(isTablet: isTablet);
 
-        return _DesktopTabletIntro(isTablet: isTablet);
+        return Stack(
+          children: [
+            Positioned.fill(
+              child: Center(
+                child: IgnorePointer(
+                  child: FittedBox(
+                    fit: BoxFit.scaleDown,
+                    child: Text(
+                      'HELLO',
+                      style: TextStyle(
+                        fontFamily: 'Unbounded',
+                        fontSize: 400,
+                        fontWeight: FontWeight.w900,
+                        height: 1.0,
+                        letterSpacing: 20,
+                        foreground: Paint()
+                          ..style = PaintingStyle.stroke
+                          ..strokeWidth = isMobile ? 1.5 : 3.0
+                          ..color = Colors.white.withValues(alpha: 0.03),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            Positioned.fill(child: content),
+          ],
+        );
       },
     );
   }

@@ -14,206 +14,263 @@ class AboutSection extends StatelessWidget {
       builder: (context, constraints) {
         final bool isMobile = AppSizes.isMobile(constraints);
         final bool isTablet = AppSizes.isTablet(constraints);
-        final double maxWidth = isMobile ? constraints.maxWidth : (isTablet ? 750 : 1000);
+        final double maxWidth = isMobile ? constraints.maxWidth : (isTablet ? constraints.maxWidth * 0.95 : 1400);
 
-        return SingleChildScrollView(
-          child: Center(
-            child: ConstrainedBox(
-              constraints: BoxConstraints(maxWidth: maxWidth),
-              child: Padding(
-                padding: EdgeInsets.symmetric(
-                  horizontal: isMobile ? 24 : 40,
-                  vertical: isMobile ? 60 : 100,
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    _buildSectionHeader(context, isMobile),
-                    const SizedBox(height: 40),
-                    
-                    // Short Hero Sentence
-                    ResponsiveText(
-                      'I am a Flutter and UI/UX Designer',
-                      textAlign: TextAlign.center,
+        return Stack(
+          children: [
+            // Fixed Background Watermark
+            Positioned.fill(
+              child: Center(
+                child: IgnorePointer(
+                  child: FittedBox(
+                    fit: BoxFit.scaleDown,
+                    child: Text(
+                      'ABOUT',
                       style: TextStyle(
                         fontFamily: 'Unbounded',
-                        fontSize: isMobile ? 24 : 36,
-                        fontWeight: FontWeight.w800,
-                        color: Colors.white,
-                        letterSpacing: 1.5,
+                        fontSize: 400,
+                        fontWeight: FontWeight.w900,
+                        height: 1.0,
+                        letterSpacing: 20,
+                        foreground: Paint()
+                          ..style = PaintingStyle.stroke
+                          ..strokeWidth = isMobile ? 1.5 : 3.0
+                          ..color = Colors.white.withValues(alpha: 0.03),
                       ),
                     ),
-                    const SizedBox(height: 60),
-                    
-                    // Paragraphs
-                    if (isMobile)
-                      Column(
-                        children: [
-                          _buildFlutterParagraph(context),
-                          const SizedBox(height: 24),
-                          _buildDesignParagraph(context),
-                        ],
-                      )
-                    else
-                      IntrinsicHeight(
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.stretch,
-                          children: [
-                            Expanded(child: _buildFlutterParagraph(context)),
-                            const SizedBox(width: 32),
-                            Expanded(child: _buildDesignParagraph(context)),
-                          ],
-                        ),
-                      ),
-                    
-                    const SizedBox(height: 100),
-                    
-                    // Skills Arsenal
-                    _buildSkillsHeader(context, isMobile),
-                    const SizedBox(height: 60),
-                    const _FloatingSkillsGrid(),
-                  ],
+                  ),
                 ),
               ),
             ),
-          ),
+            
+            // Scrollable Content
+            Positioned.fill(
+              child: SingleChildScrollView(
+                physics: const BouncingScrollPhysics(),
+                child: Center(
+                  child: ConstrainedBox(
+                    constraints: BoxConstraints(maxWidth: maxWidth),
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: isMobile ? 24 : 40,
+                        vertical: isMobile ? 60 : 100,
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          ResponsiveText(
+                            'Experience',
+                            style: Theme.of(context).textTheme.displayLarge?.copyWith(
+                              fontSize: isMobile ? 32 : 48,
+                              color: AppColors.primary, // Using primary color
+                            ),
+                          ),
+                          const SizedBox(height: 40),
+                          
+                          // Short Hero Sentence
+                          ResponsiveText(
+                            'I am a Flutter Developer and Product Designer.',
+                            textAlign: TextAlign.center,
+                            maxLines: 1,
+                            style: TextStyle(
+                              fontFamily: 'Unbounded',
+                              fontSize: isMobile ? 22 : 36,
+                              fontWeight: FontWeight.w800,
+                              color: Colors.white,
+                              letterSpacing: 1.5,
+                            ),
+                          ),
+                          const SizedBox(height: 60),
+                          
+                          // Paragraphs
+                          if (isMobile)
+                            Column(
+                              children: [
+                                _buildFlutterParagraph(context, isMobile, isTablet),
+                                const SizedBox(height: 24),
+                                _buildDesignParagraph(context, isMobile, isTablet),
+                              ],
+                            )
+                          else
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Expanded(
+                                  child: ConstrainedBox(
+                                    constraints: const BoxConstraints(minHeight: 400), 
+                                    child: _buildFlutterParagraph(context, isMobile, isTablet),
+                                  ),
+                                ),
+                                const SizedBox(width: 32),
+                                Expanded(
+                                  child: ConstrainedBox(
+                                    constraints: const BoxConstraints(minHeight: 400), 
+                                    child: _buildDesignParagraph(context, isMobile, isTablet),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          
+                          const SizedBox(height: 100),
+                          
+                          // Skills Arsenal
+                          ResponsiveText(
+                            'Skills',
+                            style: Theme.of(context).textTheme.displayLarge?.copyWith(
+                              fontSize: isMobile ? 28 : 48,
+                              color: AppColors.primary, // Using primary color
+                            ),
+                          ),
+                          const SizedBox(height: 60),
+                          _FloatingSkillsGrid(isMobile: isMobile),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ],
         );
       },
     );
   }
 
-  Widget _buildSectionHeader(BuildContext context, bool isMobile) {
-    return Column(
-      children: [
-        ResponsiveText(
-          'Discover',
-          style: TextStyle(
-            fontSize: isMobile ? 14 : 16,
-            color: AppColors.primary,
-            fontWeight: FontWeight.w600,
-            letterSpacing: 2,
-            fontFamily: 'Unbounded',
-          ),
-        ),
-        const SizedBox(height: 8),
-        ResponsiveText(
-          'About Me',
-          style: Theme.of(context).textTheme.displayLarge?.copyWith(
-            fontSize: isMobile ? 32 : 48,
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildFlutterParagraph(BuildContext context) {
-    return const _InfoCard(
+  Widget _buildFlutterParagraph(BuildContext context, bool isMobile, bool isTablet) {
+    return _HoverInfoCard(
       icon: CupertinoIcons.device_phone_portrait,
       title: 'Flutter Engineering',
       content: 'I specialize in building high-performance, responsive, and seamless cross-platform applications. Drawing from my foundational experience as a Flutter Intern at NeuroApp, I utilize Dart and advanced state management to construct robust, production-ready solutions.',
       accentColor: Colors.blueAccent,
+      isMobile: isMobile,
+      isTablet: isTablet,
     );
   }
 
-  Widget _buildDesignParagraph(BuildContext context) {
-    return const _InfoCard(
+  Widget _buildDesignParagraph(BuildContext context, bool isMobile, bool isTablet) {
+    return _HoverInfoCard(
       icon: CupertinoIcons.paintbrush,
       title: 'UI/UX Design',
       content: 'I believe that great software is defined by its interface. From crafting pixel-perfect Figma prototypes to implementing stunning Neomorphic layouts, I ensure every interaction is visually striking and deeply intuitive.',
       accentColor: AppColors.primary,
-    );
-  }
-
-  Widget _buildSkillsHeader(BuildContext context, bool isMobile) {
-    return Column(
-      children: [
-        ResponsiveText(
-          'My Arsenal',
-          style: TextStyle(
-            fontSize: isMobile ? 14 : 16,
-            color: AppColors.primary,
-            fontWeight: FontWeight.w600,
-            letterSpacing: 2,
-            fontFamily: 'Unbounded',
-          ),
-        ),
-        const SizedBox(height: 8),
-        ResponsiveText(
-          'Skills & Tools',
-          style: Theme.of(context).textTheme.displayLarge?.copyWith(
-            fontSize: isMobile ? 28 : 40,
-          ),
-        ),
-      ],
+      isMobile: isMobile,
+      isTablet: isTablet,
     );
   }
 }
 
-class _InfoCard extends StatelessWidget {
-  const _InfoCard({
+class _HoverInfoCard extends StatefulWidget {
+  const _HoverInfoCard({
     required this.icon,
     required this.title,
     required this.content,
     required this.accentColor,
+    required this.isMobile,
+    required this.isTablet,
   });
 
   final IconData icon;
   final String title;
   final String content;
   final Color accentColor;
+  final bool isMobile;
+  final bool isTablet;
+
+  @override
+  State<_HoverInfoCard> createState() => _HoverInfoCardState();
+}
+
+class _HoverInfoCardState extends State<_HoverInfoCard> {
+  bool _isHovered = false;
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(32),
-      decoration: BoxDecoration(
-        color: AppColors.surface,
-        borderRadius: BorderRadius.circular(24),
-        boxShadow: AppColors.neumorphicShadows(distance: 8, blur: 16),
-        border: Border.all(
-          color: Colors.white.withValues(alpha: 0.03),
-          width: 1,
+    return MouseRegion(
+      onEnter: (_) => setState(() => _isHovered = true),
+      onExit: (_) => setState(() => _isHovered = false),
+      cursor: SystemMouseCursors.click,
+      child: AnimatedSlide(
+        duration: const Duration(milliseconds: 400),
+        curve: Curves.easeOutCubic,
+        offset: _isHovered ? const Offset(0, -0.05) : Offset.zero,
+        child: AnimatedScale(
+          duration: const Duration(milliseconds: 400),
+          curve: Curves.easeOutCubic,
+          scale: _isHovered ? 1.05 : 1.0, // More aggressive scale
+          child: AnimatedContainer(
+            duration: const Duration(milliseconds: 400),
+            curve: Curves.easeOutCubic,
+            padding: const EdgeInsets.all(32),
+            decoration: BoxDecoration(
+              color: AppColors.surface,
+              borderRadius: BorderRadius.circular(24),
+              boxShadow: _isHovered 
+                  ? AppColors.neumorphicShadows(distance: 20, blur: 40, glowColor: widget.accentColor.withValues(alpha: 0.25)) // Massively enhanced glow
+                  : AppColors.neumorphicShadows(distance: 8, blur: 16),
+              border: Border.all(
+                color: _isHovered 
+                    ? widget.accentColor.withValues(alpha: 0.5) 
+                    : Colors.white.withValues(alpha: 0.03),
+                width: _isHovered ? 2.0 : 1.0,
+              ),
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                AnimatedContainer(
+                  duration: const Duration(milliseconds: 400),
+                  padding: const EdgeInsets.all(16),
+                  decoration: BoxDecoration(
+                    color: _isHovered 
+                        ? widget.accentColor.withValues(alpha: 0.3) 
+                        : widget.accentColor.withValues(alpha: 0.1),
+                    shape: BoxShape.circle,
+                    boxShadow: _isHovered 
+                        ? [
+                            BoxShadow(
+                              color: widget.accentColor.withValues(alpha: 0.6),
+                              blurRadius: 20,
+                              spreadRadius: 4,
+                            )
+                          ]
+                        : [],
+                  ),
+                  child: Icon(widget.icon, color: widget.accentColor, size: 32),
+                ),
+              const SizedBox(height: 24),
+              ResponsiveText(
+                widget.title,
+                maxLines: 1,
+                style: TextStyle(
+                  fontFamily: 'Unbounded',
+                  fontSize: widget.isMobile ? 22 : (widget.isTablet ? 18 : 22), // Scaled for tablet
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                ),
+              ),
+              const SizedBox(height: 16),
+              ResponsiveText(
+                widget.content,
+                style: TextStyle(
+                  fontFamily: 'Poppins',
+                  height: 1.8,
+                  fontSize: widget.isMobile ? 14 : (widget.isTablet ? 13 : 15), // Scaled down for tablet/mobile
+                  color: AppColors.textSecondary,
+                ),
+              ),
+            ],
+          ),
         ),
       ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Container(
-            padding: const EdgeInsets.all(16),
-            decoration: BoxDecoration(
-              color: accentColor.withValues(alpha: 0.1),
-              shape: BoxShape.circle,
-            ),
-            child: Icon(icon, color: accentColor, size: 32),
-          ),
-          const SizedBox(height: 24),
-          ResponsiveText(
-            title,
-            style: const TextStyle(
-              fontFamily: 'Unbounded',
-              fontSize: 22,
-              fontWeight: FontWeight.bold,
-              color: Colors.white,
-            ),
-          ),
-          const SizedBox(height: 16),
-          ResponsiveText(
-            content,
-            style: const TextStyle(
-              fontFamily: 'Poppins',
-              height: 1.8,
-              fontSize: 15,
-              color: AppColors.textSecondary,
-            ),
-          ),
-        ],
       ),
     );
   }
 }
 
 class _FloatingSkillsGrid extends StatelessWidget {
-  const _FloatingSkillsGrid();
+  const _FloatingSkillsGrid({required this.isMobile});
+  
+  final bool isMobile;
 
   @override
   Widget build(BuildContext context) {
@@ -233,15 +290,17 @@ class _FloatingSkillsGrid extends StatelessWidget {
     ];
 
     return Wrap(
-      spacing: 24,
-      runSpacing: 24,
+      spacing: isMobile ? 16 : 40,
+      runSpacing: isMobile ? 16 : 40,
       alignment: WrapAlignment.center,
       children: List.generate(skills.length, (index) {
         return _FloatingSkillCard(
           name: skills[index]['name'],
           icon: skills[index]['icon'],
           hoverColor: skills[index]['color'],
-          delayOffset: index * 0.5, // Staggered floating effect
+          delayOffset: index * 0.7, 
+          isMobile: isMobile,
+          index: index,
         );
       }),
     );
@@ -254,12 +313,16 @@ class _FloatingSkillCard extends StatefulWidget {
     required this.icon,
     required this.hoverColor,
     required this.delayOffset,
+    required this.isMobile,
+    required this.index,
   });
 
   final String name;
   final IconData icon;
   final Color hoverColor;
   final double delayOffset;
+  final bool isMobile;
+  final int index;
 
   @override
   State<_FloatingSkillCard> createState() => _FloatingSkillCardState();
@@ -272,10 +335,11 @@ class _FloatingSkillCardState extends State<_FloatingSkillCard> with SingleTicke
   @override
   void initState() {
     super.initState();
+    final int randomDuration = 3500 + (widget.index % 4) * 500; 
     _floatController = AnimationController(
       vsync: this,
-      duration: const Duration(seconds: 4),
-    )..repeat(); // Continuous loop for math.sin
+      duration: Duration(milliseconds: randomDuration),
+    )..repeat(); 
   }
 
   @override
@@ -297,41 +361,47 @@ class _FloatingSkillCardState extends State<_FloatingSkillCard> with SingleTicke
       child: AnimatedBuilder(
         animation: _floatController,
         builder: (context, child) {
-          // Calculate floating vertical offset using sine wave
-          // When hovered, we kill the floating effect to make it lock in place
-          final double floatY = _isHovered 
-              ? 0 
-              : math.sin((_floatController.value * 2 * math.pi) + widget.delayOffset) * 8;
+          final double progress = (_floatController.value * 2 * math.pi) + widget.delayOffset;
+          
+          final double floatY = _isHovered ? 0 : math.sin(progress) * 10;
+          final double floatX = _isHovered ? 0 : math.cos(progress * 1.5) * 4;
 
           return Transform.translate(
-            offset: Offset(0, floatY),
+            offset: Offset(floatX, floatY),
             child: child,
           );
         },
         child: AnimatedScale(
           duration: const Duration(milliseconds: 300),
-          curve: Curves.easeOutCubic,
-          scale: _isHovered ? 1.08 : 1.0,
+          curve: Curves.easeOutBack,
+          scale: _isHovered ? 1.15 : 1.0,
           child: AnimatedContainer(
             duration: const Duration(milliseconds: 300),
             curve: Curves.easeOutCubic,
-            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 20),
+            padding: widget.isMobile 
+                ? const EdgeInsets.symmetric(horizontal: 16, vertical: 10)
+                : const EdgeInsets.symmetric(horizontal: 28, vertical: 16),
             decoration: BoxDecoration(
               color: _isHovered ? AppColors.surfaceInner : AppColors.surface,
-              borderRadius: BorderRadius.circular(20),
+              borderRadius: BorderRadius.circular(50), 
               border: Border.all(
-                color: _isHovered ? widget.hoverColor.withValues(alpha: 0.5) : Colors.white.withValues(alpha: 0.05),
-                width: 1.5,
+                color: _isHovered ? widget.hoverColor.withValues(alpha: 0.6) : Colors.white.withValues(alpha: 0.05),
+                width: _isHovered ? 1.5 : 1.0,
               ),
               boxShadow: _isHovered 
                   ? [
                       BoxShadow(
-                        color: widget.hoverColor.withValues(alpha: 0.3),
+                        color: widget.hoverColor.withValues(alpha: 0.4),
                         blurRadius: 20,
-                        spreadRadius: 2,
+                        spreadRadius: 4,
+                      ),
+                      BoxShadow(
+                        color: widget.hoverColor.withValues(alpha: 0.2),
+                        blurRadius: 40,
+                        spreadRadius: 8,
                       ),
                     ]
-                  : AppColors.neumorphicShadows(distance: 6, blur: 12),
+                  : AppColors.neumorphicShadows(distance: 4, blur: 8),
             ),
             child: Row(
               mainAxisSize: MainAxisSize.min,
@@ -341,15 +411,15 @@ class _FloatingSkillCardState extends State<_FloatingSkillCard> with SingleTicke
                   child: Icon(
                     widget.icon,
                     color: _isHovered ? widget.hoverColor : Colors.white60,
-                    size: 28,
+                    size: widget.isMobile ? 18 : 24,
                   ),
                 ),
-                const SizedBox(width: 16),
+                SizedBox(width: widget.isMobile ? 8 : 12),
                 AnimatedDefaultTextStyle(
                   duration: const Duration(milliseconds: 300),
                   style: TextStyle(
                     fontFamily: 'Poppins',
-                    fontSize: 16,
+                    fontSize: widget.isMobile ? 11 : 16, 
                     fontWeight: _isHovered ? FontWeight.bold : FontWeight.w600,
                     color: _isHovered ? widget.hoverColor : Colors.white70,
                     letterSpacing: 1.0,
