@@ -27,6 +27,7 @@ class _SplashPageState extends State<SplashPage>
   late final AnimationController _zoomController;
   late final Animation<double> _zoomScale;
   late final Animation<double> _zoomOpacity;
+  late final Animation<double> _zoomRotation;
   late final SplashController _splashController;
 
   @override
@@ -84,6 +85,24 @@ class _SplashPageState extends State<SplashPage>
       ),
     ]).animate(_zoomController);
 
+    // 3D Tilt: The text slowly tilts backward as it rushes past the camera
+    _zoomRotation = TweenSequence<double>([
+      TweenSequenceItem(
+        tween: ConstantTween<double>(0.0),
+        weight: 35,
+      ),
+      TweenSequenceItem(
+        tween: Tween<double>(begin: 0.0, end: -0.15)
+            .chain(CurveTween(curve: Curves.easeInCubic)),
+        weight: 30,
+      ),
+      TweenSequenceItem(
+        tween: Tween<double>(begin: -0.15, end: -0.5)
+            .chain(CurveTween(curve: Curves.easeInQuart)),
+        weight: 35,
+      ),
+    ]).animate(_zoomController);
+
     // When the zoom finishes, swap to the home page
     _zoomController.addStatusListener((status) {
       if (status == AnimationStatus.completed) {
@@ -118,9 +137,15 @@ class _SplashPageState extends State<SplashPage>
           builder: (context, child) {
             return Opacity(
               opacity: _zoomOpacity.value,
-              child: Transform.scale(
-                scale: _zoomScale.value,
-                child: child,
+              child: Transform(
+                alignment: Alignment.center,
+                transform: Matrix4.identity()
+                  ..setEntry(3, 2, 0.002) // Perspective
+                  ..rotateX(_zoomRotation.value), // 3D Tilt
+                child: Transform.scale(
+                  scale: _zoomScale.value,
+                  child: child,
+                ),
               ),
             );
           },

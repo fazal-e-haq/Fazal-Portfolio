@@ -5,8 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../core/themes/theme.dart';
-import '../../../services/resume_downloader_stub.dart';
-import '../../../widgets/button_widget.dart';
+import '../../../widgets/button/button_widget.dart';
 import '../../../widgets/responsive_text.dart';
 import '../project/project_controller.dart';
 
@@ -30,20 +29,22 @@ class Introduction extends StatelessWidget {
             Positioned.fill(
               child: Center(
                 child: IgnorePointer(
-                  child: FittedBox(
-                    fit: BoxFit.scaleDown,
-                    child: Text(
-                      'HELLO',
-                      style: TextStyle(
-                        fontFamily: 'Unbounded',
-                        fontSize: 400,
-                        fontWeight: FontWeight.w900,
-                        height: 1.0,
-                        letterSpacing: 20,
-                        foreground: Paint()
-                          ..style = PaintingStyle.stroke
-                          ..strokeWidth = isMobile ? 1.5 : 3.0
-                          ..color = Colors.white.withValues(alpha: 0.03),
+                  child: RepaintBoundary( // Prevent static text from repainting when animations run above it
+                    child: FittedBox(
+                      fit: BoxFit.scaleDown,
+                      child: Text(
+                        'HELLO',
+                        style: TextStyle(
+                          fontFamily: 'Unbounded',
+                          fontSize: 400,
+                          fontWeight: FontWeight.w900,
+                          height: 1.0,
+                          letterSpacing: 20,
+                          foreground: Paint()
+                            ..style = PaintingStyle.stroke
+                            ..strokeWidth = isMobile ? 1.5 : 3.0
+                            ..color = Colors.white.withValues(alpha: 0.03),
+                        ),
                       ),
                     ),
                   ),
@@ -202,26 +203,28 @@ class _IntroContent extends StatelessWidget {
         // Name
         _FadeInUp(
           delay: const Duration(milliseconds: 600),
-          child: FittedBox(
-            fit: BoxFit.scaleDown,
-            child: _AnimatedGradientText(
-              child: AnimatedTextKit(
-                isRepeatingAnimation: false,
-                totalRepeatCount: 1,
-                animatedTexts: [
-                  ScrambleAnimatedText(
-                    'FAZAL-E-HAQ',
-                    speed: const Duration(milliseconds: 200),
-                    textAlign: textAlign,
-                    textStyle: TextStyle(
-                      fontFamily: 'Unbounded',
-                      fontSize: nameFontSize,
-                      fontWeight: FontWeight.w900,
-                      color: Colors.white, // The gradient colors will show through this
-                      letterSpacing: 2.0,
+          child: RepaintBoundary( // Isolate rapid text scrambling repaints
+            child: FittedBox(
+              fit: BoxFit.scaleDown,
+              child: _AnimatedGradientText(
+                child: AnimatedTextKit(
+                  isRepeatingAnimation: false,
+                  totalRepeatCount: 1,
+                  animatedTexts: [
+                    ScrambleAnimatedText(
+                      'FAZAL-E-HAQ',
+                      speed: const Duration(milliseconds: 200),
+                      textAlign: textAlign,
+                      textStyle: TextStyle(
+                        fontFamily: 'Unbounded',
+                        fontSize: nameFontSize,
+                        fontWeight: FontWeight.w900,
+                        color: Colors.white, // The gradient colors will show through this
+                        letterSpacing: 2.0,
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           ),
@@ -294,7 +297,7 @@ class _IntroContent extends StatelessWidget {
             children: const [
               _MagneticButton(
                 child: ButtonWidget(
-                  onPressed: downloadResume,
+                  url: 'assets/Fazal-Resume.pdf',
                   icon: Icon(CupertinoIcons.arrow_down, size: 20),
                   text: Text(
                     'My Resume',
@@ -390,10 +393,10 @@ class _DesktopImagePreviewState extends State<_DesktopImagePreview> {
                 AnimatedPositioned(
                   duration: const Duration(milliseconds: 300),
                   curve: Curves.easeOutCubic,
-                  top: _isHovered ? 24 - (dy * 15) : 0,
-                  left: _isHovered ? -24 - (dx * 15) : 0,
-                  right: _isHovered ? 24 + (dx * 15) : 0,
-                  bottom: _isHovered ? -24 + (dy * 15) : 0,
+                  top: 24 - (dy * 15),
+                  left: -24 - (dx * 15),
+                  right: 24 + (dx * 15),
+                  bottom: -24 + (dy * 15),
                   child: Container(
                     decoration: BoxDecoration(
                       color: AppColors.surface,
@@ -417,10 +420,10 @@ class _DesktopImagePreviewState extends State<_DesktopImagePreview> {
                 AnimatedPositioned(
                   duration: const Duration(milliseconds: 300),
                   curve: Curves.easeOutCubic,
-                  top: _isHovered ? -12 + (dy * 8) : 0,
-                  left: _isHovered ? 12 + (dx * 8) : 0,
-                  right: _isHovered ? -12 - (dx * 8) : 0,
-                  bottom: _isHovered ? 12 - (dy * 8) : 0,
+                  top: -12 + (dy * 8),
+                  left: 12 + (dx * 8),
+                  right: -12 - (dx * 8),
+                  bottom: 12 - (dy * 8),
                   child: Container(
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(24),

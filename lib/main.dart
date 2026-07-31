@@ -9,6 +9,7 @@ import 'features/app_shell/navigation_controller.dart';
 import 'features/contact/contact_controller.dart';
 import 'features/project/project_controller.dart';
 import 'features/splash/splash_controller.dart';
+import 'widgets/textfield/textfield_controller.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -18,6 +19,7 @@ Future<void> main() async {
   Get.put(NavigationController());
   Get.put(ContactController());
   Get.put(ProjectController());
+  Get.put(TextFieldController());
 
   runApp(const MyPortfolio());
 }

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:fazal_portfolio/features/introduction/home.dart';
+import 'package:fazal_portfolio/features/introduction/introduction_section.dart';
 import 'package:fazal_portfolio/features/about/about_section.dart';
 import 'package:fazal_portfolio/features/contact/contact_section.dart';
 import 'package:fazal_portfolio/widgets/nav_bar_widget.dart';
