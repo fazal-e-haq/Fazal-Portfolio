@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 
 class ContactController extends GetxController {
@@ -44,37 +45,54 @@ class ContactController extends GetxController {
 
     _setSending(true);
 
-    // Simulate network request
-    await Future.delayed(const Duration(milliseconds: 1500));
+    try {
+      final gmailUri = Uri.https('mail.google.com', '/mail/', {
+        'view': 'cm',
+        'fs': '1',
+        'to': 'fazal.e.haq216@gmail.com',
+        'su': 'Portfolio Contact: Message from $name',
+        'body': 'Name: $name\nEmail: $email\n\nMessage:\n$message',
+      });
+      
+      await launchUrl(gmailUri, mode: LaunchMode.externalApplication);
 
-    _setSending(false);
+      // Show premium animated success message
+      Get.snackbar(
+        'Gmail Opened!',
+        'You can now review and send your message directly via Gmail.',
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.deepOrangeAccent.withValues(alpha: 0.9), // Match theme primary color
+        colorText: Colors.white,
+        margin: const EdgeInsets.all(24),
+        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+        borderRadius: 16,
+        icon: const Icon(Icons.check_circle_outline, color: Colors.white, size: 32),
+        duration: const Duration(seconds: 4),
+        forwardAnimationCurve: Curves.easeOutExpo,
+        boxShadows: [
+          BoxShadow(
+            color: Colors.deepOrangeAccent.withValues(alpha: 0.2),
+            blurRadius: 20,
+            spreadRadius: 5,
+          ),
+        ],
+      );
 
-    // Show premium animated success message
-    Get.snackbar(
-      'Message Sent Successfully!',
-      'Thank you for getting in touch. I will reply to you soon.',
-      snackPosition: SnackPosition.BOTTOM,
-      backgroundColor: Colors.deepOrangeAccent.withValues(alpha: 0.9), // Match theme primary color
-      colorText: Colors.white,
-      margin: const EdgeInsets.all(24),
-      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-      borderRadius: 16,
-      icon: const Icon(Icons.check_circle_outline, color: Colors.white, size: 32),
-      duration: const Duration(seconds: 4),
-      forwardAnimationCurve: Curves.easeOutExpo,
-      boxShadows: [
-        BoxShadow(
-          color: Colors.deepOrangeAccent.withValues(alpha: 0.2),
-          blurRadius: 20,
-          spreadRadius: 5,
-        ),
-      ],
-    );
-
-    // Clear form
-    nameController.clear();
-    emailController.clear();
-    messageController.clear();
+      // Clear form
+      nameController.clear();
+      emailController.clear();
+      messageController.clear();
+    } catch (e) {
+      Get.snackbar(
+        'Error',
+        'Could not open Gmail. Please try again.',
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.redAccent.withValues(alpha: 0.9),
+        colorText: Colors.white,
+      );
+    } finally {
+      _setSending(false);
+    }
   }
 
   @override

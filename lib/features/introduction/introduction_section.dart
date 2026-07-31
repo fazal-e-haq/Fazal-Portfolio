@@ -8,6 +8,7 @@ import '../../../core/themes/theme.dart';
 import '../../../widgets/button/button_widget.dart';
 import '../../../widgets/responsive_text.dart';
 import '../project/project_controller.dart';
+import '../../../services/resume_downloader.dart';
 
 /// Introduction section — The Hero Page
 /// Features a stunning 10/10 Neomorphic layout, responsive across all screens.
@@ -294,12 +295,12 @@ class _IntroContent extends StatelessWidget {
             alignment: textAlign == TextAlign.center ? WrapAlignment.center : WrapAlignment.start,
             spacing: 24,
             runSpacing: 24,
-            children: const [
+            children: [
               _MagneticButton(
                 child: ButtonWidget(
-                  url: 'assets/Fazal-Resume.pdf',
-                  icon: Icon(CupertinoIcons.arrow_down, size: 20),
-                  text: Text(
+                  onPressed: downloadResume,
+                  icon: const Icon(CupertinoIcons.arrow_down, size: 20),
+                  text: const Text(
                     'My Resume',
                     style: TextStyle(
                       fontFamily: 'Poppins',
