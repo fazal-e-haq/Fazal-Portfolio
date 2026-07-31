@@ -58,26 +58,32 @@ class AboutSection extends StatelessWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          ResponsiveText(
-                            'Experience',
-                            style: Theme.of(context).textTheme.displayLarge?.copyWith(
-                              fontSize: isMobile ? 32 : 48,
-                              color: AppColors.primary, // Using primary color
+                          Align(
+                            alignment: Alignment.centerLeft,
+                            child: ResponsiveText(
+                              'Experience',
+                              style: Theme.of(context).textTheme.displayLarge?.copyWith(
+                                fontSize: isMobile ? 32 : 48,
+                                color: AppColors.primary, // Using primary color
+                              ),
                             ),
                           ),
                           const SizedBox(height: 40),
                           
                           // Short Hero Sentence
-                          ResponsiveText(
-                            'I am a Flutter Developer and Product Designer.',
-                            textAlign: TextAlign.center,
-                            maxLines: 1,
-                            style: TextStyle(
-                              fontFamily: 'Unbounded',
-                              fontSize: isMobile ? 22 : 36,
-                              fontWeight: FontWeight.w800,
-                              color: Colors.white,
-                              letterSpacing: 1.5,
+                          Align(
+                            alignment: Alignment.centerLeft,
+                            child: ResponsiveText(
+                              'I am a Flutter Developer and Product Designer.',
+                              textAlign: TextAlign.left,
+                              maxLines: 2,
+                              style: TextStyle(
+                                fontFamily: 'Unbounded',
+                                fontSize: isMobile ? 22 : 36,
+                                fontWeight: FontWeight.w800,
+                                color: Colors.white,
+                                letterSpacing: 1.5,
+                              ),
                             ),
                           ),
                           const SizedBox(height: 60),
@@ -114,11 +120,14 @@ class AboutSection extends StatelessWidget {
                           const SizedBox(height: 100),
                           
                           // Skills Arsenal
-                          ResponsiveText(
-                            'Skills',
-                            style: Theme.of(context).textTheme.displayLarge?.copyWith(
-                              fontSize: isMobile ? 28 : 48,
-                              color: AppColors.primary, // Using primary color
+                          Align(
+                            alignment: Alignment.centerLeft,
+                            child: ResponsiveText(
+                              'Skills',
+                              style: Theme.of(context).textTheme.displayLarge?.copyWith(
+                                fontSize: isMobile ? 28 : 48,
+                                color: AppColors.primary, // Using primary color
+                              ),
                             ),
                           ),
                           const SizedBox(height: 60),

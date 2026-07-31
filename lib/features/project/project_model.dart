@@ -4,6 +4,7 @@ class ProjectModel {
   final String description;
   final String imagePath;
   final String type; // e.g., "Mobile App", "Web App", "UI/UX"
+  final List<String> tags;
   final String? codeUrl;
   final String? liveUrl;
 
@@ -13,6 +14,7 @@ class ProjectModel {
     required this.description,
     required this.imagePath,
     required this.type,
+    this.tags = const [],
     this.codeUrl,
     this.liveUrl,
   });

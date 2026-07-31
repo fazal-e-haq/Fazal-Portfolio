@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../models/navbar_model/nav_bar_item_model.dart';
+import '../models/nav_bar_item_model.dart';
 import '../features/app_shell/navigation_controller.dart';
 
 // NavBar

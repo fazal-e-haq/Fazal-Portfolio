@@ -129,6 +129,7 @@ class _SplashTypingTextState extends State<SplashTypingText>
           SizeTransition(
             sizeFactor: _dividerWidth,
             axis: Axis.horizontal,
+            alignment: Alignment.center,
             child: Container(
               width: screenWidth < 600 ? 60 : 100,
               height: 3,
