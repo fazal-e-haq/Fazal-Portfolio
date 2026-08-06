@@ -13,7 +13,7 @@ style="border-radius:30px; width:100%; max-height:320px; object-fit:cover;" />
 
 ---
 
-## 💡 Flutter Developer | UI/UX Designer
+## 💡 Flutter Developer |Product Designer
 
 <div align="center">
 
