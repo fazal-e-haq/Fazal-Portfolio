@@ -26,6 +26,11 @@ class TextFieldController extends GetxController {
 
   bool isHovered(String id) => _hoverStates[id] ?? false;
   bool isFocused(String id) => _focusStates[id] ?? false;
+  
+  bool get isAnyActive {
+    return _hoverStates.values.any((v) => v) || _focusStates.values.any((v) => v);
+  }
+
   FocusNode getFocusNode(String id) => _focusNodes[id]!;
 
   @override

@@ -23,14 +23,17 @@ class Introduction extends StatelessWidget {
         final bool isMobile = width < 600;
         final bool isTablet = width >= 600 && width < 1100;
 
-        final Widget content = isMobile ? const _MobileIntro() : _DesktopTabletIntro(isTablet: isTablet);
+        final Widget content = isMobile
+            ? const _MobileIntro()
+            : _DesktopTabletIntro(isTablet: isTablet);
 
         return Stack(
           children: [
             Positioned.fill(
               child: Center(
                 child: IgnorePointer(
-                  child: RepaintBoundary( // Prevent static text from repainting when animations run above it
+                  child: RepaintBoundary(
+                    // Prevent static text from repainting when animations run above it
                     child: FittedBox(
                       fit: BoxFit.scaleDown,
                       child: Text(
@@ -90,7 +93,10 @@ class _DesktopTabletIntro extends StatelessWidget {
                 child: Center(
                   child: _FadeInUp(
                     delay: const Duration(milliseconds: 200),
-                    child: _DesktopImagePreview(width: imageWidth, height: imageHeight),
+                    child: _DesktopImagePreview(
+                      width: imageWidth,
+                      height: imageHeight,
+                    ),
                   ),
                 ),
               ),
@@ -127,18 +133,20 @@ class _MobileIntro extends StatelessWidget {
         padding: EdgeInsets.symmetric(horizontal: 24, vertical: 40),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            _FadeInUp(
-              delay: Duration(milliseconds: 200),
-              child: _MobileImagePreview(size: 260),
+            Center(
+              child: _FadeInUp(
+                delay: Duration(milliseconds: 200),
+                child: _MobileImagePreview(size: 260),
+              ),
             ),
             SizedBox(height: 40),
             _IntroContent(
               nameFontSize: 28.0,
               roleFontSize: 18.0,
-              alignment: CrossAxisAlignment.center,
-              textAlign: TextAlign.center,
+              alignment: CrossAxisAlignment.start,
+              textAlign: TextAlign.left,
             ),
             SizedBox(height: 80), // extra padding at bottom
           ],
@@ -170,41 +178,34 @@ class _IntroContent extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: alignment,
       children: [
-        // Active Signal relocated to the top to serve as an attractive badge
-        const _FadeInUp(
-          delay: Duration(milliseconds: 200),
-          child: _ActiveSignal(),
-        ),
-        const SizedBox(height: 16),
-        
-        // Greeting badge
+        // Rotated Greeting
         _FadeInUp(
           delay: const Duration(milliseconds: 400),
-          child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-            decoration: BoxDecoration(
-              color: AppColors.surface,
-              borderRadius: BorderRadius.circular(20),
-              boxShadow: AppColors.neumorphicShadows(isPressed: true),
-            ),
-            child: const Text(
-              '👋 Hello, I am',
-              style: TextStyle(
-                fontFamily: 'Poppins',
-                fontSize: 14,
-                color: AppColors.textSecondary,
-                letterSpacing: 1.2,
-                fontWeight: FontWeight.w500,
+          child: Padding(
+            padding: const EdgeInsets.only(left: 8.0, bottom: 8.0),
+            child: Transform.rotate(
+              angle: -0.15, // Playful slight rotation
+              alignment: Alignment.centerLeft,
+              child: const Text(
+                'Hello, I am',
+                style: TextStyle(
+                  fontFamily: 'Poppins',
+                  fontSize: 22,
+                  fontStyle: FontStyle.italic,
+                  color: AppColors.primary,
+                  fontWeight: FontWeight.bold,
+                  letterSpacing: 1.5,
+                ),
               ),
             ),
           ),
         ),
-        const SizedBox(height: 24),
-        
+
         // Name
         _FadeInUp(
           delay: const Duration(milliseconds: 600),
-          child: RepaintBoundary( // Isolate rapid text scrambling repaints
+          child: RepaintBoundary(
+            // Isolate rapid text scrambling repaints
             child: FittedBox(
               fit: BoxFit.scaleDown,
               child: _AnimatedGradientText(
@@ -220,7 +221,8 @@ class _IntroContent extends StatelessWidget {
                         fontFamily: 'Unbounded',
                         fontSize: nameFontSize,
                         fontWeight: FontWeight.w900,
-                        color: Colors.white, // The gradient colors will show through this
+                        color: Colors
+                            .white, // The gradient colors will show through this
                         letterSpacing: 2.0,
                       ),
                     ),
@@ -231,7 +233,7 @@ class _IntroContent extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 12),
-        
+
         // Role
         _FadeInUp(
           delay: const Duration(milliseconds: 800),
@@ -269,7 +271,7 @@ class _IntroContent extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 24),
-        
+
         // Bio tagline
         _FadeInUp(
           delay: const Duration(milliseconds: 1000),
@@ -286,13 +288,15 @@ class _IntroContent extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 40),
-        
+
         // Action Row: Resume Button + Active Signal
         _FadeInUp(
           delay: const Duration(milliseconds: 1200),
           child: Wrap(
             crossAxisAlignment: WrapCrossAlignment.center,
-            alignment: textAlign == TextAlign.center ? WrapAlignment.center : WrapAlignment.start,
+            alignment: textAlign == TextAlign.center
+                ? WrapAlignment.center
+                : WrapAlignment.start,
             spacing: 24,
             runSpacing: 24,
             children: [
@@ -313,6 +317,69 @@ class _IntroContent extends StatelessWidget {
             ],
           ),
         ),
+        const SizedBox(height: 40),
+        
+        // Stats Row (Experience, Projects, Followers)
+        _FadeInUp(
+          delay: const Duration(milliseconds: 1400),
+          child: SizedBox(
+            width: double.infinity,
+            child: FittedBox(
+              fit: BoxFit.scaleDown,
+              alignment: textAlign == TextAlign.center ? Alignment.center : Alignment.centerLeft,
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  _StatItem(value: '0.4', label: 'Years\nExperience'),
+                  const SizedBox(width: 32),
+                  Container(height: 40, width: 1, color: Colors.white.withValues(alpha: 0.1)),
+                  const SizedBox(width: 32),
+                  _StatItem(value: '1+', label: 'Projects\nCompleted'),
+                  const SizedBox(width: 32),
+                  Container(height: 40, width: 1, color: Colors.white.withValues(alpha: 0.1)),
+                  const SizedBox(width: 32),
+                  _StatItem(value: '1k', label: 'Followers'),
+                ],
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class _StatItem extends StatelessWidget {
+  final String value;
+  final String label;
+
+  const _StatItem({required this.value, required this.label});
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Text(
+          value,
+          style: const TextStyle(
+            fontFamily: 'Unbounded',
+            fontSize: 32,
+            fontWeight: FontWeight.w900,
+            color: AppColors.primary,
+          ),
+        ),
+        const SizedBox(width: 12),
+        Text(
+          label,
+          style: const TextStyle(
+            fontFamily: 'Poppins',
+            fontSize: 12,
+            height: 1.3,
+            color: AppColors.textSecondary,
+          ),
+        ),
       ],
     );
   }
@@ -323,7 +390,7 @@ class _IntroContent extends StatelessWidget {
 // ────────────────────────────────────────────────────────────────────────────
 class _DesktopImagePreview extends StatefulWidget {
   const _DesktopImagePreview({required this.width, required this.height});
-  
+
   final double width;
   final double height;
 
@@ -332,7 +399,9 @@ class _DesktopImagePreview extends StatefulWidget {
 }
 
 class _DesktopImagePreviewState extends State<_DesktopImagePreview> {
-  final ValueNotifier<Offset> _localMousePos = ValueNotifier<Offset>(Offset.zero);
+  final ValueNotifier<Offset> _localMousePos = ValueNotifier<Offset>(
+    Offset.zero,
+  );
   bool _isHovered = false;
 
   @override
@@ -358,7 +427,8 @@ class _DesktopImagePreviewState extends State<_DesktopImagePreview> {
         final RenderBox? box = context.findRenderObject() as RenderBox?;
         if (box != null) {
           final Offset center = Offset(box.size.width / 2, box.size.height / 2);
-          _localMousePos.value = event.localPosition - center; // delta from center
+          _localMousePos.value =
+              event.localPosition - center; // delta from center
         }
       },
       cursor: SystemMouseCursors.click,
@@ -368,12 +438,12 @@ class _DesktopImagePreviewState extends State<_DesktopImagePreview> {
           // Normalize the delta (-1 to 1) based on center
           double dx = _isHovered ? (delta.dx / (widget.width / 2)) : 0;
           double dy = _isHovered ? (delta.dy / (widget.height / 2)) : 0;
-          
+
           // Max rotation is approx 0.1 radians
           double maxTilt = 0.1;
           double rotateX = dy * maxTilt * -1; // tilt towards mouse
           double rotateY = dx * maxTilt;
-          
+
           final Matrix4 transform = Matrix4.identity()
             ..setEntry(3, 2, 0.001) // subtle perspective
             ..rotateX(rotateX)
@@ -403,8 +473,8 @@ class _DesktopImagePreviewState extends State<_DesktopImagePreview> {
                       color: AppColors.surface,
                       borderRadius: BorderRadius.circular(24),
                       border: Border.all(
-                        color: _isHovered 
-                            ? AppColors.primary.withValues(alpha: 0.6) 
+                        color: _isHovered
+                            ? AppColors.primary.withValues(alpha: 0.6)
                             : AppColors.textMuted.withValues(alpha: 0.1),
                         width: 2,
                       ),
@@ -416,7 +486,7 @@ class _DesktopImagePreviewState extends State<_DesktopImagePreview> {
                     ),
                   ),
                 ),
-                
+
                 // 2. Front Image Card
                 AnimatedPositioned(
                   duration: const Duration(milliseconds: 300),
@@ -433,13 +503,13 @@ class _DesktopImagePreviewState extends State<_DesktopImagePreview> {
                           color: Colors.black.withValues(alpha: 0.6),
                           blurRadius: 30,
                           offset: Offset(dx * -15, 15 + dy * -15),
-                        )
-                      ]
+                        ),
+                      ],
                     ),
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(24),
                       child: AnimatedScale(
-                        duration: const Duration(seconds: 15), 
+                        duration: const Duration(seconds: 15),
                         scale: _isHovered ? 1.08 : 1.0,
                         curve: Curves.easeOutCubic,
                         child: Stack(
@@ -451,7 +521,9 @@ class _DesktopImagePreviewState extends State<_DesktopImagePreview> {
                               filterQuality: FilterQuality.high,
                             ),
                             AnimatedOpacity(
-                              duration: const Duration(milliseconds: 1000), // Very smooth & attractive fade
+                              duration: const Duration(
+                                milliseconds: 1000,
+                              ), // Very smooth & attractive fade
                               curve: Curves.easeInOutCubic,
                               opacity: _isHovered ? 1.0 : 0.0,
                               child: Image.asset(
@@ -480,7 +552,7 @@ class _DesktopImagePreviewState extends State<_DesktopImagePreview> {
 // ────────────────────────────────────────────────────────────────────────────
 class _MobileImagePreview extends StatelessWidget {
   const _MobileImagePreview({required this.size});
-  
+
   final double size;
 
   @override
@@ -513,114 +585,20 @@ class _MobileImagePreview extends StatelessWidget {
 }
 
 // ────────────────────────────────────────────────────────────────────────────
-//  Active Signal & Location (Based in Pakistan)
-// ────────────────────────────────────────────────────────────────────────────
-class _ActiveSignal extends StatefulWidget {
-  const _ActiveSignal();
-
-  @override
-  State<_ActiveSignal> createState() => _ActiveSignalState();
-}
-
-class _ActiveSignalState extends State<_ActiveSignal> with SingleTickerProviderStateMixin {
-  late final AnimationController _pulseController;
-  late final Animation<double> _pulseAnimation;
-
-  @override
-  void initState() {
-    super.initState();
-    _pulseController = AnimationController(
-      vsync: this,
-      duration: const Duration(seconds: 2),
-    )..repeat(reverse: true);
-    
-    _pulseAnimation = CurvedAnimation(
-      parent: _pulseController,
-      curve: Curves.easeInOut,
-    );
-  }
-
-  @override
-  void dispose() {
-    _pulseController.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
-      decoration: BoxDecoration(
-        color: AppColors.primary.withValues(alpha: 0.1),
-        borderRadius: BorderRadius.circular(30),
-        border: Border.all(
-          color: AppColors.primary.withValues(alpha: 0.3),
-          width: 1,
-        ),
-        boxShadow: [
-          BoxShadow(
-            color: AppColors.primary.withValues(alpha: 0.15),
-            blurRadius: 10,
-            spreadRadius: 2,
-          )
-        ],
-      ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          // Pulsing Dot
-          AnimatedBuilder(
-            animation: _pulseAnimation,
-            builder: (context, child) {
-              return Container(
-                width: 8,
-                height: 8,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: Colors.greenAccent,
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.greenAccent.withValues(alpha: 0.8 * _pulseAnimation.value),
-                      blurRadius: 12 * _pulseAnimation.value,
-                      spreadRadius: 4 * _pulseAnimation.value,
-                    )
-                  ],
-                ),
-              );
-            },
-          ),
-          const SizedBox(width: 10),
-          // Location Text
-          const Text(
-            'Based in Pakistan',
-            style: TextStyle(
-              fontFamily: 'Poppins',
-              fontSize: 13,
-              color: Colors.white,
-              fontWeight: FontWeight.w600,
-              letterSpacing: 0.5,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-// ────────────────────────────────────────────────────────────────────────────
 //  Animation Helper: FadeInUp
 // ────────────────────────────────────────────────────────────────────────────
 class _FadeInUp extends StatefulWidget {
   final Widget child;
   final Duration delay;
-  
+
   const _FadeInUp({required this.child, required this.delay});
 
   @override
   State<_FadeInUp> createState() => _FadeInUpState();
 }
 
-class _FadeInUpState extends State<_FadeInUp> with SingleTickerProviderStateMixin {
+class _FadeInUpState extends State<_FadeInUp>
+    with SingleTickerProviderStateMixin {
   late final AnimationController _controller;
   late final Animation<double> _opacity;
   late final Animation<Offset> _offset;
@@ -630,17 +608,19 @@ class _FadeInUpState extends State<_FadeInUp> with SingleTickerProviderStateMixi
   void initState() {
     super.initState();
     _controller = AnimationController(
-      vsync: this, 
+      vsync: this,
       duration: const Duration(milliseconds: 800),
     );
-    
-    _opacity = Tween<double>(begin: 0.0, end: 1.0).animate(
-      CurvedAnimation(parent: _controller, curve: Curves.easeOutCubic),
-    );
-    
-    _offset = Tween<Offset>(begin: const Offset(0, 0.2), end: Offset.zero).animate(
-      CurvedAnimation(parent: _controller, curve: Curves.easeOutCubic),
-    );
+
+    _opacity = Tween<double>(
+      begin: 0.0,
+      end: 1.0,
+    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeOutCubic));
+
+    _offset = Tween<Offset>(
+      begin: const Offset(0, 0.2),
+      end: Offset.zero,
+    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeOutCubic));
 
     _timer = Timer(widget.delay, () {
       if (mounted) _controller.forward();
@@ -658,10 +638,7 @@ class _FadeInUpState extends State<_FadeInUp> with SingleTickerProviderStateMixi
   Widget build(BuildContext context) {
     return FadeTransition(
       opacity: _opacity,
-      child: SlideTransition(
-        position: _offset,
-        child: widget.child,
-      ),
+      child: SlideTransition(position: _offset, child: widget.child),
     );
   }
 }
@@ -679,15 +656,19 @@ class _AnimatedGradientText extends StatefulWidget {
   State<_AnimatedGradientText> createState() => _AnimatedGradientTextState();
 }
 
-class _AnimatedGradientTextState extends State<_AnimatedGradientText> with SingleTickerProviderStateMixin {
+class _AnimatedGradientTextState extends State<_AnimatedGradientText>
+    with SingleTickerProviderStateMixin {
   late final AnimationController _controller;
 
   @override
   void initState() {
     super.initState();
-    _controller = AnimationController(vsync: this, duration: const Duration(seconds: 3))..repeat(reverse: true);
+    _controller = AnimationController(
+      vsync: this,
+      duration: const Duration(seconds: 3),
+    )..repeat(reverse: true);
   }
-  
+
   @override
   void dispose() {
     _controller.dispose();
@@ -709,7 +690,9 @@ class _AnimatedGradientTextState extends State<_AnimatedGradientText> with Singl
                 AppColors.primary,
               ],
               stops: const [0.0, 0.5, 1.0],
-              transform: GradientRotation(_controller.value * 2 * 3.14159), // Rotate the gradient
+              transform: GradientRotation(
+                _controller.value * 2 * 3.14159,
+              ), // Rotate the gradient
             ).createShader(bounds);
           },
           child: widget.child,
@@ -730,7 +713,9 @@ class _MagneticButton extends StatefulWidget {
 }
 
 class _MagneticButtonState extends State<_MagneticButton> {
-  final ValueNotifier<Offset> _localMousePos = ValueNotifier<Offset>(Offset.zero);
+  final ValueNotifier<Offset> _localMousePos = ValueNotifier<Offset>(
+    Offset.zero,
+  );
   bool _isHovered = false;
 
   @override
@@ -762,8 +747,8 @@ class _MagneticButtonState extends State<_MagneticButton> {
             duration: const Duration(milliseconds: 150),
             curve: Curves.easeOutCubic,
             transform: Matrix4.translationValues(
-              _isHovered ? offset.dx : 0, 
-              _isHovered ? offset.dy : 0, 
+              _isHovered ? offset.dx : 0,
+              _isHovered ? offset.dy : 0,
               0,
             ),
             child: widget.child,

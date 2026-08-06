@@ -12,6 +12,18 @@ class ContactController extends GetxController {
   final emailError = RxnString();
   final messageError = RxnString();
 
+  final _hoverStates = <String, bool>{}.obs;
+
+  bool isHovered(String key) {
+    return _hoverStates[key] ?? false;
+  }
+
+  void setHovered(String key, bool value) {
+    if (_hoverStates[key] != value) {
+      _hoverStates[key] = value;
+    }
+  }
+
   final _isSending = false.obs;
   bool get isSending => _isSending.value;
 
@@ -46,15 +58,23 @@ class ContactController extends GetxController {
     _setSending(true);
 
     try {
-      final gmailUri = Uri.https('mail.google.com', '/mail/', {
-        'view': 'cm',
-        'fs': '1',
-        'to': 'fazal.e.haq216@gmail.com',
-        'su': 'Portfolio Contact: Message from $name',
-        'body': 'Name: $name\nEmail: $email\n\nMessage:\n$message',
-      });
-      
-      await launchUrl(gmailUri, mode: LaunchMode.externalApplication);
+      String? encodeQueryParameters(Map<String, String> params) {
+        return params.entries
+            .map((MapEntry<String, String> e) =>
+                '${Uri.encodeComponent(e.key)}=${Uri.encodeComponent(e.value)}')
+            .join('&');
+      }
+
+      final Uri emailUri = Uri(
+        scheme: 'mailto',
+        path: 'fazal.e.haq216@gmail.com',
+        query: encodeQueryParameters(<String, String>{
+          'subject': 'Portfolio Contact: Message from $name',
+          'body': 'Name: $name\nEmail: $email\n\nMessage:\n$message',
+        }),
+      );
+
+      await launchUrl(emailUri, mode: LaunchMode.externalApplication);
 
       // Show premium animated success message
       Get.snackbar(
