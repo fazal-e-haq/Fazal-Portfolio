@@ -1,7 +1,9 @@
 import 'package:web/web.dart' as web;
 
 void downloadResume() {
-  const url = 'Fazal-Resume.pdf';
+  // Flutter Web serves assets relative to the 'assets' directory.
+  // Since the file is in 'assets/' in pubspec, the URL is 'assets/assets/Fazal-Resume.pdf'
+  const url = 'assets/assets/Fazal-Resume.pdf';
 
   final newTab = web.window.open(url, '_blank');
 

@@ -60,7 +60,7 @@ class NeumorphicTextField extends StatelessWidget {
               curve: Curves.easeOutCubic,
               decoration: BoxDecoration(
                 color: AppColors.surfaceInner,
-                borderRadius: BorderRadius.circular(isMultiline ? 32 : 100),
+                borderRadius: BorderRadius.circular(24),
                 border: Border.all(
                   color: hasError 
                       ? Colors.redAccent.withValues(alpha: 0.6)
@@ -119,15 +119,15 @@ class NeumorphicTextField extends StatelessWidget {
                     ),
                   ),
                   border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(isMultiline ? 32 : 100),
+                    borderRadius: BorderRadius.circular(24),
                     borderSide: BorderSide.none,
                   ),
                   enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(isMultiline ? 32 : 100),
+                    borderRadius: BorderRadius.circular(24),
                     borderSide: BorderSide.none,
                   ),
                   focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(isMultiline ? 32 : 100),
+                    borderRadius: BorderRadius.circular(24),
                     borderSide: BorderSide.none,
                   ),
                   contentPadding: EdgeInsets.symmetric(

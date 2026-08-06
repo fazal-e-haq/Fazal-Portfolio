@@ -99,17 +99,20 @@ final ThemeData mainTheme = ThemeData(
       fontFamily: 'Unbounded',
     ),
     bodyLarge: TextStyle(
-      fontSize: 18,
-      color: AppColors.textMain,
-      height: 1.5,
+      fontFamily: 'Poppins',
+      fontSize: 14,
+      color: AppColors.textSecondary,
+      height: 1.6,
     ),
     bodyMedium: TextStyle(
-      fontSize: 16,
+      fontFamily: 'Poppins',
+      fontSize: 13,
       color: AppColors.textSecondary,
-      height: 1.5,
+      height: 1.6,
     ),
     bodySmall: TextStyle(
-      fontSize: 13,
+      fontFamily: 'Poppins',
+      fontSize: 12,
       color: AppColors.textMuted,
     ),
   ),
@@ -119,8 +122,14 @@ final ThemeData mainTheme = ThemeData(
       backgroundColor: AppColors.primary,
       foregroundColor: Colors.white,
       padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 15),
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
-      elevation: 0,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+    ),
+  ),
+
+  dialogTheme: DialogThemeData(
+    backgroundColor: AppColors.background,
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(16),
     ),
   ),
 

@@ -11,7 +11,7 @@ class BottomNavBarWidget extends StatelessWidget {
   static const List<NavBarItem> items = [
     NavBarItem(title: 'Intro', index: 0, icon: CupertinoIcons.home),
     NavBarItem(title: 'About', index: 1, icon: CupertinoIcons.person),
-    NavBarItem(title: 'Projects', index: 2, icon: CupertinoIcons.briefcase),
+    NavBarItem(title: 'Works', index: 2, icon: CupertinoIcons.briefcase),
     NavBarItem(title: 'Contact', index: 3, icon: CupertinoIcons.mail),
   ];
 
@@ -24,7 +24,7 @@ class BottomNavBarWidget extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 8),
         decoration: BoxDecoration(
           color: const Color(0xFF16181C), // Deep premium dark background
-          borderRadius: BorderRadius.circular(100),
+          borderRadius: BorderRadius.circular(24),
           boxShadow: [
             BoxShadow(
               color: Colors.black.withValues(alpha: 0.8),

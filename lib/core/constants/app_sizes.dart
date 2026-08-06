@@ -12,6 +12,9 @@ class AppSizes {
   /// Devices equal or larger are considered Desktop.
   static const double maxTabletWidth = 1100.0;
 
+  /// Devices with width equal or larger than this are considered Ultrawide (4K).
+  static const double maxDesktopWidth = 2000.0;
+
   // ── Margins & Padding ────────────────────────────────────────────────────
   
   /// Global horizontal padding for Mobile layouts.
@@ -36,9 +39,13 @@ class AppSizes {
   static bool isTablet(BoxConstraints constraints) =>
       constraints.maxWidth >= maxMobileWidth && constraints.maxWidth < maxTabletWidth;
       
-  /// Returns true if the current screen constraint is desktop.
+  /// Returns true if the current screen constraint is desktop (but not ultrawide).
   static bool isDesktop(BoxConstraints constraints) =>
-      constraints.maxWidth >= maxTabletWidth;
+      constraints.maxWidth >= maxTabletWidth && constraints.maxWidth < maxDesktopWidth;
+
+  /// Returns true if the current screen constraint is ultrawide / 4K.
+  static bool isUltrawide(BoxConstraints constraints) =>
+      constraints.maxWidth >= maxDesktopWidth;
 
   /// Get horizontal padding based on constraints
   static double getHorizontalPadding(BoxConstraints constraints) {

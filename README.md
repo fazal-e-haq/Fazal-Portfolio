@@ -1,23 +1,19 @@
-<!-- ================= HERO ================= -->
-
 <div align="center">
 
-<img src="https://media.giphy.com/media/hvRJCLFzcasrR4ia7z/giphy.gif"
-style="border-radius:30px; width:100%; max-height:320px; object-fit:cover;" />
+# 🚀 Fazal-e-Haq
+### 📱 Flutter Developer & UI/UX Designer
 
 <br/>
 
-<img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=700&size=30&pause=800&color=00F7FF&center=true&vCenter=true&width=800&lines=Hello+World+%F0%9F%91%8B;I+am+Fazal-e-Haq;Flutter+Developer+%7C+UI%2FUX+Designer" />
-
-</div>
-
----
+<img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=700&size=30&pause=1000&color=00F7FF&center=true&vCenter=true&width=800&lines=Building+beautiful+mobile+experiences;Crafting+scalable+Flutter+Apps;Designing+with+UI%2FUX+precision;Let's+build+something+amazing+%F0%9F%9A%80" alt="Typing SVG" />
 
 ## 💡 Flutter Developer |Product Designer
 
 <div align="center">
 
-Building modern, scalable, and meaningful digital experiences with Flutter and human-centered design principles.
+[![Portfolio](https://img.shields.io/badge/Portfolio-fazal--portfolio.web.app-00F7FF?style=for-the-badge&logo=google-chrome&logoColor=black)](#)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-Connect-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](#)
+[![GitHub](https://img.shields.io/badge/GitHub-Follow-181717?style=for-the-badge&logo=github&logoColor=white)](#)
 
 </div>
 
@@ -40,48 +36,80 @@ box-shadow: 10px 10px 25px #05070d,
 
 </div>
 
-</div>
+## 👨‍💻 About Me
 
----
+Welcome to my digital space! I am a passionate **Flutter Developer** and **UI/UX Designer** who believes great software is built with intention, not haste. I specialize in crafting mobile applications that combine smooth, scalable performance with elegant, human-centered design. 
 
-## 🧠 A B O U T
+From wireframes to final interfaces, I blend creativity with purpose in every single pixel.
 
-<div align="center">
-
-I focus on building **clean, scalable, and high-performance applications** using Flutter.
-
-My work revolves around:
-- UI/UX precision and consistency
-- Smooth animations and modern interfaces
-- Firebase-driven backend systems
-- Clean architecture and maintainable code
-
-</div>
-
----
-
-## 🌌 Thoughts on Learning
-
-<div align="center">
-
-<img src="https://media.giphy.com/media/26tn33aiTi1jkl6H6/giphy.gif"
-style="border-radius:20px; max-height:250px;" />
-
-<br/><br/>
-
-### “Education is the most powerful weapon which you can use to change the world.”
+<table align="center" width="100%">
+  <tr>
+    <td align="center" width="33%">
+      <h3>🌟 3+ Years</h3>
+      <p>Professional Experience</p>
+    </td>
+    <td align="center" width="33%">
+      <h3>🚀 50+</h3>
+      <p>Projects Completed</p>
+    </td>
+    <td align="center" width="33%">
+      <h3>👥 1k+</h3>
+      <p>Happy Followers</p>
+    </td>
+  </tr>
+</table>
 
 <br/>
 
-Code is not just instructions for machines —  
-it is a tool to build opportunity, dignity, and the future.
+## 🛠️ My Tech Stack
+## 🧠 A B O U T
+
+<div align="center">
+  
+  <p><strong>Mobile Development & State Management</strong></p>
+  <img src="https://skillicons.dev/icons?i=flutter,dart,androidstudio,vscode" />
+  
+  <br/><br/>
+  
+  <p><strong>Backend & Databases</strong></p>
+  <img src="https://skillicons.dev/icons?i=firebase,gcp" />
+  
+  <br/><br/>
+  
+  <p><strong>Design & Version Control</strong></p>
+  <img src="https://skillicons.dev/icons?i=figma,xd,git,github" />
 
 </div>
 
----
+<br/>
+
+## 🔥 What I Do
+
+- **📱 Flutter Development:** Building fast, responsive, and scalable apps for iOS and Android.
+- **🎨 UI/UX Design:** Creating layouts that look premium, feel natural, and prioritize user experience.
+- **⚡ State Management:** Organizing complex app logic using robust tools like GetX, Provider, and Bloc.
+- **⚙️ Backend Integration:** Connecting interfaces to secure, real-time Firebase backends and REST APIs.
+- **🎬 Micro-Animations:** Breathing life into apps with smooth, delightful, and highly-optimized animations.
+
+<br/>
+
+## 📊 My GitHub Stats
+
+<div align="center">
+  <img src="https://github-readme-stats.vercel.app/api?username=fazal&show_icons=true&theme=tokyonight&hide_border=true&bg_color=0D1117" alt="Fazal's GitHub stats" height="150" />
+  <img src="https://github-readme-streak-stats.herokuapp.com/?user=fazal&theme=tokyonight&hide_border=true&background=0D1117" alt="Fazal's GitHub streak" height="150" />
+</div>
+
+<br/>
+
+## 💬 Get in Touch
+
+Every great project starts with a simple conversation. Whether you have an idea, a question, or an opportunity in mind, I'd be absolutely delighted to hear from you. 
 
 <div align="center">
 
-<img src="https://readme-typing-svg.demolab.com?font=Fira+Code&size=16&pause=800&color=00F7FF&center=true&width=600&lines=Thanks+for+visiting;Let%27s+build+something+meaningful+%F0%9F%9A%80" />
+> *"Code is not just instructions for machines — it is a tool to build opportunity, dignity, and the future."*
 
+<img src="https://readme-typing-svg.demolab.com?font=Fira+Code&size=16&pause=800&color=00F7FF&center=true&width=600&lines=Thanks+for+stopping+by!;Have+a+great+day!+%E2%9C%A8" alt="Thanks for visiting" />
+  
 </div>

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../core/themes/theme.dart';
@@ -42,14 +41,8 @@ class ButtonWidget extends StatelessWidget {
     try {
       final isMailto = uri.scheme == 'mailto';
       if (isMailto) {
-        final email = uri.path;
-        final gmailUri = Uri.https('mail.google.com', '/mail/', {
-          'view': 'cm',
-          'fs': '1',
-          'to': email,
-        });
         await launchUrl(
-          gmailUri,
+          uri,
           mode: LaunchMode.externalApplication,
         );
         return;
@@ -122,7 +115,7 @@ class ButtonWidget extends StatelessWidget {
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
                   ),
-                  borderRadius: BorderRadius.circular(100),
+                  borderRadius: BorderRadius.circular(24),
                   boxShadow: AppColors.neumorphicShadows(
                     isPressed: isPressed,
                     distance: isPressed ? 2.0 : (isHovered ? 15.0 : 6.0),

@@ -18,11 +18,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="google-site-verification" content="-ZxbQ_OvOUxj9m0QgZCQi4_bsBwGWmIC9cksnRqR0Gw" />
 
-  <title>Fazal-e-Haq | Flutter Developer & UI/UX Designer</title>
+  <title>Fazal-e-Haq | Fazal Portfolio | Flutter Developer & UI/UX Designer</title>
 
   <meta name="description"
-        content="Professional portfolio of Fazal-e-Haq showcasing Flutter, mobile, web, and UI/UX development projects.">
+        content="Welcome to the Fazal Portfolio! I'm Fazal-e-Haq, a passionate Flutter Developer and UI/UX Designer dedicated to building beautiful, high-performance digital products and solving real-world problems.">
   <meta name="author" content="Fazal-e-Haq">
+  <meta name="keywords" content="Fazal, Fazal-e-haq, Fazal Portfolio, Fazal-e-haq Portfolio, Flutter Developer, UI/UX Designer, Mobile App Developer">
   <meta name="theme-color" content="#141518">
 
   <!-- PWA -->
@@ -40,36 +41,202 @@
 
   <!-- Open Graph -->
   <meta property="og:type" content="website">
-  <meta property="og:title" content="Fazal-e-Haq | Flutter Developer & UI/UX Designer">
+  <meta property="og:title" content="Fazal-e-Haq | Fazal Portfolio | Flutter Developer">
   <meta property="og:description"
-        content="Professional portfolio showcasing Flutter, mobile, web, and UI/UX projects.">
+        content="Welcome to the Fazal Portfolio! I'm Fazal-e-Haq, a passionate Flutter Developer and UI/UX Designer dedicated to building beautiful, high-performance digital products.">
   <meta property="og:url" content="https://fazal-portfolio.web.app/">
   <meta property="og:image" content="https://fazal-portfolio.web.app/icons/Icon-512.png">
 
   <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Fazal-e-Haq | Flutter Developer & UI/UX Designer">
+  <meta name="twitter:title" content="Fazal-e-Haq | Fazal Portfolio | Flutter Developer">
   <meta name="twitter:description"
-        content="Professional portfolio showcasing Flutter, mobile, web, and UI/UX projects.">
+        content="Welcome to the Fazal Portfolio! I'm Fazal-e-Haq, a passionate Flutter Developer and UI/UX Designer dedicated to building beautiful, high-performance digital products.">
   <meta name="twitter:image" content="https://fazal-portfolio.web.app/icons/Icon-512.png">
 
-  <!-- Base Styles (ONLY background, no loader) -->
+  <!-- Fonts for Splash -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&family=Unbounded:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
   <style>
-    html,
-    body {
+    html, body {
       margin: 0;
       width: 100%;
       height: 100%;
       overflow: hidden;
-      background-color: #141518;
+      background-color: #141518; /* Main Dark Background */
+    }
+
+    /* ── Advanced Cinematic Splash Screen ── */
+    #splash-container {
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background-color: #FF6E40; /* Primary orange */
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      overflow: hidden; /* Prevents scrollbars when divider explodes */
+    }
+
+    .splash-text-wrapper {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+    }
+
+    .headline {
+      font-family: 'Unbounded', sans-serif;
+      font-size: clamp(14px, 5.5vw, 64px); /* Much more responsive for tiny mobiles */
+      font-weight: 900;
+      color: #141518; /* Dark Text */
+      letter-spacing: 3px;
+      margin: 0;
+      white-space: nowrap;
+      overflow: hidden;
+      border-right: 3px solid rgba(20, 21, 24, 0.8);
+      width: 0;
+      text-shadow: 3px 3px 6px rgba(0,0,0,0.35), -1px -1px 4px rgba(255,255,255,0.15);
+      z-index: 1;
+      animation: 
+        typing 1s steps(24, end) 0.5s forwards, 
+        blink 0.7s step-end infinite;
+    }
+
+    .divider {
+      width: 0;
+      height: 3px;
+      background-color: #141518; 
+      margin: 20px 0;
+      border-radius: 2px;
+      box-shadow: 1px 1px 3px rgba(0,0,0,0.3);
+      z-index: 2; /* Ensures it covers everything when it expands */
+      /* Slower explosion: changed from 1s to 1.5s */
+      animation: 
+        expandDivider 0.8s cubic-bezier(0.1, 0.9, 0.2, 1) 1.5s forwards,
+        explodeDivider 1.5s cubic-bezier(0.8, 0, 0.2, 1) 3.5s forwards;
+    }
+
+    .subtitle {
+      font-family: 'Poppins', sans-serif;
+      font-size: clamp(8px, 2.5vw, 20px); /* Better scaling for mobile */
+      font-weight: 300;
+      color: #141518; 
+      letter-spacing: 4px;
+      margin: 0;
+      opacity: 0;
+      transform: translateY(10px);
+      text-shadow: 1px 1px 3px rgba(0,0,0,0.2);
+      z-index: 1;
+      animation: fadeInUp 0.8s ease-out 1.8s forwards;
+    }
+
+    /* Keyframes */
+    @keyframes typing {
+      from { width: 0; }
+      to { width: 100%; border-right-color: transparent; }
+    }
+    @keyframes blink {
+      50% { border-right-color: transparent; }
+    }
+    @keyframes expandDivider {
+      to { width: 100px; }
+    }
+    @keyframes fadeInUp {
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    /* The massive divider wipe transition */
+    @keyframes explodeDivider {
+      0% { transform: scale(1); border-radius: 50px; }
+      100% { transform: scale(2000); border-radius: 50px; } /* Uniform scale prevents corner warping, keeping it perfectly pill-shaped */
+    }
+
+    /* Mobile Responsive Overrides */
+    @media (max-width: 600px) {
+      .headline {
+        font-size: 16px;
+        letter-spacing: 1px;
+        border-right-width: 2px;
+      }
+      .subtitle {
+        font-size: 9px;
+        letter-spacing: 2px;
+      }
+      .divider {
+        margin: 12px 0;
+      }
+      @keyframes expandDivider {
+        to { width: 60px; } /* Smaller divider on mobile */
+      }
+    }
+    @media (max-width: 360px) {
+      .headline {
+        font-size: 12px;
+        letter-spacing: 0.5px;
+      }
+      .subtitle {
+        font-size: 7px;
+        letter-spacing: 1px;
+      }
     }
   </style>
 </head>
 
 <body>
 
-<!-- Flutter App -->
-<script src="flutter_bootstrap.js" async></script>
+  <!-- Pure HTML/CSS Splash Screen -->
+  <div id="splash-container">
+    <div class="splash-text-wrapper">
+      <div class="headline">I BUILD DIGITAL PRODUCTS</div>
+      <div class="divider"></div>
+      <div class="subtitle">T H A T &nbsp; S O L V E &nbsp; R E A L &nbsp; P R O B L E M S</div>
+    </div>
+  </div>
+
+  <!-- Smart Splash Removal Script -->
+  <script>
+    const splash = document.getElementById('splash-container');
+    
+    // Check if splash was already shown in this session
+    if (sessionStorage.getItem('splashShown') === 'true') {
+      // If already shown, remove it immediately so the user doesn't have to wait on reloads
+      if (splash) splash.remove();
+    } else {
+      // First time visiting in this session: set the flag and run the animation
+      sessionStorage.setItem('splashShown', 'true');
+      
+      let introFinished = false;
+      let flutterReady = false;
+
+      // 1. Mark intro finished after 5 seconds (1.5s text + 2s wait + 1.5s explosion)
+      setTimeout(() => {
+        introFinished = true;
+        tryHideSplash();
+      }, 5000);
+
+      // 2. Mark flutter ready when it fires the first frame
+      window.addEventListener("flutter-first-frame", function() {
+        flutterReady = true;
+        tryHideSplash();
+      });
+
+      function tryHideSplash() {
+        // Show intro page WITHOUT ANY DELAY when both are ready
+        if (introFinished && flutterReady) {
+          if (splash) {
+             splash.remove(); // Instantly removed, no fade-out delay
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Flutter App -->
+  <script src="flutter_bootstrap.js" async></script>
 
 </body>
 

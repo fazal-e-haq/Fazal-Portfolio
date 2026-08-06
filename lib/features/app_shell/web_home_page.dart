@@ -16,10 +16,11 @@ class WebHomePage extends StatefulWidget {
   State<WebHomePage> createState() => _WebHomePageState();
 }
 
-class _WebHomePageState extends State<WebHomePage> {
+class _WebHomePageState extends State<WebHomePage> with SingleTickerProviderStateMixin {
   final PageController _controller = PageController();
   late final NavigationController _navController;
   late final Worker _navWorker;
+  late final AnimationController _fadeController;
 
   static final List<Widget> pages = [
     const Introduction(),
@@ -33,20 +34,23 @@ class _WebHomePageState extends State<WebHomePage> {
     super.initState();
     _navController = Get.find<NavigationController>();
 
+    // Initial fade in animation when Flutter takes over from splash screen
+    _fadeController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 1000), // Smooth 1-second fade in
+    )..forward();
+
     // Listen to changes in currentIndex using ever worker
     _navWorker = ever(_navController.currentIndexRx, (int index) {
       if (_controller.hasClients && _controller.page?.round() != index) {
-        _controller.animateToPage(
-          index,
-          duration: const Duration(milliseconds: 700),
-          curve: Curves.easeInOutCubic,
-        );
+        _controller.jumpToPage(index);
       }
     });
   }
 
   @override
   void dispose() {
+    _fadeController.dispose();
     _navWorker.dispose();
     _controller.dispose();
     super.dispose();
@@ -57,6 +61,7 @@ class _WebHomePageState extends State<WebHomePage> {
     // The PageView that will be shown across all screen sizes
     Widget pageViewBody = PageView(
       controller: _controller,
+      physics: const NeverScrollableScrollPhysics(), // Disables mouse/touch swiping (like mobile)
       onPageChanged: (index) {
         // Sync manual swiping back to the Controller (so the Nav bar active state updates)
         if (_navController.currentIndex != index) {
@@ -69,25 +74,26 @@ class _WebHomePageState extends State<WebHomePage> {
     // Provide the layout structure
     return LayoutBuilder(
       builder: (context, constraints) {
-        bool isDesktop = AppSizes.isDesktop(constraints);
-        bool isTablet = AppSizes.isTablet(constraints);
         bool isMobile = AppSizes.isMobile(constraints);
 
-        return Scaffold(
-          backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-          // TOP NAV BAR: Only show if Desktop or Tablet
-          appBar: (isDesktop || isTablet) ? const NavBarWidget() : null,
+        return FadeTransition(
+          opacity: CurvedAnimation(
+            parent: _fadeController,
+            curve: Curves.easeOut,
+          ),
+          child: Scaffold(
+            backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+            extendBodyBehindAppBar: true, // Appbar floats beautifully over content
+            extendBody: true,             // Bottom navigation floats over content
+            
+            // TOP NAV BAR: Only show if Desktop, Tablet, or Ultrawide
+            appBar: (!isMobile) ? const NavBarWidget() : null,
 
-          // BOTTOM NAV BAR: Only show if Mobile
-          bottomNavigationBar: isMobile ? const BottomNavBarWidget() : null,
+            // BOTTOM NAV BAR: Only show if Mobile
+            bottomNavigationBar: isMobile ? const BottomNavBarWidget() : null,
 
-          // BODY: The PageView stays the same across all devices
-          body: Padding(
-            padding: EdgeInsets.symmetric(
-              horizontal: AppSizes.getHorizontalPadding(constraints),
-              vertical: AppSizes.getVerticalPadding(constraints),
-            ),
-            child: pageViewBody,
+            // BODY: The PageView stays the same across all devices
+            body: pageViewBody,
           ),
         );
       },
