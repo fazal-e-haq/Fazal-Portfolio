@@ -7,7 +7,9 @@
 
 <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=700&size=30&pause=1000&color=00F7FF&center=true&vCenter=true&width=800&lines=Building+beautiful+mobile+experiences;Crafting+scalable+Flutter+Apps;Designing+with+UI%2FUX+precision;Let's+build+something+amazing+%F0%9F%9A%80" alt="Typing SVG" />
 
-<br/>
+## 💡 Flutter Developer |Product Designer
+
+<div align="center">
 
 [![Portfolio](https://img.shields.io/badge/Portfolio-fazal--portfolio.web.app-00F7FF?style=for-the-badge&logo=google-chrome&logoColor=black)](#)
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-Connect-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](#)
@@ -15,7 +17,24 @@
 
 </div>
 
-<br/>
+---
+
+## ⚙️ S K I L L S
+
+<div align="center">
+
+<div style="
+display:inline-block;
+padding:22px;
+border-radius:25px;
+background:#0b0f19;
+box-shadow: 10px 10px 25px #05070d,
+            -10px -10px 25px #111a2e;
+">
+
+<img src="https://skillicons.dev/icons?i=flutter,firebase,figma,androidstudio,git,github,dart" />
+
+</div>
 
 ## 👨‍💻 About Me
 
@@ -43,6 +62,7 @@ From wireframes to final interfaces, I blend creativity with purpose in every si
 <br/>
 
 ## 🛠️ My Tech Stack
+## 🧠 A B O U T
 
 <div align="center">
   
