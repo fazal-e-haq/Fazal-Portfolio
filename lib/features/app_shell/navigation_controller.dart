@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:flutter/material.dart';
 import '../../routes/app_routes.dart';
 
 class NavigationController extends GetxController {
@@ -25,7 +26,9 @@ class NavigationController extends GetxController {
     // Check if the current route matches one of our tab routes
     int index = routes.indexOf(currentRoute);
     if (index != -1 && currentIndexRx.value != index) {
-      currentIndexRx.value = index;
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        currentIndexRx.value = index;
+      });
     }
   }
 

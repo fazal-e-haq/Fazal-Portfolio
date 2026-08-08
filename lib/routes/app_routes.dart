@@ -28,5 +28,10 @@ class AppRoutes {
       page: () => const WebHomePage(),
       transition: Transition.noTransition,
     ),
+    GetPage(
+      name: '/',
+      page: () => const WebHomePage(),
+      transition: Transition.noTransition,
+    ),
   ];
 }
