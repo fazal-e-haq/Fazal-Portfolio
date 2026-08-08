@@ -41,7 +41,10 @@ class ButtonWidget extends StatelessWidget {
     try {
       final isMailto = uri.scheme == 'mailto';
       if (isMailto) {
-        await launchUrl(uri, webOnlyWindowName: '_self');
+        await launchUrl(
+          uri,
+          mode: LaunchMode.externalApplication,
+        );
         return;
       }
 

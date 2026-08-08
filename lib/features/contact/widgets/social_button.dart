@@ -21,7 +21,16 @@ class SocialButton extends StatelessWidget {
     try {
       final isMailto = uri.scheme == 'mailto';
       if (isMailto) {
-        await launchUrl(uri, webOnlyWindowName: '_self');
+        final email = uri.path;
+        final gmailUri = Uri.https('mail.google.com', '/mail/', {
+          'view': 'cm',
+          'fs': '1',
+          'to': email,
+        });
+        await launchUrl(
+          gmailUri,
+          mode: LaunchMode.externalApplication,
+        );
         return;
       }
 

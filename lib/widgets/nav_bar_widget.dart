@@ -24,7 +24,7 @@ class NavBarWidget extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      automaticallyImplyLeading: false,
+      automaticallyImplyLeading: false, // Prevents back button from showing
       backgroundColor: Colors.transparent,
       surfaceTintColor: Colors.transparent,
       forceMaterialTransparency: true,

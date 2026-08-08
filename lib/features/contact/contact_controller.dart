@@ -74,7 +74,7 @@ class ContactController extends GetxController {
         }),
       );
 
-      await launchUrl(emailUri, webOnlyWindowName: '_self');
+      await launchUrl(emailUri, mode: LaunchMode.externalApplication);
 
       // Show premium animated success message
       Get.snackbar(
@@ -103,7 +103,13 @@ class ContactController extends GetxController {
       emailController.clear();
       messageController.clear();
     } catch (e) {
-      // Intentionally ignoring errors and removing snackbar as requested by user
+      Get.snackbar(
+        'Error',
+        'Could not open Gmail. Please try again.',
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.redAccent.withValues(alpha: 0.9),
+        colorText: Colors.white,
+      );
     } finally {
       _setSending(false);
     }
