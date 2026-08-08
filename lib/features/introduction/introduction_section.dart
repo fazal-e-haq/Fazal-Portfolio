@@ -37,7 +37,7 @@ class Introduction extends StatelessWidget {
                     child: FittedBox(
                       fit: BoxFit.scaleDown,
                       child: Text(
-                        'HELLO',
+                        'INTRO',
                         style: TextStyle(
                           fontFamily: 'Unbounded',
                           fontSize: 400,
