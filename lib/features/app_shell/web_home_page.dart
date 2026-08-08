@@ -17,9 +17,7 @@ class WebHomePage extends StatefulWidget {
 }
 
 class _WebHomePageState extends State<WebHomePage> with SingleTickerProviderStateMixin {
-  final PageController _controller = PageController();
   late final NavigationController _navController;
-  late final Worker _navWorker;
   late final AnimationController _fadeController;
 
   static final List<Widget> pages = [
@@ -39,37 +37,24 @@ class _WebHomePageState extends State<WebHomePage> with SingleTickerProviderStat
       vsync: this,
       duration: const Duration(milliseconds: 1000), // Smooth 1-second fade in
     )..forward();
-
-    // Listen to changes in currentIndex using ever worker
-    _navWorker = ever(_navController.currentIndexRx, (int index) {
-      if (_controller.hasClients && _controller.page?.round() != index) {
-        _controller.jumpToPage(index);
-      }
-    });
   }
 
   @override
   void dispose() {
     _fadeController.dispose();
-    _navWorker.dispose();
-    _controller.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    // The PageView that will be shown across all screen sizes
-    Widget pageViewBody = PageView(
-      controller: _controller,
-      physics: const NeverScrollableScrollPhysics(), // Disables mouse/touch swiping (like mobile)
-      onPageChanged: (index) {
-        // Sync manual swiping back to the Controller (so the Nav bar active state updates)
-        if (_navController.currentIndex != index) {
-          _navController.setIndex(index);
-        }
-      },
-      children: pages,
-    );
+    // The body that forces its children to rebuild and replay their internal entrance animations
+    Widget bodyContent = Obx(() {
+      final int index = _navController.currentIndex;
+      return KeyedSubtree(
+        key: ValueKey<int>(index),
+        child: pages[index],
+      );
+    });
 
     // Provide the layout structure
     return LayoutBuilder(
@@ -92,8 +77,8 @@ class _WebHomePageState extends State<WebHomePage> with SingleTickerProviderStat
             // BOTTOM NAV BAR: Only show if Mobile
             bottomNavigationBar: isMobile ? const BottomNavBarWidget() : null,
 
-            // BODY: The PageView stays the same across all devices
-            body: pageViewBody,
+            // BODY: The content that rebuilds its state on tab change
+            body: bodyContent,
           ),
         );
       },

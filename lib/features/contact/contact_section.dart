@@ -7,6 +7,7 @@ import 'package:fazal_portfolio/widgets/button/button_widget.dart';
 import 'package:fazal_portfolio/widgets/textfield/neumorphic_textfield.dart';
 import 'package:get/get.dart';
 import 'package:fazal_portfolio/widgets/textfield/textfield_controller.dart';
+import 'package:fazal_portfolio/widgets/fade_in_up_widget.dart';
 import 'contact_controller.dart';
 import 'widgets/social_button.dart';
 
@@ -71,11 +72,20 @@ class ContactSection extends StatelessWidget {
                           ? Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                _buildHeader(context, isMobile, isTablet),
+                                FadeInUpWidget(
+                                  delay: const Duration(milliseconds: 100),
+                                  child: _buildHeader(context, isMobile, isTablet),
+                                ),
                                 const SizedBox(height: 40),
-                                _buildContactForm(context, isMobile),
+                                FadeInUpWidget(
+                                  delay: const Duration(milliseconds: 300),
+                                  child: _buildContactForm(context, isMobile),
+                                ),
                                 const SizedBox(height: 40),
-                                _buildSocialLinks(context),
+                                FadeInUpWidget(
+                                  delay: const Duration(milliseconds: 500),
+                                  child: _buildSocialLinks(context),
+                                ),
                               ],
                             )
                           : Row(
@@ -87,16 +97,25 @@ class ContactSection extends StatelessWidget {
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
-                                      _buildHeader(context, isMobile, isTablet),
+                                      FadeInUpWidget(
+                                        delay: const Duration(milliseconds: 100),
+                                        child: _buildHeader(context, isMobile, isTablet),
+                                      ),
                                       const SizedBox(height: 60),
-                                      _buildSocialLinks(context),
+                                      FadeInUpWidget(
+                                        delay: const Duration(milliseconds: 300),
+                                        child: _buildSocialLinks(context),
+                                      ),
                                     ],
                                   ),
                                 ),
                                 const SizedBox(width: 80),
                                 Expanded(
                                   flex: 7, // Reduced from 9 to make form smaller
-                                  child: _buildContactForm(context, isMobile),
+                                  child: FadeInUpWidget(
+                                    delay: const Duration(milliseconds: 500),
+                                    child: _buildContactForm(context, isMobile),
+                                  ),
                                 ),
                               ],
                             ),

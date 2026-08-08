@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import '../../../core/constants/app_sizes.dart';
 import '../../../core/themes/theme.dart';
 import '../../../widgets/responsive_text.dart';
+import '../../../widgets/fade_in_up_widget.dart';
 import 'widgets/service_card.dart';
 import 'widgets/tech_stack_section.dart';
 import 'widgets/journey_timeline.dart';
@@ -35,29 +36,37 @@ class AboutSection extends StatelessWidget {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     // Section 1: What I Do
-                    ResponsiveText(
-                      'What I Do',
-                      style: Theme.of(context).textTheme.displayLarge?.copyWith(
-                        fontSize: isMobile ? 32 : (isUltrawide ? 64 : 48),
-                        fontWeight: FontWeight.w900,
-                        color: AppColors.primary,
+                    FadeInUpWidget(
+                      delay: const Duration(milliseconds: 100),
+                      child: ResponsiveText(
+                        'What I Do',
+                        style: Theme.of(context).textTheme.displayLarge?.copyWith(
+                          fontSize: isMobile ? 32 : (isUltrawide ? 64 : 48),
+                          fontWeight: FontWeight.w900,
+                          color: AppColors.primary,
+                        ),
                       ),
                     ),
                     const SizedBox(height: 24),
-                    ResponsiveText(
-                      "I'd love to help bring your ideas to life with a smooth, modern, and thoughtfully crafted Flutter application.",
-                      style: TextStyle(
-                        fontFamily: 'Poppins',
-                        height: 1.8,
-                        fontSize: isMobile ? 14 : (isTablet ? 16 : 18),
-                        color: AppColors.textSecondary,
+                    FadeInUpWidget(
+                      delay: const Duration(milliseconds: 200),
+                      child: ResponsiveText(
+                        "I'd love to help bring your ideas to life with a smooth, modern, and thoughtfully crafted Flutter application.",
+                        style: TextStyle(
+                          fontFamily: 'Poppins',
+                          height: 1.8,
+                          fontSize: isMobile ? 14 : (isTablet ? 16 : 18),
+                          color: AppColors.textSecondary,
+                        ),
                       ),
                     ),
                     const SizedBox(height: 60),
 
                     // Services Grid
-                    Column(
-                      children: [
+                    FadeInUpWidget(
+                      delay: const Duration(milliseconds: 300),
+                      child: Column(
+                        children: [
                         ServiceCard(
                           index: 0,
                           title: 'Flutter Development',
@@ -107,31 +116,45 @@ class AboutSection extends StatelessWidget {
                         ),
                       ],
                     ),
+                    ),
 
                     SizedBox(height: isUltrawide ? 120 : 80),
 
                     // Section 2: Tech Stack
-                    ResponsiveText(
-                      'Tech Stack',
-                      style: Theme.of(context).textTheme.displayLarge?.copyWith(
-                        fontSize: isMobile ? 32 : (isUltrawide ? 64 : 48),
-                        color: AppColors.primary,
-                        fontWeight: FontWeight.w900,
+                    FadeInUpWidget(
+                      delay: const Duration(milliseconds: 400),
+                      child: ResponsiveText(
+                        'Tech Stack',
+                        style: Theme.of(context).textTheme.displayLarge?.copyWith(
+                          fontSize: isMobile ? 32 : (isUltrawide ? 64 : 48),
+                          color: AppColors.primary,
+                          fontWeight: FontWeight.w900,
+                        ),
                       ),
                     ),
                     const SizedBox(height: 40),
 
-                    TechStackSection(isMobile: isMobile),
+                    FadeInUpWidget(
+                      delay: const Duration(milliseconds: 500),
+                      child: TechStackSection(isMobile: isMobile),
+                    ),
                     
                     SizedBox(height: isUltrawide ? 120 : 80),
 
                     // Section 3: Journey Timeline
-                    JourneyTimeline(isMobile: isMobile),
+                    FadeInUpWidget(
+                      delay: const Duration(milliseconds: 600),
+                      child: JourneyTimeline(isMobile: isMobile),
+                    ),
                     SizedBox(height: isUltrawide ? 160 : 120),
 
                     // Section 4: Contact CTA
-                    ContactCtaCard(isMobile: isMobile),
-                    const SizedBox(height: 80), // Bottom padding
+                    FadeInUpWidget(
+                      delay: const Duration(milliseconds: 700),
+                      child: ContactCtaCard(isMobile: isMobile),
+                    ),
+                    
+                    const SizedBox(height: 80),
                   ],
                 ),
               ),

@@ -12,7 +12,11 @@ class NavBarWidget extends StatelessWidget implements PreferredSizeWidget {
   // List of items which include in NavBar using Premium Cupertino Icons
   static const List<NavBarItem> items = [
     NavBarItem(title: 'Intro', index: 0, icon: CupertinoIcons.home),
-    NavBarItem(title: 'About', index: 1, icon: CupertinoIcons.person),
+    NavBarItem(
+      title: 'About',
+      index: 1,
+      icon: CupertinoIcons.person_crop_circle,
+    ),
     NavBarItem(title: 'Works', index: 2, icon: CupertinoIcons.briefcase),
     NavBarItem(title: 'Contact', index: 3, icon: CupertinoIcons.mail),
   ];
@@ -20,6 +24,7 @@ class NavBarWidget extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
+      automaticallyImplyLeading: false, // Prevents back button from showing
       backgroundColor: Colors.transparent,
       surfaceTintColor: Colors.transparent,
       forceMaterialTransparency: true,

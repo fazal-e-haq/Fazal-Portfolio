@@ -1,9 +1,10 @@
 import 'package:fazal_portfolio/core/themes/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:flutter_web_plugins/url_strategy.dart'; // Add this import
 
 import 'core/constants/smooth_scroll.dart';
-import 'features/app_shell/web_home_page.dart';
+import 'routes/app_routes.dart';
 import 'features/app_shell/navigation_controller.dart';
 import 'features/contact/contact_controller.dart';
 import 'features/project/project_controller.dart';
@@ -13,6 +14,7 @@ import 'widgets/textfield/textfield_controller.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  usePathUrlStrategy(); // Use path URL strategy to remove # from web URLs
 
   // Initialize GetX Controllers globally
   Get.put(NavigationController());
@@ -53,9 +55,15 @@ class MyPortfolio extends StatelessWidget {
         );
       },
 
-      // ── Splash → Home transition ──────────────────
-      // Handled by CSS in index.html to improve Lighthouse score.
-      home: const WebHomePage(),
+      // Routing
+      initialRoute: AppRoutes.intro,
+      getPages: AppRoutes.routes,
+      routingCallback: (routing) {
+        if (routing != null && routing.current.isNotEmpty) {
+          final navCtrl = Get.find<NavigationController>();
+          navCtrl.syncRouteToIndex(routing.current);
+        }
+      },
     );
   }
 }

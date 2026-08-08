@@ -37,7 +37,7 @@ class Introduction extends StatelessWidget {
                     child: FittedBox(
                       fit: BoxFit.scaleDown,
                       child: Text(
-                        'HELLO',
+                        'INTRO',
                         style: TextStyle(
                           fontFamily: 'Unbounded',
                           fontSize: 400,
@@ -300,11 +300,11 @@ class _IntroContent extends StatelessWidget {
             spacing: 24,
             runSpacing: 24,
             children: [
-              _MagneticButton(
+              const _MagneticButton(
                 child: ButtonWidget(
                   onPressed: downloadResume,
-                  icon: const Icon(CupertinoIcons.arrow_down, size: 20),
-                  text: const Text(
+                  icon: Icon(CupertinoIcons.arrow_down, size: 20),
+                  text: Text(
                     'My Resume',
                     style: TextStyle(
                       fontFamily: 'Poppins',
@@ -318,7 +318,7 @@ class _IntroContent extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 40),
-        
+
         // Stats Row (Experience, Projects, Followers)
         _FadeInUp(
           delay: const Duration(milliseconds: 1400),
@@ -326,19 +326,29 @@ class _IntroContent extends StatelessWidget {
             width: double.infinity,
             child: FittedBox(
               fit: BoxFit.scaleDown,
-              alignment: textAlign == TextAlign.center ? Alignment.center : Alignment.centerLeft,
+              alignment: textAlign == TextAlign.center
+                  ? Alignment.center
+                  : Alignment.centerLeft,
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  _StatItem(value: '0.4', label: 'Years\nExperience'),
+                  const _StatItem(value: '0.4', label: 'Years\nExperience'),
                   const SizedBox(width: 32),
-                  Container(height: 40, width: 1, color: Colors.white.withValues(alpha: 0.1)),
+                  Container(
+                    height: 40,
+                    width: 1,
+                    color: Colors.white.withValues(alpha: 0.1),
+                  ),
                   const SizedBox(width: 32),
-                  _StatItem(value: '1+', label: 'Projects\nCompleted'),
+                  const _StatItem(value: '1+', label: 'Projects\nCompleted'),
                   const SizedBox(width: 32),
-                  Container(height: 40, width: 1, color: Colors.white.withValues(alpha: 0.1)),
+                  Container(
+                    height: 40,
+                    width: 1,
+                    color: Colors.white.withValues(alpha: 0.1),
+                  ),
                   const SizedBox(width: 32),
-                  _StatItem(value: '1k', label: 'Followers'),
+                  const _StatItem(value: '1k', label: 'Followers'),
                 ],
               ),
             ),
@@ -609,7 +619,7 @@ class _FadeInUpState extends State<_FadeInUp>
     super.initState();
     _controller = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 800),
+      duration: const Duration(milliseconds: 1200),
     );
 
     _opacity = Tween<double>(

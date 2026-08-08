@@ -4,6 +4,7 @@ import '../../core/constants/app_sizes.dart';
 import '../../core/constants/projects_details.dart';
 import '../../core/themes/theme.dart';
 import '../../widgets/responsive_text.dart';
+import '../../widgets/fade_in_up_widget.dart';
 import 'widgets/project_card_widget.dart';
 
 class ProjectsSection extends StatelessWidget {
@@ -65,40 +66,46 @@ class ProjectsSection extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           // Foreground Title
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              ResponsiveText(
-                                'WORKS',
-                                style: Theme.of(context).textTheme.displayLarge?.copyWith(
-                                      fontSize: isMobile ? 32 : (isTablet ? 40 : (isUltrawide ? 64 : 48)),
-                                      color: AppColors.primary,
-                                      fontWeight: FontWeight.w900,
-                                    ),
-                              ),
-                              const SizedBox(height: 24),
-                              ResponsiveText(
-                                "A collection of projects that showcase my skills, creativity, and passion for building quality Flutter applications.",
-                                style: TextStyle(
-                                  fontFamily: 'Poppins',
-                                  height: 1.8,
-                                  fontSize: isMobile ? 14 : (isTablet ? 16 : 18),
-                                  color: AppColors.textSecondary,
+                          FadeInUpWidget(
+                            delay: const Duration(milliseconds: 100),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                ResponsiveText(
+                                  'WORKS',
+                                  style: Theme.of(context).textTheme.displayLarge?.copyWith(
+                                        fontSize: isMobile ? 32 : (isTablet ? 40 : (isUltrawide ? 64 : 48)),
+                                        color: AppColors.primary,
+                                        fontWeight: FontWeight.w900,
+                                      ),
                                 ),
-                              ),
-                            ],
+                                const SizedBox(height: 24),
+                                ResponsiveText(
+                                  "A collection of projects that showcase my skills, creativity, and passion for building quality Flutter applications.",
+                                  style: TextStyle(
+                                    fontFamily: 'Poppins',
+                                    height: 1.8,
+                                    fontSize: isMobile ? 14 : (isTablet ? 16 : 18),
+                                    color: AppColors.textSecondary,
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                           const SizedBox(height: 60),
                           
                           // Projects List
                           Column(
                             children: List.generate(projects.length, (index) {
-                              return Padding(
-                                padding: EdgeInsets.only(bottom: isMobile ? 32 : 64),
-                                child: PlayStoreProjectCard(
-                                  project: projects[index],
-                                  isMobile: isMobile || isTablet,
-                                  index: index,
+                              return FadeInUpWidget(
+                                delay: Duration(milliseconds: 200 + (index * 150)),
+                                child: Padding(
+                                  padding: EdgeInsets.only(bottom: isMobile ? 32 : 64),
+                                  child: PlayStoreProjectCard(
+                                    project: projects[index],
+                                    isMobile: isMobile || isTablet,
+                                    index: index,
+                                  ),
                                 ),
                               );
                             }),
