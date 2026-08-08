@@ -184,7 +184,7 @@ class ContactSection extends StatelessWidget {
             SocialButton(
               title: 'Email',
               icon: CupertinoIcons.mail,
-              url: 'mailto:fazalehaq37405@gmail.com',
+              url: 'mailto:fazal.e.haq216@gmail.com',
             ),
             SocialButton(
               title: 'LinkedIn',

@@ -67,14 +67,14 @@ class ContactController extends GetxController {
 
       final Uri emailUri = Uri(
         scheme: 'mailto',
-        path: 'fazalehaq37405@gmail.com',
+        path: 'fazal.e.haq216@gmail.com',
         query: encodeQueryParameters(<String, String>{
           'subject': 'Portfolio Contact: Message from $name',
           'body': 'Name: $name\nEmail: $email\n\nMessage:\n$message',
         }),
       );
 
-      await launchUrl(emailUri, mode: LaunchMode.externalApplication);
+      await launchUrl(emailUri);
 
       // Show premium animated success message
       Get.snackbar(
@@ -103,13 +103,7 @@ class ContactController extends GetxController {
       emailController.clear();
       messageController.clear();
     } catch (e) {
-      Get.snackbar(
-        'Error',
-        'Could not open Gmail. Please try again.',
-        snackPosition: SnackPosition.BOTTOM,
-        backgroundColor: Colors.redAccent.withValues(alpha: 0.9),
-        colorText: Colors.white,
-      );
+      // Intentionally ignoring errors and removing snackbar as requested by user
     } finally {
       _setSending(false);
     }

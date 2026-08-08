@@ -21,10 +21,7 @@ class SocialButton extends StatelessWidget {
     try {
       final isMailto = uri.scheme == 'mailto';
       if (isMailto) {
-        await launchUrl(
-          uri,
-          mode: LaunchMode.externalApplication,
-        );
+        await launchUrl(uri);
         return;
       }
 
