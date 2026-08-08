@@ -5,6 +5,7 @@ import 'package:flutter_web_plugins/url_strategy.dart'; // Add this import
 
 import 'core/constants/smooth_scroll.dart';
 import 'routes/app_routes.dart';
+import 'features/app_shell/web_home_page.dart';
 import 'features/app_shell/navigation_controller.dart';
 import 'features/contact/contact_controller.dart';
 import 'features/project/project_controller.dart';
@@ -57,7 +58,13 @@ class MyPortfolio extends StatelessWidget {
 
       // Routing
       initialRoute: AppRoutes.intro,
-      getPages: AppRoutes.routes,
+      getPages: [
+        GetPage(name: AppRoutes.intro, page: () => const WebHomePage(), transition: Transition.noTransition),
+        GetPage(name: AppRoutes.about, page: () => const WebHomePage(), transition: Transition.noTransition),
+        GetPage(name: AppRoutes.works, page: () => const WebHomePage(), transition: Transition.noTransition),
+        GetPage(name: AppRoutes.contact, page: () => const WebHomePage(), transition: Transition.noTransition),
+        GetPage(name: '/', page: () => const WebHomePage(), transition: Transition.noTransition),
+      ],
       routingCallback: (routing) {
         if (routing != null && routing.current.isNotEmpty) {
           final navCtrl = Get.find<NavigationController>();
