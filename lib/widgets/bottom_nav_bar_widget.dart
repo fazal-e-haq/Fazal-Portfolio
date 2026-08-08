@@ -18,46 +18,52 @@ class BottomNavBarWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: Container(
-        height: 70,
-        margin: const EdgeInsets.fromLTRB(16, 0, 16, 12),
-        padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 8),
-        decoration: BoxDecoration(
-          color: const Color(0xFF16181C), // Deep premium dark background
-          borderRadius: BorderRadius.circular(24),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withValues(alpha: 0.8),
-              blurRadius: 15,
-              spreadRadius: 2,
-              offset: const Offset(4, 4),
-            ),
-            BoxShadow(
-              color: Colors.white.withValues(alpha: 0.05),
-              blurRadius: 15,
-              spreadRadius: 1,
-              offset: const Offset(-4, -4),
-            ),
-          ],
-        ),
-        child: Obx(() {
-          final int currentIndex = Get.find<NavigationController>().currentIndex;
-          return Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            mainAxisSize: MainAxisSize.min,
-            children: List.generate(items.length, (index) {
-              final item = items[index];
-              return Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 6), // Closer space between icons
-                child: BottomNavBarButton(
-                  pageIndex: item.index,
-                  icon: item.icon,
-                  isSelected: currentIndex == item.index,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisSize: MainAxisSize.max,
+        children: [
+          Container(
+            height: 70,
+            margin: const EdgeInsets.only(bottom: 12),
+            padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 8),
+            decoration: BoxDecoration(
+              color: const Color(0xFF16181C), // Deep premium dark background
+              borderRadius: BorderRadius.circular(24),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withValues(alpha: 0.8),
+                  blurRadius: 15,
+                  spreadRadius: 2,
+                  offset: const Offset(4, 4),
                 ),
+                BoxShadow(
+                  color: Colors.white.withValues(alpha: 0.05),
+                  blurRadius: 15,
+                  spreadRadius: 1,
+                  offset: const Offset(-4, -4),
+                ),
+              ],
+            ),
+            child: Obx(() {
+              final int currentIndex = Get.find<NavigationController>().currentIndex;
+              return Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisSize: MainAxisSize.min,
+                children: List.generate(items.length, (index) {
+                  final item = items[index];
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 6), // Closer space between icons
+                    child: BottomNavBarButton(
+                      pageIndex: item.index,
+                      icon: item.icon,
+                      isSelected: currentIndex == item.index,
+                    ),
+                  );
+                }),
               );
             }),
-          );
-        }),
+          ),
+        ],
       ),
     );
   }
