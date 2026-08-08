@@ -10,7 +10,11 @@ class BottomNavBarWidget extends StatelessWidget {
 
   static const List<NavBarItem> items = [
     NavBarItem(title: 'Intro', index: 0, icon: CupertinoIcons.home),
-    NavBarItem(title: 'About', index: 1, icon: CupertinoIcons.info_circle),
+    NavBarItem(
+      title: 'About',
+      index: 1,
+      icon: CupertinoIcons.person_crop_circle,
+    ),
     NavBarItem(title: 'Works', index: 2, icon: CupertinoIcons.briefcase),
     NavBarItem(title: 'Contact', index: 3, icon: CupertinoIcons.mail),
   ];
@@ -45,14 +49,17 @@ class BottomNavBarWidget extends StatelessWidget {
               ],
             ),
             child: Obx(() {
-              final int currentIndex = Get.find<NavigationController>().currentIndex;
+              final int currentIndex =
+                  Get.find<NavigationController>().currentIndex;
               return Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 mainAxisSize: MainAxisSize.min,
                 children: List.generate(items.length, (index) {
                   final item = items[index];
                   return Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 6), // Closer space between icons
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 6,
+                    ), // Closer space between icons
                     child: BottomNavBarButton(
                       pageIndex: item.index,
                       icon: item.icon,
@@ -109,26 +116,28 @@ class _BottomNavBarButtonState extends State<BottomNavBarButton> {
           curve: Curves.easeOutCubic,
           padding: EdgeInsets.all(widget.isSelected ? 16 : 12),
           decoration: BoxDecoration(
-            color: widget.isSelected 
-                ? theme.primaryColor.withValues(alpha: 0.2) 
+            color: widget.isSelected
+                ? theme.primaryColor.withValues(alpha: 0.2)
                 : Colors.transparent,
             shape: BoxShape.circle,
             border: Border.all(
-              color: widget.isSelected 
-                  ? theme.primaryColor.withValues(alpha: 0.6) 
+              color: widget.isSelected
+                  ? theme.primaryColor.withValues(alpha: 0.6)
                   : Colors.transparent,
               width: 1,
             ),
-            boxShadow: widget.isSelected ? [
-              BoxShadow(
-                color: theme.primaryColor.withValues(alpha: 0.4),
-                blurRadius: 16,
-                spreadRadius: 2,
-              )
-            ] : [],
+            boxShadow: widget.isSelected
+                ? [
+                    BoxShadow(
+                      color: theme.primaryColor.withValues(alpha: 0.4),
+                      blurRadius: 16,
+                      spreadRadius: 2,
+                    ),
+                  ]
+                : [],
           ),
           child: Icon(
-            widget.icon, 
+            widget.icon,
             size: 22,
             color: widget.isSelected ? theme.primaryColor : Colors.white60,
           ),

@@ -12,7 +12,11 @@ class NavBarWidget extends StatelessWidget implements PreferredSizeWidget {
   // List of items which include in NavBar using Premium Cupertino Icons
   static const List<NavBarItem> items = [
     NavBarItem(title: 'Intro', index: 0, icon: CupertinoIcons.home),
-    NavBarItem(title: 'About', index: 1, icon: CupertinoIcons.info_circle),
+    NavBarItem(
+      title: 'About',
+      index: 1,
+      icon: CupertinoIcons.person_crop_circle,
+    ),
     NavBarItem(title: 'Works', index: 2, icon: CupertinoIcons.briefcase),
     NavBarItem(title: 'Contact', index: 3, icon: CupertinoIcons.mail),
   ];
