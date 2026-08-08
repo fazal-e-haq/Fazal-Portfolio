@@ -24,6 +24,8 @@ dependencies:
   # Utilities
   url_launcher: ^6.3.2          # Opens URLs, emails, and external links
   web: ^1.1.0                   # Web-specific APIs (sessionStorage, etc.)
+  flutter_web_plugins:
+    sdk: flutter
 dev_dependencies:
   flutter_test:
     sdk: flutter
