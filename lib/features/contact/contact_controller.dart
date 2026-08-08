@@ -74,7 +74,7 @@ class ContactController extends GetxController {
         }),
       );
 
-      await launchUrl(emailUri);
+      await launchUrl(emailUri, webOnlyWindowName: '_self');
 
       // Show premium animated success message
       Get.snackbar(
