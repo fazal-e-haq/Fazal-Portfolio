@@ -609,7 +609,7 @@ class _FadeInUpState extends State<_FadeInUp>
     super.initState();
     _controller = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 800),
+      duration: const Duration(milliseconds: 1200),
     );
 
     _opacity = Tween<double>(
