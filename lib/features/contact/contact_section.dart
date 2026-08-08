@@ -182,9 +182,9 @@ class ContactSection extends StatelessWidget {
           runSpacing: 16,
           children: [
             SocialButton(
-              title: 'Email Me',
+              title: 'Email',
               icon: CupertinoIcons.mail,
-              url: 'mailto:fazal.e.haq216@gmail.com',
+              url: 'mailto:fazalehaq37405@gmail.com',
             ),
             SocialButton(
               title: 'LinkedIn',

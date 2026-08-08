@@ -3,11 +3,11 @@ import '../../routes/app_routes.dart';
 
 class NavigationController extends GetxController {
   final currentIndexRx = 0.obs;
-  
+
   static const routes = [
     AppRoutes.intro,
     AppRoutes.about,
-    AppRoutes.projects,
+    AppRoutes.works,
     AppRoutes.contact,
   ];
 
@@ -16,7 +16,7 @@ class NavigationController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    // Use addPostFrameCallback to ensure context is ready if needed, 
+    // Use addPostFrameCallback to ensure context is ready if needed,
     // or just run it immediately.
     syncRouteToIndex(Get.currentRoute);
   }
@@ -33,7 +33,7 @@ class NavigationController extends GetxController {
     if (index >= 0 && index < routes.length) {
       if (currentIndexRx.value != index) {
         currentIndexRx.value = index;
-        // Use Get.toNamed with preventDuplicates to add to history 
+        // Use Get.toNamed with preventDuplicates to add to history
         // without endless stacking of the identical routes if not needed
         Get.toNamed(routes[index], preventDuplicates: true);
       }

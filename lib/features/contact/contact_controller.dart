@@ -67,7 +67,7 @@ class ContactController extends GetxController {
 
       final Uri emailUri = Uri(
         scheme: 'mailto',
-        path: 'fazal.e.haq216@gmail.com',
+        path: 'fazalehaq37405@gmail.com',
         query: encodeQueryParameters(<String, String>{
           'subject': 'Portfolio Contact: Message from $name',
           'body': 'Name: $name\nEmail: $email\n\nMessage:\n$message',
