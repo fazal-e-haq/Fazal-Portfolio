@@ -200,39 +200,41 @@
   <!-- Smart Splash Removal Script -->
   <script>
     const splash = document.getElementById('splash-container');
-    
-    // Check if splash was already shown in this session
-    if (sessionStorage.getItem('splashShown') === 'true') {
-      // If already shown, remove it immediately so the user doesn't have to wait on reloads
-      if (splash) splash.remove();
-    } else {
-      // First time visiting in this session: set the flag and run the animation
-      sessionStorage.setItem('splashShown', 'true');
-      
-      let introFinished = false;
-      let flutterReady = false;
 
-      // 1. Mark intro finished after 5 seconds (1.5s text + 2s wait + 1.5s explosion)
-      setTimeout(() => {
-        introFinished = true;
-        tryHideSplash();
-      }, 5000);
+    // TEMP: Always show splash on every reload for development/testing.
+    // To restore session-once behavior, uncomment the sessionStorage block below.
+    // if (sessionStorage.getItem('splashShown') === 'true') {
+    //   if (splash) splash.remove();
+    // } else {
+    //   sessionStorage.setItem('splashShown', 'true');
+    // }
 
-      // 2. Mark flutter ready when it fires the first frame
-      window.addEventListener("flutter-first-frame", function() {
-        flutterReady = true;
-        tryHideSplash();
-      });
+    let introFinished = false;
+    let flutterReady = false;
 
-      function tryHideSplash() {
-        // Show intro page WITHOUT ANY DELAY when both are ready
-        if (introFinished && flutterReady) {
-          if (splash) {
-             splash.remove(); // Instantly removed, no fade-out delay
-          }
+    // 1. Mark intro finished after 5 seconds (1.5s text + 2s wait + 1.5s explosion)
+    setTimeout(() => {
+      introFinished = true;
+      tryHideSplash();
+    }, 5000);
+
+    // 2. Mark flutter ready when it fires the first frame
+    window.addEventListener("flutter-first-frame", function() {
+      flutterReady = true;
+      tryHideSplash();
+    });
+
+    function tryHideSplash() {
+      // Show intro page WITHOUT ANY DELAY when both are ready
+      if (introFinished && flutterReady) {
+        if (splash) {
+           splash.remove(); // Instantly removed, no fade-out delay
+           // Signal Flutter that splash is gone so entry animations can begin
+           window.dispatchEvent(new CustomEvent('splash-removed'));
         }
       }
     }
+  
   </script>
 
   <!-- Flutter App -->

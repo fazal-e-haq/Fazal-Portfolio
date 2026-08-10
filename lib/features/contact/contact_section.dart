@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:fazal_portfolio/core/themes/theme.dart';
 import 'package:fazal_portfolio/widgets/responsive_text.dart';
 import 'package:fazal_portfolio/core/constants/app_sizes.dart';
@@ -7,7 +8,8 @@ import 'package:fazal_portfolio/widgets/button/button_widget.dart';
 import 'package:fazal_portfolio/widgets/textfield/neumorphic_textfield.dart';
 import 'package:get/get.dart';
 import 'package:fazal_portfolio/widgets/textfield/textfield_controller.dart';
-import 'package:fazal_portfolio/widgets/fade_in_up_widget.dart';
+import 'package:fazal_portfolio/widgets/animations/fade_in_up_widget.dart';
+import 'package:fazal_portfolio/widgets/section_background_text.dart';
 import 'contact_controller.dart';
 import 'widgets/social_button.dart';
 
@@ -30,30 +32,8 @@ class ContactSection extends StatelessWidget {
         return Stack(
           children: [
             // Fixed Background Watermark
-            Positioned.fill(
-              child: Center(
-                child: IgnorePointer(
-                  child: RepaintBoundary(
-                    child: FittedBox(
-                      fit: BoxFit.scaleDown,
-                      child: Text(
-                        'CONTACT',
-                        style: TextStyle(
-                          fontFamily: 'Unbounded',
-                          fontSize: isUltrawide ? 600 : 400,
-                          fontWeight: FontWeight.w900,
-                          height: 1.0,
-                          letterSpacing: 20,
-                          foreground: Paint()
-                            ..style = PaintingStyle.stroke
-                            ..strokeWidth = isMobile ? 1.5 : (isUltrawide ? 4.0 : 3.0)
-                            ..color = Colors.white.withValues(alpha: 0.03),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
+            const Positioned.fill(
+              child: SectionBackgroundText(text: 'CONTACT'),
             ),
 
             // Scrollable Content
@@ -73,17 +53,17 @@ class ContactSection extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 FadeInUpWidget(
-                                  delay: const Duration(milliseconds: 100),
+                                  delay: const Duration(milliseconds: 200),
                                   child: _buildHeader(context, isMobile, isTablet),
                                 ),
                                 const SizedBox(height: 40),
                                 FadeInUpWidget(
-                                  delay: const Duration(milliseconds: 300),
+                                  delay: const Duration(milliseconds: 400),
                                   child: _buildContactForm(context, isMobile),
                                 ),
                                 const SizedBox(height: 40),
                                 FadeInUpWidget(
-                                  delay: const Duration(milliseconds: 500),
+                                  delay: const Duration(milliseconds: 600),
                                   child: _buildSocialLinks(context),
                                 ),
                               ],
@@ -98,12 +78,12 @@ class ContactSection extends StatelessWidget {
                                         CrossAxisAlignment.start,
                                     children: [
                                       FadeInUpWidget(
-                                        delay: const Duration(milliseconds: 100),
+                                        delay: const Duration(milliseconds: 200),
                                         child: _buildHeader(context, isMobile, isTablet),
                                       ),
                                       const SizedBox(height: 60),
                                       FadeInUpWidget(
-                                        delay: const Duration(milliseconds: 300),
+                                        delay: const Duration(milliseconds: 400),
                                         child: _buildSocialLinks(context),
                                       ),
                                     ],
@@ -135,13 +115,19 @@ class ContactSection extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        ResponsiveText(
-          'Get in Touch',
-          style: theme.textTheme.displayLarge?.copyWith(
-            fontSize: isMobile ? 32 : (isTablet ? 40 : 48),
-            color: theme.primaryColor,
-            fontWeight: FontWeight.w900,
-          ),
+        AnimatedTextKit(
+          repeatForever: true,
+          animatedTexts: [
+            TypewriterAnimatedText(
+              'Get in Touch',
+              speed: const Duration(milliseconds: 150),
+              textStyle: theme.textTheme.displayLarge?.copyWith(
+                fontSize: isMobile ? 32 : (isTablet ? 40 : 48),
+                color: theme.primaryColor,
+                fontWeight: FontWeight.w900,
+              ),
+            ),
+          ],
         ),
         const SizedBox(height: 24),
         ResponsiveText(

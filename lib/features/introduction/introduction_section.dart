@@ -5,8 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../core/themes/theme.dart';
+import '../../../widgets/animations/fade_in_up_widget.dart';
 import '../../../widgets/button/button_widget.dart';
 import '../../../widgets/responsive_text.dart';
+import '../../../widgets/section_background_text.dart';
 import '../project/project_controller.dart';
 import '../../../services/resume_downloader.dart';
 
@@ -29,32 +31,7 @@ class Introduction extends StatelessWidget {
 
         return Stack(
           children: [
-            Positioned.fill(
-              child: Center(
-                child: IgnorePointer(
-                  child: RepaintBoundary(
-                    // Prevent static text from repainting when animations run above it
-                    child: FittedBox(
-                      fit: BoxFit.scaleDown,
-                      child: Text(
-                        'INTRO',
-                        style: TextStyle(
-                          fontFamily: 'Unbounded',
-                          fontSize: 400,
-                          fontWeight: FontWeight.w900,
-                          height: 1.0,
-                          letterSpacing: 20,
-                          foreground: Paint()
-                            ..style = PaintingStyle.stroke
-                            ..strokeWidth = isMobile ? 1.5 : 3.0
-                            ..color = Colors.white.withValues(alpha: 0.03),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            ),
+            const Positioned.fill(child: SectionBackgroundText(text: 'INTRO')),
             Positioned.fill(child: content),
           ],
         );
@@ -91,7 +68,7 @@ class _DesktopTabletIntro extends StatelessWidget {
               Expanded(
                 flex: 4,
                 child: Center(
-                  child: _FadeInUp(
+                  child: FadeInUpWidget(
                     delay: const Duration(milliseconds: 200),
                     child: _DesktopImagePreview(
                       width: imageWidth,
@@ -136,7 +113,7 @@ class _MobileIntro extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Center(
-              child: _FadeInUp(
+              child: FadeInUpWidget(
                 delay: Duration(milliseconds: 200),
                 child: _MobileImagePreview(size: 260),
               ),
@@ -178,31 +155,42 @@ class _IntroContent extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: alignment,
       children: [
-        // Rotated Greeting
-        _FadeInUp(
+        // Greeting with accent line
+        FadeInUpWidget(
           delay: const Duration(milliseconds: 400),
-          child: Padding(
-            padding: const EdgeInsets.only(left: 8.0, bottom: 8.0),
-            child: Transform.rotate(
-              angle: -0.15, // Playful slight rotation
-              alignment: Alignment.centerLeft,
-              child: const Text(
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              // Accent line
+              Container(
+                width: 32,
+                height: 2.5,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(2),
+                  gradient: const LinearGradient(
+                    colors: [AppColors.primary, AppColors.secondary],
+                  ),
+                ),
+              ),
+              const SizedBox(width: 12),
+              // Greeting text
+              const Text(
                 'Hello, I am',
                 style: TextStyle(
                   fontFamily: 'Poppins',
-                  fontSize: 22,
-                  fontStyle: FontStyle.italic,
+                  fontSize: 15,
+                  fontWeight: FontWeight.w500,
                   color: AppColors.primary,
-                  fontWeight: FontWeight.bold,
-                  letterSpacing: 1.5,
+                  letterSpacing: 3.0,
                 ),
               ),
-            ),
+            ],
           ),
         ),
+        const SizedBox(height: 4),
 
         // Name
-        _FadeInUp(
+        FadeInUpWidget(
           delay: const Duration(milliseconds: 600),
           child: RepaintBoundary(
             // Isolate rapid text scrambling repaints
@@ -232,10 +220,9 @@ class _IntroContent extends StatelessWidget {
             ),
           ),
         ),
-        const SizedBox(height: 12),
 
         // Role
-        _FadeInUp(
+        FadeInUpWidget(
           delay: const Duration(milliseconds: 800),
           child: RepaintBoundary(
             child: AnimatedTextKit(
@@ -243,7 +230,7 @@ class _IntroContent extends StatelessWidget {
               pause: const Duration(seconds: 3),
               animatedTexts: [
                 TyperAnimatedText(
-                  'UI/UX Designer',
+                  'Product Designer',
                   textAlign: textAlign,
                   speed: const Duration(milliseconds: 80),
                   textStyle: TextStyle(
@@ -270,10 +257,10 @@ class _IntroContent extends StatelessWidget {
             ),
           ),
         ),
-        const SizedBox(height: 24),
+        const SizedBox(height: 32),
 
         // Bio tagline
-        _FadeInUp(
+        FadeInUpWidget(
           delay: const Duration(milliseconds: 1000),
           child: ResponsiveText(
             'I believe great software is built with intention, not haste. Every interface, interaction, and line of code is carefully crafted to create products that are fast, intuitive, and built to last.',
@@ -287,10 +274,10 @@ class _IntroContent extends StatelessWidget {
             ),
           ),
         ),
-        const SizedBox(height: 40),
+        const SizedBox(height: 48),
 
         // Action Row: Resume Button + Active Signal
-        _FadeInUp(
+        FadeInUpWidget(
           delay: const Duration(milliseconds: 1200),
           child: Wrap(
             crossAxisAlignment: WrapCrossAlignment.center,
@@ -317,10 +304,10 @@ class _IntroContent extends StatelessWidget {
             ],
           ),
         ),
-        const SizedBox(height: 40),
+        const SizedBox(height: 64),
 
         // Stats Row (Experience, Projects, Followers)
-        _FadeInUp(
+        FadeInUpWidget(
           delay: const Duration(milliseconds: 1400),
           child: SizedBox(
             width: double.infinity,
@@ -594,64 +581,6 @@ class _MobileImagePreview extends StatelessWidget {
   }
 }
 
-// ────────────────────────────────────────────────────────────────────────────
-//  Animation Helper: FadeInUp
-// ────────────────────────────────────────────────────────────────────────────
-class _FadeInUp extends StatefulWidget {
-  final Widget child;
-  final Duration delay;
-
-  const _FadeInUp({required this.child, required this.delay});
-
-  @override
-  State<_FadeInUp> createState() => _FadeInUpState();
-}
-
-class _FadeInUpState extends State<_FadeInUp>
-    with SingleTickerProviderStateMixin {
-  late final AnimationController _controller;
-  late final Animation<double> _opacity;
-  late final Animation<Offset> _offset;
-  Timer? _timer;
-
-  @override
-  void initState() {
-    super.initState();
-    _controller = AnimationController(
-      vsync: this,
-      duration: const Duration(milliseconds: 1200),
-    );
-
-    _opacity = Tween<double>(
-      begin: 0.0,
-      end: 1.0,
-    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeOutCubic));
-
-    _offset = Tween<Offset>(
-      begin: const Offset(0, 0.2),
-      end: Offset.zero,
-    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeOutCubic));
-
-    _timer = Timer(widget.delay, () {
-      if (mounted) _controller.forward();
-    });
-  }
-
-  @override
-  void dispose() {
-    _timer?.cancel();
-    _controller.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return FadeTransition(
-      opacity: _opacity,
-      child: SlideTransition(position: _offset, child: widget.child),
-    );
-  }
-}
 
 // ────────────────────────────────────────────────────────────────────────────
 //  Advanced Micro-Interactions

@@ -97,20 +97,22 @@ class _TechChip extends StatelessWidget {
         return AnimatedContainer(
           duration: const Duration(milliseconds: 300),
           curve: Curves.easeOutCubic,
+          transform: Matrix4.translationValues(0, isHovered ? -4.0 : 0.0, 0),
           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
           decoration: BoxDecoration(
-            color: isHovered ? AppColors.surfaceInner : AppColors.surface,
+            color: isHovered ? hoverColor.withValues(alpha: 0.1) : AppColors.surface,
             borderRadius: BorderRadius.circular(100),
             border: Border.all(
               color: isHovered ? hoverColor.withValues(alpha: 0.5) : Colors.white.withValues(alpha: 0.05),
-              width: 1,
+              width: 1.5,
             ),
             boxShadow: isHovered
                 ? [
                     BoxShadow(
-                      color: hoverColor.withValues(alpha: 0.2),
-                      blurRadius: 12,
+                      color: hoverColor.withValues(alpha: 0.25),
+                      blurRadius: 16,
                       spreadRadius: 2,
+                      offset: const Offset(0, 6),
                     )
                   ]
                 : AppColors.neumorphicShadows(distance: 4, blur: 8),

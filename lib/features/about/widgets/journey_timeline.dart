@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:animated_text_kit/animated_text_kit.dart';
 import '../../../core/themes/theme.dart';
 import '../../../widgets/responsive_text.dart';
 import '../about_controller.dart';
@@ -27,15 +28,21 @@ class JourneyTimeline extends StatelessWidget {
     ];
 
     return Column(
-      crossAxisAlignment: isMobile ? CrossAxisAlignment.start : CrossAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        ResponsiveText(
-          'My Journey',
-          style: Theme.of(context).textTheme.displayLarge?.copyWith(
-                fontSize: isMobile ? 32 : 48,
-                color: AppColors.primary,
-                fontWeight: FontWeight.w900,
-              ),
+        AnimatedTextKit(
+          repeatForever: true,
+          animatedTexts: [
+            TypewriterAnimatedText(
+              'My Journey',
+              speed: const Duration(milliseconds: 150),
+              textStyle: Theme.of(context).textTheme.displayLarge?.copyWith(
+                    fontSize: isMobile ? 32 : 48,
+                    color: AppColors.primary,
+                    fontWeight: FontWeight.w900,
+                  ),
+            ),
+          ],
         ),
         const SizedBox(height: 60),
         ...timelineData.asMap().entries.map((entry) {
