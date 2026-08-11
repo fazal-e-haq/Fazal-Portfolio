@@ -41,17 +41,7 @@ class ContactController extends GetxController {
     messageError.value = message.isEmpty ? 'Please enter a message' : null;
 
     if (name.isEmpty || email.isEmpty || message.isEmpty) {
-      // Also show a generic snackbar for extra feedback
-      Get.snackbar(
-        'Missing Fields',
-        'Please fill out all the required fields.',
-        snackPosition: SnackPosition.BOTTOM,
-        backgroundColor: Colors.redAccent.withValues(alpha: 0.9),
-        colorText: Colors.white,
-        margin: const EdgeInsets.all(24),
-        borderRadius: 16,
-        icon: const Icon(Icons.error_outline, color: Colors.white),
-      );
+
       return;
     }
 
@@ -76,40 +66,14 @@ class ContactController extends GetxController {
 
       await launchUrl(emailUri, mode: LaunchMode.externalApplication);
 
-      // Show premium animated success message
-      Get.snackbar(
-        'Gmail Opened!',
-        'You can now review and send your message directly via Gmail.',
-        snackPosition: SnackPosition.BOTTOM,
-        backgroundColor: Colors.deepOrangeAccent.withValues(alpha: 0.9), // Match theme primary color
-        colorText: Colors.white,
-        margin: const EdgeInsets.all(24),
-        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-        borderRadius: 16,
-        icon: const Icon(Icons.check_circle_outline, color: Colors.white, size: 32),
-        duration: const Duration(seconds: 4),
-        forwardAnimationCurve: Curves.easeOutExpo,
-        boxShadows: [
-          BoxShadow(
-            color: Colors.deepOrangeAccent.withValues(alpha: 0.2),
-            blurRadius: 20,
-            spreadRadius: 5,
-          ),
-        ],
-      );
+
 
       // Clear form
       nameController.clear();
       emailController.clear();
       messageController.clear();
     } catch (e) {
-      Get.snackbar(
-        'Error',
-        'Could not open Gmail. Please try again.',
-        snackPosition: SnackPosition.BOTTOM,
-        backgroundColor: Colors.redAccent.withValues(alpha: 0.9),
-        colorText: Colors.white,
-      );
+      // Removed error snackbar as requested
     } finally {
       _setSending(false);
     }

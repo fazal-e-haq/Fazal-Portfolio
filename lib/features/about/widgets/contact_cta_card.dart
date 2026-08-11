@@ -56,25 +56,25 @@ class ContactCtaCard extends StatelessWidget {
                   boxShadow: AppColors.neumorphicShadows(distance: 5, blur: 15),
                 ),
                 child: Icon(
-                  CupertinoIcons.paperplane_fill,
+                  CupertinoIcons.layers_fill,
                   size: 40,
                   color: theme.primaryColor,
                 ),
               ),
               const SizedBox(height: 32),
               ResponsiveText(
-                "Let's Build Something Amazing",
+                "Curious What I Can Build?",
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontFamily: 'Unbounded',
-                  fontSize: isMobile ? 24 : 36,
+                  fontSize: isMobile ? 22 : 32, // slightly smaller to fit the longer text better
                   fontWeight: FontWeight.w900,
                   color: Colors.white,
                 ),
               ),
               const SizedBox(height: 16),
               ResponsiveText(
-                "Have a project in mind or want to collaborate? I'm currently open to new opportunities and freelance projects.",
+                "Now that you've seen my skills, journey, and expertise—wondering what I actually build using them? Let's take a look at my recent works.",
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontFamily: 'Poppins',
@@ -87,9 +87,9 @@ class ContactCtaCard extends StatelessWidget {
               SizedBox(
                 width: isMobile ? double.infinity : 300,
                 child: ButtonWidget(
-                  id: 'goto_contact_btn',
+                  id: 'goto_projects_btn',
                   text: const Text(
-                    'Get In Touch',
+                    'View My Works',
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 16,
@@ -101,7 +101,7 @@ class ContactCtaCard extends StatelessWidget {
                   color: theme.primaryColor,
                   padding: const EdgeInsets.symmetric(vertical: 20),
                   onPressed: () {
-                    Get.find<NavigationController>().setIndex(3); // 3 is Contact page
+                    Get.find<NavigationController>().setIndex(2); // 2 is Projects page
                   },
                 ),
               ),

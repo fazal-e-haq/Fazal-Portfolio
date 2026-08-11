@@ -1,5 +1,8 @@
+import 'dart:async';
+import 'dart:js_interop';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:web/web.dart' as web;
 import 'package:fazal_portfolio/features/introduction/introduction_section.dart';
 import 'package:fazal_portfolio/features/about/about_section.dart';
 import 'package:fazal_portfolio/features/contact/contact_section.dart';
@@ -11,6 +14,10 @@ import 'navigation_controller.dart';
 
 class WebHomePage extends StatefulWidget {
   const WebHomePage({super.key});
+
+  /// Completes once the HTML splash is removed AND the Flutter fade-in finishes.
+  /// FadeInUpWidget awaits this so animations play visibly after the splash.
+  static Completer<void> splashComplete = Completer<void>();
 
   @override
   State<WebHomePage> createState() => _WebHomePageState();
@@ -32,12 +39,47 @@ class _WebHomePageState extends State<WebHomePage> with SingleTickerProviderStat
     super.initState();
     _navController = Get.find<NavigationController>();
 
-    // Initial fade in animation when Flutter takes over from splash screen
+    // Reset for hot-restart support
+    if (WebHomePage.splashComplete.isCompleted) {
+      WebHomePage.splashComplete = Completer<void>();
+    }
+
+    // Fade-in controller: starts AFTER the HTML splash is removed
     _fadeController = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 1000), // Smooth 1-second fade in
-    )..forward();
+      duration: const Duration(milliseconds: 1000),
+    );
+
+    // When the Flutter fade-in finishes, signal that entry animations can begin
+    _fadeController.addStatusListener((status) {
+      if (status == AnimationStatus.completed && !WebHomePage.splashComplete.isCompleted) {
+        WebHomePage.splashComplete.complete();
+      }
+    });
+
+    // Listen for the HTML splash removal event from JavaScript.
+    // Only THEN start the Flutter fade-in, so animations don't run behind the splash.
+    _listenForSplashRemoval();
   }
+
+  void _listenForSplashRemoval() {
+    // Check if splash element is already gone (e.g. sessionStorage skip)
+    final splash = web.document.getElementById('splash-container');
+    if (splash == null) {
+      // Splash already removed — start immediately
+      _fadeController.forward();
+      return;
+    }
+
+    // Wait for the JS 'splash-removed' custom event
+    web.window.addEventListener(
+      'splash-removed',
+      (web.Event event) {
+        if (mounted) _fadeController.forward();
+      }.toJS,
+    );
+  }
+
 
   @override
   void dispose() {

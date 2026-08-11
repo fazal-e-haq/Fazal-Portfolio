@@ -35,21 +35,30 @@ class ServiceCard extends StatelessWidget {
         return AnimatedContainer(
           duration: const Duration(milliseconds: 400),
           curve: Curves.easeOutCubic,
-          width: double.infinity, // Full width
-          padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 24),
+          transform: Matrix4.translationValues(0, isHovered ? -8.0 : 0.0, 0),
+          width: double.infinity, // Full width (constrained by parent)
+          padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 32), // More padding for modern feel
           decoration: BoxDecoration(
             color: isHovered ? AppColors.surfaceInner : AppColors.surface.withValues(alpha: 0.3),
-            borderRadius: BorderRadius.circular(isHovered ? 16 : 24),
+            borderRadius: BorderRadius.circular(24),
             border: Border.all(
-              color: isHovered ? theme.primaryColor.withValues(alpha: 0.3) : Colors.white.withValues(alpha: 0.05),
+              color: isHovered ? theme.primaryColor.withValues(alpha: 0.5) : Colors.white.withValues(alpha: 0.05),
               width: 1.5,
             ),
             boxShadow: isHovered 
-                ? AppColors.neumorphicShadows(distance: 10, blur: 30, glowColor: theme.primaryColor.withValues(alpha: 0.1))
+                ? [
+                    BoxShadow(
+                      color: theme.primaryColor.withValues(alpha: 0.15),
+                      blurRadius: 30,
+                      spreadRadius: 2,
+                      offset: const Offset(0, 10),
+                    )
+                  ]
                 : null,
           ),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
             children: [
               // Icon Container
               AnimatedContainer(
@@ -82,34 +91,26 @@ class ServiceCard extends StatelessWidget {
                   ),
                 ),
               ),
-              const SizedBox(width: 24),
+              const SizedBox(height: 24),
               
               // Text Content
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    ResponsiveText(
-                      title,
-                      style: TextStyle(
-                        fontFamily: 'Unbounded',
-                        fontSize: isMobile ? 16 : 18,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
-                      ),
-                    ),
-                    const SizedBox(height: 8),
-                    ResponsiveText(
-                      subtitle,
-                      style: TextStyle(
-                        fontFamily: 'Poppins',
-                        fontSize: isMobile ? 13 : 14,
-                        height: 1.5,
-                        color: AppColors.textSecondary,
-                      ),
-                    ),
-                  ],
+              ResponsiveText(
+                title,
+                style: TextStyle(
+                  fontFamily: 'Unbounded',
+                  fontSize: isMobile ? 16 : 18,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                ),
+              ),
+              const SizedBox(height: 12),
+              ResponsiveText(
+                subtitle,
+                style: TextStyle(
+                  fontFamily: 'Poppins',
+                  fontSize: isMobile ? 13 : 14,
+                  height: 1.6,
+                  color: AppColors.textSecondary,
                 ),
               ),
             ],
