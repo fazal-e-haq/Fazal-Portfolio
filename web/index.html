@@ -201,13 +201,11 @@
   <script>
     const splash = document.getElementById('splash-container');
 
-    // TEMP: Always show splash on every reload for development/testing.
-    // To restore session-once behavior, uncomment the sessionStorage block below.
-    // if (sessionStorage.getItem('splashShown') === 'true') {
-    //   if (splash) splash.remove();
-    // } else {
-    //   sessionStorage.setItem('splashShown', 'true');
-    // }
+    if (sessionStorage.getItem('splashShown') === 'true') {
+      if (splash) splash.remove();
+    } else {
+      sessionStorage.setItem('splashShown', 'true');
+    }
 
     let introFinished = false;
     let flutterReady = false;
