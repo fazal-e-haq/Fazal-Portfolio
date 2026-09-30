@@ -1,4 +1,45 @@
+# ══════════════════════════════════════════════════════════════
+# Fazal-e-Haq Portfolio — robots.txt
+# https://fazal-portfolio.web.app
+# ══════════════════════════════════════════════════════════════
+
+# Allow all search engine crawlers
 User-agent: *
 Allow: /
+Allow: /intro
+Allow: /about
+Allow: /works
+Allow: /contact
+Allow: /Fazal-Resume.pdf
+Allow: /sitemap.xml
 
+# Block build artifacts and internal files
+Disallow: /flutter_bootstrap.js
+Disallow: /main.dart.js
+Disallow: /assets/AssetManifest.json
+Disallow: /assets/FontManifest.json
+Disallow: /assets/NOTICES
+Disallow: /canvaskit/
+
+# Sitemap location
 Sitemap: https://fazal-portfolio.web.app/sitemap.xml
+
+# Google-specific
+User-agent: Googlebot
+Allow: /
+Crawl-delay: 1
+
+# Bing-specific
+User-agent: Bingbot
+Allow: /
+Crawl-delay: 2
+
+# Social media crawlers (for rich link previews)
+User-agent: Twitterbot
+Allow: /
+
+User-agent: facebookexternalhit
+Allow: /
+
+User-agent: LinkedInBot
+Allow: /

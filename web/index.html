@@ -1,64 +1,222 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" dir="ltr" itemscope itemtype="https://schema.org/WebSite">
 
 <head>
   <base href="$FLUTTER_BASE_HREF">
-  <!-- Google tag (gtag.js) -->
+
+  <!-- ══════════════════════════════════════════════════════════════ -->
+  <!-- Google Analytics (gtag.js)                                    -->
+  <!-- ══════════════════════════════════════════════════════════════ -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-CPYQRHSMVQ"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());
-
     gtag('config', 'G-CPYQRHSMVQ');
   </script>
-  <!-- Core Meta -->
+
+  <!-- ══════════════════════════════════════════════════════════════ -->
+  <!-- Core Meta Tags                                                -->
+  <!-- ══════════════════════════════════════════════════════════════ -->
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=Edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
   <meta name="google-site-verification" content="-ZxbQ_OvOUxj9m0QgZCQi4_bsBwGWmIC9cksnRqR0Gw" />
 
-  <title>Fazal-e-Haq | Fazal Portfolio | Flutter Developer & UI/UX Designer</title>
+  <!-- ══════════════════════════════════════════════════════════════ -->
+  <!-- Primary SEO Meta Tags                                         -->
+  <!-- ══════════════════════════════════════════════════════════════ -->
+  <title>Fazal-e-Haq | Flutter Developer & UI/UX Designer — Portfolio</title>
 
   <meta name="description"
-        content="Welcome to the Fazal Portfolio! I'm Fazal-e-Haq, a passionate Flutter Developer and UI/UX Designer dedicated to building beautiful, high-performance digital products and solving real-world problems.">
+        content="Fazal-e-Haq is a professional Flutter Developer and UI/UX Designer who builds beautiful, high-performance cross-platform mobile and web applications. Explore projects, skills, and get in touch.">
   <meta name="author" content="Fazal-e-Haq">
-  <meta name="keywords" content="Fazal, Fazal-e-haq, Fazal Portfolio, Fazal-e-haq Portfolio, Flutter Developer, UI/UX Designer, Mobile App Developer">
-  <meta name="theme-color" content="#141518">
+  <meta name="keywords"
+        content="Fazal-e-Haq, Fazal Portfolio, Flutter Developer, UI/UX Designer, Mobile App Developer, Web Developer, Dart Developer, Cross-Platform Developer, App Designer, Pakistan Developer, Portfolio Website, Flutter Web, Flutter Apps, Product Designer">
+  <meta name="theme-color" content="#141518" media="(prefers-color-scheme: dark)">
+  <meta name="theme-color" content="#FF6E40" media="(prefers-color-scheme: light)">
+  <meta name="color-scheme" content="dark light">
 
-  <!-- PWA -->
+  <!-- Robots / Indexing -->
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+  <meta name="googlebot" content="index, follow, max-image-preview:large, max-snippet:-1">
+  <meta name="bingbot" content="index, follow">
+
+  <!-- Geo & Language -->
+  <meta name="language" content="English">
+  <meta name="geo.region" content="PK">
+  <meta name="geo.placename" content="Pakistan">
+  <meta http-equiv="content-language" content="en">
+
+  <!-- Revisit -->
+  <meta name="revisit-after" content="7 days">
+  <meta name="rating" content="general">
+
+  <!-- ══════════════════════════════════════════════════════════════ -->
+  <!-- PWA Meta Tags                                                 -->
+  <!-- ══════════════════════════════════════════════════════════════ -->
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="apple-mobile-web-app-title" content="Fazal Portfolio">
+  <meta name="apple-mobile-web-app-title" content="Fazal-e-Haq Portfolio">
+  <meta name="application-name" content="Fazal-e-Haq Portfolio">
+  <meta name="msapplication-TileColor" content="#141518">
+  <meta name="msapplication-TileImage" content="/icons/Icon-192.png">
 
-  <link rel="manifest" href="manifest.json">
-  <link rel="icon" type="image/png" href="favicon.png">
-  <link rel="apple-touch-icon" href="icons/Icon-192.png">
-
-  <!-- SEO Canonical -->
+  <!-- ══════════════════════════════════════════════════════════════ -->
+  <!-- Canonical & Alternate URLs                                    -->
+  <!-- ══════════════════════════════════════════════════════════════ -->
   <link rel="canonical" href="https://fazal-portfolio.web.app/">
+  <link rel="alternate" hreflang="en" href="https://fazal-portfolio.web.app/">
+  <link rel="alternate" hreflang="x-default" href="https://fazal-portfolio.web.app/">
 
-  <!-- Open Graph -->
+  <!-- ══════════════════════════════════════════════════════════════ -->
+  <!-- Favicons & Icons                                              -->
+  <!-- ══════════════════════════════════════════════════════════════ -->
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="favicon.png">
+  <link rel="apple-touch-icon" sizes="192x192" href="icons/Icon-192.png">
+  <link rel="apple-touch-icon" sizes="512x512" href="icons/Icon-512.png">
+
+  <!-- ══════════════════════════════════════════════════════════════ -->
+  <!-- Open Graph (Facebook, LinkedIn, WhatsApp, Telegram)           -->
+  <!-- ══════════════════════════════════════════════════════════════ -->
   <meta property="og:type" content="website">
-  <meta property="og:title" content="Fazal-e-Haq | Fazal Portfolio | Flutter Developer">
+  <meta property="og:site_name" content="Fazal-e-Haq Portfolio">
+  <meta property="og:title" content="Fazal-e-Haq — Flutter Developer & UI/UX Designer">
   <meta property="og:description"
-        content="Welcome to the Fazal Portfolio! I'm Fazal-e-Haq, a passionate Flutter Developer and UI/UX Designer dedicated to building beautiful, high-performance digital products.">
+        content="Professional portfolio of Fazal-e-Haq. Explore Flutter apps, UI/UX design projects, and discover a developer passionate about building beautiful digital products.">
   <meta property="og:url" content="https://fazal-portfolio.web.app/">
   <meta property="og:image" content="https://fazal-portfolio.web.app/icons/Icon-512.png">
+  <meta property="og:image:width" content="512">
+  <meta property="og:image:height" content="512">
+  <meta property="og:image:type" content="image/png">
+  <meta property="og:image:alt" content="Fazal-e-Haq Portfolio Logo">
+  <meta property="og:locale" content="en_US">
 
-  <!-- Twitter -->
+  <!-- ══════════════════════════════════════════════════════════════ -->
+  <!-- Twitter Card                                                  -->
+  <!-- ══════════════════════════════════════════════════════════════ -->
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Fazal-e-Haq | Fazal Portfolio | Flutter Developer">
+  <meta name="twitter:title" content="Fazal-e-Haq — Flutter Developer & UI/UX Designer">
   <meta name="twitter:description"
-        content="Welcome to the Fazal Portfolio! I'm Fazal-e-Haq, a passionate Flutter Developer and UI/UX Designer dedicated to building beautiful, high-performance digital products.">
+        content="Professional portfolio of Fazal-e-Haq. Flutter apps, UI/UX design, and cross-platform development projects.">
   <meta name="twitter:image" content="https://fazal-portfolio.web.app/icons/Icon-512.png">
+  <meta name="twitter:image:alt" content="Fazal-e-Haq Portfolio">
+  <meta name="twitter:site" content="@fazalehaq">
+  <meta name="twitter:creator" content="@fazalehaq">
 
-  <!-- Fonts for Splash -->
+  <!-- ══════════════════════════════════════════════════════════════ -->
+  <!-- Preconnect & DNS Prefetch (Performance + SEO)                 -->
+  <!-- ══════════════════════════════════════════════════════════════ -->
+  <link rel="dns-prefetch" href="//fonts.googleapis.com">
+  <link rel="dns-prefetch" href="//fonts.gstatic.com">
+  <link rel="dns-prefetch" href="//www.googletagmanager.com">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <!-- Fonts (only weights actually used) -->
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&family=Unbounded:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 
+  <!-- ══════════════════════════════════════════════════════════════ -->
+  <!-- JSON-LD Structured Data (Schema.org)                          -->
+  <!-- ══════════════════════════════════════════════════════════════ -->
+
+  <!-- Person Schema -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "Fazal-e-Haq",
+    "alternateName": "Fazal",
+    "url": "https://fazal-portfolio.web.app",
+    "image": "https://fazal-portfolio.web.app/icons/Icon-512.png",
+    "jobTitle": "Flutter Developer & UI/UX Designer",
+    "description": "Professional Flutter Developer and UI/UX Designer building beautiful, high-performance cross-platform mobile and web applications.",
+    "knowsAbout": [
+      "Flutter", "Dart", "Mobile App Development", "UI/UX Design",
+      "Web Development", "Cross-Platform Development", "Firebase",
+      "Product Design", "Responsive Design", "Material Design"
+    ],
+    "sameAs": [
+      "https://github.com/fazal-e-haq",
+      "https://www.linkedin.com/in/fazal-e-haq3",
+      "https://www.instagram.com/code.o.design"
+    ],
+    "email": "mailto:fazalehaq37405@gmail.com",
+    "nationality": {
+      "@type": "Country",
+      "name": "Pakistan"
+    }
+  }
+  </script>
+
+  <!-- WebSite Schema (for Google Sitelinks) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "Fazal-e-Haq Portfolio",
+    "alternateName": "Fazal Portfolio",
+    "url": "https://fazal-portfolio.web.app",
+    "description": "Professional portfolio of Fazal-e-Haq — Flutter Developer & UI/UX Designer",
+    "author": {
+      "@type": "Person",
+      "name": "Fazal-e-Haq"
+    },
+    "inLanguage": "en"
+  }
+  </script>
+
+  <!-- ProfilePage Schema -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "ProfilePage",
+    "mainEntity": {
+      "@type": "Person",
+      "name": "Fazal-e-Haq",
+      "jobTitle": "Flutter Developer & UI/UX Designer",
+      "url": "https://fazal-portfolio.web.app"
+    },
+    "dateCreated": "2024-01-01",
+    "dateModified": "2026-09-30",
+    "breadcrumb": {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://fazal-portfolio.web.app/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "About",
+          "item": "https://fazal-portfolio.web.app/about"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Projects",
+          "item": "https://fazal-portfolio.web.app/works"
+        },
+        {
+          "@type": "ListItem",
+          "position": 4,
+          "name": "Contact",
+          "item": "https://fazal-portfolio.web.app/contact"
+        }
+      ]
+    }
+  }
+  </script>
+
+  <!-- ══════════════════════════════════════════════════════════════ -->
+  <!-- Splash Screen Styles                                          -->
+  <!-- ══════════════════════════════════════════════════════════════ -->
   <style>
     html, body {
       margin: 0;
@@ -90,9 +248,9 @@
 
     .headline {
       font-family: 'Unbounded', sans-serif;
-      font-size: clamp(14px, 5.5vw, 64px); /* Much more responsive for tiny mobiles */
+      font-size: clamp(14px, 5.5vw, 64px);
       font-weight: 900;
-      color: #141518; /* Dark Text */
+      color: #141518;
       letter-spacing: 3px;
       margin: 0;
       white-space: nowrap;
@@ -101,30 +259,29 @@
       width: 0;
       text-shadow: 3px 3px 6px rgba(0,0,0,0.35), -1px -1px 4px rgba(255,255,255,0.15);
       z-index: 1;
-      animation: 
-        typing 1s steps(24, end) 0.5s forwards, 
+      animation:
+        typing 1s steps(24, end) 0.5s forwards,
         blink 0.7s step-end infinite;
     }
 
     .divider {
       width: 0;
       height: 3px;
-      background-color: #141518; 
+      background-color: #141518;
       margin: 20px 0;
       border-radius: 2px;
       box-shadow: 1px 1px 3px rgba(0,0,0,0.3);
-      z-index: 2; /* Ensures it covers everything when it expands */
-      /* Slower explosion: changed from 1s to 1.5s */
-      animation: 
+      z-index: 2;
+      animation:
         expandDivider 0.8s cubic-bezier(0.1, 0.9, 0.2, 1) 1.5s forwards,
         explodeDivider 1.5s cubic-bezier(0.8, 0, 0.2, 1) 3.5s forwards;
     }
 
     .subtitle {
       font-family: 'Poppins', sans-serif;
-      font-size: clamp(8px, 2.5vw, 20px); /* Better scaling for mobile */
+      font-size: clamp(8px, 2.5vw, 20px);
       font-weight: 300;
-      color: #141518; 
+      color: #141518;
       letter-spacing: 4px;
       margin: 0;
       opacity: 0;
@@ -148,12 +305,39 @@
     @keyframes fadeInUp {
       to { opacity: 1; transform: translateY(0); }
     }
-    
+
     /* The massive divider wipe transition */
     @keyframes explodeDivider {
       0% { transform: scale(1); border-radius: 50px; }
-      100% { transform: scale(2000); border-radius: 50px; } /* Uniform scale prevents corner warping, keeping it perfectly pill-shaped */
+      100% { transform: scale(2000); border-radius: 50px; }
     }
+
+    /* ── SEO Fallback Content (visible to crawlers, hidden after Flutter loads) ── */
+    #seo-content {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 100%;
+      padding: 40px 20px;
+      box-sizing: border-box;
+      background-color: #141518;
+      color: #e0e0e0;
+      font-family: 'Poppins', 'Segoe UI', sans-serif;
+      z-index: 1;
+      overflow: auto;
+      max-height: 100vh;
+    }
+    #seo-content h1 { font-family: 'Unbounded', sans-serif; color: #FF6E40; font-size: 2.5em; margin-bottom: 8px; }
+    #seo-content h2 { font-family: 'Unbounded', sans-serif; color: #FF6E40; font-size: 1.5em; margin-top: 2em; border-bottom: 1px solid #333; padding-bottom: 8px; }
+    #seo-content h3 { color: #FFab91; font-size: 1.1em; }
+    #seo-content p { line-height: 1.7; color: #b0b0b0; max-width: 700px; }
+    #seo-content a { color: #FF6E40; text-decoration: none; }
+    #seo-content a:hover { text-decoration: underline; }
+    #seo-content ul { list-style: none; padding: 0; display: flex; flex-wrap: wrap; gap: 8px; }
+    #seo-content ul li { background: #1e1f23; padding: 6px 14px; border-radius: 20px; font-size: 0.85em; color: #ccc; }
+    #seo-content nav a { margin-right: 20px; font-weight: 500; }
+    #seo-content .social-links { margin-top: 16px; }
+    #seo-content .social-links a { margin-right: 16px; padding: 8px 16px; border: 1px solid #FF6E40; border-radius: 8px; display: inline-block; margin-bottom: 8px; }
 
     /* Mobile Responsive Overrides */
     @media (max-width: 600px) {
@@ -170,7 +354,7 @@
         margin: 12px 0;
       }
       @keyframes expandDivider {
-        to { width: 60px; } /* Smaller divider on mobile */
+        to { width: 60px; }
       }
     }
     @media (max-width: 360px) {
@@ -188,8 +372,112 @@
 
 <body>
 
-  <!-- Pure HTML/CSS Splash Screen -->
-  <div id="splash-container">
+  <!-- ══════════════════════════════════════════════════════════════ -->
+  <!-- SEO Crawlable Content (hidden when Flutter loads)             -->
+  <!-- This is THE critical piece: Googlebot can't read <canvas>,   -->
+  <!-- so we provide rich semantic HTML that crawlers can index.     -->
+  <!-- ══════════════════════════════════════════════════════════════ -->
+  <div id="seo-content" aria-hidden="false">
+
+    <header>
+      <nav aria-label="Main navigation">
+        <a href="/" title="Home">Home</a>
+        <a href="/intro" title="Introduction">Introduction</a>
+        <a href="/about" title="About Fazal-e-Haq">About</a>
+        <a href="/works" title="Projects & Works">Projects</a>
+        <a href="/contact" title="Contact Fazal-e-Haq">Contact</a>
+      </nav>
+    </header>
+
+    <main>
+      <!-- Hero / Introduction -->
+      <section id="intro" aria-label="Introduction">
+        <h1>Fazal-e-Haq</h1>
+        <h2>Flutter Developer & UI/UX Designer</h2>
+        <p>I build digital products that solve real problems. A passionate Flutter Developer and Product Designer dedicated to creating beautiful, high-performance cross-platform mobile and web applications with clean code, responsive layouts, and thoughtful interactions.</p>
+        <p><a href="/Fazal-Resume.pdf" title="Download Fazal-e-Haq's Resume">📄 Download My Resume</a></p>
+      </section>
+
+      <!-- About -->
+      <section id="about" aria-label="About Fazal-e-Haq">
+        <h2>About Me</h2>
+        <p>As a Flutter developer, I craft mobile experiences that combine performance with elegant design. I transform concepts into smooth, scalable apps with clean code, responsive layouts, and thoughtful interactions. Every screen is built with attention to speed, functionality, and user comfort. My passion is creating digital products that feel effortless to use and powerful behind the scenes.</p>
+        <p>Beyond development, I work as a Product Designer, shaping ideas into meaningful and visually engaging experiences. I focus on intuitive journeys, modern aesthetics, and designs that connect naturally with users. From wireframes to final interfaces, I blend creativity with purpose in every detail.</p>
+
+        <h3>Technical Skills</h3>
+        <ul>
+          <li>Flutter</li>
+          <li>Dart</li>
+          <li>Firebase</li>
+          <li>UI/UX Design</li>
+          <li>Responsive Design</li>
+          <li>Material Design</li>
+          <li>GetX State Management</li>
+          <li>REST APIs</li>
+          <li>Git & GitHub</li>
+          <li>Cross-Platform Development</li>
+          <li>Web Development</li>
+          <li>Mobile App Development</li>
+          <li>Product Design</li>
+          <li>Figma</li>
+          <li>Adobe XD</li>
+        </ul>
+
+        <h3>Services</h3>
+        <ul>
+          <li>Mobile App Development</li>
+          <li>Web Application Development</li>
+          <li>UI/UX Design</li>
+          <li>Cross-Platform Development</li>
+          <li>Product Design</li>
+          <li>Responsive Web Design</li>
+        </ul>
+      </section>
+
+      <!-- Projects -->
+      <section id="works" aria-label="Projects and Works">
+        <h2>Featured Projects</h2>
+        <p>A curated selection of projects showcasing Flutter development, UI/UX design, and cross-platform expertise.</p>
+        <article>
+          <h3>CutCount</h3>
+          <p>A beautifully designed Flutter application demonstrating clean architecture, smooth animations, and intuitive user experience.</p>
+        </article>
+      </section>
+
+      <!-- Contact -->
+      <section id="contact" aria-label="Contact Fazal-e-Haq">
+        <h2>Let's Build Something Together</h2>
+        <p>I'm currently open to new opportunities. Whether you have a project in mind or just want to chat about Flutter development and design, feel free to reach out.</p>
+        <p>📧 <a href="mailto:fazalehaq37405@gmail.com" title="Email Fazal-e-Haq">fazalehaq37405@gmail.com</a></p>
+
+        <div class="social-links" aria-label="Social media links">
+          <a href="https://github.com/fazal-e-haq" target="_blank" rel="noopener noreferrer" title="Fazal-e-Haq on GitHub">GitHub</a>
+          <a href="https://www.linkedin.com/in/fazal-e-haq3" target="_blank" rel="noopener noreferrer" title="Fazal-e-Haq on LinkedIn">LinkedIn</a>
+          <a href="https://www.instagram.com/code.o.design" target="_blank" rel="noopener noreferrer" title="Fazal-e-Haq on Instagram">Instagram</a>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <p>© 2025 Fazal-e-Haq. All rights reserved. Built with Flutter 💙</p>
+    </footer>
+
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════════════ -->
+  <!-- noscript Fallback (for crawlers that don't execute JS at all) -->
+  <!-- ══════════════════════════════════════════════════════════════ -->
+  <noscript>
+    <style>
+      #seo-content { position: relative !important; z-index: 99999 !important; height: auto !important; max-height: none !important; }
+    </style>
+    <meta http-equiv="refresh" content="0; url=https://fazal-portfolio.web.app/">
+  </noscript>
+
+  <!-- ══════════════════════════════════════════════════════════════ -->
+  <!-- Pure HTML/CSS Splash Screen                                   -->
+  <!-- ══════════════════════════════════════════════════════════════ -->
+  <div id="splash-container" aria-hidden="true" role="presentation">
     <div class="splash-text-wrapper">
       <div class="headline">I BUILD DIGITAL PRODUCTS</div>
       <div class="divider"></div>
@@ -197,9 +485,12 @@
     </div>
   </div>
 
-  <!-- Smart Splash Removal Script -->
+  <!-- ══════════════════════════════════════════════════════════════ -->
+  <!-- Smart Splash Removal Script                                   -->
+  <!-- ══════════════════════════════════════════════════════════════ -->
   <script>
     const splash = document.getElementById('splash-container');
+    const seoContent = document.getElementById('seo-content');
 
     if (sessionStorage.getItem('splashShown') === 'true') {
       if (splash) splash.remove();
@@ -225,6 +516,11 @@
     function tryHideSplash() {
       // Show intro page WITHOUT ANY DELAY when both are ready
       if (introFinished && flutterReady) {
+        // Hide SEO content when Flutter has loaded (it's only for crawlers)
+        if (seoContent) {
+          seoContent.style.display = 'none';
+          seoContent.setAttribute('aria-hidden', 'true');
+        }
         if (splash) {
            splash.remove(); // Instantly removed, no fade-out delay
            // Signal Flutter that splash is gone so entry animations can begin
@@ -232,7 +528,13 @@
         }
       }
     }
-  
+
+    // Safety: hide SEO content after 10s even if flutter-first-frame doesn't fire
+    setTimeout(function() {
+      if (seoContent && seoContent.style.display !== 'none') {
+        seoContent.style.display = 'none';
+      }
+    }, 10000);
   </script>
 
   <!-- Flutter App -->
