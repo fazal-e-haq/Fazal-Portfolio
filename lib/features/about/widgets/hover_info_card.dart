@@ -64,15 +64,15 @@ class HoverInfoCard extends StatelessWidget {
                     width: 4.0,
                   ),
                   top: BorderSide(
-                    color: isHovered ? accentColor.withValues(alpha: 0.5) : Colors.white.withValues(alpha: 0.03),
+                    color: isHovered ? accentColor.withValues(alpha: 0.5) : AppColors.textMain.withValues(alpha: 0.03),
                     width: isHovered ? 2.0 : 1.0,
                   ),
                   right: BorderSide(
-                    color: isHovered ? accentColor.withValues(alpha: 0.5) : Colors.white.withValues(alpha: 0.03),
+                    color: isHovered ? accentColor.withValues(alpha: 0.5) : AppColors.textMain.withValues(alpha: 0.03),
                     width: isHovered ? 2.0 : 1.0,
                   ),
                   bottom: BorderSide(
-                    color: isHovered ? accentColor.withValues(alpha: 0.5) : Colors.white.withValues(alpha: 0.03),
+                    color: isHovered ? accentColor.withValues(alpha: 0.5) : AppColors.textMain.withValues(alpha: 0.03),
                     width: isHovered ? 2.0 : 1.0,
                   ),
                 ),
@@ -110,14 +110,14 @@ class HoverInfoCard extends StatelessWidget {
                       fontFamily: 'Nunito',
                       fontSize: isMobile ? 22 : (isTablet ? 18 : 22), 
                       fontWeight: FontWeight.bold,
-                      color: Colors.white,
+                      color: AppColors.textMain,
                     ),
                   ),
                   const SizedBox(height: 16),
                   Text(
                     content,
                     style: TextStyle(
-                      fontFamily: 'Poppins',
+                      fontFamily: 'Nunito',
                       height: 1.8,
                       fontSize: isMobile ? 14 : (isTablet ? 13 : 15), 
                       color: AppColors.textSecondary,

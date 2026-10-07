@@ -80,7 +80,7 @@ class SocialButton extends StatelessWidget {
                 border: Border.all(
                   color: isHovered
                       ? theme.primaryColor
-                      : Colors.white.withValues(alpha: 0.05),
+                      : AppColors.textMain.withValues(alpha: 0.05),
                   width: isHovered ? 2 : 1,
                 ),
               ),
@@ -101,25 +101,25 @@ class SocialButton extends StatelessWidget {
                         offset: const Offset(2, 2),
                       ),
                       BoxShadow(
-                        color: Colors.white.withValues(alpha: 0.03),
+                        color: AppColors.textMain.withValues(alpha: 0.03),
                         blurRadius: 8,
                         offset: const Offset(-2, -2),
                       ),
                     ],
                     border: Border.all(
-                      color: Colors.white.withValues(alpha: 0.05),
+                      color: AppColors.textMain.withValues(alpha: 0.05),
                       width: 1,
                     ),
                   ),
                   textStyle: const TextStyle(
-                    color: Colors.white,
+                    color: AppColors.textMain,
                     fontSize: 12,
                     fontWeight: FontWeight.w600,
                     letterSpacing: 1.0,
                   ),
                   child: Icon(
                     icon,
-                    color: isHovered ? Colors.white : Colors.white70,
+                    color: isHovered ? AppColors.textMain : AppColors.textMain.withValues(alpha: 0.70),
                     size: 28,
                   ),
                 ),

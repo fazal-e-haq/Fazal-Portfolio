@@ -45,25 +45,6 @@ class NeumorphicTextField extends StatelessWidget {
             return Stack(
               clipBehavior: Clip.none,
               children: [
-                // Messy shadow
-                AnimatedPositioned(
-                  duration: const Duration(milliseconds: 150),
-                  curve: Curves.easeOutCubic,
-                  top: shadowDist,
-                  left: shadowDist,
-                  right: -shadowDist,
-                  bottom: -shadowDist,
-                  child: Transform.rotate(
-                    angle: 0.012,
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: AppColors.textMain.withValues(alpha: 0.85),
-                        border: Border.all(color: AppColors.textMain, width: 1),
-                      ),
-                    ),
-                  ),
-                ),
-
                 // Scribble secondary border
                 Positioned.fill(
                   child: Transform.rotate(
@@ -91,7 +72,7 @@ class NeumorphicTextField extends StatelessWidget {
                     angle: 0.005,
                     child: Container(
                       decoration: BoxDecoration(
-                        color: AppColors.surface,
+                        color: Colors.transparent, // Completely transparent
                         border: Border.all(
                           color: AppColors.textMain,
                           width: (isActive || hasError) ? 2.5 : 2.0,

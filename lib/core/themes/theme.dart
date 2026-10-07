@@ -9,9 +9,9 @@ class AppColors {
   static const Color primary = Color(0xFF000000);
   static const Color secondary = Color(0xFF000000);
 
-  // Surface colors
-  static const Color surface = Color(0xFFFFFBEA);
-  static const Color surfaceInner = Color(0xFFFFFBEA);
+  // Surface colors (Fully transparent for outline theme)
+  static const Color surface = Colors.transparent;
+  static const Color surfaceInner = Colors.transparent;
 
   // Pure Black for text and borders
   static const Color textMain = Color(0xFF000000);
@@ -21,40 +21,23 @@ class AppColors {
   // Hard black shadow for the sketch/brutalist look
   static const Color shadowDark = Color(0xFF000000);
 
-  /// Generates a sharp, hard-edged offset shadow typical of pencil/brutalist sketches
+  /// Generates no shadow (as requested for pure sketch outline theme)
   static List<BoxShadow> sketchShadows({
     bool isPressed = false,
     double distance = 6.0,
   }) {
-    if (isPressed) {
-      return [
-        const BoxShadow(
-          color: AppColors.shadowDark,
-          offset: Offset(0, 0),
-          blurRadius: 0,
-        ),
-      ];
-    }
-
-    return [
-      BoxShadow(
-        color: AppColors.shadowDark,
-        offset: Offset(distance, distance),
-        blurRadius: 0, // NO blur = hard sketch look
-        spreadRadius: 1.0,
-      ),
-    ];
+    return [];
   }
 
   /// Legacy wrapper to fix compilation errors for older components. 
-  /// Automatically applies the new brutalist sketch shadow style instead.
+  /// Returns empty list to enforce pure outline theme.
   static List<BoxShadow> neumorphicShadows({
     bool isPressed = false,
     double distance = 6.0,
     double blur = 12.0,
     Color? glowColor,
   }) {
-    return sketchShadows(isPressed: isPressed, distance: distance);
+    return [];
   }
 }
 
@@ -86,21 +69,21 @@ final ThemeData mainTheme = ThemeData(
       fontFamily: 'Nunito',
     ),
     bodyLarge: TextStyle(
-      fontFamily: 'Poppins',
+      fontFamily: 'Nunito',
       fontSize: 14,
       color: AppColors.textMain,
       height: 1.6,
       fontWeight: FontWeight.w500,
     ),
     bodyMedium: TextStyle(
-      fontFamily: 'Poppins',
+      fontFamily: 'Nunito',
       fontSize: 13,
       color: AppColors.textMain,
       height: 1.6,
       fontWeight: FontWeight.w500,
     ),
     bodySmall: TextStyle(
-      fontFamily: 'Poppins',
+      fontFamily: 'Nunito',
       fontSize: 12,
       color: AppColors.textMain,
       fontWeight: FontWeight.w500,

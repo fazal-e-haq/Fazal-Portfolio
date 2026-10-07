@@ -42,7 +42,7 @@ class ServiceCard extends StatelessWidget {
             color: isHovered ? AppColors.surfaceInner : AppColors.surface.withValues(alpha: 0.3),
             borderRadius: BorderRadius.circular(24),
             border: Border.all(
-              color: isHovered ? theme.primaryColor.withValues(alpha: 0.5) : Colors.white.withValues(alpha: 0.05),
+              color: isHovered ? theme.primaryColor.withValues(alpha: 0.5) : AppColors.textMain.withValues(alpha: 0.05),
               width: 1.5,
             ),
             boxShadow: isHovered 
@@ -87,7 +87,7 @@ class ServiceCard extends StatelessWidget {
                   child: Icon(
                     icon,
                     size: isMobile ? 24 : 32,
-                    color: isHovered ? Colors.white : theme.primaryColor.withValues(alpha: 0.8),
+                    color: isHovered ? AppColors.textMain : theme.primaryColor.withValues(alpha: 0.8),
                   ),
                 ),
               ),
@@ -100,14 +100,14 @@ class ServiceCard extends StatelessWidget {
                   fontFamily: 'Nunito',
                   fontSize: isMobile ? 16 : 18,
                   fontWeight: FontWeight.bold,
-                  color: Colors.white,
+                  color: AppColors.textMain,
                 ),
               ),
               const SizedBox(height: 12),
               ResponsiveText(
                 subtitle,
                 style: TextStyle(
-                  fontFamily: 'Poppins',
+                  fontFamily: 'Nunito',
                   fontSize: isMobile ? 13 : 14,
                   height: 1.6,
                   color: AppColors.textSecondary,

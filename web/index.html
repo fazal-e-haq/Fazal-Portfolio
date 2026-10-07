@@ -117,7 +117,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
   <!-- Fonts (only weights actually used) -->
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&family=Unbounded:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 
   <!-- ══════════════════════════════════════════════════════════════ -->
   <!-- JSON-LD Structured Data (Schema.org)                          -->
@@ -263,7 +263,7 @@
     #splash-container {
       position: absolute;
       top: 0; left: 0; right: 0; bottom: 0;
-      background-color: #FF6E40; /* Primary orange */
+      background-color: #FFFBEA; /* Yellowish Paper */
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -280,17 +280,16 @@
     }
 
     .headline {
-      font-family: 'Unbounded', sans-serif;
+      font-family: 'Nunito', sans-serif;
       font-size: clamp(14px, 5.5vw, 64px);
       font-weight: 900;
-      color: #141518;
+      color: #000000;
       letter-spacing: 3px;
       margin: 0;
       white-space: nowrap;
       overflow: hidden;
-      border-right: 3px solid rgba(20, 21, 24, 0.8);
+      border-right: 3px solid rgba(0, 0, 0, 0.8);
       width: 0;
-      text-shadow: 3px 3px 6px rgba(0,0,0,0.35), -1px -1px 4px rgba(255,255,255,0.15);
       z-index: 1;
       animation:
         typing 1s steps(24, end) 0.5s forwards,
@@ -300,10 +299,9 @@
     .divider {
       width: 0;
       height: 3px;
-      background-color: #141518;
+      background-color: #000000;
       margin: 20px 0;
       border-radius: 2px;
-      box-shadow: 1px 1px 3px rgba(0,0,0,0.3);
       z-index: 2;
       animation:
         expandDivider 0.8s cubic-bezier(0.1, 0.9, 0.2, 1) 1.5s forwards,
@@ -311,15 +309,14 @@
     }
 
     .subtitle {
-      font-family: 'Poppins', sans-serif;
+      font-family: 'Nunito', sans-serif;
       font-size: clamp(8px, 2.5vw, 20px);
-      font-weight: 300;
-      color: #141518;
+      font-weight: 900;
+      color: #000000;
       letter-spacing: 4px;
       margin: 0;
       opacity: 0;
       transform: translateY(10px);
-      text-shadow: 1px 1px 3px rgba(0,0,0,0.2);
       z-index: 1;
       animation: fadeInUp 0.8s ease-out 1.8s forwards;
     }
@@ -341,8 +338,8 @@
 
     /* The massive divider wipe transition */
     @keyframes explodeDivider {
-      0% { transform: scale(1); border-radius: 50px; }
-      100% { transform: scale(2000); border-radius: 50px; }
+      0% { transform: scale(1); border-radius: 50px; background-color: #000000; }
+      100% { transform: scale(2000); border-radius: 50px; background-color: #FFFBEA; }
     }
 
     /* ── SEO Fallback Content (visible to crawlers, hidden after Flutter loads) ── */

@@ -86,7 +86,7 @@ class _FloatingSkillCardState extends State<FloatingSkillCard> with SingleTicker
                 color: isHovered ? AppColors.surfaceInner : AppColors.surface,
                 borderRadius: BorderRadius.circular(50), 
                 border: Border.all(
-                  color: isHovered ? widget.hoverColor.withValues(alpha: 0.6) : Colors.white.withValues(alpha: 0.05),
+                  color: isHovered ? widget.hoverColor.withValues(alpha: 0.6) : AppColors.textMain.withValues(alpha: 0.05),
                   width: isHovered ? 1.5 : 1.0,
                 ),
                 boxShadow: isHovered 
@@ -111,7 +111,7 @@ class _FloatingSkillCardState extends State<FloatingSkillCard> with SingleTicker
                     duration: const Duration(milliseconds: 300),
                     child: Icon(
                       widget.icon,
-                      color: isHovered ? widget.hoverColor : Colors.white60,
+                      color: isHovered ? widget.hoverColor : AppColors.textMain.withValues(alpha: 0.60),
                       size: widget.isMobile ? 18 : 24,
                     ),
                   ),
@@ -119,10 +119,10 @@ class _FloatingSkillCardState extends State<FloatingSkillCard> with SingleTicker
                   AnimatedDefaultTextStyle(
                     duration: const Duration(milliseconds: 300),
                     style: TextStyle(
-                      fontFamily: 'Poppins',
+                      fontFamily: 'Nunito',
                       fontSize: widget.isMobile ? 11 : 16, 
                       fontWeight: isHovered ? FontWeight.bold : FontWeight.w600,
-                      color: isHovered ? widget.hoverColor : Colors.white70,
+                      color: isHovered ? widget.hoverColor : AppColors.textMain.withValues(alpha: 0.70),
                       letterSpacing: 1.0,
                     ),
                     child: Text(widget.name),

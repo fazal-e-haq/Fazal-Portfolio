@@ -145,7 +145,7 @@ class _IntroContent extends StatelessWidget {
             const Text(
               'Hello, I am',
               style: TextStyle(
-                fontFamily: 'Poppins',
+                fontFamily: 'Nunito',
                 fontSize: 16,
                 fontWeight: FontWeight.w600,
                 color: AppColors.primary,
@@ -186,7 +186,7 @@ class _IntroContent extends StatelessWidget {
                 fontFamily: 'Nunito',
                 fontSize: roleFontSize,
                 fontWeight: FontWeight.w700,
-                color: Colors.white, // Masked by gradient
+                color: AppColors.textMain, // Masked by gradient
                 height: 1.3,
                 letterSpacing: -0.5,
               ),
@@ -200,7 +200,7 @@ class _IntroContent extends StatelessWidget {
           'I believe great software is built with intention, not haste. Every interface, interaction, and line of code is carefully crafted to create products that are fast, intuitive, and built to last.',
           textAlign: textAlign,
           style: const TextStyle(
-            fontFamily: 'Poppins',
+            fontFamily: 'Nunito',
             fontSize: 16,
             color: AppColors.textSecondary,
             height: 1.7,
@@ -219,11 +219,11 @@ class _IntroContent extends StatelessWidget {
             _MagneticButton(
               child: ElevatedButton.icon(
                 onPressed: downloadResume,
-                icon: const Icon(CupertinoIcons.arrow_down, size: 20, color: Colors.white),
+                icon: const Icon(CupertinoIcons.arrow_down, size: 20, color: AppColors.textMain),
                 label: const Text(
                   'My Resume',
                   style: TextStyle(
-                    fontFamily: 'Poppins',
+                    fontFamily: 'Nunito',
                     fontWeight: FontWeight.w600,
                     letterSpacing: 0.5,
                   ),

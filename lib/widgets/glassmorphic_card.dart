@@ -33,10 +33,10 @@ class GlassmorphicCard extends StatelessWidget {
           height: height,
           padding: padding,
           decoration: BoxDecoration(
-            color: Colors.white.withValues(alpha: 0.6), // Frosted glass look
+            color: AppColors.textMain.withValues(alpha: 0.6), // Frosted glass look
             borderRadius: BorderRadius.circular(borderRadius),
             border: Border.all(
-              color: Colors.white.withValues(alpha: 0.8), // Shiny edge
+              color: AppColors.textMain.withValues(alpha: 0.8), // Shiny edge
               width: 1.5,
             ),
             // boxShadow: AppColors.neumorphicShadows(

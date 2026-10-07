@@ -49,7 +49,7 @@ class NavBarWidget extends StatelessWidget implements PreferredSizeWidget {
               offset: const Offset(4, 4),
             ),
             BoxShadow(
-              color: Colors.white.withValues(alpha: 0.05),
+              color: AppColors.textMain.withValues(alpha: 0.05),
               blurRadius: 15,
               spreadRadius: 1,
               offset: const Offset(-4, -4),
@@ -127,18 +127,18 @@ class _NavBarButtonState extends State<NavBarButton> {
               offset: const Offset(2, 2),
             ),
             BoxShadow(
-              color: Colors.white.withValues(alpha: 0.03),
+              color: AppColors.textMain.withValues(alpha: 0.03),
               blurRadius: 8,
               offset: const Offset(-2, -2),
             ),
           ],
           border: Border.all(
-            color: Colors.white.withValues(alpha: 0.05),
+            color: AppColors.textMain.withValues(alpha: 0.05),
             width: 1,
           ),
         ),
         textStyle: const TextStyle(
-          color: Colors.white,
+          color: AppColors.textMain,
           fontSize: 12,
           fontWeight: FontWeight.w600,
           letterSpacing: 1.0,
@@ -168,7 +168,7 @@ class _NavBarButtonState extends State<NavBarButton> {
                 color: widget.isSelected
                     ? theme.primaryColor.withValues(alpha: 0.15)
                     : (_isHovered
-                          ? Colors.white.withValues(alpha: 0.05)
+                          ? AppColors.textMain.withValues(alpha: 0.05)
                           : Colors.transparent),
                 shape: BoxShape.circle,
                 border: Border.all(
@@ -191,7 +191,7 @@ class _NavBarButtonState extends State<NavBarButton> {
                 widget.icon,
                 color: widget.isSelected
                     ? theme.primaryColor
-                    : (_isHovered ? Colors.white : Colors.white54),
+                    : (_isHovered ? AppColors.textMain : AppColors.textMain.withValues(alpha: 0.54)),
                 size: 22,
               ),
             ),

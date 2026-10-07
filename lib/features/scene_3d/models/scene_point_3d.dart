@@ -14,7 +14,7 @@ class ScenePoint3D {
     required this.y,
     required this.z,
     this.radius = 2.0,
-    this.color = Colors.white,
+    this.color = AppColors.textMain,
   });
 
   /// Projects 3D world coordinates onto 2D screen coordinates based on focal length

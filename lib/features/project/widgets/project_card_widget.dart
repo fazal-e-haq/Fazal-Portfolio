@@ -38,7 +38,7 @@ class PlayStoreProjectCard extends StatelessWidget {
             color: isHovered ? AppColors.surfaceInner : AppColors.surface.withValues(alpha: 0.3),
             borderRadius: BorderRadius.circular(cardRadius),
             border: Border.all(
-              color: isHovered ? AppColors.primary.withValues(alpha: 0.15) : Colors.white.withValues(alpha: 0.03),
+              color: isHovered ? AppColors.primary.withValues(alpha: 0.15) : AppColors.textMain.withValues(alpha: 0.03),
               width: 1,
             ),
             boxShadow: isHovered ? AppColors.neumorphicShadows(distance: 10, blur: 30, glowColor: AppColors.primary.withValues(alpha: 0.05)) : null,
@@ -96,7 +96,7 @@ class PlayStoreProjectCard extends StatelessWidget {
                   fontFamily: 'Nunito',
                   fontSize: isMobile ? 18 : 28,
                   fontWeight: FontWeight.w700,
-                  color: Colors.white,
+                  color: AppColors.textMain,
                 ),
               ),
               const SizedBox(height: 4),
@@ -104,7 +104,7 @@ class PlayStoreProjectCard extends StatelessWidget {
                 project.shortDescription,
                 maxLines: 1,
                 style: TextStyle(
-                  fontFamily: 'Poppins',
+                  fontFamily: 'Nunito',
                   fontSize: isMobile ? 12 : 16,
                   color: AppColors.primary,
                   fontWeight: FontWeight.w500,
@@ -137,7 +137,7 @@ class PlayStoreProjectCard extends StatelessWidget {
             fontFamily: 'Nunito',
             fontSize: isMobile ? 40 : 64,
             fontWeight: FontWeight.w900,
-            color: Colors.white.withValues(alpha: 0.05),
+            color: AppColors.textMain.withValues(alpha: 0.05),
           ),
         ),
       ],
@@ -149,7 +149,7 @@ class PlayStoreProjectCard extends StatelessWidget {
       height: 24,
       width: 1,
       margin: const EdgeInsets.symmetric(horizontal: 16),
-      color: Colors.white24,
+      color: AppColors.textMain.withValues(alpha: 0.24),
     );
   }
 
@@ -169,7 +169,7 @@ class PlayStoreProjectCard extends StatelessWidget {
                 fontFamily: 'Nunito',
                 fontSize: isMobile ? 14 : 16,
                 fontWeight: FontWeight.w700,
-                color: Colors.white,
+                color: AppColors.textMain,
               ),
             ),
             if (suffix.isNotEmpty) ...[
@@ -181,7 +181,7 @@ class PlayStoreProjectCard extends StatelessWidget {
                   fontFamily: 'Nunito',
                   fontSize: isMobile ? 10 : 12,
                   fontWeight: FontWeight.w700,
-                  color: Colors.white70,
+                  color: AppColors.textMain.withValues(alpha: 0.70),
                 ),
               ),
             ]
@@ -192,10 +192,10 @@ class PlayStoreProjectCard extends StatelessWidget {
           label,
           maxLines: 1,
           style: TextStyle(
-            fontFamily: 'Poppins',
+            fontFamily: 'Nunito',
             fontSize: isMobile ? 9 : 11,
             fontWeight: FontWeight.w500,
-            color: Colors.white54,
+            color: AppColors.textMain.withValues(alpha: 0.54),
           ),
         ),
       ],
@@ -212,7 +212,7 @@ class PlayStoreProjectCard extends StatelessWidget {
         text: const Text(
           'View',
           style: TextStyle(
-            color: Colors.white,
+            color: AppColors.textMain,
             fontWeight: FontWeight.w700,
             letterSpacing: 1.2,
             fontSize: 16,
@@ -235,7 +235,7 @@ class PlayStoreProjectCard extends StatelessWidget {
             margin: const EdgeInsets.only(right: 16),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(16),
-              border: Border.all(color: Colors.white10),
+              border: Border.all(color: AppColors.textMain.withValues(alpha: 0.10)),
               image: DecorationImage(
                 image: AssetImage(project.screenshots[idx]),
                 fit: BoxFit.cover,
@@ -259,14 +259,14 @@ class PlayStoreProjectCard extends StatelessWidget {
           decoration: BoxDecoration(
             color: AppColors.surfaceInner,
             borderRadius: BorderRadius.circular(20),
-            border: Border.all(color: Colors.white10),
+            border: Border.all(color: AppColors.textMain.withValues(alpha: 0.10)),
           ),
           child: Text(
             tag,
             style: const TextStyle(
-              fontFamily: 'Poppins',
+              fontFamily: 'Nunito',
               fontSize: 12,
-              color: Colors.white70,
+              color: AppColors.textMain.withValues(alpha: 0.70),
               fontWeight: FontWeight.w600,
             ),
           ),

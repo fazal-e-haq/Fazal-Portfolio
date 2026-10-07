@@ -25,7 +25,7 @@ class ResponsiveText extends StatelessWidget {
     // Otherwise, Poppins is used (either from theme or explicitly here)
     final TextStyle baseStyle = style ?? const TextStyle();
     final TextStyle finalStyle = baseStyle.copyWith(
-      fontFamily: isHeading ? 'Nunito' : (baseStyle.fontFamily ?? 'Poppins'),
+      fontFamily: isHeading ? 'Nunito' : (baseStyle.fontFamily ?? 'Nunito'),
     );
 
     return AutoSizeText(

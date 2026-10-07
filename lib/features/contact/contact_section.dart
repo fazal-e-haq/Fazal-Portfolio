@@ -64,7 +64,7 @@ class _DesktopContact extends StatelessWidget {
               "Have an idea? I'd love to help you bring it to life. Drop a message below and I'll get back to you within 24 hours.",
               textAlign: TextAlign.center,
               style: TextStyle(
-                fontFamily: 'Poppins',
+                fontFamily: 'Nunito',
                 fontSize: 16,
                 color: AppColors.textSecondary,
                 height: 1.6,
@@ -112,7 +112,7 @@ class _MobileContact extends StatelessWidget {
                     "Have an idea? Drop a message below and I'll get back to you shortly.",
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                      fontFamily: 'Poppins',
+                      fontFamily: 'Nunito',
                       fontSize: 14,
                       color: AppColors.textSecondary,
                       height: 1.6,
@@ -187,7 +187,7 @@ class _ContactForm extends StatelessWidget {
                 Text(
                   'Send Message',
                   style: TextStyle(
-                    fontFamily: 'Poppins',
+                    fontFamily: 'Nunito',
                     fontSize: 16,
                     fontWeight: FontWeight.w600,
                   ),

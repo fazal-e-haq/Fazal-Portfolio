@@ -33,7 +33,7 @@ class ContactCtaCard extends StatelessWidget {
             color: isHovered ? AppColors.surfaceInner : AppColors.surface.withValues(alpha: 0.5),
             borderRadius: BorderRadius.circular(isHovered ? 24 : 32),
             border: Border.all(
-              color: isHovered ? theme.primaryColor.withValues(alpha: 0.3) : Colors.white.withValues(alpha: 0.05),
+              color: isHovered ? theme.primaryColor.withValues(alpha: 0.3) : AppColors.textMain.withValues(alpha: 0.05),
               width: 2,
             ),
             boxShadow: isHovered
@@ -69,7 +69,7 @@ class ContactCtaCard extends StatelessWidget {
                   fontFamily: 'Nunito',
                   fontSize: isMobile ? 22 : 32, // slightly smaller to fit the longer text better
                   fontWeight: FontWeight.w900,
-                  color: Colors.white,
+                  color: AppColors.textMain,
                 ),
               ),
               const SizedBox(height: 16),
@@ -77,7 +77,7 @@ class ContactCtaCard extends StatelessWidget {
                 "Now that you've seen my skills, journey, and expertise—wondering what I actually build using them? Let's take a look at my recent works.",
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                  fontFamily: 'Poppins',
+                  fontFamily: 'Nunito',
                   fontSize: isMobile ? 14 : 16,
                   height: 1.6,
                   color: AppColors.textSecondary,
@@ -91,13 +91,13 @@ class ContactCtaCard extends StatelessWidget {
                   text: const Text(
                     'View My Works',
                     style: TextStyle(
-                      color: Colors.white,
+                      color: AppColors.textMain,
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
                       letterSpacing: 1.5,
                     ),
                   ),
-                  icon: const Icon(CupertinoIcons.arrow_right, color: Colors.white),
+                  icon: const Icon(CupertinoIcons.arrow_right, color: AppColors.textMain),
                   color: theme.primaryColor,
                   padding: const EdgeInsets.symmetric(vertical: 20),
                   onPressed: () {

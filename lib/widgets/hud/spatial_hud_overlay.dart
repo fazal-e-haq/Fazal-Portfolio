@@ -33,7 +33,7 @@ class SpatialHudOverlay extends StatelessWidget {
               color: AppColors.surface.withValues(alpha: 0.6),
               borderRadius: BorderRadius.circular(30),
               border: Border.all(
-                color: Colors.white.withValues(alpha: 0.06),
+                color: AppColors.textMain.withValues(alpha: 0.06),
                 width: 1,
               ),
               boxShadow: [
@@ -70,12 +70,12 @@ class SpatialHudOverlay extends StatelessWidget {
                       decoration: BoxDecoration(
                         color: AppColors.surfaceInner,
                         borderRadius: BorderRadius.circular(8),
-                        border: Border.all(color: Colors.white10),
+                        border: Border.all(color: AppColors.textMain.withValues(alpha: 0.10)),
                       ),
                       textStyle: const TextStyle(
                         fontFamily: 'Nunito',
                         fontSize: 11,
-                        color: Colors.white,
+                        color: AppColors.textMain,
                       ),
                       child: InkWell(
                         onTap: () => scrollCoordinator.scrollToSection(index),
@@ -86,7 +86,7 @@ class SpatialHudOverlay extends StatelessWidget {
                           width: isSelected ? 8 : 6,
                           height: isSelected ? 24 : 6,
                           decoration: BoxDecoration(
-                            color: isSelected ? AppColors.primary : Colors.white24,
+                            color: isSelected ? AppColors.primary : AppColors.textMain.withValues(alpha: 0.24),
                             borderRadius: BorderRadius.circular(4),
                             boxShadow: isSelected
                                 ? [

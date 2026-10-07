@@ -63,7 +63,7 @@ class _SectionBackgroundTextState extends State<SectionBackgroundText>
                     foreground: Paint()
                       ..style = PaintingStyle.stroke
                       ..strokeWidth = isMobile ? 1.5 : (isUltrawide ? 4.0 : 3.0)
-                      ..color = Colors.white.withValues(alpha: _animation.value),
+                      ..color = AppColors.textMain.withValues(alpha: _animation.value),
                   ),
                 );
               },

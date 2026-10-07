@@ -55,7 +55,7 @@ class _DesktopBentoGrid extends StatelessWidget {
             const Text(
               'ABOUT ME',
               style: TextStyle(
-                fontFamily: 'Poppins',
+                fontFamily: 'Nunito',
                 fontSize: 16,
                 fontWeight: FontWeight.w600,
                 color: AppColors.primary,
@@ -95,7 +95,7 @@ class _DesktopBentoGrid extends StatelessWidget {
                         const Text(
                           'As a Flutter developer, I craft mobile experiences that combine performance with elegant design. I transform concepts into smooth, scalable apps with clean code, responsive layouts, and thoughtful interactions.',
                           style: TextStyle(
-                            fontFamily: 'Poppins',
+                            fontFamily: 'Nunito',
                             fontSize: 16,
                             color: AppColors.textSecondary,
                             height: 1.6,
@@ -105,7 +105,7 @@ class _DesktopBentoGrid extends StatelessWidget {
                         const Text(
                           'Beyond development, I work as a Product Designer, shaping ideas into meaningful and visually engaging experiences. I focus on intuitive journeys, modern aesthetics, and designs that connect naturally with users.',
                           style: TextStyle(
-                            fontFamily: 'Poppins',
+                            fontFamily: 'Nunito',
                             fontSize: 16,
                             color: AppColors.textSecondary,
                             height: 1.6,
@@ -195,7 +195,7 @@ class _DesktopBentoGrid extends StatelessWidget {
                                       'Years\nExperience',
                                       textAlign: TextAlign.center,
                                       style: TextStyle(
-                                        fontFamily: 'Poppins',
+                                        fontFamily: 'Nunito',
                                         fontSize: 12,
                                         color: AppColors.textSecondary,
                                       ),
@@ -228,7 +228,7 @@ class _DesktopBentoGrid extends StatelessWidget {
                                       'Projects\nCompleted',
                                       textAlign: TextAlign.center,
                                       style: TextStyle(
-                                        fontFamily: 'Poppins',
+                                        fontFamily: 'Nunito',
                                         fontSize: 12,
                                         color: AppColors.textSecondary,
                                       ),
@@ -262,7 +262,7 @@ class _DesktopBentoGrid extends StatelessWidget {
       child: Text(
         label,
         style: const TextStyle(
-          fontFamily: 'Poppins',
+          fontFamily: 'Nunito',
           fontSize: 13,
           fontWeight: FontWeight.w500,
           color: AppColors.textMain,
@@ -294,7 +294,7 @@ class _DesktopBentoGrid extends StatelessWidget {
         const Text(
           'Open for new opportunities',
           style: TextStyle(
-            fontFamily: 'Poppins',
+            fontFamily: 'Nunito',
             fontSize: 14,
             fontWeight: FontWeight.w500,
             color: AppColors.textMain,
@@ -318,7 +318,7 @@ class _MobileBentoGrid extends StatelessWidget {
           const Text(
             'ABOUT ME',
             style: TextStyle(
-              fontFamily: 'Poppins',
+              fontFamily: 'Nunito',
               fontSize: 14,
               fontWeight: FontWeight.w600,
               color: AppColors.primary,
@@ -350,7 +350,7 @@ class _MobileBentoGrid extends StatelessWidget {
                   Text(
                     'Crafting mobile experiences that combine performance with elegant design. Transforming concepts into smooth, scalable apps with clean code.',
                     style: TextStyle(
-                      fontFamily: 'Poppins',
+                      fontFamily: 'Nunito',
                       fontSize: 14,
                       color: AppColors.textSecondary,
                       height: 1.6,
@@ -418,7 +418,7 @@ class _MobileBentoGrid extends StatelessWidget {
                         SizedBox(height: 4),
                         Text(
                           'Years Exp.',
-                          style: TextStyle(fontFamily: 'Poppins', fontSize: 11, color: AppColors.textSecondary),
+                          style: TextStyle(fontFamily: 'Nunito', fontSize: 11, color: AppColors.textSecondary),
                         ),
                       ],
                     ),
@@ -445,7 +445,7 @@ class _MobileBentoGrid extends StatelessWidget {
                         SizedBox(height: 4),
                         Text(
                           'Projects',
-                          style: TextStyle(fontFamily: 'Poppins', fontSize: 11, color: AppColors.textSecondary),
+                          style: TextStyle(fontFamily: 'Nunito', fontSize: 11, color: AppColors.textSecondary),
                         ),
                       ],
                     ),
@@ -471,7 +471,7 @@ class _MobileBentoGrid extends StatelessWidget {
       child: Text(
         label,
         style: const TextStyle(
-          fontFamily: 'Poppins',
+          fontFamily: 'Nunito',
           fontSize: 11,
           fontWeight: FontWeight.w500,
           color: AppColors.textMain,

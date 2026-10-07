@@ -41,18 +41,10 @@ class ButtonWidget extends StatelessWidget {
     try {
       final isMailto = uri.scheme == 'mailto';
       if (isMailto) {
-        await launchUrl(
-          uri,
-          mode: LaunchMode.externalApplication,
-        );
+        await launchUrl(uri, mode: LaunchMode.externalApplication);
         return;
       }
-
-      await launchUrl(
-        uri,
-        mode: LaunchMode.externalApplication,
-        webOnlyWindowName: '_blank',
-      );
+      await launchUrl(uri, mode: LaunchMode.externalApplication, webOnlyWindowName: '_blank');
     } catch (e) {
       debugPrint('Error launching $uri: $e');
     }
@@ -68,16 +60,12 @@ class ButtonWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // We expect 'id' to be provided for reliable state, but fallback to a static-like hash.
     final String buttonId = id ?? text.hashCode.toString();
     
-    // Ensure the controller is registered
     if (!Get.isRegistered<ButtonController>()) {
       Get.put(ButtonController());
     }
     final ButtonController controller = Get.find<ButtonController>();
-
-    final bgColor = color ?? backgroundColor ?? AppColors.surface;
 
     return MouseRegion(
       cursor: SystemMouseCursors.click,
@@ -102,55 +90,75 @@ class ButtonWidget extends StatelessWidget {
               duration: const Duration(milliseconds: 300),
               curve: Curves.easeOutCubic,
               scale: isPressed ? 0.95 : (isHovered ? 1.05 : 1.0),
-              child: AnimatedContainer(
-                duration: const Duration(milliseconds: 300),
-                curve: Curves.easeOutCubic,
-                margin: const EdgeInsets.symmetric(horizontal: 4, vertical: 4),
-                decoration: BoxDecoration(
-                  color: isHovered ? AppColors.primary : bgColor,
-                  border: Border.all(
-                    color: AppColors.textMain,
-                    width: 2.0,
-                  ),
-                  boxShadow: AppColors.sketchShadows(
-                    isPressed: isPressed,
-                    distance: isHovered ? 8.0 : 4.0,
-                  ),
-                ),
-                child: Padding(
-                  padding: padding ?? const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      if (icon != null) ...[
-                        AnimatedContainer(
-                          duration: const Duration(milliseconds: 300),
-                          transform: Matrix4.translationValues(isHovered ? 4 : 0, 0, 0),
-                          child: IconTheme(
-                            data: IconThemeData(
-                              color: AppColors.textMain,
-                              size: 22,
-                            ),
-                            child: icon!,
+              child: Stack(
+                clipBehavior: Clip.none,
+                children: [
+                  // 1. Scribble secondary border
+                  Positioned.fill(
+                    child: Transform.rotate(
+                      angle: 0.015,
+                      child: Container(
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                            color: AppColors.textMain.withValues(alpha: 0.4),
+                            width: 1.5,
                           ),
                         ),
-                        const SizedBox(width: 14),
-                      ],
-                      AnimatedDefaultTextStyle(
-                        duration: const Duration(milliseconds: 300),
-                        style: TextStyle(
-                          color: AppColors.textMain,
-                          fontWeight: FontWeight.w900,
-                          fontFamily: 'Nunito',
-                          letterSpacing: isHovered ? 2.0 : 1.2,
-                          fontSize: 15,
-                        ),
-                        child: text,
                       ),
-                    ],
+                    ),
                   ),
-                ),
+                  
+                  // 2. Main outline box
+                  Transform.rotate(
+                    angle: -0.010,
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Colors.transparent, // Outline only!
+                        border: Border.all(
+                          color: AppColors.textMain,
+                          width: 2.0,
+                        ),
+                      ),
+                      child: Transform.rotate(
+                        angle: 0.010, // counter rotate content
+                        child: Padding(
+                          padding: padding ?? const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              if (icon != null) ...[
+                                AnimatedContainer(
+                                  duration: const Duration(milliseconds: 300),
+                                  transform: Matrix4.translationValues(isHovered ? 4 : 0, 0, 0),
+                                  child: IconTheme(
+                                    data: const IconThemeData(
+                                      color: AppColors.textMain,
+                                      size: 22,
+                                    ),
+                                    child: icon!,
+                                  ),
+                                ),
+                                const SizedBox(width: 14),
+                              ],
+                              AnimatedDefaultTextStyle(
+                                duration: const Duration(milliseconds: 300),
+                                style: TextStyle(
+                                  color: AppColors.textMain,
+                                  fontWeight: FontWeight.w900,
+                                  fontFamily: 'Nunito',
+                                  letterSpacing: isHovered ? 2.0 : 1.2,
+                                  fontSize: 15,
+                                ),
+                                child: text,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
           );

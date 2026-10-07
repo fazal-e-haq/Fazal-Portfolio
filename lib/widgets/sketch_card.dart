@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../core/themes/theme.dart';
 
-/// A card that looks like a hand-drawn pencil sketch block
+/// A card that looks like a hand-drawn pencil sketch block (pure outline)
 class SketchCard extends StatelessWidget {
   final Widget child;
   final double width;
@@ -22,36 +22,13 @@ class SketchCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final bgColor = backgroundColor ?? AppColors.surface;
-    final shadowDist = isHovered ? 12.0 : 6.0;
-
     return SizedBox(
       width: width,
       height: height,
       child: Stack(
         clipBehavior: Clip.none,
         children: [
-          // 1. The messy pencil shadow
-          AnimatedPositioned(
-            duration: const Duration(milliseconds: 200),
-            curve: Curves.easeOutCubic,
-            top: shadowDist,
-            left: shadowDist,
-            right: -shadowDist,
-            bottom: -shadowDist,
-            child: Transform.rotate(
-              angle: 0.015,
-              child: Container(
-                decoration: BoxDecoration(
-                  // Hand-drawn shadows are usually not perfectly solid black, use high opacity
-                  color: AppColors.textMain.withValues(alpha: 0.85),
-                  border: Border.all(color: AppColors.textMain, width: 1),
-                ),
-              ),
-            ),
-          ),
-
-          // 2. A faint secondary scribble border for the "not straight" pencil feel
+          // 1. A faint secondary scribble border for the "not straight" pencil feel
           Positioned.fill(
             child: Transform.rotate(
               angle: 0.012,
@@ -66,7 +43,7 @@ class SketchCard extends StatelessWidget {
             ),
           ),
 
-          // 3. The main white/yellowish box, slightly rotated in the opposite direction
+          // 2. The main transparent box, slightly rotated in the opposite direction
           AnimatedPositioned(
             duration: const Duration(milliseconds: 200),
             curve: Curves.easeOutCubic,
@@ -78,7 +55,7 @@ class SketchCard extends StatelessWidget {
               angle: -0.008,
               child: Container(
                 decoration: BoxDecoration(
-                  color: bgColor,
+                  color: Colors.transparent, // Completely transparent
                   border: Border.all(
                     color: AppColors.textMain,
                     width: 2.0,

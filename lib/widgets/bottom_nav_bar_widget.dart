@@ -42,7 +42,7 @@ class BottomNavBarWidget extends StatelessWidget {
                   offset: const Offset(4, 4),
                 ),
                 BoxShadow(
-                  color: Colors.white.withValues(alpha: 0.05),
+                  color: AppColors.textMain.withValues(alpha: 0.05),
                   blurRadius: 15,
                   spreadRadius: 1,
                   offset: const Offset(-4, -4),
@@ -145,7 +145,7 @@ class _BottomNavBarButtonState extends State<BottomNavBarButton> {
           child: Icon(
             widget.icon,
             size: 22,
-            color: widget.isSelected ? theme.primaryColor : Colors.white60,
+            color: widget.isSelected ? theme.primaryColor : AppColors.textMain.withValues(alpha: 0.60),
           ),
         ),
       ),
