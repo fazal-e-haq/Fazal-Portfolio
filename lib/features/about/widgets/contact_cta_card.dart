@@ -63,7 +63,7 @@ class ContactCtaCard extends StatelessWidget {
               ),
               const SizedBox(height: 32),
               ResponsiveText(
-                "Curious What I Can Build?",
+                'Curious What I Can Build?',
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontFamily: 'Unbounded',

@@ -55,7 +55,7 @@ class JourneyTimeline extends StatelessWidget {
             isMobile: isMobile,
             isHighlighted: entry.value['isHighlighted'] as bool,
           );
-        }).toList(),
+        }),
       ],
     );
   }

@@ -73,7 +73,7 @@ class AboutSection extends StatelessWidget {
                     // Services Grid
                     LayoutBuilder(
                       builder: (context, constraints) {
-                        final double spacing = 24.0;
+                        const double spacing = 24.0;
                         final double availableWidth = constraints.maxWidth;
                         
                         // Calculate item width based on screen size
