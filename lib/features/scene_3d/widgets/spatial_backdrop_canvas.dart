@@ -3,19 +3,37 @@ import 'package:get/get.dart';
 import '../scene_3d_controller.dart';
 
 /// Renders a dynamic 3D depth-projected spatial canvas responding to camera motion
-class SpatialBackdropCanvas extends StatelessWidget {
+class SpatialBackdropCanvas extends StatefulWidget {
   const SpatialBackdropCanvas({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    final controller = Get.put(Scene3DController());
+  State<SpatialBackdropCanvas> createState() => _SpatialBackdropCanvasState();
+}
 
+class _SpatialBackdropCanvasState extends State<SpatialBackdropCanvas> with SingleTickerProviderStateMixin {
+  late final Scene3DController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = Get.put(Scene3DController());
+    _controller.initTicker(this);
+  }
+
+  @override
+  void dispose() {
+    _controller.disposeTicker();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return AnimatedBuilder(
-      animation: controller.tickerController,
+      animation: _controller.tickerController,
       builder: (context, _) {
         return CustomPaint(
           size: Size.infinite,
-          painter: _SpatialCanvasPainter(controller: controller),
+          painter: _SpatialCanvasPainter(controller: _controller),
         );
       },
     );

@@ -5,8 +5,9 @@ import '../app_shell/scroll_coordinator_controller.dart';
 
 /// Controls 3D camera transforms, spatial world rotation, and coordinates
 /// reacting to vertical scroll momentum and mouse parallax.
-class Scene3DController extends GetxController with GetSingleTickerProviderStateMixin {
-  late final AnimationController tickerController;
+class Scene3DController extends GetxController {
+  late AnimationController tickerController;
+  bool _isTickerInitialized = false;
 
   /// Camera position in world space
   final RxDouble cameraX = 0.0.obs;
@@ -29,11 +30,6 @@ class Scene3DController extends GetxController with GetSingleTickerProviderState
   @override
   void onInit() {
     super.onInit();
-    tickerController = AnimationController(
-      vsync: this,
-      duration: const Duration(seconds: 1),
-    )..repeat();
-
     _generateSpatialPoints(count: 180);
 
     // Link with scroll coordinator if registered
@@ -41,6 +37,22 @@ class Scene3DController extends GetxController with GetSingleTickerProviderState
       _scrollCoordinator = Get.find<ScrollCoordinatorController>();
       _scrollCoordinator!.scrollProgress.listen(_onScrollProgressChanged);
       _scrollCoordinator!.mousePosition.listen(_onMouseMoved);
+    }
+  }
+
+  void initTicker(TickerProvider vsync) {
+    if (_isTickerInitialized) return;
+    tickerController = AnimationController(
+      vsync: vsync,
+      duration: const Duration(seconds: 1),
+    )..repeat();
+    _isTickerInitialized = true;
+  }
+
+  void disposeTicker() {
+    if (_isTickerInitialized) {
+      tickerController.dispose();
+      _isTickerInitialized = false;
     }
   }
 
@@ -67,7 +79,6 @@ class Scene3DController extends GetxController with GetSingleTickerProviderState
 
   void _onScrollProgressChanged(double progress) {
     // Scroll progress 0.0 (Intro) -> 1.0 (About) -> 2.0 (Works) -> 3.0 (Contact)
-    // Drives camera forward through Z-space with subtle orbital yaw & pitch
     cameraZ.value = progress * 400.0;
     cameraY.value = progress * 120.0;
     cameraPitch.value = (progress * 0.08);
@@ -81,7 +92,7 @@ class Scene3DController extends GetxController with GetSingleTickerProviderState
 
   @override
   void onClose() {
-    tickerController.dispose();
+    disposeTicker();
     super.onClose();
   }
 }

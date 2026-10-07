@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 
 /// Coordinates the vertical scroll progression and translates continuous scroll
 /// metrics into normalized 3D spatial camera transforms and section milestones.
-class ScrollCoordinatorController extends GetxController with GetSingleTickerProviderStateMixin {
+class ScrollCoordinatorController extends GetxController {
   /// The global scroll controller used by the single continuous vertical viewport
   final ScrollController scrollController = ScrollController();
 

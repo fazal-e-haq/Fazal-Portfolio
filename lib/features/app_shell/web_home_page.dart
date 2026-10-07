@@ -108,12 +108,7 @@ class _WebHomePageState extends State<WebHomePage> with SingleTickerProviderStat
       builder: (context, constraints) {
         final bool isMobile = AppSizes.isMobile(constraints);
 
-        return FadeTransition(
-          opacity: CurvedAnimation(
-            parent: _fadeController,
-            curve: Curves.easeOut,
-          ),
-          child: Scaffold(
+        return Scaffold(
             backgroundColor: Colors.transparent, // Background handled by SpatialBackdropCanvas
             extendBodyBehindAppBar: true,
             extendBody: true,
@@ -151,7 +146,6 @@ class _WebHomePageState extends State<WebHomePage> with SingleTickerProviderStat
                     const SpatialHudOverlay(),
                 ],
               ),
-            ),
           ),
         );
       },
