@@ -147,7 +147,7 @@ class _IntroContent extends StatelessWidget {
               style: TextStyle(
                 fontFamily: 'Poppins',
                 fontSize: 16,
-                fontWeight: 600,
+                fontWeight: FontWeight.w600,
                 color: AppColors.primary,
                 letterSpacing: 4.0,
               ),

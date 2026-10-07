@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 
 import '../../core/constants/app_sizes.dart';
 import '../../core/constants/projects_details.dart';
+import '../../features/project/project_model.dart';
 import '../../core/themes/theme.dart';
 import '../../widgets/animations/fade_in_up_widget.dart';
 import '../../widgets/glassmorphic_card.dart';

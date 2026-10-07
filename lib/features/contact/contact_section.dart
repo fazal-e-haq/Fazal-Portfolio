@@ -7,7 +7,6 @@ import '../../core/themes/theme.dart';
 import '../../widgets/animations/fade_in_up_widget.dart';
 import '../../widgets/glassmorphic_card.dart';
 import '../../widgets/textfield/neumorphic_textfield.dart';
-import '../../widgets/textfield/textfield_controller.dart';
 import 'contact_controller.dart';
 
 class ContactSection extends StatelessWidget {
@@ -135,9 +134,6 @@ class _MobileContact extends StatelessWidget {
 class _ContactForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final nameController = Get.put(TextFieldController(), tag: 'name_contact');
-    final emailController = Get.put(TextFieldController(), tag: 'email_contact');
-    final messageController = Get.put(TextFieldController(), tag: 'message_contact');
     final contactController = Get.find<ContactController>();
 
     return Column(
@@ -146,27 +142,30 @@ class _ContactForm extends StatelessWidget {
           children: [
             Expanded(
               child: NeumorphicTextField(
-                controller: nameController,
+                controller: contactController.nameController,
                 hintText: 'Your Name',
                 icon: CupertinoIcons.person,
+                errorText: contactController.nameError,
               ),
             ),
             const SizedBox(width: 24),
             Expanded(
               child: NeumorphicTextField(
-                controller: emailController,
+                controller: contactController.emailController,
                 hintText: 'Email Address',
                 icon: CupertinoIcons.mail,
+                errorText: contactController.emailError,
               ),
             ),
           ],
         ),
         const SizedBox(height: 24),
         NeumorphicTextField(
-          controller: messageController,
+          controller: contactController.messageController,
           hintText: 'Tell me about your project...',
           icon: CupertinoIcons.chat_bubble_text,
           maxLines: 4,
+          errorText: contactController.messageError,
         ),
         const SizedBox(height: 40),
         SizedBox(
@@ -174,11 +173,7 @@ class _ContactForm extends StatelessWidget {
           height: 56,
           child: ElevatedButton(
             onPressed: () {
-              contactController.sendMessage(
-                nameController.text.value,
-                emailController.text.value,
-                messageController.text.value,
-              );
+              contactController.sendEmail();
             },
             style: ElevatedButton.styleFrom(
               backgroundColor: AppColors.primary,
