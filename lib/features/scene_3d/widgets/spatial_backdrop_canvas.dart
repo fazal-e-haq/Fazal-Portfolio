@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../core/themes/theme.dart';
+import '../../../core/themes/theme.dart';
 
 /// A subtle, raw pencil-sketch style grid background
 class SpatialBackdropCanvas extends StatelessWidget {

@@ -107,26 +107,14 @@ class ButtonWidget extends StatelessWidget {
                 curve: Curves.easeOutCubic,
                 margin: const EdgeInsets.symmetric(horizontal: 4, vertical: 4),
                 decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    colors: [
-                      isHovered ? AppColors.surfaceInner : bgColor,
-                      bgColor,
-                    ],
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                  ),
-                  borderRadius: BorderRadius.circular(24),
-                  boxShadow: AppColors.neumorphicShadows(
-                    isPressed: isPressed,
-                    distance: isPressed ? 2.0 : (isHovered ? 15.0 : 6.0),
-                    blur: isPressed ? 4.0 : (isHovered ? 30.0 : 12.0),
-                    glowColor: isHovered ? AppColors.primary.withValues(alpha: 0.6) : null,
-                  ),
+                  color: isHovered ? AppColors.primary : bgColor,
                   border: Border.all(
-                    color: isHovered 
-                        ? AppColors.primary.withValues(alpha: 0.8) 
-                        : Colors.white.withValues(alpha: 0.08),
-                    width: isHovered ? 1.5 : 1.0,
+                    color: AppColors.textMain,
+                    width: 2.0,
+                  ),
+                  boxShadow: AppColors.sketchShadows(
+                    isPressed: isPressed,
+                    distance: isHovered ? 8.0 : 4.0,
                   ),
                 ),
                 child: Padding(
@@ -141,7 +129,7 @@ class ButtonWidget extends StatelessWidget {
                           transform: Matrix4.translationValues(isHovered ? 4 : 0, 0, 0),
                           child: IconTheme(
                             data: IconThemeData(
-                              color: isHovered ? AppColors.primary : Colors.white70,
+                              color: AppColors.textMain,
                               size: 22,
                             ),
                             child: icon!,
@@ -152,9 +140,9 @@ class ButtonWidget extends StatelessWidget {
                       AnimatedDefaultTextStyle(
                         duration: const Duration(milliseconds: 300),
                         style: TextStyle(
-                          color: isHovered ? Colors.white : Colors.white70,
-                          fontWeight: isHovered ? FontWeight.w700 : FontWeight.w500,
-                          fontFamily: 'Poppins',
+                          color: AppColors.textMain,
+                          fontWeight: FontWeight.w900,
+                          fontFamily: 'Unbounded',
                           letterSpacing: isHovered ? 2.0 : 1.2,
                           fontSize: 15,
                         ),
