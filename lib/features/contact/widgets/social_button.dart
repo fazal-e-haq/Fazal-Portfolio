@@ -68,20 +68,11 @@ class SocialButton extends StatelessWidget {
               curve: Curves.easeOutExpo,
               padding: const EdgeInsets.all(20),
               decoration: BoxDecoration(
-                color: isHovered ? theme.primaryColor : AppColors.surface,
-                borderRadius: BorderRadius.circular(24),
-                boxShadow: isHovered
-                    ? AppColors.neumorphicShadows(
-                        distance: 4,
-                        blur: 16,
-                        glowColor: theme.primaryColor.withValues(alpha: 0.4),
-                      )
-                    : AppColors.neumorphicShadows(distance: 6, blur: 12),
+                color: Colors.transparent,
+                borderRadius: BorderRadius.circular(0),
                 border: Border.all(
-                  color: isHovered
-                      ? theme.primaryColor
-                      : AppColors.textMain.withValues(alpha: 0.05),
-                  width: isHovered ? 2 : 1,
+                  color: AppColors.textMain,
+                  width: 2,
                 ),
               ),
               child: AnimatedRotation(
@@ -92,23 +83,10 @@ class SocialButton extends StatelessWidget {
                   message: title,
                   verticalOffset: 32,
                   decoration: BoxDecoration(
-                    color: const Color(0xFF16181C),
-                    borderRadius: BorderRadius.circular(8),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withValues(alpha: 0.6),
-                        blurRadius: 8,
-                        offset: const Offset(2, 2),
-                      ),
-                      BoxShadow(
-                        color: AppColors.textMain.withValues(alpha: 0.03),
-                        blurRadius: 8,
-                        offset: const Offset(-2, -2),
-                      ),
-                    ],
+                    color: Colors.transparent,
                     border: Border.all(
-                      color: AppColors.textMain.withValues(alpha: 0.05),
-                      width: 1,
+                      color: AppColors.textMain,
+                      width: 2,
                     ),
                   ),
                   textStyle: const TextStyle(

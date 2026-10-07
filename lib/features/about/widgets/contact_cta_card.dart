@@ -30,19 +30,12 @@ class ContactCtaCard extends StatelessWidget {
           padding: EdgeInsets.all(isMobile ? 32 : 56),
           width: double.infinity,
           decoration: BoxDecoration(
-            color: isHovered ? AppColors.surfaceInner : AppColors.surface.withValues(alpha: 0.5),
-            borderRadius: BorderRadius.circular(isHovered ? 24 : 32),
+            color: Colors.transparent,
+            borderRadius: BorderRadius.circular(0), // Sharp angles for sketch
             border: Border.all(
-              color: isHovered ? theme.primaryColor.withValues(alpha: 0.3) : AppColors.textMain.withValues(alpha: 0.05),
+              color: AppColors.textMain,
               width: 2,
             ),
-            boxShadow: isHovered
-                ? AppColors.neumorphicShadows(
-                    distance: 15,
-                    blur: 40,
-                    glowColor: theme.primaryColor.withValues(alpha: 0.1),
-                  )
-                : AppColors.neumorphicShadows(distance: 8, blur: 20),
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -53,7 +46,7 @@ class ContactCtaCard extends StatelessWidget {
                 decoration: BoxDecoration(
                   color: AppColors.surface,
                   shape: BoxShape.circle,
-                  boxShadow: AppColors.neumorphicShadows(distance: 5, blur: 15),
+                  
                 ),
                 child: Icon(
                   CupertinoIcons.layers_fill,
@@ -66,7 +59,7 @@ class ContactCtaCard extends StatelessWidget {
                 'Curious What I Can Build?',
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                  fontFamily: 'Nunito',
+                  fontFamily: 'Patrick Hand',
                   fontSize: isMobile ? 22 : 32, // slightly smaller to fit the longer text better
                   fontWeight: FontWeight.w900,
                   color: AppColors.textMain,
@@ -77,7 +70,7 @@ class ContactCtaCard extends StatelessWidget {
                 "Now that you've seen my skills, journey, and expertise—wondering what I actually build using them? Let's take a look at my recent works.",
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                  fontFamily: 'Nunito',
+                  fontFamily: 'Patrick Hand',
                   fontSize: isMobile ? 14 : 16,
                   height: 1.6,
                   color: AppColors.textSecondary,

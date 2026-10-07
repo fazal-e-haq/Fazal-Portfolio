@@ -35,13 +35,12 @@ class PlayStoreProjectCard extends StatelessWidget {
           duration: const Duration(milliseconds: 600),
           curve: Curves.easeOutExpo,
           decoration: BoxDecoration(
-            color: isHovered ? AppColors.surfaceInner : AppColors.surface.withValues(alpha: 0.3),
-            borderRadius: BorderRadius.circular(cardRadius),
+            color: Colors.transparent,
+            borderRadius: BorderRadius.circular(0),
             border: Border.all(
-              color: isHovered ? AppColors.primary.withValues(alpha: 0.15) : AppColors.textMain.withValues(alpha: 0.03),
-              width: 1,
+              color: AppColors.textMain,
+              width: 2.0,
             ),
-            boxShadow: isHovered ? AppColors.neumorphicShadows(distance: 10, blur: 30, glowColor: AppColors.primary.withValues(alpha: 0.05)) : null,
           ),
           padding: EdgeInsets.all(cardPadding),
           child: Column(
@@ -75,7 +74,7 @@ class PlayStoreProjectCard extends StatelessWidget {
           height: isMobile ? 72 : 96,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(20),
-            boxShadow: AppColors.neumorphicShadows(distance: 5, blur: 15),
+            
             image: DecorationImage(
               image: AssetImage(project.logo),
               fit: BoxFit.cover,
@@ -93,7 +92,7 @@ class PlayStoreProjectCard extends StatelessWidget {
                 project.title,
                 maxLines: 1,
                 style: TextStyle(
-                  fontFamily: 'Nunito',
+                  fontFamily: 'Patrick Hand',
                   fontSize: isMobile ? 18 : 28,
                   fontWeight: FontWeight.w700,
                   color: AppColors.textMain,
@@ -104,7 +103,7 @@ class PlayStoreProjectCard extends StatelessWidget {
                 project.shortDescription,
                 maxLines: 1,
                 style: TextStyle(
-                  fontFamily: 'Nunito',
+                  fontFamily: 'Patrick Hand',
                   fontSize: isMobile ? 12 : 16,
                   color: AppColors.primary,
                   fontWeight: FontWeight.w500,
@@ -134,7 +133,7 @@ class PlayStoreProjectCard extends StatelessWidget {
         Text(
           projectId,
           style: TextStyle(
-            fontFamily: 'Nunito',
+            fontFamily: 'Patrick Hand',
             fontSize: isMobile ? 40 : 64,
             fontWeight: FontWeight.w900,
             color: AppColors.textMain.withValues(alpha: 0.05),
@@ -166,7 +165,7 @@ class PlayStoreProjectCard extends StatelessWidget {
               value,
               maxLines: 1,
               style: TextStyle(
-                fontFamily: 'Nunito',
+                fontFamily: 'Patrick Hand',
                 fontSize: isMobile ? 14 : 16,
                 fontWeight: FontWeight.w700,
                 color: AppColors.textMain,
@@ -178,7 +177,7 @@ class PlayStoreProjectCard extends StatelessWidget {
                 suffix,
                 maxLines: 1,
                 style: TextStyle(
-                  fontFamily: 'Nunito',
+                  fontFamily: 'Patrick Hand',
                   fontSize: isMobile ? 10 : 12,
                   fontWeight: FontWeight.w700,
                   color: AppColors.textMain.withValues(alpha: 0.70),
@@ -192,7 +191,7 @@ class PlayStoreProjectCard extends StatelessWidget {
           label,
           maxLines: 1,
           style: TextStyle(
-            fontFamily: 'Nunito',
+            fontFamily: 'Patrick Hand',
             fontSize: isMobile ? 9 : 11,
             fontWeight: FontWeight.w500,
             color: AppColors.textMain.withValues(alpha: 0.54),
@@ -241,7 +240,7 @@ class PlayStoreProjectCard extends StatelessWidget {
                 fit: BoxFit.cover,
                 alignment: Alignment.topCenter,
               ),
-              boxShadow: AppColors.neumorphicShadows(distance: 5, blur: 15),
+              
             ),
           );
         },
@@ -264,7 +263,7 @@ class PlayStoreProjectCard extends StatelessWidget {
           child: Text(
             tag,
             style: const TextStyle(
-              fontFamily: 'Nunito',
+              fontFamily: 'Patrick Hand',
               fontSize: 12,
               color: AppColors.textMain.withValues(alpha: 0.70),
               fontWeight: FontWeight.w600,
@@ -282,3 +281,4 @@ class PlayStoreProjectCard extends StatelessWidget {
     );
   }
 }
+

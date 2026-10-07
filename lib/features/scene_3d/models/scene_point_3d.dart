@@ -1,6 +1,8 @@
 import 'dart:math' as math;
 import 'package:flutter/material.dart';
 
+import '../../../core/themes/theme.dart';
+
 /// Represents a 3D point in world space with perspective projection capabilities
 class ScenePoint3D {
   final double x;

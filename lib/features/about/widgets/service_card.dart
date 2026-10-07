@@ -45,16 +45,7 @@ class ServiceCard extends StatelessWidget {
               color: isHovered ? theme.primaryColor.withValues(alpha: 0.5) : AppColors.textMain.withValues(alpha: 0.05),
               width: 1.5,
             ),
-            boxShadow: isHovered 
-                ? [
-                    BoxShadow(
-                      color: theme.primaryColor.withValues(alpha: 0.15),
-                      blurRadius: 30,
-                      spreadRadius: 2,
-                      offset: const Offset(0, 10),
-                    )
-                  ]
-                : null,
+            
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -66,19 +57,13 @@ class ServiceCard extends StatelessWidget {
                 curve: Curves.easeOutCubic,
                 padding: const EdgeInsets.all(16),
                 decoration: BoxDecoration(
-                  color: isHovered ? theme.primaryColor.withValues(alpha: 0.15) : AppColors.surface,
+                  color: Colors.transparent,
                   shape: BoxShape.circle,
                   border: Border.all(
                     color: isHovered ? theme.primaryColor : Colors.transparent,
                     width: 1,
                   ),
-                  boxShadow: isHovered ? [
-                    BoxShadow(
-                      color: theme.primaryColor.withValues(alpha: 0.3),
-                      blurRadius: 15,
-                      spreadRadius: 2,
-                    )
-                  ] : AppColors.neumorphicShadows(distance: 4, blur: 10),
+
                 ),
                 child: AnimatedScale(
                   scale: isHovered ? 1.1 : 1.0,
@@ -97,7 +82,7 @@ class ServiceCard extends StatelessWidget {
               ResponsiveText(
                 title,
                 style: TextStyle(
-                  fontFamily: 'Nunito',
+                  fontFamily: 'Patrick Hand',
                   fontSize: isMobile ? 16 : 18,
                   fontWeight: FontWeight.bold,
                   color: AppColors.textMain,
@@ -107,7 +92,7 @@ class ServiceCard extends StatelessWidget {
               ResponsiveText(
                 subtitle,
                 style: TextStyle(
-                  fontFamily: 'Nunito',
+                  fontFamily: 'Patrick Hand',
                   fontSize: isMobile ? 13 : 14,
                   height: 1.6,
                   color: AppColors.textSecondary,

@@ -46,7 +46,7 @@ class TechStackSection extends StatelessWidget {
               ResponsiveText(
                 entry.key,
                 style: TextStyle(
-                  fontFamily: 'Nunito',
+                  fontFamily: 'Patrick Hand',
                   fontSize: isMobile ? 20 : 28,
                   fontWeight: FontWeight.w900,
                   color: AppColors.textMain,
@@ -97,14 +97,10 @@ class _TechChip extends StatelessWidget {
           transform: Matrix4.translationValues(isHovered ? -2.0 : 0.0, isHovered ? -2.0 : 0.0, 0),
           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
           decoration: BoxDecoration(
-            color: isHovered ? AppColors.textMain.withValues(alpha: 0.05) : AppColors.surface,
+            color: Colors.transparent,
             border: Border.all(
               color: AppColors.textMain,
-              width: 1.5,
-            ),
-            boxShadow: AppColors.sketchShadows(
-              isPressed: !isHovered,
-              distance: isHovered ? 4.0 : 0.0,
+              width: 2.0,
             ),
           ),
           child: Row(
@@ -119,7 +115,7 @@ class _TechChip extends StatelessWidget {
               Text(
                 name,
                 style: TextStyle(
-                  fontFamily: 'Nunito',
+                  fontFamily: 'Patrick Hand',
                   fontSize: 14,
                   fontWeight: FontWeight.w900,
                   color: AppColors.textMain,

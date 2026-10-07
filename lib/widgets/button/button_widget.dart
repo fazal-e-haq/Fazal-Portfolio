@@ -146,7 +146,7 @@ class ButtonWidget extends StatelessWidget {
                                 style: TextStyle(
                                   color: AppColors.textMain,
                                   fontWeight: FontWeight.w900,
-                                  fontFamily: 'Nunito',
+                                  fontFamily: 'Patrick Hand',
                                   letterSpacing: isHovered ? 2.0 : 1.2,
                                   fontSize: 15,
                                 ),

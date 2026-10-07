@@ -36,13 +36,7 @@ class SpatialHudOverlay extends StatelessWidget {
                 color: AppColors.textMain.withValues(alpha: 0.06),
                 width: 1,
               ),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withValues(alpha: 0.5),
-                  blurRadius: 20,
-                  offset: const Offset(4, 4),
-                ),
-              ],
+              
             ),
             child: Column(
               mainAxisSize: MainAxisSize.min,
@@ -51,7 +45,7 @@ class SpatialHudOverlay extends StatelessWidget {
                 Text(
                   '${(progress * 100).toInt()}%',
                   style: const TextStyle(
-                    fontFamily: 'Nunito',
+                    fontFamily: 'Patrick Hand',
                     fontSize: 10,
                     fontWeight: FontWeight.w700,
                     color: AppColors.primary,
@@ -73,7 +67,7 @@ class SpatialHudOverlay extends StatelessWidget {
                         border: Border.all(color: AppColors.textMain.withValues(alpha: 0.10)),
                       ),
                       textStyle: const TextStyle(
-                        fontFamily: 'Nunito',
+                        fontFamily: 'Patrick Hand',
                         fontSize: 11,
                         color: AppColors.textMain,
                       ),
@@ -88,15 +82,7 @@ class SpatialHudOverlay extends StatelessWidget {
                           decoration: BoxDecoration(
                             color: isSelected ? AppColors.primary : AppColors.textMain.withValues(alpha: 0.24),
                             borderRadius: BorderRadius.circular(4),
-                            boxShadow: isSelected
-                                ? [
-                                    BoxShadow(
-                                      color: AppColors.primary.withValues(alpha: 0.5),
-                                      blurRadius: 10,
-                                      spreadRadius: 1,
-                                    ),
-                                  ]
-                                : null,
+                            
                           ),
                         ),
                       ),

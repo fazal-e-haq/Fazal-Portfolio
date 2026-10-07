@@ -41,7 +41,7 @@ class ProjectsSection extends StatelessWidget {
                       const Text(
                         'FEATURED WORKS',
                         style: TextStyle(
-                          fontFamily: 'Nunito',
+                          fontFamily: 'Patrick Hand',
                           fontSize: 16,
                           fontWeight: FontWeight.w600,
                           color: AppColors.secondary,
@@ -145,7 +145,7 @@ class _ProjectGlassCardState extends State<_ProjectGlassCard> {
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         style: const TextStyle(
-                          fontFamily: 'Nunito',
+                          fontFamily: 'Patrick Hand',
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
                           color: AppColors.textMain,
@@ -158,7 +158,7 @@ class _ProjectGlassCardState extends State<_ProjectGlassCard> {
                           maxLines: 3,
                           overflow: TextOverflow.ellipsis,
                           style: const TextStyle(
-                            fontFamily: 'Nunito',
+                            fontFamily: 'Patrick Hand',
                             fontSize: 13,
                             color: AppColors.textSecondary,
                             height: 1.5,
@@ -172,7 +172,7 @@ class _ProjectGlassCardState extends State<_ProjectGlassCard> {
                           Text(
                             'Explore Project',
                             style: TextStyle(
-                              fontFamily: 'Nunito',
+                              fontFamily: 'Patrick Hand',
                               fontSize: 13,
                               fontWeight: FontWeight.w600,
                               color: _isHovered ? AppColors.primary : AppColors.secondary,

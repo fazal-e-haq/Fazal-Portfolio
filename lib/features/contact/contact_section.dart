@@ -53,7 +53,7 @@ class _DesktopContact extends StatelessWidget {
             const Text(
               "Let's Build Something",
               style: TextStyle(
-                fontFamily: 'Nunito',
+                fontFamily: 'Patrick Hand',
                 fontSize: 36,
                 fontWeight: FontWeight.bold,
                 color: AppColors.textMain,
@@ -64,7 +64,7 @@ class _DesktopContact extends StatelessWidget {
               "Have an idea? I'd love to help you bring it to life. Drop a message below and I'll get back to you within 24 hours.",
               textAlign: TextAlign.center,
               style: TextStyle(
-                fontFamily: 'Nunito',
+                fontFamily: 'Patrick Hand',
                 fontSize: 16,
                 color: AppColors.textSecondary,
                 height: 1.6,
@@ -101,7 +101,7 @@ class _MobileContact extends StatelessWidget {
                   const Text(
                     "Let's Connect",
                     style: TextStyle(
-                      fontFamily: 'Nunito',
+                      fontFamily: 'Patrick Hand',
                       fontSize: 24,
                       fontWeight: FontWeight.bold,
                       color: AppColors.textMain,
@@ -112,7 +112,7 @@ class _MobileContact extends StatelessWidget {
                     "Have an idea? Drop a message below and I'll get back to you shortly.",
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                      fontFamily: 'Nunito',
+                      fontFamily: 'Patrick Hand',
                       fontSize: 14,
                       color: AppColors.textSecondary,
                       height: 1.6,
@@ -187,7 +187,7 @@ class _ContactForm extends StatelessWidget {
                 Text(
                   'Send Message',
                   style: TextStyle(
-                    fontFamily: 'Nunito',
+                    fontFamily: 'Patrick Hand',
                     fontSize: 16,
                     fontWeight: FontWeight.w600,
                   ),

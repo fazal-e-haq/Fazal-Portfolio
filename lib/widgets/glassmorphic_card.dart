@@ -39,11 +39,7 @@ class GlassmorphicCard extends StatelessWidget {
               color: AppColors.textMain.withValues(alpha: 0.8), // Shiny edge
               width: 1.5,
             ),
-            // boxShadow: AppColors.neumorphicShadows(
-            //   distance: isHovered ? 16.0 : 8.0,
-            //   blur: isHovered ? 32.0 : 16.0,
-            //   glowColor: isHovered ? AppColors.primary : null,
-            // ),
+            // 
           ),
           child: child,
         ),

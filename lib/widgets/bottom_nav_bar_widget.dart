@@ -12,11 +12,7 @@ class BottomNavBarWidget extends StatelessWidget {
 
   static const List<NavBarItem> items = [
     NavBarItem(title: 'Intro', index: 0, icon: CupertinoIcons.home),
-    NavBarItem(
-      title: 'About',
-      index: 1,
-      icon: CupertinoIcons.person_crop_circle,
-    ),
+    NavBarItem(title: 'About', index: 1, icon: CupertinoIcons.person_crop_circle),
     NavBarItem(title: 'Works', index: 2, icon: CupertinoIcons.briefcase),
     NavBarItem(title: 'Contact', index: 3, icon: CupertinoIcons.mail),
   ];
@@ -32,46 +28,61 @@ class BottomNavBarWidget extends StatelessWidget {
             height: 70,
             margin: const EdgeInsets.only(bottom: 12),
             padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 8),
-            decoration: BoxDecoration(
-              color: const Color(0xFF16181C), // Deep premium dark background
-              borderRadius: BorderRadius.circular(24),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withValues(alpha: 0.8),
-                  blurRadius: 15,
-                  spreadRadius: 2,
-                  offset: const Offset(4, 4),
+            child: Stack(
+              clipBehavior: Clip.none,
+              children: [
+                // Scribble secondary border
+                Positioned.fill(
+                  child: Transform.rotate(
+                    angle: 0.015,
+                    child: Container(
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          color: AppColors.textMain.withValues(alpha: 0.4),
+                          width: 1.5,
+                        ),
+                      ),
+                    ),
+                  ),
                 ),
-                BoxShadow(
-                  color: AppColors.textMain.withValues(alpha: 0.05),
-                  blurRadius: 15,
-                  spreadRadius: 1,
-                  offset: const Offset(-4, -4),
+                // Main outline box
+                Transform.rotate(
+                  angle: -0.010,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Colors.transparent, // Outline only!
+                      border: Border.all(
+                        color: AppColors.textMain,
+                        width: 2.0,
+                      ),
+                    ),
+                    child: Transform.rotate(
+                      angle: 0.010,
+                      child: Obx(() {
+                        final int currentIndex = Get.isRegistered<ScrollCoordinatorController>()
+                            ? Get.find<ScrollCoordinatorController>().activeSectionIndex.value
+                            : Get.find<NavigationController>().currentIndex;
+                        return Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          mainAxisSize: MainAxisSize.min,
+                          children: List.generate(items.length, (index) {
+                            final item = items[index];
+                            return Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 6),
+                              child: BottomNavBarButton(
+                                pageIndex: item.index,
+                                icon: item.icon,
+                                isSelected: currentIndex == item.index,
+                              ),
+                            );
+                          }),
+                        );
+                      }),
+                    ),
+                  ),
                 ),
               ],
             ),
-            child: Obx(() {
-              final int currentIndex = Get.isRegistered<ScrollCoordinatorController>()
-                  ? Get.find<ScrollCoordinatorController>().activeSectionIndex.value
-                  : Get.find<NavigationController>().currentIndex;
-              return Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                mainAxisSize: MainAxisSize.min,
-                children: List.generate(items.length, (index) {
-                  final item = items[index];
-                  return Padding(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 6,
-                    ), // Closer space between icons
-                    child: BottomNavBarButton(
-                      pageIndex: item.index,
-                      icon: item.icon,
-                      isSelected: currentIndex == item.index,
-                    ),
-                  );
-                }),
-              );
-            }),
           ),
         ],
       ),
@@ -100,8 +111,6 @@ class _BottomNavBarButtonState extends State<BottomNavBarButton> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-
     return GestureDetector(
       onTapDown: (_) => setState(() => _isPressed = true),
       onTapUp: (_) {
@@ -123,34 +132,20 @@ class _BottomNavBarButtonState extends State<BottomNavBarButton> {
           curve: Curves.easeOutCubic,
           padding: EdgeInsets.all(widget.isSelected ? 16 : 12),
           decoration: BoxDecoration(
-            color: widget.isSelected
-                ? theme.primaryColor.withValues(alpha: 0.2)
-                : Colors.transparent,
-            shape: BoxShape.circle,
+            color: Colors.transparent,
+            shape: BoxShape.rectangle, // Keep it edgy
             border: Border.all(
-              color: widget.isSelected
-                  ? theme.primaryColor.withValues(alpha: 0.6)
-                  : Colors.transparent,
-              width: 1,
+              color: widget.isSelected ? AppColors.textMain : Colors.transparent,
+              width: 2,
             ),
-            boxShadow: widget.isSelected
-                ? [
-                    BoxShadow(
-                      color: theme.primaryColor.withValues(alpha: 0.4),
-                      blurRadius: 16,
-                      spreadRadius: 2,
-                    ),
-                  ]
-                : [],
           ),
           child: Icon(
             widget.icon,
             size: 22,
-            color: widget.isSelected ? theme.primaryColor : AppColors.textMain.withValues(alpha: 0.60),
+            color: AppColors.textMain,
           ),
         ),
       ),
     );
   }
 }
-

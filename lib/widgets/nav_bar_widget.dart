@@ -7,18 +7,12 @@ import '../models/nav_bar_item_model.dart';
 import '../features/app_shell/navigation_controller.dart';
 import '../features/app_shell/scroll_coordinator_controller.dart';
 
-// NavBar
 class NavBarWidget extends StatelessWidget implements PreferredSizeWidget {
   const NavBarWidget({super.key});
 
-  // List of items which include in NavBar using Premium Cupertino Icons
   static const List<NavBarItem> items = [
     NavBarItem(title: 'Intro', index: 0, icon: CupertinoIcons.home),
-    NavBarItem(
-      title: 'About',
-      index: 1,
-      icon: CupertinoIcons.person_crop_circle,
-    ),
+    NavBarItem(title: 'About', index: 1, icon: CupertinoIcons.person_crop_circle),
     NavBarItem(title: 'Works', index: 2, icon: CupertinoIcons.briefcase),
     NavBarItem(title: 'Contact', index: 3, icon: CupertinoIcons.mail),
   ];
@@ -26,7 +20,7 @@ class NavBarWidget extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      automaticallyImplyLeading: false, // Prevents back button from showing
+      automaticallyImplyLeading: false,
       backgroundColor: Colors.transparent,
       surfaceTintColor: Colors.transparent,
       forceMaterialTransparency: true,
@@ -38,44 +32,59 @@ class NavBarWidget extends StatelessWidget implements PreferredSizeWidget {
         height: 64,
         margin: const EdgeInsets.only(top: 20),
         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
-        // Premium Monomorphic / Neumorphic design for the menu bar
-        decoration: BoxDecoration(
-          color: const Color(0xFF16181C), // Deep premium dark background
-          borderRadius: BorderRadius.circular(24),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withValues(alpha: 0.8),
-              blurRadius: 15,
-              spreadRadius: 2,
-              offset: const Offset(4, 4),
+        child: Stack(
+          clipBehavior: Clip.none,
+          children: [
+            // Scribble secondary border
+            Positioned.fill(
+              child: Transform.rotate(
+                angle: 0.015,
+                child: Container(
+                  decoration: BoxDecoration(
+                    border: Border.all(
+                      color: AppColors.textMain.withValues(alpha: 0.4),
+                      width: 1.5,
+                    ),
+                  ),
+                ),
+              ),
             ),
-            BoxShadow(
-              color: AppColors.textMain.withValues(alpha: 0.05),
-              blurRadius: 15,
-              spreadRadius: 1,
-              offset: const Offset(-4, -4),
+            // Main outline box
+            Transform.rotate(
+              angle: -0.010,
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Colors.transparent,
+                  border: Border.all(
+                    color: AppColors.textMain,
+                    width: 2.0,
+                  ),
+                ),
+                child: Transform.rotate(
+                  angle: 0.010,
+                  child: Obx(() {
+                    final int value = Get.isRegistered<ScrollCoordinatorController>() 
+                        ? Get.find<ScrollCoordinatorController>().activeSectionIndex.value 
+                        : Get.find<NavigationController>().currentIndex;
+                    return Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      mainAxisSize: MainAxisSize.min,
+                      children: List.generate(items.length, (index) {
+                        final item = items[index];
+                        return NavBarButton(
+                          title: item.title,
+                          icon: item.icon,
+                          pageIndex: item.index,
+                          isSelected: value == item.index,
+                        );
+                      }),
+                    );
+                  }),
+                ),
+              ),
             ),
           ],
         ),
-        // Horizontal list of animated hover buttons
-        child: Obx(() {
-          final int value = Get.isRegistered<ScrollCoordinatorController>() 
-              ? Get.find<ScrollCoordinatorController>().activeSectionIndex.value 
-              : Get.find<NavigationController>().currentIndex;
-          return Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            mainAxisSize: MainAxisSize.min,
-            children: List.generate(items.length, (index) {
-              final item = items[index];
-              return NavBarButton(
-                title: item.title,
-                icon: item.icon,
-                pageIndex: item.index,
-                isSelected: value == item.index,
-              );
-            }),
-          );
-        }),
       ),
     );
   }
@@ -84,7 +93,6 @@ class NavBarWidget extends StatelessWidget implements PreferredSizeWidget {
   Size get preferredSize => const Size.fromHeight(120);
 }
 
-// Animated NavBar button
 class NavBarButton extends StatefulWidget {
   const NavBarButton({
     super.key,
@@ -109,8 +117,6 @@ class _NavBarButtonState extends State<NavBarButton> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-
     return MouseRegion(
       onEnter: (_) => setState(() => _isHovered = true),
       onExit: (_) => setState(() => _isHovered = false),
@@ -119,31 +125,18 @@ class _NavBarButtonState extends State<NavBarButton> {
         message: widget.title,
         verticalOffset: 32,
         decoration: BoxDecoration(
-          color: const Color(0xFF16181C), // Deep dark premium background
-          borderRadius: BorderRadius.circular(8),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withValues(alpha: 0.6),
-              blurRadius: 8,
-              offset: const Offset(2, 2),
-            ),
-            BoxShadow(
-              color: AppColors.textMain.withValues(alpha: 0.03),
-              blurRadius: 8,
-              offset: const Offset(-2, -2),
-            ),
-          ],
+          color: Colors.transparent,
           border: Border.all(
-            color: AppColors.textMain.withValues(alpha: 0.05),
-            width: 1,
+            color: AppColors.textMain,
+            width: 2,
           ),
         ),
         textStyle: const TextStyle(
           color: AppColors.textMain,
-          fontSize: 12,
-          fontWeight: FontWeight.w600,
+          fontSize: 14,
+          fontWeight: FontWeight.w900,
           letterSpacing: 1.0,
-          fontFamily: 'Nunito',
+          fontFamily: 'Patrick Hand',
         ),
         child: GestureDetector(
           onTapDown: (_) => setState(() => _isPressed = true),
@@ -164,36 +157,21 @@ class _NavBarButtonState extends State<NavBarButton> {
               duration: const Duration(milliseconds: 300),
               curve: Curves.easeOutCubic,
               margin: const EdgeInsets.symmetric(horizontal: 8),
-              padding: const EdgeInsets.all(12),
+              padding: const EdgeInsets.all(10),
               decoration: BoxDecoration(
-                color: widget.isSelected
-                    ? theme.primaryColor.withValues(alpha: 0.15)
-                    : (_isHovered
-                          ? AppColors.textMain.withValues(alpha: 0.05)
-                          : Colors.transparent),
-                shape: BoxShape.circle,
+                color: Colors.transparent,
+                shape: BoxShape.rectangle, // Keep it edgy for sketch
                 border: Border.all(
-                  color: widget.isSelected
-                      ? theme.primaryColor.withValues(alpha: 0.5)
+                  color: widget.isSelected || _isHovered
+                      ? AppColors.textMain
                       : Colors.transparent,
-                  width: 1,
+                  width: 2,
                 ),
-                boxShadow: widget.isSelected
-                    ? [
-                        BoxShadow(
-                          color: theme.primaryColor.withValues(alpha: 0.3),
-                          blurRadius: 12,
-                          spreadRadius: 1,
-                        ),
-                      ]
-                    : [],
               ),
               child: Icon(
                 widget.icon,
-                color: widget.isSelected
-                    ? theme.primaryColor
-                    : (_isHovered ? AppColors.textMain : AppColors.textMain.withValues(alpha: 0.54)),
-                size: 22,
+                color: AppColors.textMain,
+                size: 24,
               ),
             ),
           ),
@@ -202,4 +180,3 @@ class _NavBarButtonState extends State<NavBarButton> {
     );
   }
 }
-

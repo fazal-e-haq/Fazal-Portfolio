@@ -89,20 +89,7 @@ class _FloatingSkillCardState extends State<FloatingSkillCard> with SingleTicker
                   color: isHovered ? widget.hoverColor.withValues(alpha: 0.6) : AppColors.textMain.withValues(alpha: 0.05),
                   width: isHovered ? 1.5 : 1.0,
                 ),
-                boxShadow: isHovered 
-                    ? [
-                        BoxShadow(
-                          color: widget.hoverColor.withValues(alpha: 0.4),
-                          blurRadius: 20,
-                          spreadRadius: 4,
-                        ),
-                        BoxShadow(
-                          color: widget.hoverColor.withValues(alpha: 0.2),
-                          blurRadius: 40,
-                          spreadRadius: 8,
-                        ),
-                      ]
-                    : AppColors.neumorphicShadows(distance: 4, blur: 8),
+
               ),
               child: Row(
                 mainAxisSize: MainAxisSize.min,
@@ -119,7 +106,7 @@ class _FloatingSkillCardState extends State<FloatingSkillCard> with SingleTicker
                   AnimatedDefaultTextStyle(
                     duration: const Duration(milliseconds: 300),
                     style: TextStyle(
-                      fontFamily: 'Nunito',
+                      fontFamily: 'Patrick Hand',
                       fontSize: widget.isMobile ? 11 : 16, 
                       fontWeight: isHovered ? FontWeight.bold : FontWeight.w600,
                       color: isHovered ? widget.hoverColor : AppColors.textMain.withValues(alpha: 0.70),

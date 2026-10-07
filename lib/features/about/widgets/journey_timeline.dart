@@ -175,15 +175,7 @@ class JourneyTimeline extends StatelessWidget {
                   color: AppColors.primary,
                   width: isHovered || isHighlighted ? 6 : 3,
                 ),
-                boxShadow: isHovered || isHighlighted
-                    ? [
-                        BoxShadow(
-                          color: AppColors.primary.withValues(alpha: 0.4),
-                          blurRadius: 12,
-                          spreadRadius: 2,
-                        )
-                      ]
-                    : null,
+                
               ),
             );
           }),
@@ -206,7 +198,6 @@ class JourneyTimeline extends StatelessWidget {
             color: isHovered ? AppColors.primary.withValues(alpha: 0.15) : AppColors.textMain.withValues(alpha: 0.05),
             width: 1,
           ),
-          boxShadow: isHovered ? AppColors.neumorphicShadows(distance: 8, blur: 20) : null,
         ),
         child: Column(
           crossAxisAlignment: alignRight ? CrossAxisAlignment.end : CrossAxisAlignment.start,
@@ -214,7 +205,7 @@ class JourneyTimeline extends StatelessWidget {
             ResponsiveText(
               year,
               style: TextStyle(
-                fontFamily: 'Nunito',
+                fontFamily: 'Patrick Hand',
                 fontSize: isMobile ? 24 : 32,
                 fontWeight: FontWeight.w900,
                 color: isHovered || isHighlighted ? AppColors.primary : AppColors.textMain.withValues(alpha: 0.24),
@@ -225,7 +216,7 @@ class JourneyTimeline extends StatelessWidget {
               title,
               textAlign: alignRight ? TextAlign.right : TextAlign.left,
               style: const TextStyle(
-                fontFamily: 'Nunito',
+                fontFamily: 'Patrick Hand',
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
                 color: AppColors.textMain,
@@ -236,7 +227,7 @@ class JourneyTimeline extends StatelessWidget {
               description,
               textAlign: alignRight ? TextAlign.right : TextAlign.left,
               style: const TextStyle(
-                fontFamily: 'Nunito',
+                fontFamily: 'Patrick Hand',
                 fontSize: 15,
                 height: 1.6,
                 color: AppColors.textSecondary,
@@ -248,3 +239,4 @@ class JourneyTimeline extends StatelessWidget {
     });
   }
 }
+

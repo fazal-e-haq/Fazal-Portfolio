@@ -44,6 +44,6 @@ flutter:
 
   # Custom Fonts — brand typography
   fonts:
-    - family: Nunito
+    - family: 'Patrick Hand'
       fonts:
-        - asset: assets/fonts/nunito/Nunito-Regular.ttf
+        - asset: assets/fonts/patrick-hand/PatrickHand-Regular.ttf
