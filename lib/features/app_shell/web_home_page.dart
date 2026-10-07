@@ -3,20 +3,23 @@ import 'dart:js_interop';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:web/web.dart' as web;
-import 'package:fazal_portfolio/features/introduction/introduction_section.dart';
-import 'package:fazal_portfolio/features/about/about_section.dart';
-import 'package:fazal_portfolio/features/contact/contact_section.dart';
-import 'package:fazal_portfolio/widgets/nav_bar_widget.dart';
-import 'package:fazal_portfolio/widgets/bottom_nav_bar_widget.dart';
-import 'package:fazal_portfolio/core/constants/app_sizes.dart';
+
+import '../../core/constants/app_sizes.dart';
+import '../introduction/introduction_section.dart';
+import '../about/about_section.dart';
 import '../project/projects_section.dart';
-import 'navigation_controller.dart';
+import '../contact/contact_section.dart';
+import '../../widgets/nav_bar_widget.dart';
+import '../../widgets/bottom_nav_bar_widget.dart';
+import '../../widgets/hud/spatial_hud_overlay.dart';
+import '../scene_3d/widgets/spatial_backdrop_canvas.dart';
+import '../scene_3d/widgets/perspective_card_wrapper.dart';
+import 'scroll_coordinator_controller.dart';
 
 class WebHomePage extends StatefulWidget {
   const WebHomePage({super.key});
 
   /// Completes once the HTML splash is removed AND the Flutter fade-in finishes.
-  /// FadeInUpWidget awaits this so animations play visibly after the splash.
   static Completer<void> splashComplete = Completer<void>();
 
   @override
@@ -24,54 +27,41 @@ class WebHomePage extends StatefulWidget {
 }
 
 class _WebHomePageState extends State<WebHomePage> with SingleTickerProviderStateMixin {
-  late final NavigationController _navController;
   late final AnimationController _fadeController;
-
-  static final List<Widget> pages = [
-    const Introduction(),
-    const AboutSection(),
-    const ProjectsSection(),
-    const ContactSection(),
-  ];
+  late final ScrollCoordinatorController _scrollCoordinator;
 
   @override
   void initState() {
     super.initState();
-    _navController = Get.find<NavigationController>();
+    
+    // Register the unified vertical scroll coordinator
+    _scrollCoordinator = Get.put(ScrollCoordinatorController());
 
-    // Reset for hot-restart support
     if (WebHomePage.splashComplete.isCompleted) {
       WebHomePage.splashComplete = Completer<void>();
     }
 
-    // Fade-in controller: starts AFTER the HTML splash is removed
     _fadeController = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 1000),
+      duration: const Duration(milliseconds: 1200),
     );
 
-    // When the Flutter fade-in finishes, signal that entry animations can begin
     _fadeController.addStatusListener((status) {
       if (status == AnimationStatus.completed && !WebHomePage.splashComplete.isCompleted) {
         WebHomePage.splashComplete.complete();
       }
     });
 
-    // Listen for the HTML splash removal event from JavaScript.
-    // Only THEN start the Flutter fade-in, so animations don't run behind the splash.
     _listenForSplashRemoval();
   }
 
   void _listenForSplashRemoval() {
-    // Check if splash element is already gone (e.g. sessionStorage skip)
     final splash = web.document.getElementById('splash-container');
     if (splash == null) {
-      // Splash already removed — start immediately
       _fadeController.forward();
       return;
     }
 
-    // Wait for the JS 'splash-removed' custom event
     web.window.addEventListener(
       'splash-removed',
       (web.Event event) {
@@ -80,28 +70,43 @@ class _WebHomePageState extends State<WebHomePage> with SingleTickerProviderStat
     );
   }
 
-
   @override
   void dispose() {
     _fadeController.dispose();
     super.dispose();
   }
 
+  Widget _buildPerspectiveSection(Widget child, int index, BoxConstraints constraints) {
+    // Force height to exactly viewport height for perfect scroll math mapping
+    return SizedBox(
+      height: constraints.maxHeight,
+      child: Obx(() {
+        final double progress = _scrollCoordinator.scrollProgress.value;
+        // Calculate depth distance from this section
+        final double distanceFromActive = (progress - index);
+        
+        // When active (distance == 0), depth is 0. 
+        // When scrolling away, push it back into 3D space slightly
+        final double zDepth = (distanceFromActive.abs() * -100).clamp(-500.0, 0.0);
+        final double tiltX = (distanceFromActive * 0.1).clamp(-0.2, 0.2);
+
+        return PerspectiveCardWrapper(
+          depthZ: zDepth,
+          tiltX: tiltX,
+          child: Opacity(
+            opacity: (1.0 - distanceFromActive.abs() * 0.5).clamp(0.0, 1.0),
+            child: child,
+          ),
+        );
+      }),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    // The body that forces its children to rebuild and replay their internal entrance animations
-    Widget bodyContent = Obx(() {
-      final int index = _navController.currentIndex;
-      return KeyedSubtree(
-        key: ValueKey<int>(index),
-        child: pages[index],
-      );
-    });
-
-    // Provide the layout structure
     return LayoutBuilder(
       builder: (context, constraints) {
-        bool isMobile = AppSizes.isMobile(constraints);
+        final bool isMobile = AppSizes.isMobile(constraints);
 
         return FadeTransition(
           opacity: CurvedAnimation(
@@ -109,18 +114,44 @@ class _WebHomePageState extends State<WebHomePage> with SingleTickerProviderStat
             curve: Curves.easeOut,
           ),
           child: Scaffold(
-            backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-            extendBodyBehindAppBar: true, // Appbar floats beautifully over content
-            extendBody: true,             // Bottom navigation floats over content
+            backgroundColor: Colors.transparent, // Background handled by SpatialBackdropCanvas
+            extendBodyBehindAppBar: true,
+            extendBody: true,
             
-            // TOP NAV BAR: Only show if Desktop, Tablet, or Ultrawide
             appBar: (!isMobile) ? const NavBarWidget() : null,
-
-            // BOTTOM NAV BAR: Only show if Mobile
             bottomNavigationBar: isMobile ? const BottomNavBarWidget() : null,
 
-            // BODY: The content that rebuilds its state on tab change
-            body: bodyContent,
+            body: MouseRegion(
+              onHover: (event) => _scrollCoordinator.updateMouseParallax(event.localPosition, MediaQuery.of(context).size),
+              child: Stack(
+                children: [
+                  // 1. Deepest Layer: 3D Spatial Environment
+                  const Positioned.fill(
+                    child: SpatialBackdropCanvas(),
+                  ),
+
+                  // 2. Middle Layer: Continuous Vertical Scrolling Content
+                  Positioned.fill(
+                    child: ListView(
+                      controller: _scrollCoordinator.scrollController,
+                      physics: const BouncingScrollPhysics(),
+                      children: [
+                        _buildPerspectiveSection(const Introduction(), 0, constraints),
+                        _buildPerspectiveSection(const AboutSection(), 1, constraints),
+                        _buildPerspectiveSection(const ProjectsSection(), 2, constraints),
+                        _buildPerspectiveSection(const ContactSection(), 3, constraints),
+                        // Add some bottom padding for the mobile nav bar space
+                        if (isMobile) const SizedBox(height: 100),
+                      ],
+                    ),
+                  ),
+
+                  // 3. Top Layer: Floating HUD (Hidden on mobile for space)
+                  if (!isMobile)
+                    const SpatialHudOverlay(),
+                ],
+              ),
+            ),
           ),
         );
       },

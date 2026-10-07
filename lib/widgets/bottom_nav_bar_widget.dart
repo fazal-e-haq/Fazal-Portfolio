@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 
 import '../models/nav_bar_item_model.dart';
 import '../features/app_shell/navigation_controller.dart';
+import '../features/app_shell/scroll_coordinator_controller.dart';
 
 class BottomNavBarWidget extends StatelessWidget {
   const BottomNavBarWidget({super.key});
@@ -49,8 +50,9 @@ class BottomNavBarWidget extends StatelessWidget {
               ],
             ),
             child: Obx(() {
-              final int currentIndex =
-                  Get.find<NavigationController>().currentIndex;
+              final int currentIndex = Get.isRegistered<ScrollCoordinatorController>()
+                  ? Get.find<ScrollCoordinatorController>().activeSectionIndex.value
+                  : Get.find<NavigationController>().currentIndex;
               return Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 mainAxisSize: MainAxisSize.min,
@@ -103,7 +105,11 @@ class _BottomNavBarButtonState extends State<BottomNavBarButton> {
       onTapDown: (_) => setState(() => _isPressed = true),
       onTapUp: (_) {
         setState(() => _isPressed = false);
-        Get.find<NavigationController>().setIndex(widget.pageIndex);
+        if (Get.isRegistered<ScrollCoordinatorController>()) {
+          Get.find<ScrollCoordinatorController>().scrollToSection(widget.pageIndex);
+        } else {
+          Get.find<NavigationController>().setIndex(widget.pageIndex);
+        }
       },
       onTapCancel: () => setState(() => _isPressed = false),
       behavior: HitTestBehavior.opaque,

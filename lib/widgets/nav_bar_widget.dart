@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 
 import '../models/nav_bar_item_model.dart';
 import '../features/app_shell/navigation_controller.dart';
+import '../features/app_shell/scroll_coordinator_controller.dart';
 
 // NavBar
 class NavBarWidget extends StatelessWidget implements PreferredSizeWidget {
@@ -57,7 +58,9 @@ class NavBarWidget extends StatelessWidget implements PreferredSizeWidget {
         ),
         // Horizontal list of animated hover buttons
         child: Obx(() {
-          final int value = Get.find<NavigationController>().currentIndex;
+          final int value = Get.isRegistered<ScrollCoordinatorController>() 
+              ? Get.find<ScrollCoordinatorController>().activeSectionIndex.value 
+              : Get.find<NavigationController>().currentIndex;
           return Row(
             mainAxisAlignment: MainAxisAlignment.center,
             mainAxisSize: MainAxisSize.min,
@@ -145,7 +148,11 @@ class _NavBarButtonState extends State<NavBarButton> {
           onTapDown: (_) => setState(() => _isPressed = true),
           onTapUp: (_) {
             setState(() => _isPressed = false);
-            Get.find<NavigationController>().setIndex(widget.pageIndex);
+            if (Get.isRegistered<ScrollCoordinatorController>()) {
+              Get.find<ScrollCoordinatorController>().scrollToSection(widget.pageIndex);
+            } else {
+              Get.find<NavigationController>().setIndex(widget.pageIndex);
+            }
           },
           onTapCancel: () => setState(() => _isPressed = false),
           child: AnimatedScale(
