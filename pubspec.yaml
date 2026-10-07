@@ -47,6 +47,6 @@ flutter:
     - family: Poppins
       fonts:
         - asset: assets/fonts/poppins/Poppins-Regular.ttf
-    - family: Unbounded
+    - family: Nunito
       fonts:
-        - asset: assets/fonts/unbounded/Unbounded-Regular.ttf
+        - asset: assets/fonts/nunito/Nunito-Regular.ttf

@@ -45,6 +45,17 @@ class AppColors {
       ),
     ];
   }
+
+  /// Legacy wrapper to fix compilation errors for older components. 
+  /// Automatically applies the new brutalist sketch shadow style instead.
+  static List<BoxShadow> neumorphicShadows({
+    bool isPressed = false,
+    double distance = 6.0,
+    double blur = 12.0,
+    Color? glowColor,
+  }) {
+    return sketchShadows(isPressed: isPressed, distance: distance);
+  }
 }
 
 /// The main theme configuration for the application (Sketch Mode)
@@ -53,7 +64,7 @@ final ThemeData mainTheme = ThemeData(
   primaryColor: AppColors.primary,
   scaffoldBackgroundColor: AppColors.background,
   cardColor: AppColors.surface,
-  fontFamily: 'Unbounded', // Bolder, raw font
+  fontFamily: 'Nunito',
 
   appBarTheme: const AppBarTheme(
     backgroundColor: Colors.transparent,
@@ -66,13 +77,13 @@ final ThemeData mainTheme = ThemeData(
       fontSize: 32,
       fontWeight: FontWeight.w900,
       color: AppColors.textMain,
-      fontFamily: 'Unbounded',
+      fontFamily: 'Nunito',
     ),
     headlineMedium: TextStyle(
       fontSize: 24,
       fontWeight: FontWeight.w900,
       color: AppColors.textMain,
-      fontFamily: 'Unbounded',
+      fontFamily: 'Nunito',
     ),
     bodyLarge: TextStyle(
       fontFamily: 'Poppins',
