@@ -279,45 +279,85 @@ class _HoverGlassImageState extends State<_HoverGlassImage> {
           double rotateX = dy * maxTilt * -1;
           double rotateY = dx * maxTilt;
 
-          return TweenAnimationBuilder(
-            tween: Tween<double>(begin: 0, end: _isHovered ? 1.0 : 0.0),
-            duration: const Duration(milliseconds: 300),
-            curve: Curves.easeOutCubic,
-            builder: (context, double hoverProgress, _) {
-              final Matrix4 transform = Matrix4.identity()
-                ..setEntry(3, 2, 0.001)
-                ..rotateX(rotateX * hoverProgress)
-                ..rotateY(rotateY * hoverProgress);
+            return TweenAnimationBuilder(
+              tween: Tween<double>(begin: 0, end: _isHovered ? 1.0 : 0.0),
+              duration: const Duration(milliseconds: 300),
+              curve: Curves.easeOutCubic,
+              builder: (context, double hoverProgress, _) {
+                final Matrix4 transform = Matrix4.identity()
+                  ..setEntry(3, 2, 0.001)
+                  ..rotateX(rotateX * hoverProgress)
+                  ..rotateY(rotateY * hoverProgress);
 
-              return Transform(
-                transform: transform,
-                alignment: FractionalOffset.center,
-                child: SketchCard(
-                  width: widget.width,
-                  height: widget.height,
-                  padding: EdgeInsets.zero,
-                  isHovered: _isHovered,
-                  child: Stack(
-                    fit: StackFit.expand,
-                    children: [
-                      // The actual image
-                      ClipRRect(
-                        borderRadius: BorderRadius.circular(24),
-                        child: AnimatedScale(
-                          duration: const Duration(seconds: 4),
-                          scale: _isHovered ? 1.05 : 1.0,
-                          curve: Curves.easeOutCubic,
-                          child: Image.asset(
-                            'assets/Images/my-image/my-pic.png',
-                            fit: BoxFit.cover,
+                return Transform(
+                  transform: transform,
+                  alignment: FractionalOffset.center,
+                  child: SizedBox(
+                    width: widget.width,
+                    height: widget.height,
+                    child: Stack(
+                      clipBehavior: Clip.none,
+                      alignment: Alignment.center,
+                      children: [
+                        // Huge background text
+                        Positioned(
+                          top: widget.height * 0.15,
+                          child: Transform.translate(
+                            // Parallax the text in the opposite direction
+                            offset: Offset(-dx * 20, -dy * 20),
+                            child: FittedBox(
+                              fit: BoxFit.scaleDown,
+                              child: Text(
+                                'FAZAL',
+                                style: TextStyle(
+                                  fontFamily: 'Patrick Hand',
+                                  fontSize: widget.width * 0.7,
+                                  fontWeight: FontWeight.w900,
+                                  height: 1.0,
+                                  letterSpacing: 20.0,
+                                  color: AppColors.textMain.withValues(alpha: 0.04), // Very faint outline style
+                                ),
+                              ),
+                            ),
                           ),
                         ),
-                      ),
-                    ],
+                        Positioned(
+                          bottom: widget.height * 0.15,
+                          child: Transform.translate(
+                            offset: Offset(-dx * 20, -dy * 20),
+                            child: FittedBox(
+                              fit: BoxFit.scaleDown,
+                              child: Text(
+                                'E-HAQ',
+                                style: TextStyle(
+                                  fontFamily: 'Patrick Hand',
+                                  fontSize: widget.width * 0.7,
+                                  fontWeight: FontWeight.w900,
+                                  height: 1.0,
+                                  letterSpacing: 20.0,
+                                  color: AppColors.textMain.withValues(alpha: 0.04),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        // The freestanding image on top
+                        Positioned.fill(
+                          child: AnimatedScale(
+                            duration: const Duration(seconds: 4),
+                            scale: _isHovered ? 1.03 : 1.0,
+                            curve: Curves.easeOutCubic,
+                            child: Image.asset(
+                              'assets/Images/my-image/my-pic.png',
+                              fit: BoxFit.contain, // Allow transparency to show around it
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-              );
-            },
+                );
+              },
           );
         },
       ),
