@@ -430,3 +430,5 @@ class _MagneticButtonState extends State<_MagneticButton> {
     );
   }
 }
+
+

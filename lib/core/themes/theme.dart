@@ -92,7 +92,7 @@ final ThemeData mainTheme = ThemeData(
 
   elevatedButtonTheme: ElevatedButtonThemeData(
     style: ElevatedButton.styleFrom(
-      backgroundColor: AppColors.primary,
+      backgroundColor: Colors.transparent,
       foregroundColor: AppColors.textMain,
       padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 15),
       shape: RoundedRectangleBorder(

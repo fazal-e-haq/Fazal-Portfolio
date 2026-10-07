@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import '../../widgets/button/button_widget.dart';
 import 'package:get/get.dart';
 
 import '../../core/constants/app_sizes.dart';
@@ -171,34 +172,26 @@ class _ContactForm extends StatelessWidget {
         SizedBox(
           width: 240,
           height: 56,
-          child: ElevatedButton(
+          child: ButtonWidget(
+            id: 'contact_submit_btn',
             onPressed: () {
               contactController.sendEmail();
             },
-            style: ElevatedButton.styleFrom(
-              backgroundColor: AppColors.primary,
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(100)),
-              elevation: 4,
-              shadowColor: AppColors.primary.withValues(alpha: 0.5),
+            text: const Text(
+              'Send Message',
+              style: TextStyle(
+                fontFamily: 'Patrick Hand',
+                fontSize: 16,
+                fontWeight: FontWeight.w600,
+                color: AppColors.textMain,
+              ),
             ),
-            child: const Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  'Send Message',
-                  style: TextStyle(
-                    fontFamily: 'Patrick Hand',
-                    fontSize: 16,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-                SizedBox(width: 8),
-                Icon(CupertinoIcons.paperplane, size: 18),
-              ],
-            ),
+            icon: const Icon(CupertinoIcons.paperplane, size: 18, color: AppColors.textMain),
           ),
         ),
       ],
     );
   }
 }
+
+

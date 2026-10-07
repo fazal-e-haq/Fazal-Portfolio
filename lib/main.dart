@@ -43,8 +43,10 @@ class MyPortfolio extends StatelessWidget {
         // Responsive body text sizes: 12 mobile, 13 tablet, 14 desktop
         final double baseFontSize = screenWidth < 600 ? 12 : (screenWidth < 1100 ? 13 : 14);
         
-        return Theme(
-          data: mainTheme.copyWith(
+        return ScrollConfiguration(
+          behavior: ScrollConfiguration.of(context).copyWith(scrollbars: false),
+          child: Theme(
+            data: mainTheme.copyWith(
             textTheme: mainTheme.textTheme.copyWith(
               bodyLarge: mainTheme.textTheme.bodyLarge?.copyWith(fontSize: baseFontSize),
               bodyMedium: mainTheme.textTheme.bodyMedium?.copyWith(fontSize: baseFontSize),
@@ -52,6 +54,7 @@ class MyPortfolio extends StatelessWidget {
             ),
           ),
           child: child!,
+        ),
         );
       },
 
