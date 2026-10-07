@@ -1,95 +1,51 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import '../scene_3d_controller.dart';
+import '../../core/themes/theme.dart';
 
-/// Renders a dynamic 3D depth-projected spatial canvas responding to camera motion
-class SpatialBackdropCanvas extends StatefulWidget {
+/// A subtle, raw pencil-sketch style grid background
+class SpatialBackdropCanvas extends StatelessWidget {
   const SpatialBackdropCanvas({super.key});
 
   @override
-  State<SpatialBackdropCanvas> createState() => _SpatialBackdropCanvasState();
-}
-
-class _SpatialBackdropCanvasState extends State<SpatialBackdropCanvas> with SingleTickerProviderStateMixin {
-  late final Scene3DController _controller;
-
-  @override
-  void initState() {
-    super.initState();
-    _controller = Get.put(Scene3DController());
-    _controller.initTicker(this);
-  }
-
-  @override
-  void dispose() {
-    _controller.disposeTicker();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
-    return AnimatedBuilder(
-      animation: _controller.tickerController,
-      builder: (context, _) {
-        return Container(
-          decoration: const BoxDecoration(
-            gradient: RadialGradient(
-              center: Alignment(0, -0.2),
-              radius: 1.5,
-              colors: [
-                Color(0xFFFFFFFF), // Pure white center
-                Color(0xFFF3F5F7), // Soft alabaster edges
-              ],
-            ),
-          ),
-          child: CustomPaint(
-            size: Size.infinite,
-            painter: _SpatialCanvasPainter(controller: _controller),
-          ),
-        );
-      },
+    return Container(
+      color: AppColors.background,
+      child: CustomPaint(
+        size: Size.infinite,
+        painter: _SketchGridPainter(),
+      ),
     );
   }
 }
 
-class _SpatialCanvasPainter extends CustomPainter {
-  final Scene3DController controller;
-
-  _SpatialCanvasPainter({required this.controller});
-
+class _SketchGridPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
-    if (size.width <= 0 || size.height <= 0) return;
+    final paint = Paint()
+      ..color = AppColors.textMain.withValues(alpha: 0.05)
+      ..strokeWidth = 1.0
+      ..style = PaintingStyle.stroke;
 
-    final paint = Paint()..isAntiAlias = true;
-    final double focal = controller.focalLength;
-    final double camZ = controller.cameraZ.value;
-    final double yaw = controller.cameraYaw.value;
-    final double pitch = controller.cameraPitch.value;
-
-    for (final point in controller.spatialPoints) {
-      final screenPos = point.project(
-        screenSize: size,
-        focalLength: focal,
-        cameraZ: camZ,
-        cameraYaw: yaw,
-        cameraPitch: pitch,
-      );
-
-      // Skip off-screen or behind-camera points
-      if (screenPos.dx < -50 ||
-          screenPos.dx > size.width + 50 ||
-          screenPos.dy < -50 ||
-          screenPos.dy > size.height + 50) {
-        continue;
+    final double gridSize = 100.0;
+    
+    // Draw horizontal lines
+    for (double y = 0; y < size.height; y += gridSize) {
+      canvas.drawLine(Offset(0, y), Offset(size.width, y), paint);
+      // Sketchy double line occasionally
+      if (y % (gridSize * 3) == 0) {
+        canvas.drawLine(Offset(0, y + 2), Offset(size.width, y + 2), paint);
       }
+    }
 
-      final radius = point.projectedRadius(focal, camZ);
-      paint.color = point.color;
-      canvas.drawCircle(screenPos, radius, paint);
+    // Draw vertical lines
+    for (double x = 0; x < size.width; x += gridSize) {
+      canvas.drawLine(Offset(x, 0), Offset(x, size.height), paint);
+      // Sketchy double line occasionally
+      if (x % (gridSize * 4) == 0) {
+        canvas.drawLine(Offset(x + 2, 0), Offset(x + 2, size.height), paint);
+      }
     }
   }
 
   @override
-  bool shouldRepaint(covariant _SpatialCanvasPainter oldDelegate) => true;
+  bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
 }

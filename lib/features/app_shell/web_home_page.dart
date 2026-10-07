@@ -13,13 +13,11 @@ import '../../widgets/nav_bar_widget.dart';
 import '../../widgets/bottom_nav_bar_widget.dart';
 import '../../widgets/hud/spatial_hud_overlay.dart';
 import '../scene_3d/widgets/spatial_backdrop_canvas.dart';
-import '../scene_3d/widgets/perspective_card_wrapper.dart';
 import 'scroll_coordinator_controller.dart';
 
 class WebHomePage extends StatefulWidget {
   const WebHomePage({super.key});
 
-  /// Completes once the HTML splash is removed AND the Flutter fade-in finishes.
   static Completer<void> splashComplete = Completer<void>();
 
   @override
@@ -34,7 +32,6 @@ class _WebHomePageState extends State<WebHomePage> with SingleTickerProviderStat
   void initState() {
     super.initState();
     
-    // Register the unified vertical scroll coordinator
     _scrollCoordinator = Get.put(ScrollCoordinatorController());
 
     if (WebHomePage.splashComplete.isCompleted) {
@@ -76,26 +73,39 @@ class _WebHomePageState extends State<WebHomePage> with SingleTickerProviderStat
     super.dispose();
   }
 
-  Widget _buildPerspectiveSection(Widget child, int index, BoxConstraints constraints) {
-    // Force height to exactly viewport height for perfect scroll math mapping
+  Widget _buildZAxisSection(Widget child, int index, BoxConstraints constraints) {
     return SizedBox(
       height: constraints.maxHeight,
+      width: constraints.maxWidth,
       child: Obx(() {
         final double progress = _scrollCoordinator.scrollProgress.value;
-        // Calculate depth distance from this section
-        final double distanceFromActive = (progress - index);
+        final double distance = index - progress;
         
-        // When active (distance == 0), depth is 0. 
-        // When scrolling away, push it back into 3D space slightly
-        final double zDepth = (distanceFromActive.abs() * -100).clamp(-500.0, 0.0);
-        final double tiltX = (distanceFromActive * 0.1).clamp(-0.2, 0.2);
+        double scale = 1.0;
+        double opacity = 1.0;
 
-        return PerspectiveCardWrapper(
-          depthZ: zDepth,
-          tiltX: tiltX,
+        if (distance > 0) {
+          scale = (1.0 - (distance * 0.4)).clamp(0.0, 1.0);
+          opacity = (1.0 - (distance * 0.8)).clamp(0.0, 1.0);
+        } else {
+          scale = (1.0 + (distance.abs() * 1.5));
+          opacity = (1.0 - (distance.abs() * 1.5)).clamp(0.0, 1.0);
+        }
+
+        // Stick the item exactly to the viewport by counter-translating the scroll distance
+        final double stickOffset = (progress - index) * constraints.maxHeight;
+
+        if (opacity <= 0.0) return const SizedBox.shrink();
+
+        return Transform.translate(
+          offset: Offset(0, stickOffset),
           child: Opacity(
-            opacity: (1.0 - distanceFromActive.abs() * 0.5).clamp(0.0, 1.0),
-            child: child,
+            opacity: opacity,
+            child: Transform.scale(
+              scale: scale,
+              alignment: Alignment.center,
+              child: child,
+            ),
           ),
         );
       }),
@@ -109,7 +119,7 @@ class _WebHomePageState extends State<WebHomePage> with SingleTickerProviderStat
         final bool isMobile = AppSizes.isMobile(constraints);
 
         return Scaffold(
-            backgroundColor: Colors.transparent, // Background handled by SpatialBackdropCanvas
+            backgroundColor: Colors.transparent,
             extendBodyBehindAppBar: true,
             extendBody: true,
             
@@ -120,28 +130,28 @@ class _WebHomePageState extends State<WebHomePage> with SingleTickerProviderStat
               onHover: (event) => _scrollCoordinator.updateMouseParallax(event.localPosition, MediaQuery.of(context).size),
               child: Stack(
                 children: [
-                  // 1. Deepest Layer: 3D Spatial Environment
+                  // 1. Deepest Layer: Sketch Background
                   const Positioned.fill(
                     child: SpatialBackdropCanvas(),
                   ),
 
-                  // 2. Middle Layer: Continuous Vertical Scrolling Content
+                  // 2. Middle Layer: The Z-Axis 3D ListView
                   Positioned.fill(
                     child: ListView(
                       controller: _scrollCoordinator.scrollController,
                       physics: const BouncingScrollPhysics(),
                       children: [
-                        _buildPerspectiveSection(const Introduction(), 0, constraints),
-                        _buildPerspectiveSection(const AboutSection(), 1, constraints),
-                        _buildPerspectiveSection(const ProjectsSection(), 2, constraints),
-                        _buildPerspectiveSection(const ContactSection(), 3, constraints),
-                        // Add some bottom padding for the mobile nav bar space
+                        _buildZAxisSection(const Introduction(), 0, constraints),
+                        _buildZAxisSection(const AboutSection(), 1, constraints),
+                        _buildZAxisSection(const ProjectsSection(), 2, constraints),
+                        _buildZAxisSection(const ContactSection(), 3, constraints),
+                        // Bottom padding for mobile
                         if (isMobile) const SizedBox(height: 100),
                       ],
                     ),
                   ),
 
-                  // 3. Top Layer: Floating HUD (Hidden on mobile for space)
+                  // 3. Top Layer: Floating HUD
                   if (!isMobile)
                     const SpatialHudOverlay(),
                 ],

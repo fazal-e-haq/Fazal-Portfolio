@@ -4,7 +4,7 @@ import 'package:flutter/cupertino.dart';
 import '../../../core/constants/app_sizes.dart';
 import '../../../core/themes/theme.dart';
 import '../../../widgets/animations/fade_in_up_widget.dart';
-import '../../../widgets/glassmorphic_card.dart';
+import '../../../widgets/sketch_card.dart';
 
 class AboutSection extends StatelessWidget {
   const AboutSection({super.key});
@@ -75,7 +75,7 @@ class _DesktopBentoGrid extends StatelessWidget {
                 flex: 5,
                 child: FadeInUpWidget(
                   delay: const Duration(milliseconds: 200),
-                  child: GlassmorphicCard(
+                  child: SketchCard(
                     padding: const EdgeInsets.all(40),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -130,7 +130,7 @@ class _DesktopBentoGrid extends StatelessWidget {
                       flex: 6,
                       child: FadeInUpWidget(
                         delay: const Duration(milliseconds: 350),
-                        child: GlassmorphicCard(
+                        child: SketchCard(
                           padding: const EdgeInsets.all(32),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -176,7 +176,7 @@ class _DesktopBentoGrid extends StatelessWidget {
                           Expanded(
                             child: FadeInUpWidget(
                               delay: const Duration(milliseconds: 500),
-                              child: GlassmorphicCard(
+                              child: SketchCard(
                                 padding: const EdgeInsets.all(24),
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
@@ -209,7 +209,7 @@ class _DesktopBentoGrid extends StatelessWidget {
                           Expanded(
                             child: FadeInUpWidget(
                               delay: const Duration(milliseconds: 650),
-                              child: GlassmorphicCard(
+                              child: SketchCard(
                                 padding: const EdgeInsets.all(24),
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
@@ -279,11 +279,11 @@ class _DesktopBentoGrid extends StatelessWidget {
           width: 12,
           height: 12,
           decoration: const BoxDecoration(
-            color: Colors.greenAccent,
+            color: AppColors.primary,
             shape: BoxShape.circle,
             boxShadow: [
               BoxShadow(
-                color: Colors.greenAccent,
+                color: AppColors.primary,
                 blurRadius: 8,
                 spreadRadius: 2,
               )
@@ -330,7 +330,7 @@ class _MobileBentoGrid extends StatelessWidget {
           // Bio Box
           FadeInUpWidget(
             delay: const Duration(milliseconds: 200),
-            child: GlassmorphicCard(
+            child: SketchCard(
               padding: const EdgeInsets.all(24),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -365,7 +365,7 @@ class _MobileBentoGrid extends StatelessWidget {
           // Tech Stack Box
           FadeInUpWidget(
             delay: const Duration(milliseconds: 350),
-            child: GlassmorphicCard(
+            child: SketchCard(
               padding: const EdgeInsets.all(24),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -402,7 +402,7 @@ class _MobileBentoGrid extends StatelessWidget {
               Expanded(
                 child: FadeInUpWidget(
                   delay: const Duration(milliseconds: 500),
-                  child: GlassmorphicCard(
+                  child: SketchCard(
                     padding: const EdgeInsets.all(20),
                     child: Column(
                       children: const [
@@ -429,7 +429,7 @@ class _MobileBentoGrid extends StatelessWidget {
               Expanded(
                 child: FadeInUpWidget(
                   delay: const Duration(milliseconds: 650),
-                  child: GlassmorphicCard(
+                  child: SketchCard(
                     padding: const EdgeInsets.all(20),
                     child: Column(
                       children: const [

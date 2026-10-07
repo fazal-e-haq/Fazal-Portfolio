@@ -7,7 +7,7 @@ import '../../../core/themes/theme.dart';
 import '../../../widgets/animations/fade_in_up_widget.dart';
 import '../../../widgets/button/button_widget.dart';
 import '../../../widgets/responsive_text.dart';
-import '../../../widgets/glassmorphic_card.dart';
+import '../../../widgets/sketch_card.dart';
 import '../../../services/resume_downloader.dart';
 
 /// Introduction section — The Hero Space (Light Mode 3D Spatial)
@@ -301,7 +301,7 @@ class _HoverGlassImageState extends State<_HoverGlassImage> {
               return Transform(
                 transform: transform,
                 alignment: FractionalOffset.center,
-                child: GlassmorphicCard(
+                child: SketchCard(
                   width: widget.width,
                   height: widget.height,
                   padding: EdgeInsets.zero,
@@ -319,27 +319,6 @@ class _HoverGlassImageState extends State<_HoverGlassImage> {
                           child: Image.asset(
                             'assets/Images/my-filter-pic/full-preview.jpeg',
                             fit: BoxFit.cover,
-                          ),
-                        ),
-                      ),
-                      
-                      // Dynamic Specular Light Reflection
-                      AnimatedOpacity(
-                        duration: const Duration(milliseconds: 200),
-                        opacity: hoverProgress,
-                        child: Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(24),
-                            gradient: LinearGradient(
-                              begin: Alignment(-dx * 2, -dy * 2),
-                              end: Alignment(dx * 2, dy * 2),
-                              colors: [
-                                Colors.white.withValues(alpha: 0.4),
-                                Colors.transparent,
-                                Colors.white.withValues(alpha: 0.1),
-                              ],
-                              stops: const [0.0, 0.5, 1.0],
-                            ),
                           ),
                         ),
                       ),
@@ -389,10 +368,9 @@ class _AnimatedGradientTextState extends State<_AnimatedGradientText> with Singl
             return LinearGradient(
               colors: const [
                 AppColors.primary,
-                AppColors.secondary,
                 AppColors.primary,
               ],
-              stops: const [0.0, 0.5, 1.0],
+              stops: const [0.0, 1.0],
               transform: GradientRotation(_controller.value * 2 * 3.14159),
             ).createShader(bounds);
           },

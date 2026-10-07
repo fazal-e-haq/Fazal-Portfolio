@@ -6,7 +6,7 @@ import '../../core/constants/projects_details.dart';
 import '../../features/project/project_model.dart';
 import '../../core/themes/theme.dart';
 import '../../widgets/animations/fade_in_up_widget.dart';
-import '../../widgets/glassmorphic_card.dart';
+import '../../widgets/sketch_card.dart';
 
 class ProjectsSection extends StatelessWidget {
   const ProjectsSection({super.key});
@@ -106,7 +106,7 @@ class _ProjectGlassCardState extends State<_ProjectGlassCard> {
         scale: _isHovered ? 1.02 : 1.0,
         duration: const Duration(milliseconds: 300),
         curve: Curves.easeOutCubic,
-        child: GlassmorphicCard(
+        child: SketchCard(
           width: widget.isMobile ? 320 : 400,
           padding: EdgeInsets.zero, // We will pad inside
           isHovered: _isHovered,
@@ -119,18 +119,14 @@ class _ProjectGlassCardState extends State<_ProjectGlassCard> {
                 child: ClipRRect(
                   borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
                   child: Container(
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        colors: [
-                          AppColors.secondary.withValues(alpha: 0.2),
-                          AppColors.primary.withValues(alpha: 0.2),
-                        ],
-                        begin: Alignment.topLeft,
-                        end: Alignment.bottomRight,
+                    decoration: const BoxDecoration(
+                      color: AppColors.primary,
+                      border: Border(
+                        bottom: BorderSide(color: AppColors.textMain, width: 2),
                       ),
                     ),
                     child: const Center(
-                      child: Icon(CupertinoIcons.device_phone_portrait, size: 64, color: AppColors.secondary),
+                      child: Icon(CupertinoIcons.device_phone_portrait, size: 64, color: AppColors.textMain),
                     ),
                   ),
                 ),

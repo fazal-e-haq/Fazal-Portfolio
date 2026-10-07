@@ -41,73 +41,47 @@ class NeumorphicTextField extends StatelessWidget {
             final hasError = currentError != null && currentError.isNotEmpty;
             
             return AnimatedContainer(
-              duration: const Duration(milliseconds: 300),
+              duration: const Duration(milliseconds: 150),
               curve: Curves.easeOutCubic,
               decoration: BoxDecoration(
-                color: AppColors.surfaceInner,
-                borderRadius: BorderRadius.circular(20),
+                color: AppColors.surface, // Pure White
                 border: Border.all(
-                  color: hasError 
-                      ? Colors.redAccent.withValues(alpha: 0.6)
-                      : (isActive 
-                          ? AppColors.primary.withValues(alpha: 0.5) 
-                          : AppColors.shadowDark.withValues(alpha: 0.2)),
-                  width: (isActive || hasError) ? 1.5 : 1,
+                  color: AppColors.textMain, // Pure Black
+                  width: (isActive || hasError) ? 3 : 2, // Thicker when active
                 ),
-                boxShadow: [
-                  // Subtle inner drop shadow for light mode sunken effect
-                  BoxShadow(
-                    color: AppColors.shadowDark.withValues(alpha: 0.4),
-                    offset: const Offset(insetDistance, insetDistance),
-                    blurRadius: insetBlur,
-                  ),
-                  const BoxShadow(
-                    color: Colors.white,
-                    offset: Offset(-insetDistance, -insetDistance),
-                    blurRadius: insetBlur,
-                  ),
-                  if (isActive && !hasError)
-                    BoxShadow(
-                      color: AppColors.primary.withValues(alpha: 0.1),
-                      blurRadius: 16,
-                      spreadRadius: 2,
-                    ),
-                ],
+                boxShadow: AppColors.sketchShadows(
+                  isPressed: isActive, // Sinks in when clicked/focused
+                  distance: isActive ? 2.0 : 6.0,
+                ),
               ),
               child: TextField(
                 controller: controller,
                 maxLines: maxLines,
                 focusNode: tfController.getFocusNode(id),
-                cursorColor: AppColors.primary,
-                style: const TextStyle(color: AppColors.textMain, fontSize: 15),
+                cursorColor: AppColors.textMain,
+                style: const TextStyle(
+                  color: AppColors.textMain, 
+                  fontSize: 15,
+                  fontWeight: FontWeight.w600,
+                ),
                 decoration: InputDecoration(
                   hintText: hintText,
-                  hintStyle: const TextStyle(color: AppColors.textMuted),
+                  hintStyle: TextStyle(
+                    color: AppColors.textMain.withValues(alpha: 0.5),
+                    fontWeight: FontWeight.w500,
+                  ),
                   prefixIcon: Padding(
                     padding: isMultiline 
                         ? const EdgeInsets.only(bottom: 80, left: 16, right: 8)
                         : const EdgeInsets.only(left: 16, right: 8),
                     child: Icon(
                       icon, 
-                      color: hasError 
-                          ? Colors.redAccent 
-                          : (isActive 
-                              ? AppColors.primary 
-                              : AppColors.textMuted),
+                      color: AppColors.textMain,
                     ),
                   ),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(20),
-                    borderSide: BorderSide.none,
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(20),
-                    borderSide: BorderSide.none,
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(20),
-                    borderSide: BorderSide.none,
-                  ),
+                  border: InputBorder.none,
+                  enabledBorder: InputBorder.none,
+                  focusedBorder: InputBorder.none,
                   contentPadding: EdgeInsets.symmetric(
                     horizontal: 24, 
                     vertical: isMultiline ? 24 : 20,
@@ -121,13 +95,13 @@ class NeumorphicTextField extends StatelessWidget {
           final currentError = errorText?.value;
           if (currentError != null && currentError.isNotEmpty) {
             return Padding(
-              padding: const EdgeInsets.only(top: 8, left: 16),
+              padding: const EdgeInsets.only(top: 8, left: 4),
               child: Text(
                 currentError,
                 style: const TextStyle(
-                  color: Colors.redAccent,
+                  color: AppColors.textMain,
                   fontSize: 12,
-                  fontWeight: FontWeight.w600,
+                  fontWeight: FontWeight.bold,
                 ),
               ),
             );
@@ -137,7 +111,4 @@ class NeumorphicTextField extends StatelessWidget {
       ],
     );
   }
-
-  static const double insetDistance = 2.0;
-  static const double insetBlur = 4.0;
 }

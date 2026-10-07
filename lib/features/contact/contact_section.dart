@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 import '../../core/constants/app_sizes.dart';
 import '../../core/themes/theme.dart';
 import '../../widgets/animations/fade_in_up_widget.dart';
-import '../../widgets/glassmorphic_card.dart';
+import '../../widgets/sketch_card.dart';
 import '../../widgets/textfield/neumorphic_textfield.dart';
 import 'contact_controller.dart';
 
@@ -42,7 +42,7 @@ class _DesktopContact extends StatelessWidget {
   Widget build(BuildContext context) {
     return FadeInUpWidget(
       delay: const Duration(milliseconds: 200),
-      child: GlassmorphicCard(
+      child: SketchCard(
         padding: const EdgeInsets.all(56),
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -91,7 +91,7 @@ class _MobileContact extends StatelessWidget {
           const SizedBox(height: 60),
           FadeInUpWidget(
             delay: const Duration(milliseconds: 200),
-            child: GlassmorphicCard(
+            child: SketchCard(
               padding: const EdgeInsets.all(24),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
