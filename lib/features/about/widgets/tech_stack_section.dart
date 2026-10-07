@@ -14,24 +14,24 @@ class TechStackSection extends StatelessWidget {
   Widget build(BuildContext context) {
     final Map<String, List<Map<String, dynamic>>> techCategories = {
       'Languages': [
-        {'name': 'Dart', 'icon': Icons.code, 'color': Colors.cyanAccent},
+        {'name': 'Dart', 'icon': Icons.code_outlined},
       ],
       'Frameworks & Tools': [
-        {'name': 'Flutter', 'icon': Icons.phone_iphone, 'color': Colors.blueAccent},
-        {'name': 'Android Studio', 'icon': Icons.laptop, 'color': Colors.green},
-        {'name': 'GetX', 'icon': Icons.bolt, 'color': Colors.deepPurpleAccent},
-        {'name': 'Provider', 'icon': Icons.account_tree, 'color': Colors.lightBlue},
+        {'name': 'Flutter', 'icon': Icons.phone_iphone_outlined},
+        {'name': 'Android Studio', 'icon': Icons.laptop_outlined},
+        {'name': 'GetX', 'icon': Icons.bolt_outlined},
+        {'name': 'Provider', 'icon': Icons.account_tree_outlined},
       ],
       'Backend & DB': [
-        {'name': 'Firebase', 'icon': Icons.cloud, 'color': Colors.orangeAccent},
-        {'name': 'Supabase', 'icon': Icons.data_usage, 'color': Colors.greenAccent},
-        {'name': 'Isar', 'icon': Icons.storage, 'color': Colors.pinkAccent},
-        {'name': 'REST API', 'icon': Icons.http, 'color': Colors.orange},
+        {'name': 'Firebase', 'icon': Icons.cloud_outlined},
+        {'name': 'Supabase', 'icon': Icons.data_usage_outlined},
+        {'name': 'Isar', 'icon': Icons.storage_outlined},
+        {'name': 'REST API', 'icon': Icons.http_outlined},
       ],
       'Design & Version': [
-        {'name': 'Figma', 'icon': Icons.draw, 'color': Colors.pink},
-        {'name': 'Git/GitHub', 'icon': Icons.merge_type, 'color': Colors.white},
-        {'name': 'Antigravity', 'icon': Icons.rocket_launch, 'color': Colors.deepOrangeAccent},
+        {'name': 'Figma', 'icon': Icons.draw_outlined},
+        {'name': 'Git/GitHub', 'icon': Icons.merge_type_outlined},
+        {'name': 'Antigravity', 'icon': Icons.rocket_launch_outlined},
       ],
     };
 
@@ -46,10 +46,10 @@ class TechStackSection extends StatelessWidget {
               ResponsiveText(
                 entry.key,
                 style: TextStyle(
-                  fontFamily: 'Unbounded',
+                  fontFamily: 'Nunito',
                   fontSize: isMobile ? 20 : 28,
-                  fontWeight: FontWeight.w700,
-                  color: Colors.white, // All subheadings use the same neutral white color
+                  fontWeight: FontWeight.w900,
+                  color: AppColors.textMain,
                 ),
               ),
               const SizedBox(height: 24),
@@ -60,7 +60,6 @@ class TechStackSection extends StatelessWidget {
                   return _TechChip(
                     name: tech['name'],
                     icon: tech['icon'],
-                    hoverColor: tech['color'],
                   );
                 }).toList(),
               ),
@@ -75,12 +74,10 @@ class TechStackSection extends StatelessWidget {
 class _TechChip extends StatelessWidget {
   final String name;
   final IconData icon;
-  final Color hoverColor;
 
   const _TechChip({
     required this.name,
     required this.icon,
-    required this.hoverColor,
   });
 
   @override
@@ -97,25 +94,18 @@ class _TechChip extends StatelessWidget {
         return AnimatedContainer(
           duration: const Duration(milliseconds: 300),
           curve: Curves.easeOutCubic,
-          transform: Matrix4.translationValues(0, isHovered ? -4.0 : 0.0, 0),
+          transform: Matrix4.translationValues(isHovered ? -2.0 : 0.0, isHovered ? -2.0 : 0.0, 0),
           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
           decoration: BoxDecoration(
-            color: isHovered ? hoverColor.withValues(alpha: 0.1) : AppColors.surface,
-            borderRadius: BorderRadius.circular(100),
+            color: isHovered ? AppColors.textMain.withValues(alpha: 0.05) : AppColors.surface,
             border: Border.all(
-              color: isHovered ? hoverColor.withValues(alpha: 0.5) : Colors.white.withValues(alpha: 0.05),
+              color: AppColors.textMain,
               width: 1.5,
             ),
-            boxShadow: isHovered
-                ? [
-                    BoxShadow(
-                      color: hoverColor.withValues(alpha: 0.25),
-                      blurRadius: 16,
-                      spreadRadius: 2,
-                      offset: const Offset(0, 6),
-                    )
-                  ]
-                : AppColors.neumorphicShadows(distance: 4, blur: 8),
+            boxShadow: AppColors.sketchShadows(
+              isPressed: !isHovered,
+              distance: isHovered ? 4.0 : 0.0,
+            ),
           ),
           child: Row(
             mainAxisSize: MainAxisSize.min,
@@ -123,16 +113,16 @@ class _TechChip extends StatelessWidget {
               Icon(
                 icon,
                 size: 20,
-                color: isHovered ? hoverColor : Colors.white70,
+                color: AppColors.textMain,
               ),
               const SizedBox(width: 12),
               Text(
                 name,
                 style: TextStyle(
-                  fontFamily: 'Poppins',
+                  fontFamily: 'Nunito',
                   fontSize: 14,
-                  fontWeight: FontWeight.w600,
-                  color: isHovered ? Colors.white : AppColors.textSecondary,
+                  fontWeight: FontWeight.w900,
+                  color: AppColors.textMain,
                 ),
               ),
             ],

@@ -164,7 +164,7 @@ class _IntroContent extends StatelessWidget {
               'FAZAL-E-HAQ',
               textAlign: textAlign,
               style: TextStyle(
-                fontFamily: 'Unbounded',
+                fontFamily: 'Nunito',
                 fontSize: nameFontSize,
                 fontWeight: FontWeight.w900,
                 color: AppColors.textMain,
@@ -183,7 +183,7 @@ class _IntroContent extends StatelessWidget {
               'Product Designer &\nFlutter Developer',
               textAlign: textAlign,
               style: TextStyle(
-                fontFamily: 'Unbounded',
+                fontFamily: 'Nunito',
                 fontSize: roleFontSize,
                 fontWeight: FontWeight.w700,
                 color: Colors.white, // Masked by gradient

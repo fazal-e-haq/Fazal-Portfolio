@@ -83,13 +83,20 @@ class _WebHomePageState extends State<WebHomePage> with SingleTickerProviderStat
         
         double scale = 1.0;
         double opacity = 1.0;
+        double translateY = 0.0;
 
         if (distance > 0) {
-          scale = (1.0 - (distance * 0.4)).clamp(0.0, 1.0);
-          opacity = (1.0 - (distance * 0.8)).clamp(0.0, 1.0);
+          // Approaching from distance (curves for smoother arrival)
+          final curvedDist = Curves.easeOutCubic.transform((distance).clamp(0.0, 1.0));
+          scale = 1.0 - (curvedDist * 0.35); // Shrinks softly
+          opacity = 1.0 - (curvedDist * 0.6); // Fades softly
+          translateY = curvedDist * constraints.maxHeight * 0.15;
         } else {
-          scale = (1.0 + (distance.abs() * 1.5));
-          opacity = (1.0 - (distance.abs() * 1.5)).clamp(0.0, 1.0);
+          // Flying past the camera (accelerates quickly)
+          final curvedDist = Curves.easeInQuad.transform((distance.abs()).clamp(0.0, 1.0));
+          scale = 1.0 + (curvedDist * 1.8); // Blows up massively
+          opacity = 1.0 - (curvedDist * 1.0); // Fades out completely
+          translateY = curvedDist * constraints.maxHeight * -0.1;
         }
 
         // Stick the item exactly to the viewport by counter-translating the scroll distance
@@ -98,7 +105,7 @@ class _WebHomePageState extends State<WebHomePage> with SingleTickerProviderStat
         if (opacity <= 0.0) return const SizedBox.shrink();
 
         return Transform.translate(
-          offset: Offset(0, stickOffset),
+          offset: Offset(0, stickOffset + translateY),
           child: Opacity(
             opacity: opacity,
             child: Transform.scale(

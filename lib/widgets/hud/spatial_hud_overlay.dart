@@ -51,7 +51,7 @@ class SpatialHudOverlay extends StatelessWidget {
                 Text(
                   '${(progress * 100).toInt()}%',
                   style: const TextStyle(
-                    fontFamily: 'Unbounded',
+                    fontFamily: 'Nunito',
                     fontSize: 10,
                     fontWeight: FontWeight.w700,
                     color: AppColors.primary,
@@ -73,7 +73,7 @@ class SpatialHudOverlay extends StatelessWidget {
                         border: Border.all(color: Colors.white10),
                       ),
                       textStyle: const TextStyle(
-                        fontFamily: 'Unbounded',
+                        fontFamily: 'Nunito',
                         fontSize: 11,
                         color: Colors.white,
                       ),

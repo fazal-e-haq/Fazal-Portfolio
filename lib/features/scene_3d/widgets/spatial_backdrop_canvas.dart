@@ -20,28 +20,34 @@ class SpatialBackdropCanvas extends StatelessWidget {
 class _SketchGridPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
-    final paint = Paint()
-      ..color = AppColors.textMain.withValues(alpha: 0.05)
+    // Very faint, sketchy grey lines
+    final paint1 = Paint()
+      ..color = AppColors.textMain.withValues(alpha: 0.03)
+      ..strokeWidth = 1.5
+      ..style = PaintingStyle.stroke;
+      
+    final paint2 = Paint()
+      ..color = AppColors.textMain.withValues(alpha: 0.02)
       ..strokeWidth = 1.0
       ..style = PaintingStyle.stroke;
 
-    final double gridSize = 100.0;
+    const double gridSize = 80.0;
     
     // Draw horizontal lines
     for (double y = 0; y < size.height; y += gridSize) {
-      canvas.drawLine(Offset(0, y), Offset(size.width, y), paint);
+      canvas.drawLine(Offset(0, y), Offset(size.width, y), paint1);
       // Sketchy double line occasionally
       if (y % (gridSize * 3) == 0) {
-        canvas.drawLine(Offset(0, y + 2), Offset(size.width, y + 2), paint);
+        canvas.drawLine(Offset(0, y + 3), Offset(size.width, y + 1), paint2); // slightly crooked
       }
     }
 
     // Draw vertical lines
     for (double x = 0; x < size.width; x += gridSize) {
-      canvas.drawLine(Offset(x, 0), Offset(x, size.height), paint);
+      canvas.drawLine(Offset(x, 0), Offset(x, size.height), paint1);
       // Sketchy double line occasionally
       if (x % (gridSize * 4) == 0) {
-        canvas.drawLine(Offset(x + 2, 0), Offset(x + 2, size.height), paint);
+        canvas.drawLine(Offset(x + 2, 0), Offset(x - 1, size.height), paint2); // slightly crooked
       }
     }
   }

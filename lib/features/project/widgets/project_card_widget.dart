@@ -93,7 +93,7 @@ class PlayStoreProjectCard extends StatelessWidget {
                 project.title,
                 maxLines: 1,
                 style: TextStyle(
-                  fontFamily: 'Unbounded',
+                  fontFamily: 'Nunito',
                   fontSize: isMobile ? 18 : 28,
                   fontWeight: FontWeight.w700,
                   color: Colors.white,
@@ -134,7 +134,7 @@ class PlayStoreProjectCard extends StatelessWidget {
         Text(
           projectId,
           style: TextStyle(
-            fontFamily: 'Unbounded',
+            fontFamily: 'Nunito',
             fontSize: isMobile ? 40 : 64,
             fontWeight: FontWeight.w900,
             color: Colors.white.withValues(alpha: 0.05),
@@ -166,7 +166,7 @@ class PlayStoreProjectCard extends StatelessWidget {
               value,
               maxLines: 1,
               style: TextStyle(
-                fontFamily: 'Unbounded',
+                fontFamily: 'Nunito',
                 fontSize: isMobile ? 14 : 16,
                 fontWeight: FontWeight.w700,
                 color: Colors.white,
@@ -178,7 +178,7 @@ class PlayStoreProjectCard extends StatelessWidget {
                 suffix,
                 maxLines: 1,
                 style: TextStyle(
-                  fontFamily: 'Unbounded',
+                  fontFamily: 'Nunito',
                   fontSize: isMobile ? 10 : 12,
                   fontWeight: FontWeight.w700,
                   color: Colors.white70,

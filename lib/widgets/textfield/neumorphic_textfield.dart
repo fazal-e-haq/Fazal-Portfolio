@@ -40,54 +40,118 @@ class NeumorphicTextField extends StatelessWidget {
             final currentError = errorText?.value;
             final hasError = currentError != null && currentError.isNotEmpty;
             
-            return AnimatedContainer(
-              duration: const Duration(milliseconds: 150),
-              curve: Curves.easeOutCubic,
-              decoration: BoxDecoration(
-                color: AppColors.surface, // Pure White
-                border: Border.all(
-                  color: AppColors.textMain, // Pure Black
-                  width: (isActive || hasError) ? 3 : 2, // Thicker when active
-                ),
-                boxShadow: AppColors.sketchShadows(
-                  isPressed: isActive, // Sinks in when clicked/focused
-                  distance: isActive ? 2.0 : 6.0,
-                ),
-              ),
-              child: TextField(
-                controller: controller,
-                maxLines: maxLines,
-                focusNode: tfController.getFocusNode(id),
-                cursorColor: AppColors.textMain,
-                style: const TextStyle(
-                  color: AppColors.textMain, 
-                  fontSize: 15,
-                  fontWeight: FontWeight.w600,
-                ),
-                decoration: InputDecoration(
-                  hintText: hintText,
-                  hintStyle: TextStyle(
-                    color: AppColors.textMain.withValues(alpha: 0.5),
-                    fontWeight: FontWeight.w500,
-                  ),
-                  prefixIcon: Padding(
-                    padding: isMultiline 
-                        ? const EdgeInsets.only(bottom: 80, left: 16, right: 8)
-                        : const EdgeInsets.only(left: 16, right: 8),
-                    child: Icon(
-                      icon, 
-                      color: AppColors.textMain,
+            final shadowDist = isActive ? 2.0 : 6.0;
+
+            return Stack(
+              clipBehavior: Clip.none,
+              children: [
+                // Messy shadow
+                AnimatedPositioned(
+                  duration: const Duration(milliseconds: 150),
+                  curve: Curves.easeOutCubic,
+                  top: shadowDist,
+                  left: shadowDist,
+                  right: -shadowDist,
+                  bottom: -shadowDist,
+                  child: Transform.rotate(
+                    angle: 0.012,
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: AppColors.textMain.withValues(alpha: 0.85),
+                        border: Border.all(color: AppColors.textMain, width: 1),
+                      ),
                     ),
                   ),
-                  border: InputBorder.none,
-                  enabledBorder: InputBorder.none,
-                  focusedBorder: InputBorder.none,
-                  contentPadding: EdgeInsets.symmetric(
-                    horizontal: 24, 
-                    vertical: isMultiline ? 24 : 20,
+                ),
+
+                // Scribble secondary border
+                Positioned.fill(
+                  child: Transform.rotate(
+                    angle: -0.010,
+                    child: Container(
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          color: AppColors.textMain.withValues(alpha: 0.4),
+                          width: 1.5,
+                        ),
+                      ),
+                    ),
                   ),
                 ),
-              ),
+
+                // Main box
+                AnimatedPositioned(
+                  duration: const Duration(milliseconds: 150),
+                  curve: Curves.easeOutCubic,
+                  top: isActive ? 2 : 0,
+                  left: isActive ? 2 : 0,
+                  right: isActive ? -2 : 0,
+                  bottom: isActive ? -2 : 0,
+                  child: Transform.rotate(
+                    angle: 0.005,
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: AppColors.surface,
+                        border: Border.all(
+                          color: AppColors.textMain,
+                          width: (isActive || hasError) ? 2.5 : 2.0,
+                        ),
+                      ),
+                      child: Transform.rotate(
+                        angle: -0.005, // Counter rotate
+                        child: TextField(
+                          controller: controller,
+                          maxLines: maxLines,
+                          focusNode: tfController.getFocusNode(id),
+                          cursorColor: AppColors.textMain,
+                          style: const TextStyle(
+                            color: AppColors.textMain, 
+                            fontSize: 15,
+                            fontWeight: FontWeight.w600,
+                          ),
+                          decoration: InputDecoration(
+                            hintText: hintText,
+                            hintStyle: TextStyle(
+                              color: AppColors.textMain.withValues(alpha: 0.5),
+                              fontWeight: FontWeight.w500,
+                            ),
+                            prefixIcon: Padding(
+                              padding: isMultiline 
+                                  ? const EdgeInsets.only(bottom: 80, left: 16, right: 8)
+                                  : const EdgeInsets.only(left: 16, right: 8),
+                              child: Icon(
+                                icon, 
+                                color: AppColors.textMain,
+                              ),
+                            ),
+                            border: InputBorder.none,
+                            enabledBorder: InputBorder.none,
+                            focusedBorder: InputBorder.none,
+                            contentPadding: EdgeInsets.symmetric(
+                              horizontal: 24, 
+                              vertical: isMultiline ? 24 : 20,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                
+                // Invisible child to give Stack a size since Positioned.fill/AnimatedPositioned don't dictate size
+                Opacity(
+                  opacity: 0,
+                  child: TextField(
+                    maxLines: maxLines,
+                    decoration: InputDecoration(
+                      contentPadding: EdgeInsets.symmetric(
+                        horizontal: 24, 
+                        vertical: isMultiline ? 24 : 20,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
             );
           }),
         ),

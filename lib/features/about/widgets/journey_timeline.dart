@@ -214,7 +214,7 @@ class JourneyTimeline extends StatelessWidget {
             ResponsiveText(
               year,
               style: TextStyle(
-                fontFamily: 'Unbounded',
+                fontFamily: 'Nunito',
                 fontSize: isMobile ? 24 : 32,
                 fontWeight: FontWeight.w900,
                 color: isHovered || isHighlighted ? AppColors.primary : Colors.white24,

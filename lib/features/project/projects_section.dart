@@ -145,7 +145,7 @@ class _ProjectGlassCardState extends State<_ProjectGlassCard> {
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         style: const TextStyle(
-                          fontFamily: 'Unbounded',
+                          fontFamily: 'Nunito',
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
                           color: AppColors.textMain,

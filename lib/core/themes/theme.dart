@@ -2,16 +2,16 @@ import 'package:flutter/material.dart';
 
 /// App-wide colors for the Pencil Sketch / Brutalist Theme
 class AppColors {
-  // Pure White and Bold Yellow background
-  static const Color background = Color(0xFFFFFFFF);
+  // Yellowish white pencil paper background
+  static const Color background = Color(0xFFFFFBEA);
   
-  // Solid Yellow accent
-  static const Color primary = Color(0xFFFFD700); // Vibrant Yellow
-  static const Color secondary = Color(0xFFFFD700); // Yellow (No other colors allowed)
+  // No other colors allowed, only pure black
+  static const Color primary = Color(0xFF000000);
+  static const Color secondary = Color(0xFF000000);
 
   // Surface colors
-  static const Color surface = Color(0xFFFFFFFF);
-  static const Color surfaceInner = Color(0xFFF9F9F9);
+  static const Color surface = Color(0xFFFFFBEA);
+  static const Color surfaceInner = Color(0xFFFFFBEA);
 
   // Pure Black for text and borders
   static const Color textMain = Color(0xFF000000);

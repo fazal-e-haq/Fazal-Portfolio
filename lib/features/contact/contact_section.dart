@@ -53,7 +53,7 @@ class _DesktopContact extends StatelessWidget {
             const Text(
               "Let's Build Something",
               style: TextStyle(
-                fontFamily: 'Unbounded',
+                fontFamily: 'Nunito',
                 fontSize: 36,
                 fontWeight: FontWeight.bold,
                 color: AppColors.textMain,
@@ -101,7 +101,7 @@ class _MobileContact extends StatelessWidget {
                   const Text(
                     "Let's Connect",
                     style: TextStyle(
-                      fontFamily: 'Unbounded',
+                      fontFamily: 'Nunito',
                       fontSize: 24,
                       fontWeight: FontWeight.bold,
                       color: AppColors.textMain,

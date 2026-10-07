@@ -66,7 +66,7 @@ class ContactCtaCard extends StatelessWidget {
                 'Curious What I Can Build?',
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                  fontFamily: 'Unbounded',
+                  fontFamily: 'Nunito',
                   fontSize: isMobile ? 22 : 32, // slightly smaller to fit the longer text better
                   fontWeight: FontWeight.w900,
                   color: Colors.white,

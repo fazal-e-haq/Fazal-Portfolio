@@ -142,7 +142,7 @@ class _NavBarButtonState extends State<NavBarButton> {
           fontSize: 12,
           fontWeight: FontWeight.w600,
           letterSpacing: 1.0,
-          fontFamily: 'Unbounded',
+          fontFamily: 'Nunito',
         ),
         child: GestureDetector(
           onTapDown: (_) => setState(() => _isPressed = true),

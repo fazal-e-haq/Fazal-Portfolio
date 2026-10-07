@@ -55,7 +55,7 @@ class _SectionBackgroundTextState extends State<SectionBackgroundText>
                 return Text(
                   widget.text,
                   style: TextStyle(
-                    fontFamily: 'Unbounded',
+                    fontFamily: 'Nunito',
                     fontSize: isUltrawide ? 600 : 400,
                     fontWeight: FontWeight.w900,
                     height: 1.0,

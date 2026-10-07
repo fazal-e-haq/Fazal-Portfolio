@@ -107,7 +107,7 @@ class HoverInfoCard extends StatelessWidget {
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
-                      fontFamily: 'Unbounded',
+                      fontFamily: 'Nunito',
                       fontSize: isMobile ? 22 : (isTablet ? 18 : 22), 
                       fontWeight: FontWeight.bold,
                       color: Colors.white,

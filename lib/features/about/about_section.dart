@@ -85,7 +85,7 @@ class _DesktopBentoGrid extends StatelessWidget {
                         const Text(
                           'The Journey',
                           style: TextStyle(
-                            fontFamily: 'Unbounded',
+                            fontFamily: 'Nunito',
                             fontSize: 28,
                             fontWeight: FontWeight.bold,
                             color: AppColors.textMain,
@@ -138,7 +138,7 @@ class _DesktopBentoGrid extends StatelessWidget {
                               const Text(
                                 'Tech Arsenal',
                                 style: TextStyle(
-                                  fontFamily: 'Unbounded',
+                                  fontFamily: 'Nunito',
                                   fontSize: 22,
                                   fontWeight: FontWeight.bold,
                                   color: AppColors.textMain,
@@ -184,7 +184,7 @@ class _DesktopBentoGrid extends StatelessWidget {
                                     Text(
                                       '0.4+',
                                       style: TextStyle(
-                                        fontFamily: 'Unbounded',
+                                        fontFamily: 'Nunito',
                                         fontSize: 40,
                                         fontWeight: FontWeight.w900,
                                         color: AppColors.primary,
@@ -217,7 +217,7 @@ class _DesktopBentoGrid extends StatelessWidget {
                                     Text(
                                       '2+',
                                       style: TextStyle(
-                                        fontFamily: 'Unbounded',
+                                        fontFamily: 'Nunito',
                                         fontSize: 40,
                                         fontWeight: FontWeight.w900,
                                         color: AppColors.secondary,
@@ -340,7 +340,7 @@ class _MobileBentoGrid extends StatelessWidget {
                   Text(
                     'The Journey',
                     style: TextStyle(
-                      fontFamily: 'Unbounded',
+                      fontFamily: 'Nunito',
                       fontSize: 22,
                       fontWeight: FontWeight.bold,
                       color: AppColors.textMain,
@@ -373,7 +373,7 @@ class _MobileBentoGrid extends StatelessWidget {
                   const Text(
                     'Tech Arsenal',
                     style: TextStyle(
-                      fontFamily: 'Unbounded',
+                      fontFamily: 'Nunito',
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
                       color: AppColors.textMain,
@@ -409,7 +409,7 @@ class _MobileBentoGrid extends StatelessWidget {
                         Text(
                           '0.4+',
                           style: TextStyle(
-                            fontFamily: 'Unbounded',
+                            fontFamily: 'Nunito',
                             fontSize: 28,
                             fontWeight: FontWeight.w900,
                             color: AppColors.primary,
@@ -436,7 +436,7 @@ class _MobileBentoGrid extends StatelessWidget {
                         Text(
                           '2+',
                           style: TextStyle(
-                            fontFamily: 'Unbounded',
+                            fontFamily: 'Nunito',
                             fontSize: 28,
                             fontWeight: FontWeight.w900,
                             color: AppColors.secondary,

@@ -97,7 +97,7 @@ class ServiceCard extends StatelessWidget {
               ResponsiveText(
                 title,
                 style: TextStyle(
-                  fontFamily: 'Unbounded',
+                  fontFamily: 'Nunito',
                   fontSize: isMobile ? 16 : 18,
                   fontWeight: FontWeight.bold,
                   color: Colors.white,
