@@ -38,36 +38,33 @@ class _DesktopIntro extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        // Left: The Text Content (Floating freely)
-        Expanded(
-          flex: 5,
-          child: FadeInUpWidget(
+    return const SingleChildScrollView(
+      physics: BouncingScrollPhysics(),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          SizedBox(height: 60),
+          FadeInUpWidget(
             delay: Duration(milliseconds: 200),
+            child: _HoverGlassImage(
+              width: 500,
+              height: 650,
+            ),
+          ),
+          SizedBox(height: 60),
+          FadeInUpWidget(
+            delay: Duration(milliseconds: 400),
             child: _IntroContent(
               nameFontSize: 64.0,
               roleFontSize: 32.0,
-              alignment: CrossAxisAlignment.start,
-              textAlign: TextAlign.left,
+              alignment: CrossAxisAlignment.center,
+              textAlign: TextAlign.center,
             ),
           ),
-        ),
-        SizedBox(width: 80),
-        // Right: The Image wrapped in a 3D Glass panel
-        Expanded(
-          flex: 4,
-          child: FadeInUpWidget(
-            delay: Duration(milliseconds: 400),
-            child: _HoverGlassImage(
-              width: 400,
-              height: 520,
-            ),
-          ),
-        ),
-      ],
+          SizedBox(height: 60),
+        ],
+      ),
     );
   }
 }
@@ -87,8 +84,8 @@ class _MobileIntro extends StatelessWidget {
           FadeInUpWidget(
             delay: Duration(milliseconds: 200),
             child: _HoverGlassImage(
-              width: 280,
-              height: 380,
+              width: 340,
+              height: 460,
             ),
           ),
           SizedBox(height: 48),
@@ -311,7 +308,7 @@ class _HoverGlassImageState extends State<_HoverGlassImage> {
                           scale: _isHovered ? 1.05 : 1.0,
                           curve: Curves.easeOutCubic,
                           child: Image.asset(
-                            'assets/Images/my-filter-pic/full-preview.jpeg',
+                            'assets/Images/my-image/my-pic.png',
                             fit: BoxFit.cover,
                           ),
                         ),
@@ -427,6 +424,10 @@ class _MagneticButtonState extends State<_MagneticButton> {
     );
   }
 }
+
+
+
+
 
 
 

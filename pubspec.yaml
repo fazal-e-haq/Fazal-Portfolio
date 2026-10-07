@@ -37,9 +37,8 @@ flutter:
 
   # Assets — images, PDFs, and other static resources
   assets:
+    - assets/Images/my-image/
     - assets/Images/works/cutcount/
-    - assets/Images/my-filter-pic/full-preview.jpeg
-    - assets/Images/my-filter-pic/black-full.jpeg
     - assets/Fazal-Resume.pdf
 
   # Custom Fonts — brand typography
@@ -47,3 +46,5 @@ flutter:
     - family: 'Patrick Hand'
       fonts:
         - asset: assets/fonts/patrick-hand/PatrickHand-Regular.ttf
+
+
