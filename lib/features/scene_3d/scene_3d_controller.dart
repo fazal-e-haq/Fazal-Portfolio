@@ -64,8 +64,10 @@ class Scene3DController extends GetxController {
       final double z = (i * 131 % 2000) + 150.0;
       final double radius = (i % 3 == 0) ? 2.5 : 1.2;
       final Color color = (i % 4 == 0)
-          ? Colors.deepOrangeAccent.withValues(alpha: 0.6)
-          : (i % 5 == 0 ? Colors.blueAccent.withValues(alpha: 0.6) : Colors.white.withValues(alpha: 0.35));
+          ? const Color(0xFFFF6E40).withValues(alpha: 0.2) // Soft primary orange
+          : (i % 5 == 0 
+              ? const Color(0xFF448AFF).withValues(alpha: 0.15) // Soft secondary blue
+              : const Color(0xFFA0AAB2).withValues(alpha: 0.25)); // Soft textMuted gray
 
       spatialPoints.add(ScenePoint3D(
         x: x,

@@ -1,35 +1,35 @@
 import 'package:flutter/material.dart';
 
-/// App-wide colors and shadows for the Ultra-Premium Neumorphic design system
+/// App-wide colors and shadows for the Light Mode 3D Spatial design system
 class AppColors {
-  // Main Obsidian background color (Deep, sleek dark tone for true Neumorphism)
-  static const Color background = Color(0xFF141518);
+  // Main Studio background color (Soft Pearl/Alabaster for a physical feel)
+  static const Color background = Color(0xFFF3F5F7);
 
-  // Surface colors for raised Neumorphic cards
-  static const Color surface = Color(0xFF1A1C20);
+  // Surface colors for raised Glass/Acrylic cards
+  static const Color surface = Color(0xFFFFFFFF);
   
   // Inner surface color for sunken input fields or depressed states
-  static const Color surfaceInner = Color(0xFF111215);
+  static const Color surfaceInner = Color(0xFFE9ECEF);
 
   // Accent colors for dynamic highlights
-  static const Color primary = Colors.deepOrangeAccent;
-  static const Color secondary = Colors.blueAccent;
+  static const Color primary = Color(0xFFFF6E40); // Deep Orange Accent
+  static const Color secondary = Color(0xFF448AFF); // Crisp Blue Accent
 
-  // Text colors for crystal clear readability
-  static const Color textMain = Colors.white;
-  static const Color textSecondary = Colors.white70;
-  static const Color textMuted = Colors.white38;
+  // Text colors for high contrast in light mode
+  static const Color textMain = Color(0xFF141518); // Deep Charcoal/Ink
+  static const Color textSecondary = Color(0xFF5F6368); // Slate Gray
+  static const Color textMuted = Color(0xFFA0AAB2); // Soft Gray
 
-  // Shadow colors for Ultra-Premium 3D Dark Neumorphism
-  static const Color shadowDark = Color(0xFF0B0C0E);
-  static final Color shadowLight = Colors.white.withValues(alpha: 0.04);
-  static final Color shadowGlow = Colors.deepOrange.withValues(alpha: 0.25);
+  // Shadow colors for Soft Ambient 3D Light Mode
+  static const Color shadowDark = Color(0xFFD1D9E6); // Light grayish blue for depth
+  static const Color shadowLight = Color(0xFFFFFFFF); // Pure white highlight
+  static final Color shadowGlow = Color(0xFFFF6E40).withValues(alpha: 0.15);
 
-  /// Helper method to generate top-tier 3D Neumorphic dual box shadows
+  /// Helper method to generate top-tier 3D physical soft shadows
   static List<BoxShadow> neumorphicShadows({
     bool isPressed = false,
-    double distance = 6.0,
-    double blur = 12.0,
+    double distance = 10.0,
+    double blur = 20.0,
     Color? glowColor,
   }) {
     if (isPressed) {
@@ -43,35 +43,35 @@ class AppColors {
     }
 
     return [
-      // Deep Dark Shadow (Bottom-Right)
+      // Soft ambient drop shadow for elevation (Bottom-Right)
       BoxShadow(
-        color: shadowDark,
+        color: shadowDark.withValues(alpha: 0.6),
         offset: Offset(distance, distance),
         blurRadius: blur,
-        spreadRadius: 1.0,
+        spreadRadius: 0.0,
       ),
-      // Soft Ambient Light Highlight (Top-Left)
+      // Crisp white highlight for the edge (Top-Left)
       BoxShadow(
         color: shadowLight,
         offset: Offset(-distance, -distance),
         blurRadius: blur,
-        spreadRadius: 1.0,
+        spreadRadius: 0.0,
       ),
-      // Optional subtle ambient neon glow
+      // Optional subtle ambient color glow
       if (glowColor != null)
         BoxShadow(
-          color: glowColor.withValues(alpha: 0.15),
-          offset: const Offset(0, 0),
-          blurRadius: blur * 2,
-          spreadRadius: 2.0,
+          color: glowColor.withValues(alpha: 0.25),
+          offset: const Offset(0, 4),
+          blurRadius: blur * 1.5,
+          spreadRadius: 1.0,
         ),
     ];
   }
 }
 
-/// The main theme configuration for the application
+/// The main theme configuration for the application (Light Mode)
 final ThemeData mainTheme = ThemeData(
-  brightness: Brightness.dark,
+  brightness: Brightness.light,
   primaryColor: AppColors.primary,
   scaffoldBackgroundColor: AppColors.background,
   cardColor: AppColors.surface,
@@ -123,13 +123,14 @@ final ThemeData mainTheme = ThemeData(
       foregroundColor: Colors.white,
       padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 15),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+      elevation: 0,
     ),
   ),
 
   dialogTheme: DialogThemeData(
-    backgroundColor: AppColors.background,
+    backgroundColor: AppColors.surface,
     shape: RoundedRectangleBorder(
-      borderRadius: BorderRadius.circular(16),
+      borderRadius: BorderRadius.circular(24),
     ),
   ),
 
@@ -137,7 +138,7 @@ final ThemeData mainTheme = ThemeData(
     filled: true,
     fillColor: AppColors.surfaceInner,
     border: OutlineInputBorder(
-      borderRadius: BorderRadius.circular(15),
+      borderRadius: BorderRadius.circular(16),
       borderSide: BorderSide.none,
     ),
     hintStyle: const TextStyle(color: AppColors.textMuted),
@@ -145,11 +146,10 @@ final ThemeData mainTheme = ThemeData(
   ),
 
   dividerTheme: const DividerThemeData(
-    color: Color(0xFF252830),
+    color: Color(0xFFE2E8F0),
     thickness: 1,
     space: 30,
   ),
 
   useMaterial3: true,
 );
-

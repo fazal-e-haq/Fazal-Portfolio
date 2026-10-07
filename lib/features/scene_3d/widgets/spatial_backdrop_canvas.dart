@@ -31,9 +31,21 @@ class _SpatialBackdropCanvasState extends State<SpatialBackdropCanvas> with Sing
     return AnimatedBuilder(
       animation: _controller.tickerController,
       builder: (context, _) {
-        return CustomPaint(
-          size: Size.infinite,
-          painter: _SpatialCanvasPainter(controller: _controller),
+        return Container(
+          decoration: const BoxDecoration(
+            gradient: RadialGradient(
+              center: Alignment(0, -0.2),
+              radius: 1.5,
+              colors: [
+                Color(0xFFFFFFFF), // Pure white center
+                Color(0xFFF3F5F7), // Soft alabaster edges
+              ],
+            ),
+          ),
+          child: CustomPaint(
+            size: Size.infinite,
+            painter: _SpatialCanvasPainter(controller: _controller),
+          ),
         );
       },
     );

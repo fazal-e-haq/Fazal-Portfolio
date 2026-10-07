@@ -7,12 +7,10 @@ import '../../../core/themes/theme.dart';
 import '../../../widgets/animations/fade_in_up_widget.dart';
 import '../../../widgets/button/button_widget.dart';
 import '../../../widgets/responsive_text.dart';
-import '../../../widgets/section_background_text.dart';
-import '../project/project_controller.dart';
+import '../../../widgets/glassmorphic_card.dart';
 import '../../../services/resume_downloader.dart';
 
-/// Introduction section — The Hero Page
-/// Features a stunning 10/10 Neomorphic layout, responsive across all screens.
+/// Introduction section — The Hero Space (Light Mode 3D Spatial)
 class Introduction extends StatelessWidget {
   const Introduction({super.key});
 
@@ -21,120 +19,97 @@ class Introduction extends StatelessWidget {
     return LayoutBuilder(
       builder: (context, constraints) {
         final double width = constraints.maxWidth;
-        final bool isMobile = width < 600;
-        final bool isTablet = width >= 600 && width < 1100;
+        final bool isMobile = width < 800;
 
-        final Widget content = isMobile
-            ? const _MobileIntro()
-            : _DesktopTabletIntro(isTablet: isTablet);
-
-        return Stack(
-          children: [
-            const Positioned.fill(child: SectionBackgroundText(text: 'INTRO')),
-            Positioned.fill(child: content),
-          ],
+        return Center(
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(maxWidth: 1200),
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: isMobile ? 24 : 80),
+              child: isMobile ? const _MobileIntro() : const _DesktopIntro(),
+            ),
+          ),
         );
       },
     );
   }
 }
 
-// ────────────────────────────────────────────────────────────────────────────
-//  Desktop / Tablet Layout
-// ────────────────────────────────────────────────────────────────────────────
-class _DesktopTabletIntro extends StatelessWidget {
-  const _DesktopTabletIntro({required this.isTablet});
-
-  final bool isTablet;
+class _DesktopIntro extends StatelessWidget {
+  const _DesktopIntro();
 
   @override
   Widget build(BuildContext context) {
-    final double nameFontSize = isTablet ? 36.0 : 56.0;
-    final double roleFontSize = isTablet ? 22.0 : 35.0;
-    final double imageWidth = isTablet ? 280.0 : 380.0;
-    final double imageHeight = isTablet ? 380.0 : 500.0; // Rectangular portrait
-
-    return Center(
-      child: ConstrainedBox(
-        constraints: const BoxConstraints(maxWidth: 1200),
-        child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: isTablet ? 40 : 80),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              // LEFT: Profile Image
-              Expanded(
-                flex: 4,
-                child: Center(
-                  child: FadeInUpWidget(
-                    delay: const Duration(milliseconds: 200),
-                    child: _DesktopImagePreview(
-                      width: imageWidth,
-                      height: imageHeight,
-                    ),
-                  ),
-                ),
-              ),
-              SizedBox(width: isTablet ? 40 : 80),
-              // RIGHT: Text Content
-              Expanded(
-                flex: 5,
-                child: _IntroContent(
-                  nameFontSize: nameFontSize,
-                  roleFontSize: roleFontSize,
-                  alignment: CrossAxisAlignment.start,
-                  textAlign: TextAlign.left,
-                ),
-              ),
-            ],
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        // Left: The Text Content (Floating freely)
+        Expanded(
+          flex: 5,
+          child: FadeInUpWidget(
+            delay: const Duration(milliseconds: 200),
+            child: _IntroContent(
+              nameFontSize: 64.0,
+              roleFontSize: 32.0,
+              alignment: CrossAxisAlignment.start,
+              textAlign: TextAlign.left,
+            ),
           ),
         ),
-      ),
+        const SizedBox(width: 80),
+        // Right: The Image wrapped in a 3D Glass panel
+        Expanded(
+          flex: 4,
+          child: FadeInUpWidget(
+            delay: const Duration(milliseconds: 400),
+            child: const _HoverGlassImage(
+              width: 400,
+              height: 520,
+            ),
+          ),
+        ),
+      ],
     );
   }
 }
 
-// ────────────────────────────────────────────────────────────────────────────
-//  Mobile Layout
-// ────────────────────────────────────────────────────────────────────────────
 class _MobileIntro extends StatelessWidget {
   const _MobileIntro();
 
   @override
   Widget build(BuildContext context) {
-    return const SingleChildScrollView(
-      physics: BouncingScrollPhysics(),
-      child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 24, vertical: 40),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Center(
-              child: FadeInUpWidget(
-                delay: Duration(milliseconds: 200),
-                child: _MobileImagePreview(size: 260),
-              ),
+    return SingleChildScrollView(
+      physics: const BouncingScrollPhysics(),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          const SizedBox(height: 40),
+          FadeInUpWidget(
+            delay: const Duration(milliseconds: 200),
+            child: const _HoverGlassImage(
+              width: 280,
+              height: 380,
             ),
-            SizedBox(height: 40),
-            _IntroContent(
-              nameFontSize: 28.0,
-              roleFontSize: 18.0,
-              alignment: CrossAxisAlignment.start,
-              textAlign: TextAlign.left,
+          ),
+          const SizedBox(height: 48),
+          FadeInUpWidget(
+            delay: const Duration(milliseconds: 400),
+            child: _IntroContent(
+              nameFontSize: 36.0,
+              roleFontSize: 20.0,
+              alignment: CrossAxisAlignment.center,
+              textAlign: TextAlign.center,
             ),
-            SizedBox(height: 80), // extra padding at bottom
-          ],
-        ),
+          ),
+          const SizedBox(height: 80),
+        ],
       ),
     );
   }
 }
 
-// ────────────────────────────────────────────────────────────────────────────
-//  Shared Content Widget (Text & Button)
-// ────────────────────────────────────────────────────────────────────────────
 class _IntroContent extends StatelessWidget {
   const _IntroContent({
     required this.nameFontSize,
@@ -154,250 +129,132 @@ class _IntroContent extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: alignment,
       children: [
-        // Greeting with accent line
-        FadeInUpWidget(
-          delay: const Duration(milliseconds: 400),
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              // Accent line
-              Container(
-                width: 32,
-                height: 2.5,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(2),
-                  gradient: const LinearGradient(
-                    colors: [AppColors.primary, AppColors.secondary],
-                  ),
-                ),
+        // Greeting
+        Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Container(
+              width: 32,
+              height: 3,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(2),
+                color: AppColors.primary,
               ),
-              const SizedBox(width: 12),
-              // Greeting text
-              const Text(
-                'Hello, I am',
-                style: TextStyle(
-                  fontFamily: 'Poppins',
-                  fontSize: 15,
-                  fontWeight: FontWeight.w500,
-                  color: AppColors.primary,
-                  letterSpacing: 3.0,
-                ),
+            ),
+            const SizedBox(width: 12),
+            const Text(
+              'Hello, I am',
+              style: TextStyle(
+                fontFamily: 'Poppins',
+                fontSize: 16,
+                fontWeight: 600,
+                color: AppColors.primary,
+                letterSpacing: 4.0,
               ),
-            ],
-          ),
+            ),
+          ],
         ),
-        const SizedBox(height: 4),
+        const SizedBox(height: 16),
 
         // Name
-        FadeInUpWidget(
-          delay: const Duration(milliseconds: 600),
-          child: RepaintBoundary(
-            // Isolate rapid text scrambling repaints
-            child: FittedBox(
-              fit: BoxFit.scaleDown,
-              child: _AnimatedGradientText(
-                child: AnimatedTextKit(
-                  isRepeatingAnimation: false,
-                  totalRepeatCount: 1,
-                  animatedTexts: [
-                    ScrambleAnimatedText(
-                      'FAZAL-E-HAQ',
-                      speed: const Duration(milliseconds: 200),
-                      textAlign: textAlign,
-                      textStyle: TextStyle(
-                        fontFamily: 'Unbounded',
-                        fontSize: nameFontSize,
-                        fontWeight: FontWeight.w900,
-                        color: Colors
-                            .white, // The gradient colors will show through this
-                        letterSpacing: 2.0,
-                      ),
-                    ),
-                  ],
-                ),
+        RepaintBoundary(
+          child: FittedBox(
+            fit: BoxFit.scaleDown,
+            child: Text(
+              'FAZAL-E-HAQ',
+              textAlign: textAlign,
+              style: TextStyle(
+                fontFamily: 'Unbounded',
+                fontSize: nameFontSize,
+                fontWeight: FontWeight.w900,
+                color: AppColors.textMain,
+                height: 1.1,
+                letterSpacing: -1.0,
               ),
             ),
           ),
         ),
+        const SizedBox(height: 8),
 
-        // Role
-        FadeInUpWidget(
-          delay: const Duration(milliseconds: 800),
-          child: RepaintBoundary(
-            child: AnimatedTextKit(
-              repeatForever: true,
-              pause: const Duration(seconds: 3),
-              animatedTexts: [
-                TyperAnimatedText(
-                  'Product Designer',
-                  textAlign: textAlign,
-                  speed: const Duration(milliseconds: 80),
-                  textStyle: TextStyle(
-                    fontFamily: 'Unbounded',
-                    fontSize: roleFontSize,
-                    fontWeight: FontWeight.w600,
-                    color: AppColors.secondary,
-                    letterSpacing: 3.0,
-                  ),
-                ),
-                TyperAnimatedText(
-                  'Flutter Developer',
-                  textAlign: textAlign,
-                  speed: const Duration(milliseconds: 80),
-                  textStyle: TextStyle(
-                    fontFamily: 'Unbounded',
-                    fontSize: roleFontSize,
-                    fontWeight: FontWeight.w600,
-                    color: AppColors.secondary,
-                    letterSpacing: 3.0,
-                  ),
-                ),
-              ],
+        // Role (Animated Gradient)
+        RepaintBoundary(
+          child: _AnimatedGradientText(
+            child: Text(
+              'Product Designer &\nFlutter Developer',
+              textAlign: textAlign,
+              style: TextStyle(
+                fontFamily: 'Unbounded',
+                fontSize: roleFontSize,
+                fontWeight: FontWeight.w700,
+                color: Colors.white, // Masked by gradient
+                height: 1.3,
+                letterSpacing: -0.5,
+              ),
             ),
           ),
         ),
         const SizedBox(height: 32),
 
-        // Bio tagline
-        FadeInUpWidget(
-          delay: const Duration(milliseconds: 1000),
-          child: ResponsiveText(
-            'I believe great software is built with intention, not haste. Every interface, interaction, and line of code is carefully crafted to create products that are fast, intuitive, and built to last.',
-            textAlign: textAlign,
-            style: const TextStyle(
-              fontFamily: 'Poppins',
-              fontSize: 15,
-              color: AppColors.textSecondary,
-              height: 1.6,
-              letterSpacing: 0.5,
-            ),
+        // Bio
+        ResponsiveText(
+          'I believe great software is built with intention, not haste. Every interface, interaction, and line of code is carefully crafted to create products that are fast, intuitive, and built to last.',
+          textAlign: textAlign,
+          style: const TextStyle(
+            fontFamily: 'Poppins',
+            fontSize: 16,
+            color: AppColors.textSecondary,
+            height: 1.7,
+            letterSpacing: 0.3,
           ),
         ),
         const SizedBox(height: 48),
 
-        // Action Row: Resume Button + Active Signal
-        FadeInUpWidget(
-          delay: const Duration(milliseconds: 1200),
-          child: Wrap(
-            crossAxisAlignment: WrapCrossAlignment.center,
-            alignment: textAlign == TextAlign.center
-                ? WrapAlignment.center
-                : WrapAlignment.start,
-            spacing: 24,
-            runSpacing: 24,
-            children: [
-              const _MagneticButton(
-                child: ButtonWidget(
-                  onPressed: downloadResume,
-                  icon: Icon(CupertinoIcons.arrow_down, size: 20),
-                  text: Text(
-                    'My Resume',
-                    style: TextStyle(
-                      fontFamily: 'Poppins',
-                      fontWeight: FontWeight.w600,
-                      letterSpacing: 1.0,
-                    ),
+        // Action Buttons
+        Wrap(
+          crossAxisAlignment: WrapCrossAlignment.center,
+          alignment: textAlign == TextAlign.center ? WrapAlignment.center : WrapAlignment.start,
+          spacing: 24,
+          runSpacing: 24,
+          children: [
+            _MagneticButton(
+              child: ElevatedButton.icon(
+                onPressed: downloadResume,
+                icon: const Icon(CupertinoIcons.arrow_down, size: 20, color: Colors.white),
+                label: const Text(
+                  'My Resume',
+                  style: TextStyle(
+                    fontFamily: 'Poppins',
+                    fontWeight: FontWeight.w600,
+                    letterSpacing: 0.5,
                   ),
                 ),
-              ),
-            ],
-          ),
-        ),
-        const SizedBox(height: 64),
-
-        // Stats Row (Experience, Projects, Followers)
-        FadeInUpWidget(
-          delay: const Duration(milliseconds: 1400),
-          child: SizedBox(
-            width: double.infinity,
-            child: FittedBox(
-              fit: BoxFit.scaleDown,
-              alignment: textAlign == TextAlign.center
-                  ? Alignment.center
-                  : Alignment.centerLeft,
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  const _StatItem(value: '0.4', label: 'Years\nExperience'),
-                  const SizedBox(width: 32),
-                  Container(
-                    height: 40,
-                    width: 1,
-                    color: Colors.white.withValues(alpha: 0.1),
-                  ),
-                  const SizedBox(width: 32),
-                  const _StatItem(value: '1+', label: 'Projects\nCompleted'),
-                  const SizedBox(width: 32),
-                  Container(
-                    height: 40,
-                    width: 1,
-                    color: Colors.white.withValues(alpha: 0.1),
-                  ),
-                  const SizedBox(width: 32),
-                  const _StatItem(value: '1k', label: 'Followers'),
-                ],
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: AppColors.primary,
+                  padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 20),
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(100)),
+                  shadowColor: AppColors.primary.withValues(alpha: 0.4),
+                  elevation: 8,
+                ),
               ),
             ),
-          ),
+          ],
         ),
       ],
     );
   }
 }
 
-class _StatItem extends StatelessWidget {
-  final String value;
-  final String label;
-
-  const _StatItem({required this.value, required this.label});
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      mainAxisSize: MainAxisSize.min,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        Text(
-          value,
-          style: const TextStyle(
-            fontFamily: 'Unbounded',
-            fontSize: 32,
-            fontWeight: FontWeight.w900,
-            color: AppColors.primary,
-          ),
-        ),
-        const SizedBox(width: 12),
-        Text(
-          label,
-          style: const TextStyle(
-            fontFamily: 'Poppins',
-            fontSize: 12,
-            height: 1.3,
-            color: AppColors.textSecondary,
-          ),
-        ),
-      ],
-    );
-  }
-}
-
-// ────────────────────────────────────────────────────────────────────────────
-//  Desktop Stacked Rectangular Image Preview
-// ────────────────────────────────────────────────────────────────────────────
-class _DesktopImagePreview extends StatefulWidget {
-  const _DesktopImagePreview({required this.width, required this.height});
-
+class _HoverGlassImage extends StatefulWidget {
   final double width;
   final double height;
+  const _HoverGlassImage({required this.width, required this.height});
 
   @override
-  State<_DesktopImagePreview> createState() => _DesktopImagePreviewState();
+  State<_HoverGlassImage> createState() => _HoverGlassImageState();
 }
 
-class _DesktopImagePreviewState extends State<_DesktopImagePreview> {
-  final ValueNotifier<Offset> _localMousePos = ValueNotifier<Offset>(
-    Offset.zero,
-  );
+class _HoverGlassImageState extends State<_HoverGlassImage> {
+  final ValueNotifier<Offset> _localMousePos = ValueNotifier<Offset>(Offset.zero);
   bool _isHovered = false;
 
   @override
@@ -408,134 +265,89 @@ class _DesktopImagePreviewState extends State<_DesktopImagePreview> {
 
   @override
   Widget build(BuildContext context) {
-    final controller = Get.find<ProjectController>();
     return MouseRegion(
-      onEnter: (_) {
-        setState(() => _isHovered = true);
-        controller.setHovered('intro_image', true);
-      },
+      onEnter: (_) => setState(() => _isHovered = true),
       onExit: (_) {
         setState(() => _isHovered = false);
-        _localMousePos.value = Offset.zero; // reset
-        controller.setHovered('intro_image', false);
+        _localMousePos.value = Offset.zero;
       },
       onHover: (event) {
         final RenderBox? box = context.findRenderObject() as RenderBox?;
         if (box != null) {
           final Offset center = Offset(box.size.width / 2, box.size.height / 2);
-          _localMousePos.value =
-              event.localPosition - center; // delta from center
+          _localMousePos.value = event.localPosition - center;
         }
       },
-      cursor: SystemMouseCursors.click,
       child: ValueListenableBuilder<Offset>(
         valueListenable: _localMousePos,
         builder: (context, delta, child) {
-          // Normalize the delta (-1 to 1) based on center
           double dx = _isHovered ? (delta.dx / (widget.width / 2)) : 0;
           double dy = _isHovered ? (delta.dy / (widget.height / 2)) : 0;
 
-          // Max rotation is approx 0.1 radians
-          double maxTilt = 0.1;
-          double rotateX = dy * maxTilt * -1; // tilt towards mouse
+          double maxTilt = 0.08;
+          double rotateX = dy * maxTilt * -1;
           double rotateY = dx * maxTilt;
 
-          final Matrix4 transform = Matrix4.identity()
-            ..setEntry(3, 2, 0.001) // subtle perspective
-            ..rotateX(rotateX)
-            ..rotateY(rotateY);
-
-          return AnimatedContainer(
-            duration: const Duration(milliseconds: 150),
+          return TweenAnimationBuilder(
+            tween: Tween<double>(begin: 0, end: _isHovered ? 1.0 : 0.0),
+            duration: const Duration(milliseconds: 300),
             curve: Curves.easeOutCubic,
-            transform: transform,
-            transformAlignment: FractionalOffset.center,
-            width: widget.width,
-            height: widget.height,
-            child: Stack(
-              alignment: Alignment.center,
-              clipBehavior: Clip.none,
-              children: [
-                // 1. Backing Neomorphic Offset Frame (Parallax moving opposite)
-                AnimatedPositioned(
-                  duration: const Duration(milliseconds: 300),
-                  curve: Curves.easeOutCubic,
-                  top: 24 - (dy * 15),
-                  left: -24 - (dx * 15),
-                  right: 24 + (dx * 15),
-                  bottom: -24 + (dy * 15),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: AppColors.surface,
-                      borderRadius: BorderRadius.circular(24),
-                      border: Border.all(
-                        color: _isHovered
-                            ? AppColors.primary.withValues(alpha: 0.6)
-                            : AppColors.textMuted.withValues(alpha: 0.1),
-                        width: 2,
-                      ),
-                      boxShadow: AppColors.neumorphicShadows(
-                        distance: _isHovered ? 16 : 8,
-                        blur: _isHovered ? 24 : 16,
-                        glowColor: _isHovered ? AppColors.primary : null,
-                      ),
-                    ),
-                  ),
-                ),
+            builder: (context, double hoverProgress, _) {
+              final Matrix4 transform = Matrix4.identity()
+                ..setEntry(3, 2, 0.001)
+                ..rotateX(rotateX * hoverProgress)
+                ..rotateY(rotateY * hoverProgress);
 
-                // 2. Front Image Card
-                AnimatedPositioned(
-                  duration: const Duration(milliseconds: 300),
-                  curve: Curves.easeOutCubic,
-                  top: -12 + (dy * 8),
-                  left: 12 + (dx * 8),
-                  right: -12 - (dx * 8),
-                  bottom: 12 - (dy * 8),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(24),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withValues(alpha: 0.6),
-                          blurRadius: 30,
-                          offset: Offset(dx * -15, 15 + dy * -15),
-                        ),
-                      ],
-                    ),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(24),
-                      child: AnimatedScale(
-                        duration: const Duration(seconds: 15),
-                        scale: _isHovered ? 1.08 : 1.0,
-                        curve: Curves.easeOutCubic,
-                        child: Stack(
-                          fit: StackFit.expand,
-                          children: [
-                            Image.asset(
-                              'assets/Images/my-filter-pic/black-full.jpeg',
-                              fit: BoxFit.cover,
-                              filterQuality: FilterQuality.high,
-                            ),
-                            AnimatedOpacity(
-                              duration: const Duration(
-                                milliseconds: 1000,
-                              ), // Very smooth & attractive fade
-                              curve: Curves.easeInOutCubic,
-                              opacity: _isHovered ? 1.0 : 0.0,
-                              child: Image.asset(
-                                'assets/Images/my-filter-pic/full-preview.jpeg',
-                                fit: BoxFit.cover,
-                                filterQuality: FilterQuality.high,
-                              ),
-                            ),
-                          ],
+              return Transform(
+                transform: transform,
+                alignment: FractionalOffset.center,
+                child: GlassmorphicCard(
+                  width: widget.width,
+                  height: widget.height,
+                  padding: EdgeInsets.zero,
+                  isHovered: _isHovered,
+                  child: Stack(
+                    fit: StackFit.expand,
+                    children: [
+                      // The actual image
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(24),
+                        child: AnimatedScale(
+                          duration: const Duration(seconds: 4),
+                          scale: _isHovered ? 1.05 : 1.0,
+                          curve: Curves.easeOutCubic,
+                          child: Image.asset(
+                            'assets/Images/my-filter-pic/full-preview.jpeg',
+                            fit: BoxFit.cover,
+                          ),
                         ),
                       ),
-                    ),
+                      
+                      // Dynamic Specular Light Reflection
+                      AnimatedOpacity(
+                        duration: const Duration(milliseconds: 200),
+                        opacity: hoverProgress,
+                        child: Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(24),
+                            gradient: LinearGradient(
+                              begin: Alignment(-dx * 2, -dy * 2),
+                              end: Alignment(dx * 2, dy * 2),
+                              colors: [
+                                Colors.white.withValues(alpha: 0.4),
+                                Colors.transparent,
+                                Colors.white.withValues(alpha: 0.1),
+                              ],
+                              stops: const [0.0, 0.5, 1.0],
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
-              ],
-            ),
+              );
+            },
           );
         },
       ),
@@ -543,49 +355,6 @@ class _DesktopImagePreviewState extends State<_DesktopImagePreview> {
   }
 }
 
-// ────────────────────────────────────────────────────────────────────────────
-//  Mobile Circular Colored Image Preview
-// ────────────────────────────────────────────────────────────────────────────
-class _MobileImagePreview extends StatelessWidget {
-  const _MobileImagePreview({required this.size});
-
-  final double size;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: size,
-      height: size,
-      decoration: BoxDecoration(
-        shape: BoxShape.circle,
-        color: AppColors.surface,
-        boxShadow: AppColors.neumorphicShadows(distance: 12, blur: 24),
-        border: Border.all(
-          color: AppColors.primary.withValues(alpha: 0.3),
-          width: 3,
-        ),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(6.0), // Inner ring gap
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(size),
-          child: Image.asset(
-            'assets/Images/my-filter-pic/full-preview.jpeg', // Pure color for mobile
-            fit: BoxFit.cover,
-            filterQuality: FilterQuality.high,
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-
-// ────────────────────────────────────────────────────────────────────────────
-//  Advanced Micro-Interactions
-// ────────────────────────────────────────────────────────────────────────────
-
-/// Applies an animated shifting gradient mask to its child (e.g., text)
 class _AnimatedGradientText extends StatefulWidget {
   final Widget child;
   const _AnimatedGradientText({required this.child});
@@ -594,17 +363,13 @@ class _AnimatedGradientText extends StatefulWidget {
   State<_AnimatedGradientText> createState() => _AnimatedGradientTextState();
 }
 
-class _AnimatedGradientTextState extends State<_AnimatedGradientText>
-    with SingleTickerProviderStateMixin {
+class _AnimatedGradientTextState extends State<_AnimatedGradientText> with SingleTickerProviderStateMixin {
   late final AnimationController _controller;
 
   @override
   void initState() {
     super.initState();
-    _controller = AnimationController(
-      vsync: this,
-      duration: const Duration(seconds: 3),
-    )..repeat(reverse: true);
+    _controller = AnimationController(vsync: this, duration: const Duration(seconds: 4))..repeat(reverse: true);
   }
 
   @override
@@ -628,9 +393,7 @@ class _AnimatedGradientTextState extends State<_AnimatedGradientText>
                 AppColors.primary,
               ],
               stops: const [0.0, 0.5, 1.0],
-              transform: GradientRotation(
-                _controller.value * 2 * 3.14159,
-              ), // Rotate the gradient
+              transform: GradientRotation(_controller.value * 2 * 3.14159),
             ).createShader(bounds);
           },
           child: widget.child,
@@ -641,7 +404,6 @@ class _AnimatedGradientTextState extends State<_AnimatedGradientText>
   }
 }
 
-/// Makes a button slightly pull towards the mouse cursor
 class _MagneticButton extends StatefulWidget {
   final Widget child;
   const _MagneticButton({required this.child});
@@ -651,9 +413,7 @@ class _MagneticButton extends StatefulWidget {
 }
 
 class _MagneticButtonState extends State<_MagneticButton> {
-  final ValueNotifier<Offset> _localMousePos = ValueNotifier<Offset>(
-    Offset.zero,
-  );
+  final ValueNotifier<Offset> _localMousePos = ValueNotifier<Offset>(Offset.zero);
   bool _isHovered = false;
 
   @override
@@ -674,8 +434,7 @@ class _MagneticButtonState extends State<_MagneticButton> {
         final RenderBox? box = context.findRenderObject() as RenderBox?;
         if (box != null) {
           final Offset center = Offset(box.size.width / 2, box.size.height / 2);
-          final Offset delta = event.localPosition - center;
-          _localMousePos.value = delta * 0.25; // Pull strength
+          _localMousePos.value = (event.localPosition - center) * 0.2;
         }
       },
       child: ValueListenableBuilder<Offset>(

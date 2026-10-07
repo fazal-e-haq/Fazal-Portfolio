@@ -1,126 +1,201 @@
 import 'package:flutter/material.dart';
-import 'package:animated_text_kit/animated_text_kit.dart';
+import 'package:flutter/cupertino.dart';
 
 import '../../core/constants/app_sizes.dart';
 import '../../core/constants/projects_details.dart';
 import '../../core/themes/theme.dart';
-import '../../widgets/responsive_text.dart';
 import '../../widgets/animations/fade_in_up_widget.dart';
-import '../../widgets/section_background_text.dart';
-import 'widgets/project_card_widget.dart';
+import '../../widgets/glassmorphic_card.dart';
 
 class ProjectsSection extends StatelessWidget {
   const ProjectsSection({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final projects = Projects().projects;
-
     return LayoutBuilder(
       builder: (context, constraints) {
         final bool isMobile = AppSizes.isMobile(constraints);
-        final bool isTablet = AppSizes.isTablet(constraints);
-        final bool isUltrawide = AppSizes.isUltrawide(constraints);
-        final double maxWidth = (isMobile || isTablet)
-            ? double.infinity
-            : (isUltrawide ? 1800 : 1200);
+        final projects = Projects().projects;
 
-        return Stack(
-          children: [
-            // Fixed Background Watermark
-            const Positioned.fill(child: SectionBackgroundText(text: 'WORKS')),
-
-            // Scrollable Content
-            Positioned.fill(
-              child: SingleChildScrollView(
-                physics: const BouncingScrollPhysics(),
-                child: Center(
-                  child: ConstrainedBox(
-                    constraints: BoxConstraints(maxWidth: maxWidth),
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(
-                        horizontal: isMobile
-                            ? 16
-                            : (isTablet ? 26 : (isUltrawide ? 80 : 48)),
-                        vertical: isMobile ? 60 : (isUltrawide ? 160 : 120),
+        return Center(
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(maxWidth: 1200),
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: isMobile ? 16 : 80),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(
+                        width: 32,
+                        height: 3,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(2),
+                          color: AppColors.secondary,
+                        ),
                       ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          // Foreground Title
-                          FadeInUpWidget(
-                            delay: const Duration(milliseconds: 200),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                AnimatedTextKit(
-                                  repeatForever: true,
-                                  animatedTexts: [
-                                    TypewriterAnimatedText(
-                                      'WORKS',
-                                      speed: const Duration(milliseconds: 150),
-                                      textStyle: Theme.of(context)
-                                          .textTheme
-                                          .displayLarge
-                                          ?.copyWith(
-                                            fontSize: isMobile
-                                                ? 32
-                                                : (isTablet
-                                                      ? 40
-                                                      : (isUltrawide ? 64 : 48)),
-                                            color: AppColors.primary,
-                                            fontWeight: FontWeight.w900,
-                                          ),
-                                    ),
-                                  ],
-                                ),
-                                const SizedBox(height: 24),
-                                ResponsiveText(
-                                  'A collection of projects that showcase my skills, creativity, and passion for building quality Flutter applications.',
-                                  style: TextStyle(
-                                    fontFamily: 'Poppins',
-                                    height: 1.8,
-                                    fontSize: isMobile
-                                        ? 14
-                                        : (isTablet ? 16 : 18),
-                                    color: AppColors.textSecondary,
-                                  ),
-                                ),
-                              ],
+                      const SizedBox(width: 12),
+                      const Text(
+                        'FEATURED WORKS',
+                        style: TextStyle(
+                          fontFamily: 'Poppins',
+                          fontSize: 16,
+                          fontWeight: FontWeight.w600,
+                          color: AppColors.secondary,
+                          letterSpacing: 4.0,
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 64),
+                  
+                  // Horizontal 3D Carousel of Projects
+                  SizedBox(
+                    height: isMobile ? 450 : 500,
+                    child: ListView.builder(
+                      scrollDirection: Axis.horizontal,
+                      physics: const BouncingScrollPhysics(),
+                      itemCount: projects.length,
+                      itemBuilder: (context, index) {
+                        return Padding(
+                          padding: const EdgeInsets.only(right: 32),
+                          child: FadeInUpWidget(
+                            delay: Duration(milliseconds: 200 + (index * 150)),
+                            child: _ProjectGlassCard(
+                              project: projects[index],
+                              isMobile: isMobile,
                             ),
                           ),
-                          const SizedBox(height: 60),
+                        );
+                      },
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+}
 
-                          // Projects List
-                          Column(
-                            children: List.generate(projects.length, (index) {
-                              return FadeInUpWidget(
-                                delay: Duration(
-                                  milliseconds: 400 + (index * 200),
-                                ),
-                                child: Padding(
-                                  padding: EdgeInsets.only(
-                                    bottom: isMobile ? 32 : 64,
-                                  ),
-                                  child: PlayStoreProjectCard(
-                                    project: projects[index],
-                                    isMobile: isMobile || isTablet,
-                                    index: index,
-                                  ),
-                                ),
-                              );
-                            }),
-                          ),
+class _ProjectGlassCard extends StatefulWidget {
+  final ProjectModel project;
+  final bool isMobile;
+
+  const _ProjectGlassCard({required this.project, required this.isMobile});
+
+  @override
+  State<_ProjectGlassCard> createState() => _ProjectGlassCardState();
+}
+
+class _ProjectGlassCardState extends State<_ProjectGlassCard> {
+  bool _isHovered = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return MouseRegion(
+      onEnter: (_) => setState(() => _isHovered = true),
+      onExit: (_) => setState(() => _isHovered = false),
+      cursor: SystemMouseCursors.click,
+      child: AnimatedScale(
+        scale: _isHovered ? 1.02 : 1.0,
+        duration: const Duration(milliseconds: 300),
+        curve: Curves.easeOutCubic,
+        child: GlassmorphicCard(
+          width: widget.isMobile ? 320 : 400,
+          padding: EdgeInsets.zero, // We will pad inside
+          isHovered: _isHovered,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              // Mock Image area (gradient for now, can be an actual image later)
+              Expanded(
+                flex: 5,
+                child: ClipRRect(
+                  borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        colors: [
+                          AppColors.secondary.withValues(alpha: 0.2),
+                          AppColors.primary.withValues(alpha: 0.2),
                         ],
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
                       ),
+                    ),
+                    child: const Center(
+                      child: Icon(CupertinoIcons.device_phone_portrait, size: 64, color: AppColors.secondary),
                     ),
                   ),
                 ),
               ),
-            ),
-          ],
-        );
-      },
+              
+              // Text Content Area
+              Expanded(
+                flex: 4,
+                child: Padding(
+                  padding: const EdgeInsets.all(24.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        widget.project.title,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: const TextStyle(
+                          fontFamily: 'Unbounded',
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          color: AppColors.textMain,
+                        ),
+                      ),
+                      const SizedBox(height: 8),
+                      Expanded(
+                        child: Text(
+                          widget.project.description,
+                          maxLines: 3,
+                          overflow: TextOverflow.ellipsis,
+                          style: const TextStyle(
+                            fontFamily: 'Poppins',
+                            fontSize: 13,
+                            color: AppColors.textSecondary,
+                            height: 1.5,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 12),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            'Explore Project',
+                            style: TextStyle(
+                              fontFamily: 'Poppins',
+                              fontSize: 13,
+                              fontWeight: FontWeight.w600,
+                              color: _isHovered ? AppColors.primary : AppColors.secondary,
+                            ),
+                          ),
+                          Icon(
+                            CupertinoIcons.arrow_right,
+                            size: 16,
+                            color: _isHovered ? AppColors.primary : AppColors.secondary,
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }
