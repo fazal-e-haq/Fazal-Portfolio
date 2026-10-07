@@ -255,7 +255,7 @@
       margin: 0;
       width: 100%;
       height: 100%;
-      overflow: hidden;
+      overflow: hidden !important;
       background-color: #fdf0d5; /* Main Dark Background */
     }
 
@@ -269,7 +269,7 @@
       align-items: center;
       justify-content: center;
       z-index: 9999;
-      overflow: hidden; /* Prevents scrollbars when divider explodes */
+      overflow: hidden !important; /* Prevents scrollbars when divider explodes */
     }
 
     .splash-text-wrapper {
@@ -287,7 +287,7 @@
       letter-spacing: 3px;
       margin: 0;
       white-space: nowrap;
-      overflow: hidden;
+      overflow: hidden !important;
       border-right: 3px solid rgba(0, 0, 0, 0.87);
       width: 0;
       z-index: 1;
@@ -398,12 +398,12 @@
       }
     }
       /* Hide scrollbar */
-    ::-webkit-scrollbar {
-      display: none;
+    *::-webkit-scrollbar {
+      display: none !important; width: 0 !important; height: 0 !important;
     }
     body {
-      -ms-overflow-style: none;  /* IE and Edge */
-      scrollbar-width: none;  /* Firefox */
+      -ms-overflow-style: none !important;  /* IE and Edge */
+      scrollbar-width: none !important;  /* Firefox */
     }
   </style>
 </head>
@@ -509,12 +509,12 @@
     <style>
       #seo-content { position: relative !important; z-index: 99999 !important; height: auto !important; max-height: none !important; }
         /* Hide scrollbar */
-    ::-webkit-scrollbar {
-      display: none;
+    *::-webkit-scrollbar {
+      display: none !important; width: 0 !important; height: 0 !important;
     }
     body {
-      -ms-overflow-style: none;  /* IE and Edge */
-      scrollbar-width: none;  /* Firefox */
+      -ms-overflow-style: none !important;  /* IE and Edge */
+      scrollbar-width: none !important;  /* Firefox */
     }
   </style>
     <meta http-equiv="refresh" content="0; url=https://fazal-portfolio.web.app/">
@@ -589,5 +589,6 @@
 </body>
 
 </html>
+
 
 

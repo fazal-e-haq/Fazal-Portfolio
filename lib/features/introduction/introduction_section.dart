@@ -214,23 +214,19 @@ class _IntroContent extends StatelessWidget {
           runSpacing: 24,
           children: [
             _MagneticButton(
-              child: ElevatedButton.icon(
+              child: ButtonWidget(
+                id: 'intro_resume_btn',
                 onPressed: downloadResume,
+                padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 20),
                 icon: const Icon(CupertinoIcons.arrow_down, size: 20, color: AppColors.textMain),
-                label: const Text(
+                text: const Text(
                   'My Resume',
                   style: TextStyle(
                     fontFamily: 'Patrick Hand',
                     fontWeight: FontWeight.w600,
                     letterSpacing: 0.5,
+                    color: AppColors.textMain,
                   ),
-                ),
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: AppColors.primary,
-                  padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 20),
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(100)),
-                  shadowColor: AppColors.primary.withValues(alpha: 0.4),
-                  elevation: 8,
                 ),
               ),
             ),
