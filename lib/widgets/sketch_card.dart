@@ -31,11 +31,12 @@ class SketchCard extends StatelessWidget {
           // 1. A faint secondary scribble border for the "not straight" pencil feel
           Positioned.fill(
             child: Transform.rotate(
-              angle: 0.012,
+              angle: 0.025, // More wobbly
               child: Container(
                 decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(20), // Curved corners
                   border: Border.all(
-                    color: AppColors.textMain.withValues(alpha: 0.4),
+                    color: AppColors.textMain.withValues(alpha: 0.3),
                     width: 1.5,
                   ),
                 ),
@@ -52,17 +53,18 @@ class SketchCard extends StatelessWidget {
             right: isHovered ? 3 : 0,
             bottom: isHovered ? 3 : 0,
             child: Transform.rotate(
-              angle: -0.008,
+              angle: -0.015,
               child: Container(
                 decoration: BoxDecoration(
                   color: Colors.transparent, // Completely transparent
+                  borderRadius: BorderRadius.circular(16),
                   border: Border.all(
                     color: AppColors.textMain,
                     width: 2.0,
                   ),
                 ),
                 child: Transform.rotate(
-                  angle: 0.008, // Counter-rotate so text/content remains perfectly straight
+                  angle: 0.015, // Counter-rotate so text/content remains perfectly straight
                   child: Padding(
                     padding: padding,
                     child: child,

@@ -22,7 +22,6 @@ class ContactCtaCard extends StatelessWidget {
       onEnter: (_) => controller.setHovered(hoverKey, true),
       onExit: (_) => controller.setHovered(hoverKey, false),
       child: Obx(() {
-        final bool isHovered = controller.isHovered(hoverKey);
 
         return AnimatedContainer(
           duration: const Duration(milliseconds: 600),
@@ -31,7 +30,7 @@ class ContactCtaCard extends StatelessWidget {
           width: double.infinity,
           decoration: BoxDecoration(
             color: Colors.transparent,
-            borderRadius: BorderRadius.circular(0), // Sharp angles for sketch
+            borderRadius: BorderRadius.circular(16), // Sharp angles for sketch
             border: Border.all(
               color: AppColors.textMain,
               width: 2,
@@ -43,7 +42,7 @@ class ContactCtaCard extends StatelessWidget {
             children: [
               Container(
                 padding: const EdgeInsets.all(20),
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   color: AppColors.surface,
                   shape: BoxShape.circle,
                   

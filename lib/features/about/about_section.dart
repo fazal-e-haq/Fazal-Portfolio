@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 
 import '../../../core/constants/app_sizes.dart';
@@ -169,18 +168,18 @@ class _DesktopBentoGrid extends StatelessWidget {
                     const SizedBox(height: 24),
                     
                     // Bottom Right (Stats)
-                    Expanded(
+                    const Expanded(
                       flex: 4,
                       child: Row(
                         children: [
                           Expanded(
                             child: FadeInUpWidget(
-                              delay: const Duration(milliseconds: 500),
+                              delay: Duration(milliseconds: 500),
                               child: SketchCard(
-                                padding: const EdgeInsets.all(24),
+                                padding: EdgeInsets.all(24),
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
-                                  children: const [
+                                  children: [
                                     Text(
                                       '0.4+',
                                       style: TextStyle(
@@ -205,15 +204,15 @@ class _DesktopBentoGrid extends StatelessWidget {
                               ),
                             ),
                           ),
-                          const SizedBox(width: 24),
+                          SizedBox(width: 24),
                           Expanded(
                             child: FadeInUpWidget(
-                              delay: const Duration(milliseconds: 650),
+                              delay: Duration(milliseconds: 650),
                               child: SketchCard(
-                                padding: const EdgeInsets.all(24),
+                                padding: EdgeInsets.all(24),
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
-                                  children: const [
+                                  children: [
                                     Text(
                                       '2+',
                                       style: TextStyle(
@@ -322,13 +321,13 @@ class _MobileBentoGrid extends StatelessWidget {
           const SizedBox(height: 32),
           
           // Bio Box
-          FadeInUpWidget(
-            delay: const Duration(milliseconds: 200),
+          const FadeInUpWidget(
+            delay: Duration(milliseconds: 200),
             child: SketchCard(
-              padding: const EdgeInsets.all(24),
+              padding: EdgeInsets.all(24),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: const [
+                children: [
                   Icon(CupertinoIcons.person_crop_square, size: 36, color: AppColors.primary),
                   SizedBox(height: 16),
                   Text(
@@ -391,15 +390,15 @@ class _MobileBentoGrid extends StatelessWidget {
           const SizedBox(height: 16),
           
           // Stats Row
-          Row(
+          const Row(
             children: [
               Expanded(
                 child: FadeInUpWidget(
-                  delay: const Duration(milliseconds: 500),
+                  delay: Duration(milliseconds: 500),
                   child: SketchCard(
-                    padding: const EdgeInsets.all(20),
+                    padding: EdgeInsets.all(20),
                     child: Column(
-                      children: const [
+                      children: [
                         Text(
                           '0.4+',
                           style: TextStyle(
@@ -419,14 +418,14 @@ class _MobileBentoGrid extends StatelessWidget {
                   ),
                 ),
               ),
-              const SizedBox(width: 16),
+              SizedBox(width: 16),
               Expanded(
                 child: FadeInUpWidget(
-                  delay: const Duration(milliseconds: 650),
+                  delay: Duration(milliseconds: 650),
                   child: SketchCard(
-                    padding: const EdgeInsets.all(20),
+                    padding: EdgeInsets.all(20),
                     child: Column(
-                      children: const [
+                      children: [
                         Text(
                           '2+',
                           style: TextStyle(

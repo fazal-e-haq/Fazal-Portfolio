@@ -96,11 +96,12 @@ class ButtonWidget extends StatelessWidget {
                   // 1. Scribble secondary border
                   Positioned.fill(
                     child: Transform.rotate(
-                      angle: 0.015,
+                      angle: 0.030,
                       child: Container(
                         decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(24),
                           border: Border.all(
-                            color: AppColors.textMain.withValues(alpha: 0.4),
+                            color: AppColors.textMain.withValues(alpha: 0.3),
                             width: 1.5,
                           ),
                         ),
@@ -110,17 +111,18 @@ class ButtonWidget extends StatelessWidget {
                   
                   // 2. Main outline box
                   Transform.rotate(
-                    angle: -0.010,
+                    angle: -0.015,
                     child: Container(
                       decoration: BoxDecoration(
                         color: Colors.transparent, // Outline only!
+                        borderRadius: BorderRadius.circular(20),
                         border: Border.all(
                           color: AppColors.textMain,
                           width: 2.0,
                         ),
                       ),
                       child: Transform.rotate(
-                        angle: 0.010, // counter rotate content
+                        angle: 0.015, // counter rotate content
                         child: Padding(
                           padding: padding ?? const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
                           child: Row(

@@ -47,7 +47,7 @@ class HoverInfoCard extends StatelessWidget {
               padding: const EdgeInsets.all(32),
               decoration: BoxDecoration(
                 color: Colors.transparent,
-                borderRadius: BorderRadius.circular(0),
+                borderRadius: BorderRadius.circular(16),
                 border: Border.all(
                   color: AppColors.textMain,
                   width: 2.0,
@@ -100,3 +100,4 @@ class HoverInfoCard extends StatelessWidget {
     );
   }
 }
+

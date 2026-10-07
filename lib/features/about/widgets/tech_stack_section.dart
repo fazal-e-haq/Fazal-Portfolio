@@ -98,6 +98,7 @@ class _TechChip extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
           decoration: BoxDecoration(
             color: Colors.transparent,
+            borderRadius: BorderRadius.circular(16),
             border: Border.all(
               color: AppColors.textMain,
               width: 2.0,
@@ -114,7 +115,7 @@ class _TechChip extends StatelessWidget {
               const SizedBox(width: 12),
               Text(
                 name,
-                style: TextStyle(
+                style: const TextStyle(
                   fontFamily: 'Patrick Hand',
                   fontSize: 14,
                   fontWeight: FontWeight.w900,
@@ -128,3 +129,4 @@ class _TechChip extends StatelessWidget {
     );
   }
 }
+

@@ -1,11 +1,8 @@
-import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
 import '../../../core/themes/theme.dart';
 import '../../../widgets/animations/fade_in_up_widget.dart';
-import '../../../widgets/button/button_widget.dart';
 import '../../../widgets/responsive_text.dart';
 import '../../../widgets/sketch_card.dart';
 import '../../../services/resume_downloader.dart';
@@ -40,7 +37,7 @@ class _DesktopIntro extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
+    return const Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
@@ -48,7 +45,7 @@ class _DesktopIntro extends StatelessWidget {
         Expanded(
           flex: 5,
           child: FadeInUpWidget(
-            delay: const Duration(milliseconds: 200),
+            delay: Duration(milliseconds: 200),
             child: _IntroContent(
               nameFontSize: 64.0,
               roleFontSize: 32.0,
@@ -57,13 +54,13 @@ class _DesktopIntro extends StatelessWidget {
             ),
           ),
         ),
-        const SizedBox(width: 80),
+        SizedBox(width: 80),
         // Right: The Image wrapped in a 3D Glass panel
         Expanded(
           flex: 4,
           child: FadeInUpWidget(
-            delay: const Duration(milliseconds: 400),
-            child: const _HoverGlassImage(
+            delay: Duration(milliseconds: 400),
+            child: _HoverGlassImage(
               width: 400,
               height: 520,
             ),
@@ -79,23 +76,23 @@ class _MobileIntro extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      physics: const BouncingScrollPhysics(),
+    return const SingleChildScrollView(
+      physics: BouncingScrollPhysics(),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          const SizedBox(height: 40),
+          SizedBox(height: 40),
           FadeInUpWidget(
-            delay: const Duration(milliseconds: 200),
-            child: const _HoverGlassImage(
+            delay: Duration(milliseconds: 200),
+            child: _HoverGlassImage(
               width: 280,
               height: 380,
             ),
           ),
-          const SizedBox(height: 48),
+          SizedBox(height: 48),
           FadeInUpWidget(
-            delay: const Duration(milliseconds: 400),
+            delay: Duration(milliseconds: 400),
             child: _IntroContent(
               nameFontSize: 36.0,
               roleFontSize: 20.0,
@@ -103,7 +100,7 @@ class _MobileIntro extends StatelessWidget {
               textAlign: TextAlign.center,
             ),
           ),
-          const SizedBox(height: 80),
+          SizedBox(height: 80),
         ],
       ),
     );

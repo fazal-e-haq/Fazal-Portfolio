@@ -34,9 +34,10 @@ class BottomNavBarWidget extends StatelessWidget {
                 // Scribble secondary border
                 Positioned.fill(
                   child: Transform.rotate(
-                    angle: 0.015,
+                    angle: 0.025,
                     child: Container(
                       decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(32),
                         border: Border.all(
                           color: AppColors.textMain.withValues(alpha: 0.4),
                           width: 1.5,
@@ -47,17 +48,18 @@ class BottomNavBarWidget extends StatelessWidget {
                 ),
                 // Main outline box
                 Transform.rotate(
-                  angle: -0.010,
+                  angle: -0.015,
                   child: Container(
                     decoration: BoxDecoration(
                       color: Colors.transparent, // Outline only!
+                      borderRadius: BorderRadius.circular(28),
                       border: Border.all(
                         color: AppColors.textMain,
                         width: 2.0,
                       ),
                     ),
                     child: Transform.rotate(
-                      angle: 0.010,
+                      angle: 0.015,
                       child: Obx(() {
                         final int currentIndex = Get.isRegistered<ScrollCoordinatorController>()
                             ? Get.find<ScrollCoordinatorController>().activeSectionIndex.value

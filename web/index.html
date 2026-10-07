@@ -263,7 +263,7 @@
     #splash-container {
       position: absolute;
       top: 0; left: 0; right: 0; bottom: 0;
-      background-color: #FFFBEA; /* Yellowish Paper */
+      background-color: #fdf0d5; /* Yellowish Paper */
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -283,12 +283,12 @@
       font-family: 'Patrick Hand', sans-serif;
       font-size: clamp(14px, 5.5vw, 64px);
       font-weight: 900;
-      color: #000000;
+      color: rgba(0, 0, 0, 0.87);
       letter-spacing: 3px;
       margin: 0;
       white-space: nowrap;
       overflow: hidden;
-      border-right: 3px solid rgba(0, 0, 0, 0.8);
+      border-right: 3px solid rgba(0, 0, 0, 0.87);
       width: 0;
       z-index: 1;
       animation:
@@ -299,7 +299,7 @@
     .divider {
       width: 0;
       height: 3px;
-      background-color: #000000;
+      background-color: rgba(0, 0, 0, 0.87);
       margin: 20px 0;
       border-radius: 2px;
       z-index: 2;
@@ -312,7 +312,7 @@
       font-family: 'Patrick Hand', sans-serif;
       font-size: clamp(8px, 2.5vw, 20px);
       font-weight: 900;
-      color: #000000;
+      color: rgba(0, 0, 0, 0.87);
       letter-spacing: 4px;
       margin: 0;
       opacity: 0;
@@ -338,8 +338,8 @@
 
     /* The massive divider wipe transition */
     @keyframes explodeDivider {
-      0% { transform: scale(1); border-radius: 50px; background-color: #000000; }
-      100% { transform: scale(2000); border-radius: 50px; background-color: #FFFBEA; }
+      0% { transform: scale(1); border-radius: 50px; background-color: rgba(0, 0, 0, 0.87); }
+      100% { transform: scale(2000); border-radius: 50px; background-color: #fdf0d5; }
     }
 
     /* ── SEO Fallback Content (visible to crawlers, hidden after Flutter loads) ── */
@@ -396,6 +396,14 @@
         font-size: 7px;
         letter-spacing: 1px;
       }
+    }
+      /* Hide scrollbar */
+    ::-webkit-scrollbar {
+      display: none;
+    }
+    body {
+      -ms-overflow-style: none;  /* IE and Edge */
+      scrollbar-width: none;  /* Firefox */
     }
   </style>
 </head>
@@ -500,7 +508,15 @@
   <noscript>
     <style>
       #seo-content { position: relative !important; z-index: 99999 !important; height: auto !important; max-height: none !important; }
-    </style>
+        /* Hide scrollbar */
+    ::-webkit-scrollbar {
+      display: none;
+    }
+    body {
+      -ms-overflow-style: none;  /* IE and Edge */
+      scrollbar-width: none;  /* Firefox */
+    }
+  </style>
     <meta http-equiv="refresh" content="0; url=https://fazal-portfolio.web.app/">
   </noscript>
 
@@ -522,7 +538,7 @@
     const splash = document.getElementById('splash-container');
     const seoContent = document.getElementById('seo-content');
 
-    if (sessionStorage.getItem('splashShown') === 'true') {
+    if (false /* sessionStorage.getItem('splashShown') === 'true' (disabled for debug) */) {
       if (splash) splash.remove();
     } else {
       sessionStorage.setItem('splashShown', 'true');
@@ -573,3 +589,4 @@
 </body>
 
 </html>
+

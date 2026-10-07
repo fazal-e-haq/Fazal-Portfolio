@@ -144,9 +144,11 @@ class _WebHomePageState extends State<WebHomePage> with SingleTickerProviderStat
 
                   // 2. Middle Layer: The Z-Axis 3D ListView
                   Positioned.fill(
-                    child: ListView(
-                      controller: _scrollCoordinator.scrollController,
-                      physics: const BouncingScrollPhysics(),
+                    child: ScrollConfiguration(
+                      behavior: ScrollConfiguration.of(context).copyWith(scrollbars: false),
+                      child: ListView(
+                        controller: _scrollCoordinator.scrollController,
+                        physics: const BouncingScrollPhysics(),
                       children: [
                         _buildZAxisSection(const Introduction(), 0, constraints),
                         _buildZAxisSection(const AboutSection(), 1, constraints),
@@ -157,8 +159,9 @@ class _WebHomePageState extends State<WebHomePage> with SingleTickerProviderStat
                       ],
                     ),
                   ),
+                ),
 
-                  // 3. Top Layer: Floating HUD
+                // 3. Top Layer: Floating HUD
                   if (!isMobile)
                     const SpatialHudOverlay(),
                 ],

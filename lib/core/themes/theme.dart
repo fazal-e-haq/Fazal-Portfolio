@@ -3,20 +3,20 @@ import 'package:flutter/material.dart';
 /// App-wide colors for the Pencil Sketch / Brutalist Theme
 class AppColors {
   // Yellowish white pencil paper background
-  static const Color background = Color(0xFFFFFBEA);
-  
-  // No other colors allowed, only pure black
-  static const Color primary = Color(0xFF000000);
-  static const Color secondary = Color(0xFF000000);
+  static const Color background = Color(0xFFFDF0D5);
+
+  // Soft/low opacity black theme
+  static const Color primary = Color(0xDD000000);
+  static const Color secondary = Color(0xDD000000);
 
   // Surface colors (Fully transparent for outline theme)
   static const Color surface = Colors.transparent;
   static const Color surfaceInner = Colors.transparent;
 
-  // Pure Black for text and borders
-  static const Color textMain = Color(0xFF000000);
-  static const Color textSecondary = Color(0xFF000000);
-  static const Color textMuted = Color(0xFF000000); // Keep everything black
+  // Soft Black for text and borders
+  static const Color textMain = Color(0xDD000000);
+  static const Color textSecondary = Color(0xBB000000);
+  static const Color textMuted = Color(0x99000000);
 
   // Hard black shadow for the sketch/brutalist look
   static const Color shadowDark = Color(0xFF000000);
@@ -29,7 +29,7 @@ class AppColors {
     return [];
   }
 
-  /// Legacy wrapper to fix compilation errors for older components. 
+  /// Legacy wrapper to fix compilation errors for older components.
   /// Returns empty list to enforce pure outline theme.
   static List<BoxShadow> neumorphicShadows({
     bool isPressed = false,
@@ -96,30 +96,39 @@ final ThemeData mainTheme = ThemeData(
       foregroundColor: AppColors.textMain,
       padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 15),
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(0), // Sharp corners for sketch look
-        side: const BorderSide(color: AppColors.textMain, width: 2), // Black outline
+        borderRadius: BorderRadius.circular(16), // Sharp corners for sketch look
+        side: const BorderSide(
+          color: AppColors.textMain,
+          width: 2,
+        ), // Black outline
       ),
       elevation: 0,
     ),
   ),
 
-  inputDecorationTheme: InputDecorationTheme(
+  inputDecorationTheme: const InputDecorationTheme(
     filled: true,
     fillColor: AppColors.surface,
-    border: const OutlineInputBorder(
+    border: OutlineInputBorder(
       borderRadius: BorderRadius.zero,
       borderSide: BorderSide(color: AppColors.textMain, width: 2),
     ),
-    enabledBorder: const OutlineInputBorder(
+    enabledBorder: OutlineInputBorder(
       borderRadius: BorderRadius.zero,
       borderSide: BorderSide(color: AppColors.textMain, width: 2),
     ),
-    focusedBorder: const OutlineInputBorder(
+    focusedBorder: OutlineInputBorder(
       borderRadius: BorderRadius.zero,
-      borderSide: BorderSide(color: AppColors.textMain, width: 3), // Thicker on focus
+      borderSide: BorderSide(
+        color: AppColors.textMain,
+        width: 3,
+      ), // Thicker on focus
     ),
-    hintStyle: const TextStyle(color: AppColors.textMain, fontWeight: FontWeight.bold),
-    contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 18),
+    hintStyle: TextStyle(
+      color: AppColors.textMain,
+      fontWeight: FontWeight.bold,
+    ),
+    contentPadding: EdgeInsets.symmetric(horizontal: 20, vertical: 18),
   ),
 
   dividerTheme: const DividerThemeData(

@@ -46,7 +46,6 @@ class SocialButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
     final controller = Get.find<ContactController>();
     final String hoverKey = 'social_btn_$title';
 
@@ -69,7 +68,7 @@ class SocialButton extends StatelessWidget {
               padding: const EdgeInsets.all(20),
               decoration: BoxDecoration(
                 color: Colors.transparent,
-                borderRadius: BorderRadius.circular(0),
+                borderRadius: BorderRadius.circular(16),
                 border: Border.all(
                   color: AppColors.textMain,
                   width: 2,

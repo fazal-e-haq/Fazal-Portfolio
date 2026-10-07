@@ -39,8 +39,6 @@ class NeumorphicTextField extends StatelessWidget {
             final isActive = isHovered || isFocused;
             final currentError = errorText?.value;
             final hasError = currentError != null && currentError.isNotEmpty;
-            
-            final shadowDist = isActive ? 2.0 : 6.0;
 
             return Stack(
               clipBehavior: Clip.none,
@@ -48,11 +46,12 @@ class NeumorphicTextField extends StatelessWidget {
                 // Scribble secondary border
                 Positioned.fill(
                   child: Transform.rotate(
-                    angle: -0.010,
+                    angle: -0.020,
                     child: Container(
                       decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(24),
                         border: Border.all(
-                          color: AppColors.textMain.withValues(alpha: 0.4),
+                          color: AppColors.textMain.withValues(alpha: 0.3),
                           width: 1.5,
                         ),
                       ),
@@ -69,17 +68,18 @@ class NeumorphicTextField extends StatelessWidget {
                   right: isActive ? -2 : 0,
                   bottom: isActive ? -2 : 0,
                   child: Transform.rotate(
-                    angle: 0.005,
+                    angle: 0.012,
                     child: Container(
                       decoration: BoxDecoration(
                         color: Colors.transparent, // Completely transparent
+                        borderRadius: BorderRadius.circular(20),
                         border: Border.all(
                           color: AppColors.textMain,
                           width: (isActive || hasError) ? 2.5 : 2.0,
                         ),
                       ),
                       child: Transform.rotate(
-                        angle: -0.005, // Counter rotate
+                        angle: -0.012, // Counter rotate
                         child: TextField(
                           controller: controller,
                           maxLines: maxLines,
@@ -157,3 +157,4 @@ class NeumorphicTextField extends StatelessWidget {
     );
   }
 }
+

@@ -22,25 +22,22 @@ class PlayStoreProjectCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final controller = Get.find<ProjectController>();
     final String hoverKey = 'project_card_$index';
-    
-    const double cardRadius = 24.0;
+
     final double cardPadding = isMobile ? 16 : 40;
-    
-    return MouseRegion(
+
+    return Transform.rotate(
+      angle: index % 2 == 0 ? 0.015 : -0.015,
+      child: MouseRegion(
       onEnter: (_) => controller.setHovered(hoverKey, true),
       onExit: (_) => controller.setHovered(hoverKey, false),
       child: Obx(() {
-        final bool isHovered = controller.isHovered(hoverKey);
         return AnimatedContainer(
           duration: const Duration(milliseconds: 600),
           curve: Curves.easeOutExpo,
           decoration: BoxDecoration(
             color: Colors.transparent,
-            borderRadius: BorderRadius.circular(0),
-            border: Border.all(
-              color: AppColors.textMain,
-              width: 2.0,
-            ),
+            borderRadius: BorderRadius.circular(16),
+            border: Border.all(color: AppColors.textMain, width: 2.0),
           ),
           padding: EdgeInsets.all(cardPadding),
           child: Column(
@@ -59,6 +56,7 @@ class PlayStoreProjectCard extends StatelessWidget {
           ),
         );
       }),
+    )
     );
   }
 
@@ -74,7 +72,7 @@ class PlayStoreProjectCard extends StatelessWidget {
           height: isMobile ? 72 : 96,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(20),
-            
+
             image: DecorationImage(
               image: AssetImage(project.logo),
               fit: BoxFit.cover,
@@ -82,7 +80,7 @@ class PlayStoreProjectCard extends StatelessWidget {
           ),
         ),
         const SizedBox(width: 20),
-        
+
         // Title and Info
         Expanded(
           child: Column(
@@ -110,16 +108,29 @@ class PlayStoreProjectCard extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 12),
-              
+
               // Ratings and Downloads
               FittedBox(
                 fit: BoxFit.scaleDown,
                 alignment: Alignment.centerLeft,
                 child: Row(
                   children: [
-                    _buildStatItem(project.rating, RegExp(r'^[0-9.]+$').hasMatch(project.rating) ? '★' : '', 'Rating'),
+                    _buildStatItem(
+                      project.rating,
+                      RegExp(r'^[0-9.]+$').hasMatch(project.rating) ? '★' : '',
+                      'Rating',
+                    ),
                     _buildDivider(),
-                    _buildStatItem(project.downloads, project.downloads.endsWith('+') || !RegExp(r'^[0-9]+[KMBkmb]?\+?$').hasMatch(project.downloads) ? '' : '+', 'Downloads'),
+                    _buildStatItem(
+                      project.downloads,
+                      project.downloads.endsWith('+') ||
+                              !RegExp(
+                                r'^[0-9]+[KMBkmb]?\+?$',
+                              ).hasMatch(project.downloads)
+                          ? ''
+                          : '+',
+                      'Downloads',
+                    ),
                     _buildDivider(),
                     _buildStatItem(project.type, '', 'Category'),
                   ],
@@ -128,7 +139,7 @@ class PlayStoreProjectCard extends StatelessWidget {
             ],
           ),
         ),
-        
+
         // Stylish Project ID Watermark
         Text(
           projectId,
@@ -183,7 +194,7 @@ class PlayStoreProjectCard extends StatelessWidget {
                   color: AppColors.textMain.withValues(alpha: 0.70),
                 ),
               ),
-            ]
+            ],
           ],
         ),
         const SizedBox(height: 2),
@@ -234,13 +245,14 @@ class PlayStoreProjectCard extends StatelessWidget {
             margin: const EdgeInsets.only(right: 16),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(16),
-              border: Border.all(color: AppColors.textMain.withValues(alpha: 0.10)),
+              border: Border.all(
+                color: AppColors.textMain.withValues(alpha: 0.10),
+              ),
               image: DecorationImage(
                 image: AssetImage(project.screenshots[idx]),
                 fit: BoxFit.cover,
                 alignment: Alignment.topCenter,
               ),
-              
             ),
           );
         },
@@ -258,11 +270,13 @@ class PlayStoreProjectCard extends StatelessWidget {
           decoration: BoxDecoration(
             color: AppColors.surfaceInner,
             borderRadius: BorderRadius.circular(20),
-            border: Border.all(color: AppColors.textMain.withValues(alpha: 0.10)),
+            border: Border.all(
+              color: AppColors.textMain.withValues(alpha: 0.10),
+            ),
           ),
           child: Text(
             tag,
-            style: const TextStyle(
+            style: TextStyle(
               fontFamily: 'Patrick Hand',
               fontSize: 12,
               color: AppColors.textMain.withValues(alpha: 0.70),
@@ -281,4 +295,3 @@ class PlayStoreProjectCard extends StatelessWidget {
     );
   }
 }
-
