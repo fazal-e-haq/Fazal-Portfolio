@@ -1,3 +1,4 @@
+import 'package:fazal_portfolio/core/themes/theme.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -201,3 +202,4 @@ class _NavBarButtonState extends State<NavBarButton> {
     );
   }
 }
+

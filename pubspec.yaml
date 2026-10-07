@@ -44,9 +44,6 @@ flutter:
 
   # Custom Fonts — brand typography
   fonts:
-    - family: Poppins
-      fonts:
-        - asset: assets/fonts/poppins/Poppins-Regular.ttf
     - family: Nunito
       fonts:
         - asset: assets/fonts/nunito/Nunito-Regular.ttf

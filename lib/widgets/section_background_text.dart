@@ -1,3 +1,4 @@
+import 'package:fazal_portfolio/core/themes/theme.dart';
 import 'package:flutter/material.dart';
 
 class SectionBackgroundText extends StatefulWidget {
@@ -74,3 +75,4 @@ class _SectionBackgroundTextState extends State<SectionBackgroundText>
     );
   }
 }
+
