@@ -14,7 +14,6 @@ class ContactSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Get.put(ContactController());
 
     return LayoutBuilder(
       builder: (context, constraints) {
@@ -84,9 +83,7 @@ class _MobileContact extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      physics: const BouncingScrollPhysics(),
-      child: Column(
+    return Column(
         children: [
           const SizedBox(height: 60),
           FadeInUpWidget(
@@ -126,8 +123,7 @@ class _MobileContact extends StatelessWidget {
           ),
           const SizedBox(height: 80),
         ],
-      ),
-    );
+      );
   }
 }
 
@@ -192,5 +188,9 @@ class _ContactForm extends StatelessWidget {
     );
   }
 }
+
+
+
+
 
 
