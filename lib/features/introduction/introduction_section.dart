@@ -47,7 +47,7 @@ class Introduction extends StatelessWidget {
                   clipBehavior: Clip.none,
                   alignment: Alignment.center,
                   children: [
-                    // 1. Yellow Drops (Background Glow)
+                    // 1. Yellow Drops (Background Glow) - optimized for web performance
                     Positioned(
                       top: screenHeight * 0.1,
                       right: screenWidth * 0.1,
@@ -58,14 +58,12 @@ class Introduction extends StatelessWidget {
                           height: screenWidth * 0.5,
                           decoration: BoxDecoration(
                             shape: BoxShape.circle,
-                            color: Colors.amberAccent.withValues(alpha: 0.05),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.amberAccent.withValues(alpha: 0.15),
-                                blurRadius: 150,
-                                spreadRadius: 100,
-                              ),
-                            ],
+                            gradient: RadialGradient(
+                              colors: [
+                                Colors.amberAccent.withValues(alpha: 0.15),
+                                Colors.amberAccent.withValues(alpha: 0.0),
+                              ],
+                            ),
                           ),
                         ),
                       ),
@@ -77,6 +75,7 @@ class Introduction extends StatelessWidget {
                         opacity: 1.0 - smoothProgress,
                         child: FittedBox(
                           fit: BoxFit.scaleDown,
+                          alignment: Alignment.center,
                           child: Text(
                             'FAZAL',
                             style: TextStyle(
@@ -87,6 +86,7 @@ class Introduction extends StatelessWidget {
                               height: 1.0,
                               color: AppColors.textMain.withValues(alpha: 0.15),
                             ),
+                            textAlign: TextAlign.center,
                           ),
                         ),
                       ),
@@ -119,13 +119,14 @@ class Introduction extends StatelessWidget {
                       child: Transform.translate(
                         offset: isMobile 
                           ? Offset(0, smoothProgress * -50) 
-                          : Offset(screenWidth * 0.1 * smoothProgress, 0),
+                          : const Offset(0, 0),
                         child: Transform.scale(
                           scale: lerpDouble(isMobile ? 1.0 : 1.1, isMobile ? 0.6 : 0.8, smoothProgress),
                           child: Image.asset(
                             'assets/Images/my-image/my-pic.png',
-                            height: isMobile ? screenHeight * 0.6 : screenHeight * 0.9,
+                            height: isMobile ? screenHeight * 0.65 : screenHeight * 0.95,
                             fit: BoxFit.contain,
+                            alignment: Alignment.center,
                           ),
                         ),
                       ),
@@ -219,8 +220,7 @@ class _IntroContent extends StatelessWidget {
             ),
             ButtonWidget(
               text: const Text('Download Resume'),
-              
-              onPressed: () async {
+              onPressed: () {
                 downloadResume();
               },
             ),
@@ -230,6 +230,4 @@ class _IntroContent extends StatelessWidget {
     );
   }
 }
-
-
 

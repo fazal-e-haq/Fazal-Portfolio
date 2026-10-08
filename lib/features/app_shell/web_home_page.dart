@@ -11,7 +11,6 @@ import '../project/projects_section.dart';
 import '../contact/contact_section.dart';
 import '../../widgets/nav_bar_widget.dart';
 import '../../widgets/bottom_nav_bar_widget.dart';
-import '../../widgets/hud/spatial_hud_overlay.dart';
 import '../scene_3d/widgets/spatial_backdrop_canvas.dart';
 import 'scroll_coordinator_controller.dart';
 
@@ -106,6 +105,7 @@ class _WebHomePageState extends State<WebHomePage> with SingleTickerProviderStat
                         padding: EdgeInsets.zero,
                         children: [
                           const Introduction(),
+                          SizedBox(height: MediaQuery.of(context).size.height * 0.5),
                           const Padding(padding: EdgeInsets.symmetric(vertical: 80.0), child: AboutSection()),
                           const Padding(padding: EdgeInsets.symmetric(vertical: 80.0), child: ProjectsSection()),
                           const Padding(padding: EdgeInsets.symmetric(vertical: 80.0), child: ContactSection()),
@@ -117,8 +117,7 @@ class _WebHomePageState extends State<WebHomePage> with SingleTickerProviderStat
                   ),
 
                   // 3. Top Layer: Floating HUD
-                  if (!isMobile)
-                    const SpatialHudOverlay(),
+                  
                 ],
               ),
           ),
@@ -127,3 +126,4 @@ class _WebHomePageState extends State<WebHomePage> with SingleTickerProviderStat
     );
   }
 }
+
