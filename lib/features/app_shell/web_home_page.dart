@@ -79,6 +79,8 @@ class _WebHomePageState extends State<WebHomePage> with SingleTickerProviderStat
       width: constraints.maxWidth,
       child: Obx(() {
         if (!_scrollCoordinator.scrollController.hasClients) return const SizedBox.shrink();
+        // Access an Rx variable to satisfy Obx and trigger rebuilds on scroll
+        final _ = _scrollCoordinator.overallProgress.value;
         final double offset = _scrollCoordinator.scrollController.offset;
         final double itemTop = index * (constraints.maxHeight * 1.8);
         final double localOffset = offset - itemTop;
@@ -198,3 +200,4 @@ class _WebHomePageState extends State<WebHomePage> with SingleTickerProviderStat
     );
   }
 }
+
