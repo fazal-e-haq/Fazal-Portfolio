@@ -25,7 +25,11 @@ class ScrollCoordinatorController extends GetxController {
 
     final index = (offset / viewport).floor();
     if (index >= 0 && index <= 3 && activeSectionIndex.value != index) {
-      activeSectionIndex.value = index;
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (activeSectionIndex.value != index) {
+          activeSectionIndex.value = index;
+        }
+      });
     }
   }
 
@@ -63,3 +67,4 @@ class ScrollCoordinatorController extends GetxController {
     super.onClose();
   }
 }
+
