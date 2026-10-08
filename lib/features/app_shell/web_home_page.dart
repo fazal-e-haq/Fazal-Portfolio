@@ -74,12 +74,74 @@ class _WebHomePageState extends State<WebHomePage> with SingleTickerProviderStat
   }
 
   Widget _buildZAxisSection(Widget child, int index, BoxConstraints constraints) {
-    return Container(
+    return SizedBox(
+      height: constraints.maxHeight * 1.8, // 80% extra scroll distance for dwell time!
       width: constraints.maxWidth,
-      constraints: BoxConstraints(minHeight: constraints.maxHeight),
-      padding: const EdgeInsets.symmetric(vertical: 80.0), // Spacing between sections
-      alignment: Alignment.center,
-      child: child,
+      child: Obx(() {
+        if (!_scrollCoordinator.scrollController.hasClients) return const SizedBox.shrink();
+        final double offset = _scrollCoordinator.scrollController.offset;
+        final double itemTop = index * (constraints.maxHeight * 1.8);
+        final double localOffset = offset - itemTop;
+        
+        final double dwellDistance = constraints.maxHeight * 0.8; // 80vh of pure dwelling
+        final double transitionDistance = constraints.maxHeight * 1.0; // 100vh of transitioning
+        
+        double scale = 1.0;
+        double opacity = 1.0;
+        double translateY = 0.0;
+        double stickOffset = 0.0;
+
+        if (localOffset < 0) {
+          // Approaching from distance (previous item is dwelling or transitioning out)
+          // We want it to transition in over the last 'transitionDistance' pixels
+          if (localOffset < -transitionDistance) {
+            opacity = 0.0; // Too far away
+            stickOffset = localOffset; // Just let it scroll naturally out of view
+          } else {
+            // It's in the approach transition window
+            final double approachProgress = (localOffset.abs() / transitionDistance).clamp(0.0, 1.0);
+            final curvedDist = Curves.easeOutCubic.transform(approachProgress);
+            scale = 1.0 - (curvedDist * 0.35); // Shrinks softly
+            opacity = 1.0 - (curvedDist * 0.6); // Fades softly
+            translateY = curvedDist * constraints.maxHeight * 0.15;
+            stickOffset = localOffset; // Keep it pinned so the scale/opacity do the visual movement
+          }
+        } else if (localOffset >= 0 && localOffset <= dwellDistance) {
+          // DWELL PHASE
+          scale = 1.0;
+          opacity = 1.0;
+          translateY = 0.0;
+          stickOffset = localOffset; // Pin it to the screen!
+        } else {
+          // FLYING PAST PHASE
+          final double pastOffset = localOffset - dwellDistance;
+          if (pastOffset > transitionDistance) {
+             opacity = 0.0;
+             stickOffset = localOffset; 
+          } else {
+             final double leaveProgress = (pastOffset / transitionDistance).clamp(0.0, 1.0);
+             final curvedDist = Curves.easeInQuad.transform(leaveProgress);
+             scale = 1.0 + (curvedDist * 1.8); // Blows up massively
+             opacity = 1.0 - (curvedDist * 1.0); // Fades out completely
+             translateY = curvedDist * constraints.maxHeight * -0.1;
+             stickOffset = localOffset; // Keep it pinned
+          }
+        }
+
+        if (opacity <= 0.0) return const SizedBox.shrink();
+
+        return Transform.translate(
+          offset: Offset(0, stickOffset + translateY),
+          child: Opacity(
+            opacity: opacity,
+            child: Transform.scale(
+              scale: scale,
+              alignment: Alignment.center,
+              child: child,
+            ),
+          ),
+        );
+      }),
     );
   }
 

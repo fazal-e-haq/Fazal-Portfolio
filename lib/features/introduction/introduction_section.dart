@@ -48,7 +48,7 @@ class _DesktopIntro extends StatelessWidget {
           FadeInUpWidget(
             delay: Duration(milliseconds: 200),
             child: _HoverGlassImage(
-              width: 700, height: 900,
+              width: 900, height: 1100,
             ),
           ),
           SizedBox(height: 60),
@@ -83,7 +83,7 @@ class _MobileIntro extends StatelessWidget {
           FadeInUpWidget(
             delay: Duration(milliseconds: 200),
             child: _HoverGlassImage(
-              width: 400, height: 520,
+              width: 500, height: 650,
             ),
           ),
           SizedBox(height: 48),
@@ -233,131 +233,45 @@ class _IntroContent extends StatelessWidget {
   }
 }
 
-class _HoverGlassImage extends StatefulWidget {
+class _HoverGlassImage extends StatelessWidget {
   final double width;
   final double height;
   const _HoverGlassImage({required this.width, required this.height});
 
   @override
-  State<_HoverGlassImage> createState() => _HoverGlassImageState();
-}
-
-class _HoverGlassImageState extends State<_HoverGlassImage> {
-  final ValueNotifier<Offset> _localMousePos = ValueNotifier<Offset>(Offset.zero);
-  bool _isHovered = false;
-
-  @override
-  void dispose() {
-    _localMousePos.dispose();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
-    return MouseRegion(
-      onEnter: (_) => setState(() => _isHovered = true),
-      onExit: (_) {
-        setState(() => _isHovered = false);
-        _localMousePos.value = Offset.zero;
-      },
-      onHover: (event) {
-        final RenderBox? box = context.findRenderObject() as RenderBox?;
-        if (box != null) {
-          final Offset center = Offset(box.size.width / 2, box.size.height / 2);
-          _localMousePos.value = event.localPosition - center;
-        }
-      },
-      child: ValueListenableBuilder<Offset>(
-        valueListenable: _localMousePos,
-        builder: (context, delta, child) {
-          double dx = _isHovered ? (delta.dx / (widget.width / 2)) : 0;
-          double dy = _isHovered ? (delta.dy / (widget.height / 2)) : 0;
-
-          double maxTilt = 0.08;
-          double rotateX = dy * maxTilt * -1;
-          double rotateY = dx * maxTilt;
-
-            return TweenAnimationBuilder(
-              tween: Tween<double>(begin: 0, end: _isHovered ? 1.0 : 0.0),
-              duration: const Duration(milliseconds: 300),
-              curve: Curves.easeOutCubic,
-              builder: (context, double hoverProgress, _) {
-                final Matrix4 transform = Matrix4.identity()
-                  ..setEntry(3, 2, 0.001)
-                  ..rotateX(rotateX * hoverProgress)
-                  ..rotateY(rotateY * hoverProgress);
-
-                return Transform(
-                  transform: transform,
-                  alignment: FractionalOffset.center,
-                  child: SizedBox(
-                    width: widget.width,
-                    height: widget.height,
-                    child: Stack(
-                      clipBehavior: Clip.none,
-                      alignment: Alignment.center,
-                      children: [
-                        // Huge background text
-                        Positioned(
-                          top: widget.height * 0.15,
-                          child: Transform.translate(
-                            // Parallax the text in the opposite direction
-                            offset: Offset(-dx * 20, -dy * 20),
-                            child: FittedBox(
-                              fit: BoxFit.scaleDown,
-                              child: Text(
-                                'FAZAL',
-                                style: TextStyle(
-                                  fontFamily: 'Patrick Hand',
-                                  fontSize: widget.width * 0.7,
-                                  fontWeight: FontWeight.w900,
-                                  height: 1.0,
-                                  letterSpacing: 20.0,
-                                  color: AppColors.textMain.withValues(alpha: 0.15), // Darker black style
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                        Positioned(
-                          bottom: widget.height * 0.15,
-                          child: Transform.translate(
-                            offset: Offset(-dx * 20, -dy * 20),
-                            child: FittedBox(
-                              fit: BoxFit.scaleDown,
-                              child: Text(
-                                'E-HAQ',
-                                style: TextStyle(
-                                  fontFamily: 'Patrick Hand',
-                                  fontSize: widget.width * 0.7,
-                                  fontWeight: FontWeight.w900,
-                                  height: 1.0,
-                                  letterSpacing: 20.0,
-                                  color: AppColors.textMain.withValues(alpha: 0.15),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                        // The freestanding image on top
-                        Positioned.fill(
-                          child: AnimatedScale(
-                            duration: const Duration(seconds: 4),
-                            scale: _isHovered ? 1.03 : 1.0,
-                            curve: Curves.easeOutCubic,
-                            child: Image.asset(
-                              'assets/Images/my-image/my-pic.png',
-                              fit: BoxFit.contain, // Allow transparency to show around it
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                );
-              },
-          );
-        },
+    return SizedBox(
+      width: width,
+      height: height,
+      child: Stack(
+        clipBehavior: Clip.none,
+        alignment: Alignment.center,
+        children: [
+          // Huge background text
+          Positioned.fill(
+            child: FittedBox(
+              fit: BoxFit.scaleDown,
+              child: Text(
+                'FAZAL',
+                style: TextStyle(
+                  fontFamily: 'Patrick Hand',
+                  fontSize: width * 1.5,
+                  fontWeight: FontWeight.w900,
+                  height: 1.0,
+                  letterSpacing: 20.0,
+                  color: AppColors.textMain.withValues(alpha: 0.15),
+                ),
+              ),
+            ),
+          ),
+          // The freestanding image on top
+          Positioned.fill(
+            child: Image.asset(
+              'assets/Images/my-image/my-pic.png',
+              fit: BoxFit.contain, // Allow transparency to show around it
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -462,6 +376,8 @@ class _MagneticButtonState extends State<_MagneticButton> {
     );
   }
 }
+
+
 
 
 
