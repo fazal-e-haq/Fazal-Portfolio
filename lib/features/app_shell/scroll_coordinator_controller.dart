@@ -24,15 +24,31 @@ class ScrollCoordinatorController extends GetxController {
     final viewport = scrollController.position.viewportDimension;
     if (viewport == 0) return;
 
-    final index = (offset / viewport).floor();
-    
-    // Defer state updates to avoid marking widgets dirty during the layout phase
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (scrollOffset.value != offset) {
         scrollOffset.value = offset;
       }
-      if (index >= 0 && index <= 3 && activeSectionIndex.value != index) {
-        activeSectionIndex.value = index;
+
+      int detectedIndex = 0;
+      if (_currentKeys != null) {
+        for (int i = 0; i < _currentKeys!.length; i++) {
+          final ctx = _currentKeys![i].currentContext;
+          if (ctx != null) {
+            final box = ctx.findRenderObject() as RenderBox?;
+            if (box != null && box.hasSize) {
+              final position = box.localToGlobal(Offset.zero);
+              if (position.dy <= viewport * 0.45) {
+                detectedIndex = i;
+              }
+            }
+          }
+        }
+      } else {
+        detectedIndex = (offset / viewport).floor().clamp(0, 3);
+      }
+
+      if (detectedIndex >= 0 && detectedIndex <= 3 && activeSectionIndex.value != detectedIndex) {
+        activeSectionIndex.value = detectedIndex;
       }
     });
   }

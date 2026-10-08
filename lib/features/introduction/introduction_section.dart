@@ -1,17 +1,15 @@
-import 'dart:ui';
-import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
-import '../app_shell/scroll_coordinator_controller.dart';
 
+import '../../../core/constants/app_sizes.dart';
 import '../../../core/themes/theme.dart';
-import '../../../widgets/responsive_text.dart';
 import '../../../services/resume_downloader.dart';
 import '../../../widgets/button/button_widget.dart';
+import '../../../widgets/responsive_text.dart';
+import '../app_shell/scroll_coordinator_controller.dart';
 
 class Introduction extends StatelessWidget {
-  final ScrollController scrollController;
-  
-  const Introduction({super.key, required this.scrollController});
+  const Introduction({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -19,118 +17,124 @@ class Introduction extends StatelessWidget {
       builder: (context, constraints) {
         final screenHeight = MediaQuery.of(context).size.height;
         final screenWidth = MediaQuery.of(context).size.width;
-        final isMobile = screenWidth < 800;
+        final isMobile = AppSizes.isMobile(constraints);
 
-        return SizedBox(
-          height: screenHeight * 2.0,
-          child: Obx(() {
-              double offset = 0.0;
-              if (Get.isRegistered<ScrollCoordinatorController>()) {
-                offset = Get.find<ScrollCoordinatorController>().scrollOffset.value;
-              }
-
-              final progress = (offset / screenHeight).clamp(0.0, 1.0);
-              final smoothProgress = Curves.easeInOutCubic.transform(progress);
-              final stickOffset = offset < screenHeight ? offset : screenHeight;
-
-              return Transform.translate(
-                offset: Offset(0, stickOffset),
-                child: SizedBox(
-                  height: screenHeight,
-                  width: screenWidth,
-                  child: Stack(
-                    clipBehavior: Clip.none,
-                    alignment: Alignment.center,
-                    children: [
-                      // 1. Yellow Drops (Background Glow)
-                      Positioned(
-                        top: screenHeight * 0.1,
-                        right: screenWidth * 0.1,
-                        child: Opacity(
-                          opacity: 1.0 - smoothProgress,
-                          child: Container(
-                            width: screenWidth * 0.5,
-                            height: screenWidth * 0.5,
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              gradient: RadialGradient(
-                                colors: [
-                                  Colors.amberAccent.withValues(alpha: 0.15),
-                                  Colors.amberAccent.withValues(alpha: 0.0),
-                                ],
-                              ),
-                            ),
-                          ),
+        return Container(
+          width: double.infinity,
+          constraints: BoxConstraints(
+            minHeight: isMobile ? screenHeight * 0.75 : screenHeight * 0.85,
+          ),
+          child: Stack(
+            alignment: Alignment.center,
+            children: [
+              // Subtle static watermark background text
+              Positioned.fill(
+                child: IgnorePointer(
+                  child: Center(
+                    child: FittedBox(
+                      fit: BoxFit.scaleDown,
+                      child: Text(
+                        'FAZAL',
+                        style: TextStyle(
+                          fontFamily: 'Patrick Hand',
+                          fontSize: isMobile ? screenWidth * 0.5 : screenWidth * 0.35,
+                          fontWeight: FontWeight.w900,
+                          letterSpacing: 24.0,
+                          height: 1.0,
+                          color: AppColors.textMain.withValues(alpha: 0.05),
                         ),
                       ),
-
-                      // 2. Huge FAZAL Background Text
-                      Positioned.fill(
-                        child: Opacity(
-                          opacity: 1.0 - smoothProgress,
-                          child: FittedBox(
-                            fit: BoxFit.scaleDown,
-                            alignment: Alignment.center,
-                            child: Text(
-                              'FAZAL',
-                              style: TextStyle(
-                                fontFamily: 'Patrick Hand',
-                                fontSize: screenWidth * 1.5,
-                                fontWeight: FontWeight.w900,
-                                letterSpacing: 20.0,
-                                height: 1.0,
-                                color: AppColors.textMain.withValues(alpha: 0.15),
-                              ),
-                              textAlign: TextAlign.center,
-                            ),
-                          ),
-                        ),
-                      ),
-
-                      // 3. Left Content
-                      Positioned(
-                        left: isMobile ? 24 : screenWidth * 0.1,
-                        right: isMobile ? 24 : null,
-                        top: isMobile ? screenHeight * 0.55 : null,
-                        child: Opacity(
-                          opacity: smoothProgress,
-                          child: Transform.translate(
-                            offset: Offset(0, 50 * (1.0 - smoothProgress)),
-                            child: _IntroContent(
-                              nameFontSize: isMobile ? 36.0 : 64.0,
-                              roleFontSize: isMobile ? 20.0 : 32.0,
-                              alignment: isMobile ? CrossAxisAlignment.center : CrossAxisAlignment.start,
-                              textAlign: isMobile ? TextAlign.center : TextAlign.left,
-                            ),
-                          ),
-                        ),
-                      ),
-
-                      // 4. Center Image -> Moves to Right (FULL PREVIEW)
-                      Align(
-                        alignment: Alignment.center,
-                        child: Transform.translate(
-                          offset: isMobile ? Offset(0, smoothProgress * (screenHeight * -0.25)) : Offset(smoothProgress * (screenWidth * 0.25), 0),
-                          child: Transform.scale(
-                            scale: lerpDouble(1.0, 0.7, smoothProgress), // Removed 1.1 scale which was cropping it
-                            child: Image.asset(
-                              'assets/Images/my-image/my-pic.png',
-                              // Max height ensures full body is always completely visible
-                              height: screenHeight * 0.85, 
-                              fit: BoxFit.contain, // Guarantee full uncropped preview
-                              alignment: Alignment.center,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
+                    ),
                   ),
                 ),
-              );
-            },
+              ),
+
+              // Main Hero Content
+              Center(
+                child: ConstrainedBox(
+                  constraints: const BoxConstraints(maxWidth: 1200),
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: isMobile ? 24.0 : 48.0,
+                      vertical: isMobile ? 40.0 : 64.0,
+                    ),
+                    child: isMobile
+                        ? _buildMobileLayout(context)
+                        : _buildDesktopLayout(context),
+                  ),
+                ),
+              ),
+            ],
           ),
         );
       },
+    );
+  }
+
+  Widget _buildDesktopLayout(BuildContext context) {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        // Left Column: Introduction copy & buttons
+        const Expanded(
+          flex: 6,
+          child: _IntroContent(
+            nameFontSize: 60.0,
+            roleFontSize: 30.0,
+            alignment: CrossAxisAlignment.start,
+            textAlign: TextAlign.left,
+          ),
+        ),
+        const SizedBox(width: 48),
+
+        // Right Column: Full preview of the image (uncropped, complete picture)
+        Expanded(
+          flex: 5,
+          child: Center(
+            child: ConstrainedBox(
+              constraints: const BoxConstraints(
+                maxHeight: 520,
+                maxWidth: 460,
+              ),
+              child: Image.asset(
+                'assets/Images/my-image/my-pic.png',
+                fit: BoxFit.contain, // Guarantee full uncropped preview of whole image
+                alignment: Alignment.center,
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildMobileLayout(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        // Image on top (Full preview, uncropped)
+        ConstrainedBox(
+          constraints: const BoxConstraints(
+            maxHeight: 340,
+            maxWidth: 320,
+          ),
+          child: Image.asset(
+            'assets/Images/my-image/my-pic.png',
+            fit: BoxFit.contain, // Full preview, never cropped
+            alignment: Alignment.center,
+          ),
+        ),
+        const SizedBox(height: 32),
+
+        // Intro Text & CTAs
+        const _IntroContent(
+          nameFontSize: 40.0,
+          roleFontSize: 22.0,
+          alignment: CrossAxisAlignment.center,
+          textAlign: TextAlign.center,
+        ),
+      ],
     );
   }
 }
@@ -158,7 +162,7 @@ class _IntroContent extends StatelessWidget {
           'Hello, I am',
           style: TextStyle(
             fontSize: roleFontSize * 0.75,
-            color: AppColors.textMain,
+            color: AppColors.textMain.withValues(alpha: 0.85),
             fontWeight: FontWeight.w600,
             fontFamily: 'Patrick Hand',
           ),
@@ -172,41 +176,53 @@ class _IntroContent extends StatelessWidget {
             fontWeight: FontWeight.w900,
             color: AppColors.textMain,
             height: 1.1,
-            letterSpacing: -1.0,
+            letterSpacing: -0.5,
             fontFamily: 'Patrick Hand',
           ),
           textAlign: textAlign,
         ),
-        const SizedBox(height: 16),
+        const SizedBox(height: 12),
         ResponsiveText(
-          'Senior Flutter App Developer',
+          'Senior Flutter App Developer & UI/UX Designer',
           style: TextStyle(
             fontSize: roleFontSize,
-            color: AppColors.textMain.withValues(alpha: 0.8),
-            fontWeight: FontWeight.w500,
+            color: AppColors.primary,
+            fontWeight: FontWeight.w700,
             fontFamily: 'Patrick Hand',
           ),
           textAlign: textAlign,
         ),
-        const SizedBox(height: 24),
+        const SizedBox(height: 20),
         ResponsiveText(
-          'I craft hyper-realistic, highly performant,\nand beautiful cross-platform applications\nwith Flutter & Dart.',
+          'I craft hyper-realistic, highly performant, and beautiful cross-platform applications with Flutter & Dart.',
           style: TextStyle(
-            fontSize: 16,
-            color: AppColors.textMain.withValues(alpha: 0.7),
+            fontSize: 18,
+            color: AppColors.textMain.withValues(alpha: 0.75),
             height: 1.6,
             fontFamily: 'Patrick Hand',
           ),
           textAlign: textAlign,
         ),
-        const SizedBox(height: 48),
+        const SizedBox(height: 36),
         Wrap(
           spacing: 16,
           runSpacing: 16,
           alignment: textAlign == TextAlign.center ? WrapAlignment.center : WrapAlignment.start,
           children: [
             ButtonWidget(
+              id: 'intro_view_works_btn',
+              text: const Text('View My Work'),
+              icon: const Icon(CupertinoIcons.sparkles, size: 18, color: AppColors.textMain),
+              onPressed: () {
+                if (Get.isRegistered<ScrollCoordinatorController>()) {
+                  Get.find<ScrollCoordinatorController>().scrollToSection(2);
+                }
+              },
+            ),
+            ButtonWidget(
+              id: 'intro_resume_btn',
               text: const Text('Download Resume'),
+              icon: const Icon(CupertinoIcons.arrow_down_to_line, size: 18, color: AppColors.textMain),
               onPressed: () {
                 downloadResume();
               },
@@ -217,4 +233,3 @@ class _IntroContent extends StatelessWidget {
     );
   }
 }
-

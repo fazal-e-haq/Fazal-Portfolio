@@ -52,27 +52,30 @@ class _WebHomePageState extends State<WebHomePage> {
               physics: const ClampingScrollPhysics(),
               child: Column(
                 children: [
+                  if (!isMobile) const SizedBox(height: 100),
                   Container(
                     key: _sectionKeys[0],
-                    child: Introduction(scrollController: _scrollCoordinator.scrollController),
+                    child: const Introduction(),
                   ),
-                  SizedBox(height: MediaQuery.of(context).size.height * 0.3),
+                  const SizedBox(height: 60),
                   Container(
                     key: _sectionKeys[1],
-                    padding: const EdgeInsets.symmetric(vertical: 80.0),
+                    padding: const EdgeInsets.symmetric(vertical: 40.0),
                     child: const AboutSection(),
                   ),
+                  const SizedBox(height: 60),
                   Container(
                     key: _sectionKeys[2],
-                    padding: const EdgeInsets.symmetric(vertical: 80.0),
+                    padding: const EdgeInsets.symmetric(vertical: 40.0),
                     child: const ProjectsSection(),
                   ),
+                  const SizedBox(height: 60),
                   Container(
                     key: _sectionKeys[3],
-                    padding: const EdgeInsets.symmetric(vertical: 80.0),
+                    padding: const EdgeInsets.symmetric(vertical: 40.0),
                     child: const ContactSection(),
                   ),
-                  if (isMobile) const SizedBox(height: 100),
+                  if (isMobile) const SizedBox(height: 120),
                 ],
               ),
             ),

@@ -12,7 +12,9 @@ void main() {
     await tester.pumpWidget(
       const GetMaterialApp(
         home: Scaffold(
-          body: AboutSection(),
+          body: SingleChildScrollView(
+            child: AboutSection(),
+          ),
         ),
       ),
     );
