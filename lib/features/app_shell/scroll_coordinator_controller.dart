@@ -4,19 +4,17 @@ import 'package:get/get.dart';
 class ScrollCoordinatorController extends GetxController {
   late final ScrollController scrollController;
   final RxInt activeSectionIndex = 0.obs;
-
-  final List<GlobalKey> sectionKeys = [
-    GlobalKey(),
-    GlobalKey(),
-    GlobalKey(),
-    GlobalKey(),
-  ];
+  List<GlobalKey>? _currentKeys;
 
   @override
   void onInit() {
     super.onInit();
     scrollController = ScrollController();
     scrollController.addListener(_onScroll);
+  }
+
+  void registerKeys(List<GlobalKey> keys) {
+    _currentKeys = keys;
   }
 
   void _onScroll() {
@@ -32,9 +30,9 @@ class ScrollCoordinatorController extends GetxController {
   }
 
   void scrollToSection(int index) {
-    if (!scrollController.hasClients || index < 0 || index >= sectionKeys.length) return;
+    if (!scrollController.hasClients || index < 0 || _currentKeys == null || index >= _currentKeys!.length) return;
     
-    final context = sectionKeys[index].currentContext;
+    final context = _currentKeys![index].currentContext;
     if (context != null) {
       Scrollable.ensureVisible(
         context,

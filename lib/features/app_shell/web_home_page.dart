@@ -20,11 +20,18 @@ class WebHomePage extends StatefulWidget {
 
 class _WebHomePageState extends State<WebHomePage> {
   late final ScrollCoordinatorController _scrollCoordinator;
+  final List<GlobalKey> _sectionKeys = [
+    GlobalKey(),
+    GlobalKey(),
+    GlobalKey(),
+    GlobalKey(),
+  ];
 
   @override
   void initState() {
     super.initState();
     _scrollCoordinator = Get.put(ScrollCoordinatorController());
+    _scrollCoordinator.registerKeys(_sectionKeys);
   }
 
   @override
@@ -46,22 +53,22 @@ class _WebHomePageState extends State<WebHomePage> {
               child: Column(
                 children: [
                   Container(
-                    key: _scrollCoordinator.sectionKeys[0],
+                    key: _sectionKeys[0],
                     child: Introduction(scrollController: _scrollCoordinator.scrollController),
                   ),
                   SizedBox(height: MediaQuery.of(context).size.height * 0.3),
                   Container(
-                    key: _scrollCoordinator.sectionKeys[1],
+                    key: _sectionKeys[1],
                     padding: const EdgeInsets.symmetric(vertical: 80.0),
                     child: const AboutSection(),
                   ),
                   Container(
-                    key: _scrollCoordinator.sectionKeys[2],
+                    key: _sectionKeys[2],
                     padding: const EdgeInsets.symmetric(vertical: 80.0),
                     child: const ProjectsSection(),
                   ),
                   Container(
-                    key: _scrollCoordinator.sectionKeys[3],
+                    key: _sectionKeys[3],
                     padding: const EdgeInsets.symmetric(vertical: 80.0),
                     child: const ContactSection(),
                   ),
