@@ -132,6 +132,9 @@ class _BottomNavBarButtonState extends State<BottomNavBarButton> {
         child: AnimatedContainer(
           duration: const Duration(milliseconds: 300),
           curve: Curves.easeOutCubic,
+          width: 56,
+          height: 56,
+          alignment: Alignment.center,
           padding: EdgeInsets.all(widget.isSelected ? 16 : 12),
           decoration: BoxDecoration(
             color: Colors.transparent,
@@ -151,3 +154,4 @@ class _BottomNavBarButtonState extends State<BottomNavBarButton> {
     );
   }
 }
+

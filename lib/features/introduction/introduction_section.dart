@@ -108,13 +108,9 @@ class Introduction extends StatelessWidget {
 
                       // 4. Center Image -> Moves to Right (FULL PREVIEW)
                       Align(
-                        alignment: isMobile
-                            ? Alignment.lerp(Alignment.center, Alignment.topCenter, smoothProgress)!
-                            : Alignment.lerp(Alignment.center, Alignment.centerRight, smoothProgress)!,
+                        alignment: Alignment.center,
                         child: Transform.translate(
-                          offset: isMobile 
-                            ? Offset(0, smoothProgress * -50) 
-                            : const Offset(0, 0),
+                          offset: isMobile ? Offset(0, smoothProgress * (screenHeight * -0.25)) : Offset(smoothProgress * (screenWidth * 0.25), 0),
                           child: Transform.scale(
                             scale: lerpDouble(1.0, 0.7, smoothProgress), // Removed 1.1 scale which was cropping it
                             child: Image.asset(
@@ -221,3 +217,4 @@ class _IntroContent extends StatelessWidget {
     );
   }
 }
+
