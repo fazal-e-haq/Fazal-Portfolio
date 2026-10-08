@@ -66,25 +66,41 @@ class _WebHomePageState extends State<WebHomePage> with SingleTickerProviderStat
       builder: (context, constraints) {
         final bool isMobile = AppSizes.isMobile(constraints);
         return Scaffold(
-          backgroundColor: AppColors.background, // Clean flat background
+          backgroundColor: AppColors.background,
           extendBodyBehindAppBar: true,
           extendBody: true,
           appBar: (!isMobile) ? const NavBarWidget() : null,
           bottomNavigationBar: isMobile ? const BottomNavBarWidget() : null,
           body: ScrollConfiguration(
             behavior: ScrollConfiguration.of(context).copyWith(scrollbars: false),
-            child: ListView(
+            child: SingleChildScrollView(
               controller: _scrollCoordinator.scrollController,
-              physics: const ClampingScrollPhysics(), // Normal scrolling
-              padding: EdgeInsets.zero,
-              children: [
-                Introduction(scrollController: _scrollCoordinator.scrollController),
-                SizedBox(height: MediaQuery.of(context).size.height * 0.3),
-                const Padding(padding: EdgeInsets.symmetric(vertical: 80.0), child: AboutSection()),
-                const Padding(padding: EdgeInsets.symmetric(vertical: 80.0), child: ProjectsSection()),
-                const Padding(padding: EdgeInsets.symmetric(vertical: 80.0), child: ContactSection()),
-                if (isMobile) const SizedBox(height: 100),
-              ],
+              physics: const ClampingScrollPhysics(),
+              child: Column(
+                children: [
+                  Container(
+                    key: _scrollCoordinator.sectionKeys[0],
+                    child: Introduction(scrollController: _scrollCoordinator.scrollController),
+                  ),
+                  SizedBox(height: MediaQuery.of(context).size.height * 0.3),
+                  Container(
+                    key: _scrollCoordinator.sectionKeys[1],
+                    padding: const EdgeInsets.symmetric(vertical: 80.0),
+                    child: const AboutSection(),
+                  ),
+                  Container(
+                    key: _scrollCoordinator.sectionKeys[2],
+                    padding: const EdgeInsets.symmetric(vertical: 80.0),
+                    child: const ProjectsSection(),
+                  ),
+                  Container(
+                    key: _scrollCoordinator.sectionKeys[3],
+                    padding: const EdgeInsets.symmetric(vertical: 80.0),
+                    child: const ContactSection(),
+                  ),
+                  if (isMobile) const SizedBox(height: 100),
+                ],
+              ),
             ),
           ),
         );
