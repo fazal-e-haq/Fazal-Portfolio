@@ -45,13 +45,13 @@ class SketchCard extends StatelessWidget {
           ),
 
           // 2. The main transparent box, slightly rotated in the opposite direction
-          AnimatedPositioned(
+          AnimatedContainer(
             duration: const Duration(milliseconds: 200),
             curve: Curves.easeOutCubic,
-            top: isHovered ? -3 : 0,
-            left: isHovered ? -3 : 0,
-            right: isHovered ? 3 : 0,
-            bottom: isHovered ? 3 : 0,
+            transform: Matrix4.translationValues(isHovered ? -3.0 : 0.0, isHovered ? -3.0 : 0.0, 0.0),
+            
+            
+            
             child: Transform.rotate(
               angle: -0.015,
               child: Container(
@@ -78,3 +78,4 @@ class SketchCard extends StatelessWidget {
     );
   }
 }
+

@@ -60,13 +60,13 @@ class NeumorphicTextField extends StatelessWidget {
                 ),
 
                 // Main box
-                AnimatedPositioned(
+                AnimatedContainer(
                   duration: const Duration(milliseconds: 150),
                   curve: Curves.easeOutCubic,
-                  top: isActive ? 2 : 0,
-                  left: isActive ? 2 : 0,
-                  right: isActive ? -2 : 0,
-                  bottom: isActive ? -2 : 0,
+                  transform: Matrix4.translationValues(isActive ? 2.0 : 0.0, isActive ? 2.0 : 0.0, 0.0),
+                  
+                  
+                  
                   child: Transform.rotate(
                     angle: 0.012,
                     child: Container(
@@ -157,4 +157,5 @@ class NeumorphicTextField extends StatelessWidget {
     );
   }
 }
+
 
