@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 class ScrollCoordinatorController extends GetxController {
   late final ScrollController scrollController;
   final RxInt activeSectionIndex = 0.obs;
+  final RxDouble scrollOffset = 0.0.obs;
   List<GlobalKey>? _currentKeys;
 
   @override
@@ -24,13 +25,16 @@ class ScrollCoordinatorController extends GetxController {
     if (viewport == 0) return;
 
     final index = (offset / viewport).floor();
-    if (index >= 0 && index <= 3 && activeSectionIndex.value != index) {
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        if (activeSectionIndex.value != index) {
-          activeSectionIndex.value = index;
-        }
-      });
-    }
+    
+    // Defer state updates to avoid marking widgets dirty during the layout phase
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (scrollOffset.value != offset) {
+        scrollOffset.value = offset;
+      }
+      if (index >= 0 && index <= 3 && activeSectionIndex.value != index) {
+        activeSectionIndex.value = index;
+      }
+    });
   }
 
   void scrollToSection(int index) {
@@ -67,4 +71,6 @@ class ScrollCoordinatorController extends GetxController {
     super.onClose();
   }
 }
+
+
 

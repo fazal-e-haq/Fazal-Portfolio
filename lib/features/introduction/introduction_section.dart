@@ -1,5 +1,7 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import '../app_shell/scroll_coordinator_controller.dart';
 
 import '../../../core/themes/theme.dart';
 import '../../../widgets/responsive_text.dart';
@@ -21,12 +23,10 @@ class Introduction extends StatelessWidget {
 
         return SizedBox(
           height: screenHeight * 2.0,
-          child: AnimatedBuilder(
-            animation: scrollController,
-            builder: (context, child) {
+          child: Obx(() {
               double offset = 0.0;
-              if (scrollController.hasClients) {
-                offset = scrollController.offset;
+              if (Get.isRegistered<ScrollCoordinatorController>()) {
+                offset = Get.find<ScrollCoordinatorController>().scrollOffset.value;
               }
 
               final progress = (offset / screenHeight).clamp(0.0, 1.0);
