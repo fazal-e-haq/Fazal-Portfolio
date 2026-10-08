@@ -48,8 +48,7 @@ class _DesktopIntro extends StatelessWidget {
           FadeInUpWidget(
             delay: Duration(milliseconds: 200),
             child: _HoverGlassImage(
-              width: 500,
-              height: 650,
+              width: 700, height: 900,
             ),
           ),
           SizedBox(height: 60),
@@ -84,8 +83,7 @@ class _MobileIntro extends StatelessWidget {
           FadeInUpWidget(
             delay: Duration(milliseconds: 200),
             child: _HoverGlassImage(
-              width: 340,
-              height: 460,
+              width: 400, height: 520,
             ),
           ),
           SizedBox(height: 48),
@@ -315,7 +313,7 @@ class _HoverGlassImageState extends State<_HoverGlassImage> {
                                   fontWeight: FontWeight.w900,
                                   height: 1.0,
                                   letterSpacing: 20.0,
-                                  color: AppColors.textMain.withValues(alpha: 0.04), // Very faint outline style
+                                  color: AppColors.textMain.withValues(alpha: 0.15), // Darker black style
                                 ),
                               ),
                             ),
@@ -335,7 +333,7 @@ class _HoverGlassImageState extends State<_HoverGlassImage> {
                                   fontWeight: FontWeight.w900,
                                   height: 1.0,
                                   letterSpacing: 20.0,
-                                  color: AppColors.textMain.withValues(alpha: 0.04),
+                                  color: AppColors.textMain.withValues(alpha: 0.15),
                                 ),
                               ),
                             ),
@@ -464,6 +462,13 @@ class _MagneticButtonState extends State<_MagneticButton> {
     );
   }
 }
+
+
+
+
+
+
+
 
 
 

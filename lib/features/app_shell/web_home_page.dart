@@ -74,48 +74,12 @@ class _WebHomePageState extends State<WebHomePage> with SingleTickerProviderStat
   }
 
   Widget _buildZAxisSection(Widget child, int index, BoxConstraints constraints) {
-    return SizedBox(
-      height: constraints.maxHeight,
+    return Container(
       width: constraints.maxWidth,
-      child: Obx(() {
-        final double progress = _scrollCoordinator.scrollProgress.value;
-        final double distance = index - progress;
-        
-        double scale = 1.0;
-        double opacity = 1.0;
-        double translateY = 0.0;
-
-        if (distance > 0) {
-          // Approaching from distance (curves for smoother arrival)
-          final curvedDist = Curves.easeOutCubic.transform((distance).clamp(0.0, 1.0));
-          scale = 1.0 - (curvedDist * 0.35); // Shrinks softly
-          opacity = 1.0 - (curvedDist * 0.6); // Fades softly
-          translateY = curvedDist * constraints.maxHeight * 0.15;
-        } else {
-          // Flying past the camera (accelerates quickly)
-          final curvedDist = Curves.easeInQuad.transform((distance.abs()).clamp(0.0, 1.0));
-          scale = 1.0 + (curvedDist * 1.8); // Blows up massively
-          opacity = 1.0 - (curvedDist * 1.0); // Fades out completely
-          translateY = curvedDist * constraints.maxHeight * -0.1;
-        }
-
-        // Stick the item exactly to the viewport by counter-translating the scroll distance
-        final double stickOffset = (progress - index) * constraints.maxHeight;
-
-        if (opacity <= 0.0) return const SizedBox.shrink();
-
-        return Transform.translate(
-          offset: Offset(0, stickOffset + translateY),
-          child: Opacity(
-            opacity: opacity,
-            child: Transform.scale(
-              scale: scale,
-              alignment: Alignment.center,
-              child: child,
-            ),
-          ),
-        );
-      }),
+      constraints: BoxConstraints(minHeight: constraints.maxHeight),
+      padding: const EdgeInsets.symmetric(vertical: 80.0), // Spacing between sections
+      alignment: Alignment.center,
+      child: child,
     );
   }
 

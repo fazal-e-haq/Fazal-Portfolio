@@ -52,9 +52,9 @@ class ScrollCoordinatorController extends GetxController {
     }
 
     // 4 primary sections: index 0, 1, 2, 3
-    final double viewportHeight = scrollController.position.viewportDimension;
-    if (viewportHeight > 0) {
-      final double progress = (offset / viewportHeight).clamp(0.0, 3.0);
+    final double maxScrollExtent = scrollController.position.maxScrollExtent;
+    if (maxScrollExtent > 0) {
+      final double progress = (offset / (maxScrollExtent / 3.0)).clamp(0.0, 3.0);
       scrollProgress.value = progress;
       final int newIndex = progress.round().clamp(0, 3);
       if (activeSectionIndex.value != newIndex) {
@@ -67,7 +67,8 @@ class ScrollCoordinatorController extends GetxController {
   Future<void> scrollToSection(int index, {Duration duration = const Duration(milliseconds: 900)}) async {
     if (!scrollController.hasClients) return;
     final double viewportHeight = scrollController.position.viewportDimension;
-    final double targetOffset = (index * viewportHeight).clamp(0.0, scrollController.position.maxScrollExtent);
+    final double maxExt = scrollController.position.maxScrollExtent;
+    final double targetOffset = (index * (maxExt > 0 ? maxExt / 3.0 : viewportHeight)).clamp(0.0, maxExt);
 
     await scrollController.animateTo(
       targetOffset,
@@ -90,3 +91,8 @@ class ScrollCoordinatorController extends GetxController {
     super.onClose();
   }
 }
+
+
+
+
+
