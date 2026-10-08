@@ -1,8 +1,5 @@
-import 'dart:async';
-import 'dart:js_interop';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:web/web.dart' as web;
 
 import '../../core/constants/app_sizes.dart';
 import '../../core/themes/theme.dart';
@@ -16,48 +13,18 @@ import 'scroll_coordinator_controller.dart';
 
 class WebHomePage extends StatefulWidget {
   const WebHomePage({super.key});
-  static Completer<void> splashComplete = Completer<void>();
 
   @override
   State<WebHomePage> createState() => _WebHomePageState();
 }
 
-class _WebHomePageState extends State<WebHomePage> with SingleTickerProviderStateMixin {
-  late final AnimationController _fadeController;
+class _WebHomePageState extends State<WebHomePage> {
   late final ScrollCoordinatorController _scrollCoordinator;
 
   @override
   void initState() {
     super.initState();
     _scrollCoordinator = Get.put(ScrollCoordinatorController());
-    
-    if (WebHomePage.splashComplete.isCompleted) {
-      WebHomePage.splashComplete = Completer<void>();
-    }
-    _fadeController = AnimationController(vsync: this, duration: const Duration(milliseconds: 1200));
-    _fadeController.addStatusListener((status) {
-      if (status == AnimationStatus.completed && !WebHomePage.splashComplete.isCompleted) {
-        WebHomePage.splashComplete.complete();
-      }
-    });
-    _listenForSplashRemoval();
-  }
-
-  void _listenForSplashRemoval() {
-    final splash = web.document.getElementById('splash-container');
-    if (splash == null) {
-      _fadeController.forward();
-      return;
-    }
-    web.window.addEventListener('splash-removed', (web.Event event) {
-      if (mounted) _fadeController.forward();
-    }.toJS);
-  }
-
-  @override
-  void dispose() {
-    _fadeController.dispose();
-    super.dispose();
   }
 
   @override

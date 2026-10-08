@@ -1,7 +1,5 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:fazal_portfolio/features/app_shell/web_home_page.dart';
-
 class FadeInUpWidget extends StatefulWidget {
   final Widget child;
   final Duration delay;
@@ -51,8 +49,6 @@ class _FadeInUpWidgetState extends State<FadeInUpWidget>
   /// If splash is already done (e.g. returning to a tab), starts immediately.
   void _startAfterSplash() async {
     // Wait for splash to finish (instant if already completed)
-    await WebHomePage.splashComplete.future;
-
     // Then apply the per-widget stagger delay
     if (!mounted) return;
     if (widget.delay > Duration.zero) {
@@ -78,3 +74,4 @@ class _FadeInUpWidgetState extends State<FadeInUpWidget>
     );
   }
 }
+
