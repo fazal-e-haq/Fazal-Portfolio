@@ -1,287 +1,75 @@
-# 📐 Layout Blueprints — Section-by-Section Specs
+# 📐 Layout Blueprints — Hand-Drawn Sketch Layout Specs
 
-> Exact layout specifications for each section at each breakpoint.
-> Follow these blueprints precisely during implementation.
-
----
-
-## Page Flow (Scroll Order)
-
-```
-┌─────────────────────────────┐
-│       NAVIGATION BAR        │  ← Fixed / Sticky
-├─────────────────────────────┤
-│                             │
-│     1. HERO / INTRO         │  ← 100vh (full viewport)
-│                             │
-├─────────────────────────────┤
-│                             │
-│     2. ABOUT                │  ← Auto height
-│                             │
-├─────────────────────────────┤
-│                             │
-│     3. PROJECTS             │  ← Auto height
-│                             │
-├─────────────────────────────┤
-│                             │
-│     4. CONTACT              │  ← Auto height
-│                             │
-├─────────────────────────────┤
-│         FOOTER              │  ← Minimal footer
-└─────────────────────────────┘
-```
+> Visual blueprints for each vertical section of the portfolio in the Sketch Theme.
 
 ---
 
-## Section 1: Hero / Introduction
+## 🗺️ Viewport Flow (Natural Vertical Scroll)
 
-### Desktop (1025px+)
 ```
 ┌──────────────────────────────────────────────────────────────┐
-│  [Logo/Name]              [About] [Work] [Contact] [Resume]  │  Nav
+│                    FLOATING NAVBAR PILL                      │  ← Top Nav (Desktop)
 ├──────────────────────────────────────────────────────────────┤
 │                                                              │
-│         ░░░░ Decorative background elements ░░░░             │
+│     1. INTRODUCTION (Hero Space)                             │
+│        • 3D Freestanding Portrait with Optical Parallax      │  [HUD SPINE]
+│        • "FAZAL E-HAQ" Massive Charcoal Background Text       │   Live %
+│        • Greeting, Role, Call-To-Action Buttons              │   Waypoints
 │                                                              │
-│      ┌──────────────────────────────────────┐                │
-│      │  Hi, I'm                              │                │
-│      │  FAZAL-E-HAQ                          │  ← 72px       │
-│      │  Flutter Developer & UI/UX Designer   │  ← Animated   │
-│      │                                        │                │
-│      │  Brief tagline about passion and       │  ← 18px       │
-│      │  what makes me different.              │                │
-│      │                                        │                │
-│      │  [View My Work]  [Download Resume]     │  ← CTAs       │
-│      └──────────────────────────────────────┘                │
+├──────────────────────────────────────────────────────────────┤
 │                                                              │
-│         Scroll indicator (animated chevron)                   │
+│     2. ABOUT ME (Bento Grid)                                 │
+│        • Left: "The Journey" Story Box + Available Status    │
+│        • Right: Service Cards & Tech Stack Categories        │
 │                                                              │
+├──────────────────────────────────────────────────────────────┤
+│                                                              │
+│     3. FEATURED WORKS (Horizontal Carousel)                  │
+│        • Title Anchor: "FEATURED WORKS"                      │
+│        • Horizontal ListView of Project Sketch Cards         │
+│        • Tags, Description, GitHub & Live Links              │
+│                                                              │
+├──────────────────────────────────────────────────────────────┤
+│                                                              │
+│     4. CONTACT ("Let's Build Something")                     │
+│        • Centered Sketch Container                           │
+│        • Direct Email, Message Input Fields, Send Action     │
+│        • Social Connect Badges (GitHub, LinkedIn, Instagram) │
+│                                                              │
+├──────────────────────────────────────────────────────────────┤
+│                BOTTOM NAV PILL (Mobile Only)                 │
 └──────────────────────────────────────────────────────────────┘
-Height: 100vh
-Content alignment: Center-left or center
-Max content width: 800px for text block
-Background: Gradient mesh + floating geometric elements
-```
-
-### Mobile (< 768px)
-```
-┌───────────────────────┐
-│                       │
-│                       │
-│     Hi, I'm           │
-│     FAZAL-            │  ← 40px
-│     E-HAQ             │
-│                       │
-│     Flutter Dev &     │  ← Animated
-│     UI/UX Designer    │
-│                       │
-│     Brief tagline...  │  ← 16px
-│                       │
-│   [View My Work]      │
-│   [Download Resume]   │
-│                       │
-│      ↓ scroll         │
-│                       │
-└───────────────────────┘
-Padding: 16px horizontal
-Full-width buttons (stacked)
-Simplified background (less decoration)
 ```
 
 ---
 
-## Section 2: About
+## 📱 Breakpoint Layout Blueprints
 
-### Desktop
-```
-┌──────────────────────────────────────────────────────────────┐
-│                     "ABOUT" (background text)                │
-│                                                              │
-│  ┌────────────────────────┐  ┌─────────────────────────────┐│
-│  │                        │  │  About Me                    ││
-│  │    Professional        │  │                              ││
-│  │    Photo/Avatar        │  │  Paragraph about who I am,  ││
-│  │    (optional)          │  │  what I love building, and   ││
-│  │                        │  │  why I do what I do.         ││
-│  │                        │  │                              ││
-│  │                        │  │  ┌─────────────────────────┐││
-│  └────────────────────────┘  │  │  Tech Stack Grid        │││
-│                              │  │  [Flutter] [Dart] [...]  │││
-│                              │  └─────────────────────────┘││
-│                              └─────────────────────────────┘│
-│                                                              │
-│  ┌─────────┐ ┌─────────┐ ┌─────────┐ ┌─────────┐           │
-│  │Service 1│ │Service 2│ │Service 3│ │Service 4│           │
-│  │ Card    │ │ Card    │ │ Card    │ │ Card    │           │
-│  └─────────┘ └─────────┘ └─────────┘ └─────────┘           │
-│                                                              │
-│  ┌──────────────────────────────────────────────────────────┐│
-│  │  Journey Timeline / Experience                            ││
-│  │  ●───────●───────●───────●                                ││
-│  └──────────────────────────────────────────────────────────┘│
-└──────────────────────────────────────────────────────────────┘
-Layout: 2-column (40/60 split) for bio, full-width for services
-Services: 4-column grid (glass cards)
-Timeline: Full-width horizontal
-```
+### Section 1: Hero / Introduction
+- **Desktop (>= 800px)**:
+  - Width constrained to 1200px.
+  - Freestanding portrait sized `700x900px` centered with interactive tilt.
+  - Background name typography rendered at `fontSize: width * 0.7`.
+  - Action buttons (`ButtonWidget`) for Projects and Resume.
+- **Mobile (< 800px)**:
+  - Portrait sized `400x520px`.
+  - Name rendered at `36px`, role at `20px`.
+  - Vertical stacking with touch-friendly tap targets.
 
-### Mobile
-```
-┌───────────────────────┐
-│       About Me        │
-│                       │
-│  ┌─────────────────┐  │
-│  │  Photo/Avatar   │  │
-│  └─────────────────┘  │
-│                       │
-│  Bio paragraph...     │
-│                       │
-│  ┌─────────────────┐  │
-│  │ Tech Stack      │  │
-│  │ [Flutter] [Dart]│  │
-│  │ [Firebase] ...  │  │
-│  └─────────────────┘  │
-│                       │
-│  ┌─────────────────┐  │
-│  │  Service Card 1 │  │
-│  └─────────────────┘  │
-│  ┌─────────────────┐  │
-│  │  Service Card 2 │  │
-│  └─────────────────┘  │
-│  ...                  │
-│                       │
-│  Timeline (vertical)  │
-└───────────────────────┘
-Single column, stacked
-Services: 1-column (full-width cards)
-Timeline: Vertical
-```
+### Section 2: About (Bento Grid)
+- **Desktop (>= 800px)**:
+  - Split Bento Row (Height 600px):
+    - Flex 5: "The Journey" narrative, design philosophy, and "Available for work" beacon.
+    - Flex 7: Right column containing tech stack chips, service specialties, and timeline.
+- **Mobile (< 800px)**:
+  - Vertical stack of `SketchCard`s with 16px horizontal gutters.
 
----
+### Section 3: Featured Works
+- **Container**: Constrained to 1200px width.
+- **Carousel**: Horizontal `ListView.builder` (height: 500px desktop, 450px mobile).
+- **Cards**: Hand-drawn `SketchCard` containers with screenshots, project logos, feature badges, and GitHub code URLs.
 
-## Section 3: Projects
-
-### Desktop
-```
-┌──────────────────────────────────────────────────────────────┐
-│                    "WORK" (background text)                  │
-│                                                              │
-│  Featured Projects                                           │
-│                                                              │
-│  ┌──────────────────────────────────────────────────────────┐│
-│  │  ┌────────────────┐  ┌──────────────────────────────┐   ││
-│  │  │                │  │  Project Title                │   ││
-│  │  │   Screenshot   │  │  Description text...          │   ││
-│  │  │   / Preview    │  │                               │   ││
-│  │  │                │  │  [Flutter] [Dart] [Firebase]  │   ││
-│  │  │                │  │                               │   ││
-│  │  │                │  │  [Live Demo →]  [GitHub →]    │   ││
-│  │  └────────────────┘  └──────────────────────────────┘   ││
-│  └──────────────────────────────────────────────────────────┘│
-│                                                              │
-│  ┌──────────────────────────────────────────────────────────┐│
-│  │  ┌──────────────────────────────┐  ┌────────────────┐   ││
-│  │  │  Project Title               │  │                │   ││
-│  │  │  Description text...         │  │   Screenshot   │   ││
-│  │  │                              │  │   / Preview    │   ││
-│  │  │  [React] [Node] [MongoDB]   │  │                │   ││
-│  │  │                              │  │                │   ││
-│  │  │  [Live Demo →]  [GitHub →]  │  └────────────────┘   ││
-│  │  └──────────────────────────────┘                       ││
-│  └──────────────────────────────────────────────────────────┘│
-│                                                              │
-│  (Alternating left/right layout for visual variety)          │
-└──────────────────────────────────────────────────────────────┘
-Layout: Alternating 50/50 split
-Image: Scale on hover, overlay on hover
-Cards: Full-width glass containers
-```
-
-### Mobile
-```
-┌───────────────────────┐
-│   Featured Projects   │
-│                       │
-│  ┌─────────────────┐  │
-│  │   Screenshot    │  │
-│  │                 │  │
-│  ├─────────────────┤  │
-│  │  Project Title  │  │
-│  │  Description... │  │
-│  │  [Tech] [Stack] │  │
-│  │  [Demo] [Code]  │  │
-│  └─────────────────┘  │
-│                       │
-│  ┌─────────────────┐  │
-│  │   Screenshot    │  │
-│  │                 │  │
-│  ├─────────────────┤  │
-│  │  Project Title  │  │
-│  │  Description... │  │
-│  └─────────────────┘  │
-└───────────────────────┘
-Stacked cards, image always on top
-Full-width
-```
-
----
-
-## Section 4: Contact
-
-### Desktop
-```
-┌──────────────────────────────────────────────────────────────┐
-│                   "CONTACT" (background text)                │
-│                                                              │
-│            Let's Build Something Together                     │
-│                                                              │
-│            I'm currently open to new opportunities.          │
-│            Whether you have a project in mind or             │
-│            just want to chat, feel free to reach out.        │
-│                                                              │
-│                    [Say Hello →]                              │
-│                    (mailto: link)                             │
-│                                                              │
-│            ┌───┐  ┌───┐  ┌───┐  ┌───┐                       │
-│            │ GH│  │ LI│  │ TW│  │ IG│                       │
-│            └───┘  └───┘  └───┘  └───┘                       │
-│            Social media icon buttons                         │
-│                                                              │
-└──────────────────────────────────────────────────────────────┘
-Layout: Centered text, max-width 600px
-CTA: Large primary button (mailto:)
-Social: Row of icon buttons below
-```
-
-### Mobile
-```
-┌───────────────────────┐
-│                       │
-│  Let's Build          │
-│  Something Together   │
-│                       │
-│  I'm open to new      │
-│  opportunities...     │
-│                       │
-│  [  Say Hello →  ]    │
-│                       │
-│  [GH] [LI] [TW] [IG] │
-│                       │
-└───────────────────────┘
-Centered, full-width button
-```
-
----
-
-## Footer
-
-```
-┌──────────────────────────────────────────────────────────────┐
-│                                                              │
-│     Designed & Built by Fazal-e-Haq with Flutter 💙          │
-│     © 2025 — All rights reserved                             │
-│                                                              │
-└──────────────────────────────────────────────────────────────┘
-Minimal, single line, muted text
-Centered, small font
-```
+### Section 4: Contact
+- **Container**: Max width 800px centered card.
+- **Padding**: 56px desktop, 24px mobile.
+- **Inputs**: Name, Email, and Message fields formatted with charcoal sketch borders.

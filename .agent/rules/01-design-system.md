@@ -1,140 +1,92 @@
-# 🎨 Design System — Priority Level: CRITICAL
+# 🎨 Design System — Pencil Sketch & Hand-Drawn Brutalism
 
 > The design system is the single source of truth for all visual decisions.
-> No widget may deviate from these tokens without explicit justification.
+> All UI components must reflect the hand-drawn sketch / brutalist paper aesthetic.
 
 ---
 
-## Color Architecture
+## 📜 Color Architecture
 
-### Philosophy
-Use a **dark-dominant, high-contrast** palette with strategic accent pops. The dark background creates depth and drama; accent colors create focal points and energy.
+### Aesthetic Philosophy
+The theme captures an **artisanal sketchbook / hand-drawn architectural blueprint**:
+- Warm yellowish paper background (`#FDF0D5`) reminiscent of parchment, manila drafting paper, or heavy Moleskine sketchbook stock.
+- Soft charcoal and ink outlines (`#DD000000`, 87% black) instead of harsh pitch black or digital neon glows.
+- Pure transparent surfaces: Cards, app bars, and dialogs have transparent fills (`Colors.transparent`) outlined by wobbly, overlapping sketch borders.
+- Zero drop shadows or artificial digital blurs: Depth is achieved through geometry, offset sketch lines, and 3D parallax.
 
-### Token Structure
-```
-Primary Background   → Deep rich dark (near-black with subtle warm/cool undertone)
-Secondary Background → Slightly elevated surface (card backgrounds, modals)
-Tertiary Background  → Subtle differentiator for nested elements
-Primary Text         → High-contrast white/near-white (opacity 0.95)
-Secondary Text       → Muted text for descriptions (opacity 0.60-0.70)
-Accent Primary       → Hero accent color (electric, vivid — used sparingly)
-Accent Secondary     → Complementary accent for hover states, links
-Gradient Start/End   → For glass-morphism and depth effects
-Border/Divider       → Subtle separators (white at 0.08-0.12 opacity)
-```
+### Token Map (`AppColors`)
+| Token | Hex / Value | Description |
+| :--- | :--- | :--- |
+| `AppColors.background` | `0xFFFDF0D5` | Warm yellowish sketchbook paper |
+| `AppColors.primary` | `0xDD000000` | Charcoal black for primary outlines, icons, and titles |
+| `AppColors.secondary` | `0xDD000000` | Secondary charcoal ink accent |
+| `AppColors.surface` | `Colors.transparent` | Fully transparent card/container background |
+| `AppColors.surfaceInner` | `Colors.transparent` | Fully transparent inner container fill |
+| `AppColors.textMain` | `0xDD000000` | Primary charcoal ink text (87% black) |
+| `AppColors.textSecondary` | `0xBB000000` | Secondary ink text for descriptions (73% black) |
+| `AppColors.textMuted` | `0x99000000` | Subtle drafting notes / muted text (60% black) |
 
-### Rules
-- ❌ NEVER use raw `Color(0xFF...)` in widgets — always theme tokens
-- ❌ NEVER use more than 2 accent colors in one viewport
-- ✅ Use opacity variations of base colors for hierarchy
-- ✅ Gradients must be subtle (max 15% opacity difference)
-- ✅ All colors must pass WCAG 2.1 AA contrast checks
-
----
-
-## Typography Scale
-
-### Font Families
-- **Display / Headlines:** `Unbounded` — bold, geometric, modern
-- **Body / UI:** `Poppins` — clean, readable, professional
-
-### Scale (Desktop)
-```
-Display Large   → 72px / Unbounded / Weight 700 / Letter-spacing: -2.0
-Display Medium  → 56px / Unbounded / Weight 700 / Letter-spacing: -1.5
-Headline Large  → 40px / Unbounded / Weight 600 / Letter-spacing: -1.0
-Headline Medium → 32px / Poppins   / Weight 600 / Letter-spacing: -0.5
-Title Large     → 24px / Poppins   / Weight 600 / Letter-spacing: 0
-Title Medium    → 20px / Poppins   / Weight 500 / Letter-spacing: 0.15
-Body Large      → 18px / Poppins   / Weight 400 / Letter-spacing: 0.5
-Body Medium     → 16px / Poppins   / Weight 400 / Letter-spacing: 0.25
-Body Small      → 14px / Poppins   / Weight 400 / Letter-spacing: 0.4
-Label Large     → 14px / Poppins   / Weight 500 / Letter-spacing: 1.0 / UPPERCASE
-Label Medium    → 12px / Poppins   / Weight 500 / Letter-spacing: 1.5 / UPPERCASE
-Caption         → 11px / Poppins   / Weight 400 / Letter-spacing: 0.4
-```
-
-### Responsive Scaling
-- **Mobile:** Scale all sizes down by ~25-30%
-- **Tablet:** Scale down by ~15%
-- Use `AutoSizeText` or `ResponsiveText` for fluid scaling within containers
-- Line height: 1.5× for body, 1.2× for headings
-
-### Rules
-- ❌ NEVER use raw `TextStyle()` with hardcoded sizes — always `Theme.of(context).textTheme`
-- ❌ Max 2 font families total (Unbounded + Poppins)
-- ✅ Headings always use `Unbounded`
-- ✅ Body/UI always uses `Poppins`
-- ✅ Use font weight for hierarchy, not font size alone
+### Color Rules
+- ❌ **NEVER** use dark mode backgrounds (`#141518`), neon purples, blues, or glassmorphism blurs.
+- ❌ **NEVER** use filled colored cards or elevation drop shadows.
+- ❌ **NEVER** use raw `Color(0xFF...)` in widgets — always use `AppColors` tokens.
+- ✅ All borders and text must use charcoal ink tokens (`AppColors.textMain`, `AppColors.primary`).
 
 ---
 
-## Spacing System (8px Grid)
+## ✍️ Typography: Hand-Crafted Lettering
 
-### Base Unit: 8px
+### Font Family
+- **Global Family:** `'Patrick Hand'` (included in `assets/fonts/patrick-hand/PatrickHand-Regular.ttf` and configured in `ThemeData`).
+- Conveys the organic, casual, yet deliberate feel of hand-drawn drafting notes and architect annotations.
 
-```
-xxxs  →  2px   (micro adjustments only)
-xxs   →  4px   (icon padding, tight gaps)
-xs    →  8px   (inline element spacing)
-sm    →  12px  (related element spacing)
-md    →  16px  (standard component padding)
-lg    →  24px  (section internal padding)
-xl    →  32px  (between component groups)
-xxl   →  48px  (between major sections)
-xxxl  →  64px  (page-level section gaps)
-huge  →  96px  (hero section breathing room)
-mega  →  128px (maximum spacing, ultra-wide only)
-```
-
-### Rules
-- ❌ NEVER use arbitrary pixel values — always `AppSizes.xx`
-- ✅ All spacing must be multiples of 4px (preferably 8px)
-- ✅ Vertical rhythm must be consistent within each section
-- ✅ Horizontal padding scales with viewport: 16px → 24px → 48px → 80px → 120px
+### Hierarchy & Scale
+| Level | Font Size | Weight | Tracking / Notes |
+| :--- | :---: | :---: | :--- |
+| **Massive Parallax Background** | `width * 0.7` | `w900` | `letterSpacing: 20.0`, 15% opacity charcoal ink |
+| **Hero Name** | `64px` (Desktop) / `36px` (Mobile) | `w900` | All-caps, scaled via `FittedBox` |
+| **Hero Role / Subtitle** | `32px` (Desktop) / `20px` (Mobile) | `w900` | Animated typewriter or typewriter kit |
+| **Section Headings** | `28px - 36px` | `w900` | Accompanying hand-drawn indicator bar (32x3px) |
+| **Card / Bento Titles** | `22px - 28px` | `bold` | Clean, high readability |
+| **Body Large** | `14px` (Desktop) / `12px` (Mobile) | `w500` | `height: 1.6` for readable line spacing |
+| **Body Medium** | `13px` (Desktop) / `12px` (Mobile) | `w500` | Descriptions and bio content |
+| **Captions / Badges** | `11px - 12px` | `w600` | Section anchors, HUD labels, chips |
 
 ---
 
-## Border Radius
+## ✏️ The Hand-Drawn Sketch Technique
 
-```
-none   →  0px   (sharp edges for accent elements)
-xs     →  4px   (subtle rounding)
-sm     →  8px   (buttons, small cards)
-md     →  12px  (standard cards)
-lg     →  16px  (large cards, modals)
-xl     →  20px  (hero elements)
-xxl    →  24px  (feature cards)
-full   →  999px (pills, avatars)
-```
+### 1. `SketchCard` Dual-Border Offset
+Rather than standard straight rectangles, cards simulate hand-drawn pen sketches with two layered borders:
+- **Layer 1 (Scribble Border)**: Rotated slightly clockwise at `angle: +0.025 rad`, with a lighter border (`0.3` opacity, 1.5px width) and `BorderRadius.circular(20)`.
+- **Layer 2 (Main Border)**: Rotated slightly counter-clockwise at `angle: -0.015 rad`, with a crisp charcoal border (`2.0px` width) and `BorderRadius.circular(16)`.
+- **Content Straightening**: The child inside Layer 2 is counter-rotated by `angle: +0.015 rad` so that text, icons, and buttons remain upright and easy to read.
 
----
+### 2. `SpatialBackdropCanvas` Grid
+- Renders an architectural drafting grid (80px spacing) across the entire canvas.
+- Painted with faint pencil strokes (`0.03` and `0.02` opacity).
+- Contains intentional periodic "crooked" secondary lines to mimic hand-ruled paper.
 
-## Elevation & Depth
-
-Use **layered depth** instead of drop shadows:
-- Layer 0: Background surface
-- Layer 1: Cards, tiles (subtle border + background elevation)
-- Layer 2: Floating elements, dropdowns (glassmorphism or elevated bg)
-- Layer 3: Modals, overlays (backdrop blur + scrim)
-
-### Glassmorphism Recipe
-```dart
-Container(
-  decoration: BoxDecoration(
-    color: theme.surface.withOpacity(0.08),
-    borderRadius: BorderRadius.circular(AppSizes.borderRadiusMd),
-    border: Border.all(color: theme.onSurface.withOpacity(0.1)),
-    // Use BackdropFilter for blur effect
-  ),
-)
-```
+### 3. `ButtonWidget` Sketch Interaction
+- Dual-border structure matching `SketchCard`.
+- Hover trigger: slight lift (`-0.05` slide offset, `1.05x` scale).
+- Tap trigger: press depth (`+0.05` slide offset, `0.95x` scale).
+- Outlined with pure charcoal borders, zero colored fill.
 
 ---
 
-## Iconography
+## 📐 Spacing & Layout Rhythm (8px Grid)
 
-- Use **outlined/line** icons primarily (not filled)
-- Icon size: 20px (inline), 24px (standard), 32px (featured), 48px (hero)
-- Icon color follows text color rules (primary/secondary opacity)
-- Consider custom SVG icons for brand consistency
+```
+xxs   →  4px   (tight icon gaps)
+xs    →  8px   (inline chip spacing)
+sm    →  12px  (micro element spacing)
+md    →  16px  (mobile card padding, stack gaps)
+lg    →  24px  (desktop card padding, icon-to-title)
+xl    →  32px  (component cluster gaps)
+xxl   →  48px  (headline to grid spacing)
+section → 80px (vertical breathing room between sections)
+```
+
+- Max Content Width: `1200px` (centered via `ConstrainedBox`).
+- Responsive Horizontal Padding: `16px` (Mobile), `40px` (Tablet), `80px` (Desktop).
