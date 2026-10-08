@@ -22,9 +22,7 @@ void main() {
     // Wait and catch exception
     final exception = tester.takeException();
     if (exception != null) {
-      print('Exception was thrown: $exception');
     } else {
-      print('No exception thrown!');
     }
   });
 }

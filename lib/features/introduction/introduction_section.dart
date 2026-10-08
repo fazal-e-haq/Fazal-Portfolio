@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../core/themes/theme.dart';
-import '../../../widgets/animations/fade_in_up_widget.dart';
 import '../../../widgets/responsive_text.dart';
 import '../../../services/resume_downloader.dart';
 import '../../../widgets/button/button_widget.dart';
@@ -26,6 +25,7 @@ class Introduction extends StatelessWidget {
         return SizedBox(
           height: screenHeight * 2.0,
           child: Obx(() {
+            final _ = coordinator.overallProgress.value;
             double offset = 0.0;
             if (coordinator.scrollController.hasClients) {
               offset = coordinator.scrollController.offset;
@@ -230,5 +230,6 @@ class _IntroContent extends StatelessWidget {
     );
   }
 }
+
 
 

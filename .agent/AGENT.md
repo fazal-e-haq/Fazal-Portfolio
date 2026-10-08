@@ -7,14 +7,16 @@
 
 ## 🎯 Project Identity
 
-| Key             | Value                                              |
-|-----------------|----------------------------------------------------|
-| **Project**     | Fazal-e-Haq — Professional Portfolio Website       |
-| **Framework**   | Flutter Web (Dart 3.12+, Flutter 3.44+)            |
-| **State Mgmt**  | GetX (`get: ^4.7.3`)                               |
-| **Target**      | Production-grade, ultra-modern portfolio web app   |
-| **Audience**    | Recruiters, clients, fellow developers worldwide   |
-| **Goal**        | World-class first impression in < 3 seconds        |
+| Key | Value |
+| :--- | :--- |
+| **Project** | Fazal-e-Haq — Professional Portfolio Website |
+| **Framework** | Flutter Web (Dart 3.12+, Flutter 3.44+) |
+| **Theme Aesthetic** | **Pencil Sketch & Hand-Drawn Brutalism** (`#FDF0D5` paper, `Patrick Hand` font, charcoal outlines) |
+| **State Mgmt** | GetX (`get: ^4.7.3`) |
+| **Scroll Model** | Continuous natural vertical scroll with Spatial HUD progression spine |
+| **Target** | Production-grade, unique artisanal portfolio web app |
+| **Audience** | Recruiters, clients, fellow developers worldwide |
+| **Goal** | World-class first impression in < 3 seconds |
 
 ---
 
@@ -25,20 +27,21 @@
 ├── AGENT.md                          ← You are here (master config)
 ├── rules/
 │   ├── 00-golden-rules.md            ← Absolute top-priority constraints
-│   ├── 01-design-system.md           ← Typography, colors, spacing, grid
-│   ├── 02-architecture.md            ← Code architecture & patterns
+│   ├── 01-design-system.md           ← Sketch theme colors, Patrick Hand font, sketch borders
+│   ├── 02-architecture.md            ← Feature-first code architecture & GetX patterns
 │   ├── 03-performance.md             ← Web performance & optimization
-│   ├── 04-responsive.md              ← Responsive & adaptive design
-│   ├── 05-animation.md               ← Motion design & micro-interactions
-│   ├── 06-accessibility.md           ← A11y, SEO, semantic structure
+│   ├── 04-responsive.md              ← Responsive breakpoints & adaptive design
+│   ├── 05-animation.md               ← Motion design, 3D parallax, & micro-interactions
+│   ├── 06-accessibility.md           ← A11y, SEO, and semantic structure
 │   ├── 07-code-quality.md            ← Dart/Flutter code standards
-│   └── 08-deployment.md              ← Build, deploy, CI/CD rules
+│   └── 08-deployment.md              ← Build, deploy, Firebase Hosting rules
 ├── design/
-│   ├── design-philosophy.md          ← Visual identity & brand DNA
-│   ├── component-library.md          ← Reusable widget catalog
-│   └── layout-blueprints.md          ← Section-by-section layout specs
+│   ├── design-philosophy.md          ← Hand-drawn sketchbook brand DNA & 3D tilt
+│   ├── component-library.md          ← SketchCard, ButtonWidget, SpatialBackdropCanvas catalog
+│   ├── layout-blueprints.md          ← Section-by-section vertical layout specs
+│   └── 3d-vertical-redesign-plan.md  ← Master 3D spatial execution plan
 └── checklists/
-    ├── pre-commit.md                 ← Before every commit
+    ├── pre-commit.md                 ← Before every commit verification
     └── production-readiness.md       ← Final launch checklist
 ```
 
@@ -60,11 +63,10 @@ Agents MUST process files in this exact order:
 ## 🚫 Hard Stops
 
 If ANY of these are violated, the agent MUST stop and fix before proceeding:
-- ❌ No inline styles — everything through the design system
-- ❌ No magic numbers — use `AppSizes` constants
-- ❌ No hardcoded colors — use theme tokens only
-- ❌ No unresponsive layouts — must work 320px → 2560px
-- ❌ No janky animations — 60fps minimum, no layout thrash
-- ❌ No accessibility violations — WCAG 2.1 AA minimum
-- ❌ No dead code or unused imports
-- ❌ No `print()` statements in production code
+- ❌ **No dark mode/glassmorphism remnants** — strictly enforce the Pencil Sketch Theme (`#FDF0D5` background, charcoal ink borders, `Patrick Hand` typography)
+- ❌ **No magic numbers** — use `AppSizes` constants
+- ❌ **No hardcoded colors** — use `AppColors` tokens only
+- ❌ **No calling `Get.put()` inside widget `build()` methods**
+- ❌ **No unresponsive layouts** — must work seamlessly 320px → 2560px
+- ❌ **No janky animations** — 60fps minimum, no layout thrashing
+- ❌ **No dead code, unused imports, or `print()` in production code**
