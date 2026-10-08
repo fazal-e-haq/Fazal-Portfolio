@@ -65,7 +65,7 @@ class _DesktopBentoGrid extends StatelessWidget {
         ),
         const SizedBox(height: 48),
         SizedBox(
-          height: 600,
+          height: 720,
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
@@ -473,3 +473,4 @@ class _MobileBentoGrid extends StatelessWidget {
     );
   }
 }
+

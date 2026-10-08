@@ -119,19 +119,6 @@ class NeumorphicTextField extends StatelessWidget {
                   ),
                 ),
                 
-                // Invisible child to give Stack a size since Positioned.fill/AnimatedPositioned don't dictate size
-                Opacity(
-                  opacity: 0,
-                  child: TextField(
-                    maxLines: maxLines,
-                    decoration: InputDecoration(
-                      contentPadding: EdgeInsets.symmetric(
-                        horizontal: 24, 
-                        vertical: isMultiline ? 24 : 20,
-                      ),
-                    ),
-                  ),
-                ),
               ],
             );
           }),
