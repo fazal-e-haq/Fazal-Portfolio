@@ -1112,10 +1112,7 @@ class _WindingRoadmapSection extends StatelessWidget {
               // 1. Winding S-Curved Dashed Pencil Road flowing smoothly in center (NO points, NO overflow)
               Positioned.fill(
                 child: CustomPaint(
-                  painter: _SketchRoadmapSPathPainter(
-                    itemCount: _milestones.length,
-                    itemHeight: itemHeight,
-                  ),
+                  painter: _WindingRoadmapPainter(itemCount: _milestones.length, itemHeight: itemHeight, isMobile: false),
                 ),
               ),
 
@@ -1186,10 +1183,7 @@ class _WindingRoadmapSection extends StatelessWidget {
               // Mobile winding dashed curve along left margin (NO points, NO overflow)
               Positioned.fill(
                 child: CustomPaint(
-                  painter: _MobileWindingRoadmapPainter(
-                    itemCount: _milestones.length,
-                    itemHeight: itemHeight,
-                  ),
+                  painter: _WindingRoadmapPainter(itemCount: _milestones.length, itemHeight: itemHeight, isMobile: true),
                 ),
               ),
 
@@ -1217,145 +1211,106 @@ class _WindingRoadmapSection extends StatelessWidget {
   }
 }
 
-/// S-curved winding dashed road painter for Desktop (strictly bounded, NO points, NO overflow).
-class _SketchRoadmapSPathPainter extends CustomPainter {
+/// Winding dashed pencil road painter (strictly bounded, NO points, NO overflow).
+class _WindingRoadmapPainter extends CustomPainter {
   final int itemCount;
   final double itemHeight;
+  final bool isMobile;
 
-  _SketchRoadmapSPathPainter({
+  _WindingRoadmapPainter({
     required this.itemCount,
     required this.itemHeight,
-  });
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    final double w = size.width;
-    if (w <= 0 || itemCount <= 1) return;
-
-    final Path roadPath = Path();
-
-    // Start point clamped gently around center
-    final double midX = w * 0.5;
-    final double startX = midX - 30.0;
-    const double startY = 24.0;
-    roadPath.moveTo(startX, startY);
-
-    for (int i = 0; i < itemCount - 1; i++) {
-      final double currX = (i.isEven) ? midX - 30.0 : midX + 30.0;
-      final double nextX = ((i + 1).isEven) ? midX - 30.0 : midX + 30.0;
-      final double currY = i * itemHeight + 24.0;
-      final double nextY = (i + 1) * itemHeight + 24.0;
-
-      // Smooth S-curve connecting waypoints within strictly bounded center corridor
-      final double midY = (currY + nextY) * 0.5;
-      final double ctrlX1 = currX + (i.isEven ? 45.0 : -45.0);
-      final double ctrlX2 = nextX + (i.isEven ? -45.0 : 45.0);
-
-      roadPath.cubicTo(ctrlX1, midY - 8, ctrlX2, midY + 8, nextX, nextY);
-    }
-
-    // Secondary faint graphite shadow
-    final Paint shadowPaint = Paint()
-      ..color = AppColors.textMain.withValues(alpha: 0.12)
-      ..strokeWidth = 2.4
-      ..style = PaintingStyle.stroke
-      ..strokeCap = StrokeCap.round;
-
-    _drawDashedPath(canvas, roadPath, shadowPaint, dashWidth: 7, dashSpace: 6);
-
-    // Main dashed pencil road
-    final Paint mainPaint = Paint()
-      ..color = AppColors.textMain.withValues(alpha: 0.65)
-      ..strokeWidth = 2.0
-      ..style = PaintingStyle.stroke
-      ..strokeCap = StrokeCap.round;
-
-    _drawDashedPath(canvas, roadPath, mainPaint, dashWidth: 7, dashSpace: 6);
-  }
-
-  void _drawDashedPath(
-    Canvas canvas,
-    Path path,
-    Paint paint, {
-    required double dashWidth,
-    required double dashSpace,
-  }) {
-    for (final PathMetric metric in path.computeMetrics()) {
-      double distance = 0.0;
-
-      while (distance < metric.length) {
-        final double end = math.min(distance + dashWidth, metric.length);
-        final Path dash = metric.extractPath(distance, end);
-        canvas.drawPath(dash, paint);
-        distance += dashWidth + dashSpace;
-      }
-    }
-  }
-
-  @override
-  bool shouldRepaint(covariant _SketchRoadmapSPathPainter oldDelegate) =>
-      oldDelegate.itemCount != itemCount ||
-      oldDelegate.itemHeight != itemHeight;
-}
-
-/// Mobile responsive winding road painter (tightly clamped, NO points, NO overflow).
-class _MobileWindingRoadmapPainter extends CustomPainter {
-  final int itemCount;
-  final double itemHeight;
-
-  _MobileWindingRoadmapPainter({
-    required this.itemCount,
-    required this.itemHeight,
+    required this.isMobile,
   });
 
   @override
   void paint(Canvas canvas, Size size) {
     if (itemCount <= 1) return;
+    final double w = size.width;
+    if (w <= 0) return;
 
     final Path roadPath = Path();
-    roadPath.moveTo(16.0, 16.0);
 
-    for (int i = 0; i < itemCount - 1; i++) {
-      final double currX = (i.isEven) ? 16.0 : 26.0;
-      final double nextX = ((i + 1).isEven) ? 16.0 : 26.0;
-      final double currY = i * itemHeight + 16.0;
-      final double nextY = (i + 1) * itemHeight + 16.0;
+    if (!isMobile) {
+      final double midX = w * 0.5;
+      roadPath.moveTo(midX - 30.0, 24.0);
 
-      final double midY = (currY + nextY) * 0.5;
-      roadPath.cubicTo(
-        currX + (i.isEven ? 10 : -10),
-        midY - 6,
-        nextX + (i.isEven ? -10 : 10),
-        midY + 6,
-        nextX,
-        nextY,
-      );
+      for (int i = 0; i < itemCount - 1; i++) {
+        final double currX = (i.isEven) ? midX - 30.0 : midX + 30.0;
+        final double nextX = ((i + 1).isEven) ? midX - 30.0 : midX + 30.0;
+        final double currY = i * itemHeight + 24.0;
+        final double nextY = (i + 1) * itemHeight + 24.0;
+        final double midY = (currY + nextY) * 0.5;
+
+        roadPath.cubicTo(
+          currX + (i.isEven ? 45.0 : -45.0),
+          midY - 8,
+          nextX + (i.isEven ? -45.0 : 45.0),
+          midY + 8,
+          nextX,
+          nextY,
+        );
+      }
+
+      final Paint shadowPaint = Paint()
+        ..color = AppColors.textMain.withValues(alpha: 0.12)
+        ..strokeWidth = 2.4
+        ..style = PaintingStyle.stroke
+        ..strokeCap = StrokeCap.round;
+      _drawDashed(canvas, roadPath, shadowPaint, 7, 6);
+
+      final Paint mainPaint = Paint()
+        ..color = AppColors.textMain.withValues(alpha: 0.65)
+        ..strokeWidth = 2.0
+        ..style = PaintingStyle.stroke
+        ..strokeCap = StrokeCap.round;
+      _drawDashed(canvas, roadPath, mainPaint, 7, 6);
+    } else {
+      roadPath.moveTo(16.0, 16.0);
+      for (int i = 0; i < itemCount - 1; i++) {
+        final double currX = (i.isEven) ? 16.0 : 26.0;
+        final double nextX = ((i + 1).isEven) ? 16.0 : 26.0;
+        final double currY = i * itemHeight + 16.0;
+        final double nextY = (i + 1) * itemHeight + 16.0;
+        final double midY = (currY + nextY) * 0.5;
+
+        roadPath.cubicTo(
+          currX + (i.isEven ? 10 : -10),
+          midY - 6,
+          nextX + (i.isEven ? -10 : 10),
+          midY + 6,
+          nextX,
+          nextY,
+        );
+      }
+
+      final Paint roadPaint = Paint()
+        ..color = AppColors.textMain.withValues(alpha: 0.55)
+        ..strokeWidth = 1.8
+        ..style = PaintingStyle.stroke
+        ..strokeCap = StrokeCap.round;
+      _drawDashed(canvas, roadPath, roadPaint, 6, 5);
     }
+  }
 
-    final Paint roadPaint = Paint()
-      ..color = AppColors.textMain.withValues(alpha: 0.55)
-      ..strokeWidth = 1.8
-      ..style = PaintingStyle.stroke
-      ..strokeCap = StrokeCap.round;
-
-    for (final PathMetric metric in roadPath.computeMetrics()) {
-      double distance = 0.0;
-      while (distance < metric.length) {
-        final double end = math.min(distance + 6.0, metric.length);
-        final Path dash = metric.extractPath(distance, end);
-        canvas.drawPath(dash, roadPaint);
-        distance += 6.0 + 5.0;
+  void _drawDashed(Canvas canvas, Path path, Paint paint, double dash, double space) {
+    for (final PathMetric metric in path.computeMetrics()) {
+      double d = 0.0;
+      while (d < metric.length) {
+        final double end = math.min(d + dash, metric.length);
+        canvas.drawPath(metric.extractPath(d, end), paint);
+        d += dash + space;
       }
     }
   }
 
   @override
-  bool shouldRepaint(covariant _MobileWindingRoadmapPainter oldDelegate) =>
+  bool shouldRepaint(covariant _WindingRoadmapPainter oldDelegate) =>
       oldDelegate.itemCount != itemCount ||
-      oldDelegate.itemHeight != itemHeight;
+      oldDelegate.itemHeight != itemHeight ||
+      oldDelegate.isMobile != isMobile;
 }
 
-/// Clean, static typography milestone item directly on paper (NO HOVER EFFECTS, NO CARDS, NO POINTS).
 class _MilestoneStaticContent extends StatelessWidget {
   final _RoadmapMilestone data;
   final bool alignRight;
