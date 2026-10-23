@@ -37,7 +37,7 @@
 │   └── 08-deployment.md              ← Build, deploy, Firebase Hosting rules
 ├── design/
 │   ├── design-philosophy.md          ← Hand-drawn sketchbook brand DNA & 3D tilt
-│   ├── component-library.md          ← SketchCard, ButtonWidget, SpatialBackdropCanvas catalog
+│   ├── component-library.md          ← SketchCard, SketchButton, SketchTextField, SketchProjectCard catalog
 │   ├── layout-blueprints.md          ← Section-by-section vertical layout specs
 │   └── 3d-vertical-redesign-plan.md  ← Master 3D spatial execution plan
 └── checklists/

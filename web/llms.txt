@@ -1,0 +1,53 @@
+# Fazal-e-Haq — Flutter Developer & UI/UX Designer
+
+> Professional portfolio of Fazal-e-Haq. High-performance cross-platform mobile and web application engineer and product designer specializing in Flutter, Dart, and hand-drawn brutalist design systems.
+
+## Summary
+- **Name**: Fazal-e-Haq
+- **Role**: Flutter Developer & UI/UX Designer
+- **Location**: Pakistan
+- **Primary Stack**: Flutter, Dart, Firebase, GetX, Clean Architecture, REST APIs, Figma
+- **Portfolio Website**: https://fazal-portfolio.web.app
+- **Email**: fazalehaq37405@gmail.com
+- **GitHub**: https://github.com/fazal-e-haq
+- **LinkedIn**: https://www.linkedin.com/in/fazal-e-haq3
+- **Instagram**: https://www.instagram.com/code.o.design
+- **Resume**: https://fazal-portfolio.web.app/Fazal-Resume.pdf
+
+## Core Skills & Technical Arsenal
+- **Languages**: Dart, JavaScript, HTML5, CSS3, SQL
+- **Frameworks & State Management**: Flutter (Android, iOS, Web, Desktop), GetX, Provider
+- **Design & Prototyping**: UI/UX Design, Figma, Adobe XD, Wireframing, Hand-Drawn Brutalism Design System, Responsive Breakpoints
+- **Architecture**: Feature-First Architecture, Clean Architecture, Separation of Concerns, MVVM
+- **Databases & Offline Storage**: Isar DB, SQLite, SharedPreferences, Firebase Firestore
+- **Backend & Cloud**: Firebase (Auth, Firestore, Cloud Storage, Analytics, Hosting), RESTful APIs, JSON parsing
+- **DevOps & Tooling**: Git, GitHub Actions, CI/CD, Flutter Web Optimization, Font Tree-Shaking, WebAssembly (Wasm)
+
+## Featured Projects
+
+### 1. CutCount — Local Barber Tracking & Earnings App
+- **Category**: Mobile App (Business / Finance)
+- **Platforms**: Android, iOS
+- **Tech Stack**: Flutter, Dart, Isar DB, Provider
+- **Description**: A private, 100% offline mobile application designed specifically for barbers and stylists to log daily haircut counts, categorize services, track tips, and automatically compute weekly and monthly earnings without requiring internet access.
+- **Repository**: https://github.com/fazal-e-haq/CutCount.git
+- **Key Features**: Offline-first storage with Isar DB, instant revenue calculation, custom rate cards, tactile hand-drawn interface.
+
+### 2. CopyFlutter — Open-Source Flutter UI Component & Template Library
+- **Category**: Web Application / Developer Tooling
+- **Platforms**: Flutter Web, Android, iOS
+- **Tech Stack**: Flutter Web, Firebase, GetX, Dart
+- **Description**: A curated open-source library of responsive, copy-paste Flutter UI components, interactive widgets, loaders, buttons, and production-ready templates built to accelerate developer workflows.
+- **Live Website**: https://copy-flutter.web.app
+- **Repository**: https://copy-flutter.web.app
+- **Key Features**: Live interactive widget previews, instant copy-to-clipboard code snippets, zero external bloated dependencies, mobile-responsive layout.
+
+## Services Offered
+1. **Cross-Platform Mobile App Development**: Building smooth 60–120fps Android and iOS applications with Flutter & Dart.
+2. **Flutter Web Development**: Creating fast, responsive single-page web applications with SEO optimization, asset caching, and PWA capabilities.
+3. **UI/UX Design & Prototyping**: Turning abstract concepts into intuitive user flows, high-fidelity Figma prototypes, and custom hand-drawn design systems.
+4. **Performance Optimization & Audits**: Profiling Flutter apps to eliminate jank, optimize memory/GPU textures, and ensure pixel-perfect responsive layouts.
+
+## Contact & Work Inquiries
+- **Direct Email**: fazalehaq37405@gmail.com
+- **Availability**: Open for freelance projects, contract roles, and full-time remote engineering opportunities.

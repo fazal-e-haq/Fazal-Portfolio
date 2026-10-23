@@ -15,7 +15,11 @@ class SmoothScrollBehavior extends MaterialScrollBehavior {
   }
 
   @override
-  Widget buildScrollbar(BuildContext context, Widget child, ScrollableDetails details) {
+  Widget buildScrollbar(
+    BuildContext context,
+    Widget child,
+    ScrollableDetails details,
+  ) {
     return child; // Hides the scrollbar completely
   }
 }

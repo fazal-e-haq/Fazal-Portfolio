@@ -42,32 +42,43 @@ lib/
 │   │   └── widgets/
 │   ├── project/
 │   │   ├── projects_section.dart
-│   │   ├── project_controller.dart
 │   │   ├── project_model.dart
 │   │   └── widgets/
+│   │       └── sketch_project_card.dart     ← Hand-drawn project card
 │   ├── contact/
 │   │   ├── contact_section.dart
-│   │   ├── contact_controller.dart
+│   │   └── contact_controller.dart
+│   ├── scene_3d/
+│   │   ├── scene_3d_controller.dart         ← 3D camera & projection matrix
+│   │   ├── models/
+│   │   │   └── scene_point_3d.dart          ← 3D vector & perspective projection
 │   │   └── widgets/
+│   │       ├── spatial_backdrop_canvas.dart ← Drafting grid background
+│   │       └── perspective_card_wrapper.dart← Matrix4 3D tilt wrapper
 │   └── app_shell/
-│       ├── web_home_page.dart       ← Main scaffold + scroll controller
+│       ├── web_home_page.dart               ← Main scaffold + smooth scroll
+│       ├── scroll_coordinator_controller.dart← Vertical scroll coordinator
 │       └── navigation_controller.dart
 │
-├── widgets/                         ← Shared/reusable widgets
+├── widgets/                                 ← Shared/reusable sketch widgets
 │   ├── animations/
-│   ├── buttons/
-│   ├── cards/
+│   │   └── fade_in_up_widget.dart           ← Timer-safe entrance animation
+│   ├── button/
+│   │   ├── sketch_button.dart               ← Dual-border sketch button (alias: ButtonWidget)
+│   │   └── button_controller.dart
 │   ├── inputs/
-│   ├── layout/
-│   │   ├── section_wrapper.dart     ← Standard section container
-│   │   ├── responsive_builder.dart  ← Breakpoint-based builder
-│   │   └── max_width_container.dart ← Content max-width constraint
-│   ├── nav_bar_widget.dart
-│   └── bottom_nav_bar_widget.dart
+│   │   ├── sketch_text_field.dart           ← Hand-drawn outlined text input
+│   │   └── textfield_controller.dart        ← Reactive focus & hover state
+│   ├── hud/
+│   │   └── spatial_hud_overlay.dart         ← Right-side progression spine HUD
+│   ├── sketch_card.dart                     ← Core dual-border sketch container
+│   ├── nav_bar_widget.dart                  ← Top floating sketch pill nav
+│   ├── bottom_nav_bar_widget.dart           ← Mobile bottom sketch nav
+│   └── responsive_text.dart
 │
-├── models/                          ← Data models
-├── routes/                          ← Routing configuration
-└── services/                        ← External service integrations
+├── models/                                  ← Data models
+├── routes/                                  ← Routing configuration
+└── services/                                ← External service integrations
 ```
 
 ---
@@ -78,15 +89,18 @@ lib/
 ```
 feature_name_section.dart      ← Section/page widgets
 feature_name_controller.dart   ← GetX controllers
-feature_name_widget.dart       ← Reusable widgets
+sketch_component_name.dart     ← Reusable sketch widgets (prefixed with sketch_)
 app_sizes.dart                 ← Core constants (prefixed with app_)
 ```
 
 ### Classes
 ```dart
-class IntroductionSection extends StatelessWidget {}     // Sections
-class IntroductionController extends GetxController {}   // Controllers
-class ProjectCardWidget extends StatelessWidget {}       // Widgets
+class Introduction extends StatelessWidget {}            // Sections
+class ContactController extends GetxController {}        // Controllers
+class SketchCard extends StatelessWidget {}              // Sketch containers
+class SketchButton extends StatelessWidget {}            // Sketch buttons
+class SketchTextField extends StatelessWidget {}         // Sketch inputs
+class SketchProjectCard extends StatefulWidget {}        // Project showcase
 class AppColors {}                                       // Core tokens
 class AppSizes {}                                        // Core constants
 ```

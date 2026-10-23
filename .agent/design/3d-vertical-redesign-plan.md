@@ -37,7 +37,7 @@
 | **0.0 - 0.5** | **Intro** | `Z = 0` | Ground zero. 3D tilt portrait, floating magnetic CTA, greeting constellation. |
 | **0.5 - 1.5** | **About** | `Z = 400` | Camera travels forward into the galaxy. 3D floating service cards and orbiting tech stack chips. |
 | **1.5 - 2.5** | **Works** | `Z = 800` | Perspective shifts to deep showcase dock. 3D app showcase with layered screenshot gallery. |
-| **2.5 - 3.0** | **Contact** | `Z = 1200` | Settle in destination terminal. Sunken neumorphic message center, glowing social beacons. |
+| **2.5 - 3.0** | **Contact** | `Z = 1200` | Settle in destination terminal. Hand-drawn sketch message center, charcoal ink beacons. |
 
 ---
 

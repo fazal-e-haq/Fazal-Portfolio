@@ -1,45 +1,29 @@
 # ══════════════════════════════════════════════════════════════
 # Fazal-e-Haq Portfolio — robots.txt
-# https://fazal-portfolio.web.app
+# Canonical URL: https://fazal-portfolio.web.app/
 # ══════════════════════════════════════════════════════════════
+#
+# NOTE: Flutter JS / WASM / CanvasKit files must NOT be blocked.
+# Googlebot needs them to render the page. Blocking them hides
+# the real content from Google's renderer.
 
-# Allow all search engine crawlers
 User-agent: *
 Allow: /
-Allow: /intro
-Allow: /about
-Allow: /works
-Allow: /contact
-Allow: /Fazal-Resume.pdf
-Allow: /sitemap.xml
-
-# Block build artifacts and internal files
-Disallow: /flutter_bootstrap.js
-Disallow: /main.dart.js
-Disallow: /assets/AssetManifest.json
-Disallow: /assets/FontManifest.json
 Disallow: /assets/NOTICES
-Disallow: /canvaskit/
 
-# Sitemap location
+# AI crawlers & LLM agents — allowed to read the bio, projects & llms.txt
+User-agent: GPTBot
+User-agent: ChatGPT-User
+User-agent: OAI-SearchBot
+User-agent: Google-Extended
+User-agent: ClaudeBot
+User-agent: anthropic-ai
+User-agent: PerplexityBot
+User-agent: Applebot-Extended
+User-agent: CCBot
+User-agent: cohere-ai
+User-agent: Meta-ExternalAgent
+Allow: /
+Disallow: /assets/NOTICES
+
 Sitemap: https://fazal-portfolio.web.app/sitemap.xml
-
-# Google-specific
-User-agent: Googlebot
-Allow: /
-Crawl-delay: 1
-
-# Bing-specific
-User-agent: Bingbot
-Allow: /
-Crawl-delay: 2
-
-# Social media crawlers (for rich link previews)
-User-agent: Twitterbot
-Allow: /
-
-User-agent: facebookexternalhit
-Allow: /
-
-User-agent: LinkedInBot
-Allow: /

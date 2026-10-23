@@ -6,13 +6,18 @@ import 'package:get/get.dart';
 import '../models/nav_bar_item_model.dart';
 import '../features/app_shell/navigation_controller.dart';
 import '../features/app_shell/scroll_coordinator_controller.dart';
+import 'sketch_painter.dart';
 
 class NavBarWidget extends StatelessWidget implements PreferredSizeWidget {
   const NavBarWidget({super.key});
 
   static const List<NavBarItem> items = [
     NavBarItem(title: 'Intro', index: 0, icon: CupertinoIcons.home),
-    NavBarItem(title: 'About', index: 1, icon: CupertinoIcons.person_crop_circle),
+    NavBarItem(
+      title: 'About',
+      index: 1,
+      icon: CupertinoIcons.person_crop_circle,
+    ),
     NavBarItem(title: 'Works', index: 2, icon: CupertinoIcons.briefcase),
     NavBarItem(title: 'Contact', index: 3, icon: CupertinoIcons.mail),
   ];
@@ -27,72 +32,57 @@ class NavBarWidget extends StatelessWidget implements PreferredSizeWidget {
       scrolledUnderElevation: 0,
       elevation: 0,
       centerTitle: true,
-      toolbarHeight: 120,
+      toolbarHeight: 96,
       title: Container(
-        height: 64,
-        margin: const EdgeInsets.only(top: 20),
-        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
-        child: Stack(
-          clipBehavior: Clip.none,
-          children: [
-              // Scribble secondary border
-            Positioned.fill(
-              child: Transform.rotate(
-                angle: 0.025,
-                child: Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(32),
-                    border: Border.all(
-                      color: AppColors.textMain.withValues(alpha: 0.4),
-                      width: 1.5,
+        height: 68,
+        margin: const EdgeInsets.only(top: 14),
+        padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 6),
+        child: CustomPaint(
+          painter: SketchBorderPainter(
+            color: AppColors.textMain,
+            backgroundColor: AppColors.background.withValues(alpha: 0.95),
+            strokeWidth: 2.2,
+            borderRadius: 28.0,
+            wobble: 1.9,
+            seed: 23,
+          ),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+            child: Obx(() {
+              final int currentIndex =
+                  Get.isRegistered<ScrollCoordinatorController>()
+                  ? Get.find<ScrollCoordinatorController>()
+                        .activeSectionIndex
+                        .value
+                  : (Get.isRegistered<NavigationController>()
+                        ? Get.find<NavigationController>().currentIndex
+                        : 0);
+
+              return Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisSize: MainAxisSize.min,
+                children: List.generate(items.length, (index) {
+                  final item = items[index];
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 6),
+                    child: NavBarButton(
+                      title: item.title,
+                      pageIndex: item.index,
+                      icon: item.icon,
+                      isSelected: currentIndex == item.index,
                     ),
-                  ),
-                ),
-              ),
-            ),
-            // Main outline box
-            Transform.rotate(
-              angle: -0.015,
-              child: Container(
-                decoration: BoxDecoration(
-                  color: Colors.transparent,
-                  borderRadius: BorderRadius.circular(28),
-                  border: Border.all(
-                    color: AppColors.textMain,
-                    width: 2.0,
-                  ),
-                ),
-                child: Transform.rotate(
-                  angle: 0.015,
-                  child: Obx(() {
-                    final int value = Get.isRegistered<ScrollCoordinatorController>() 
-                        ? Get.find<ScrollCoordinatorController>().activeSectionIndex.value 
-                        : Get.find<NavigationController>().currentIndex;
-                    return Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      mainAxisSize: MainAxisSize.min,
-                      children: List.generate(items.length, (index) {
-                        final item = items[index];
-                        return NavBarButton(
-                          title: item.title,
-                          icon: item.icon,
-                          pageIndex: item.index,
-                          isSelected: value == item.index,
-                        );
-                      }),
-                    );
-                  }),
-                ),
-              ),
-            ),
-          ],
+                  );
+                }),
+              );
+            }),
+          ),
         ),
       ),
     );
   }
 
   @override
-  Size get preferredSize => const Size.fromHeight(120);
+  Size get preferredSize => const Size.fromHeight(96);
 }
 
 class NavBarButton extends StatefulWidget {
@@ -114,66 +104,66 @@ class NavBarButton extends StatefulWidget {
 }
 
 class _NavBarButtonState extends State<NavBarButton> {
-  bool _isHovered = false;
   bool _isPressed = false;
 
   @override
   Widget build(BuildContext context) {
-    return MouseRegion(
-      onEnter: (_) => setState(() => _isHovered = true),
-      onExit: (_) => setState(() => _isHovered = false),
-      cursor: SystemMouseCursors.click,
-      child: Tooltip(
-        message: widget.title,
-        verticalOffset: 32,
-        decoration: BoxDecoration(
-          color: Colors.transparent,
-          border: Border.all(
-            color: AppColors.textMain,
-            width: 2,
-          ),
-        ),
-        textStyle: const TextStyle(
-          color: AppColors.textMain,
-          fontSize: 14,
-          fontWeight: FontWeight.w900,
-          letterSpacing: 1.0,
-          fontFamily: 'Patrick Hand',
-        ),
+    return Tooltip(
+      message: widget.title,
+      preferBelow: true,
+      verticalOffset: 28,
+      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
+      decoration: SketchTooltipDecoration(
+        backgroundColor: AppColors.background,
+        borderColor: AppColors.textMain,
+        strokeWidth: 1.9,
+        borderRadius: 10.0,
+        wobble: 1.5,
+        seed: widget.pageIndex * 13 + 11,
+      ),
+      textStyle: const TextStyle(
+        color: AppColors.textMain,
+        fontSize: 13,
+        fontWeight: FontWeight.w900,
+        letterSpacing: 1.0,
+        fontFamily: 'Patrick Hand',
+      ),
+      child: MouseRegion(
+        cursor: SystemMouseCursors.click,
         child: GestureDetector(
           onTapDown: (_) => setState(() => _isPressed = true),
           onTapUp: (_) {
             setState(() => _isPressed = false);
             if (Get.isRegistered<ScrollCoordinatorController>()) {
-              Get.find<ScrollCoordinatorController>().scrollToSection(widget.pageIndex);
-            } else {
+              Get.find<ScrollCoordinatorController>().scrollToSection(
+                widget.pageIndex,
+              );
+            } else if (Get.isRegistered<NavigationController>()) {
               Get.find<NavigationController>().setIndex(widget.pageIndex);
             }
           },
           onTapCancel: () => setState(() => _isPressed = false),
+          behavior: HitTestBehavior.opaque,
           child: AnimatedScale(
-            scale: _isPressed ? 0.90 : 1.0,
+            scale: _isPressed ? 0.85 : 1.0,
             duration: const Duration(milliseconds: 150),
             curve: Curves.easeOutCubic,
-            child: AnimatedContainer(
-              duration: const Duration(milliseconds: 300),
-              curve: Curves.easeOutCubic,
-              margin: const EdgeInsets.symmetric(horizontal: 8),
-              padding: const EdgeInsets.all(10),
-              decoration: BoxDecoration(
-                color: Colors.transparent,
-                shape: BoxShape.rectangle, // Keep it edgy for sketch
-                border: Border.all(
-                  color: widget.isSelected || _isHovered
-                      ? AppColors.textMain
-                      : Colors.transparent,
-                  width: 2,
+            child: SizedBox(
+              width: 48,
+              height: 48,
+              child: CustomPaint(
+                painter: widget.isSelected
+                    ? SketchBorderPainter(
+                        color: AppColors.textMain,
+                        strokeWidth: 1.9,
+                        borderRadius: 12.0,
+                        wobble: 1.5,
+                        seed: widget.pageIndex * 9 + 5,
+                      )
+                    : null,
+                child: Center(
+                  child: Icon(widget.icon, size: 22, color: AppColors.textMain),
                 ),
-              ),
-              child: Icon(
-                widget.icon,
-                color: AppColors.textMain,
-                size: 24,
               ),
             ),
           ),

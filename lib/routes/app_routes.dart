@@ -2,14 +2,20 @@ import 'package:get/get.dart';
 import '../features/app_shell/web_home_page.dart';
 
 class AppRoutes {
-  static const intro = '/intro';
+  static const home = '/';
+  static const intro = '/'; // Aliased to root so there is only ONE clean URL!
   static const about = '/about';
   static const works = '/works';
   static const contact = '/contact';
 
   static final routes = [
     GetPage(
-      name: intro,
+      name: home,
+      page: () => const WebHomePage(),
+      transition: Transition.noTransition,
+    ),
+    GetPage(
+      name: '/intro',
       page: () => const WebHomePage(),
       transition: Transition.noTransition,
     ),
@@ -25,11 +31,6 @@ class AppRoutes {
     ),
     GetPage(
       name: contact,
-      page: () => const WebHomePage(),
-      transition: Transition.noTransition,
-    ),
-    GetPage(
-      name: '/',
       page: () => const WebHomePage(),
       transition: Transition.noTransition,
     ),

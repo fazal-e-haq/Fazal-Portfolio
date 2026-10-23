@@ -38,8 +38,10 @@ flutter:
 
   # Assets — images, PDFs, and other static resources
   assets:
+    - assets/Images/brand/
     - assets/Images/my-image/
     - assets/Images/works/cutcount/
+    - assets/Images/works/copyflutter/
     - assets/Fazal-Resume.pdf
 
   # Custom Fonts — brand typography

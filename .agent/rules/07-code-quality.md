@@ -128,7 +128,7 @@ final display = nullableValue ?? 'Default';  // Provide fallback
 
 ### Commit Messages
 ```
-feat: add glassmorphic project card with hover effects
+feat: add sketch project card with hover effects
 fix: resolve CLS on hero section image load
 refactor: extract responsive spacing into utility
 style: apply consistent border radius tokens
@@ -138,8 +138,8 @@ docs: update README with deployment instructions
 
 ### Branch Rules
 - `main` — production, always deployable
-- `ultra-redesign` — current redesign work
-- Feature branches from `ultra-redesign` if needed
+- `redesign` — current redesign work
+- Feature branches from `redesign` if needed
 
 ### Prohibited in Commits
 - ❌ `print()` statements

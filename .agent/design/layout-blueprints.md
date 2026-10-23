@@ -45,16 +45,20 @@
 
 ## 📱 Breakpoint Layout Blueprints
 
-### Section 1: Hero / Introduction
-- **Desktop (>= 800px)**:
-  - Width constrained to 1200px.
-  - Freestanding portrait sized `700x900px` centered with interactive tilt.
-  - Background name typography rendered at `fontSize: width * 0.7`.
-  - Action buttons (`ButtonWidget`) for Projects and Resume.
-- **Mobile (< 800px)**:
-  - Portrait sized `400x520px`.
-  - Name rendered at `36px`, role at `20px`.
-  - Vertical stacking with touch-friendly tap targets.
+### Section 1: Hero / Introduction (Dynamic First Impression + 3D Scroll)
+- **Container Sizing**: Expanded width constrained to `maxWidth: 1680px` (Desktop/Ultrawide) for an expansive, editorial designer presentation.
+- **Initial Viewport State (Progress = 0.0)**:
+  - Very big uncropped preview of portrait centered (up to `820h × 1000w` desktop, `480w × 393h` mobile) respecting the image's natural `1.221` (1386:1135) aspect ratio.
+  - Background typography **HELLO** (`['H', 'E', 'L', 'L', 'O']`) scaled massively (up to `440px` desktop, `220px` mobile) in pure `Patrick Hand` with generous spacing (`42px` desktop, `18px` mobile) and `FittedBox` guaranteeing single-line display across all screen widths.
+  - Individual per-letter hover animation (lifts up `-18px`, scales `1.08x`, and darkens ink opacity to `0.85` on hover).
+  - Left-hand intro content is hidden at scroll 0.
+- **Scroll Down Transition (Progress 0.0 → 0.55)**:
+  - 100% GetX reactive architecture, zero `setState`.
+  - **HELLO Fade-Out**: Background `"HELLO"` text smoothly fades to `0.0` opacity and is removed from the render tree once hidden so it never clashes with the intro content.
+  - **3D Perspective Glide**: Portrait image glides to the right column with 3D perspective (`Matrix4` `rotateY` + `rotateX`), while the left intro content unfolds from 3D space with `"I am"` + `"FAZAL-E-HAQ"` and a hand-drawn `SketchDivider`.
+  - Expansive Intro Content Width: Left content column receives 58% of the available width (up to `980px` wide, `clamp(500.0, 980.0)`).
+- **Resting & Reading Scroll Plateau (Progress 0.55 → 1.0)**:
+  - The hero section remains stationary and pinned in the viewport for an extended **400px+ of comfortable scrolling** before receding into 3D space as the About section scrolls into view.
 
 ### Section 2: About (Bento Grid)
 - **Desktop (>= 800px)**:
@@ -67,7 +71,7 @@
 ### Section 3: Featured Works
 - **Container**: Constrained to 1200px width.
 - **Carousel**: Horizontal `ListView.builder` (height: 500px desktop, 450px mobile).
-- **Cards**: Hand-drawn `SketchCard` containers with screenshots, project logos, feature badges, and GitHub code URLs.
+- **Cards**: Hand-drawn `SketchProjectCard` containers with screenshots, project logos, feature badges, and GitHub code URLs.
 
 ### Section 4: Contact
 - **Container**: Max width 800px centered card.

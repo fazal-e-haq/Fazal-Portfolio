@@ -1,6 +1,9 @@
 import 'package:web/web.dart' as web;
+import 'analytics_service.dart';
 
 void downloadResume() {
+  AnalyticsService.logResumeDownload();
+
   // Flutter Web serves assets relative to the 'assets' directory.
   // Since the file is in 'assets/' in pubspec, the URL is 'assets/assets/Fazal-Resume.pdf'
   const url = 'assets/assets/Fazal-Resume.pdf';

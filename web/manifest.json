@@ -6,8 +6,8 @@
     "scope": "/",
     "id": "/",
     "display": "standalone",
-    "background_color": "#141518",
-    "theme_color": "#FF6E40",
+    "background_color": "#FDF0D5",
+    "theme_color": "#FDF0D5",
     "orientation": "any",
     "prefer_related_applications": false,
     "lang": "en",
@@ -40,16 +40,23 @@
     "screenshots": [],
     "shortcuts": [
         {
+            "name": "Introduction",
+            "short_name": "Intro",
+            "description": "Hero introduction and bio",
+            "url": "/",
+            "icons": [{ "src": "icons/Icon-192.png", "sizes": "192x192" }]
+        },
+        {
             "name": "About",
             "short_name": "About",
-            "description": "Learn about Fazal-e-Haq",
+            "description": "Learn about Fazal-e-Haq and tech stack",
             "url": "/about",
             "icons": [{ "src": "icons/Icon-192.png", "sizes": "192x192" }]
         },
         {
             "name": "Projects",
-            "short_name": "Work",
-            "description": "View portfolio projects",
+            "short_name": "Works",
+            "description": "View featured portfolio projects",
             "url": "/works",
             "icons": [{ "src": "icons/Icon-192.png", "sizes": "192x192" }]
         },

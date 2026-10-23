@@ -1,77 +1,206 @@
 import 'package:flutter/cupertino.dart';
+import 'package:get/get.dart';
 
 import '../../core/constants/app_sizes.dart';
 import '../../core/constants/projects_details.dart';
-import '../../features/project/project_model.dart';
-import '../../core/themes/theme.dart';
-import '../../widgets/animations/fade_in_up_widget.dart';
-import '../../widgets/sketch_card.dart';
+import '../../widgets/sketch_painter.dart';
+import '../app_shell/scroll_coordinator_controller.dart';
+import 'project_model.dart';
+import 'widgets/sketch_project_card.dart';
 
-class ProjectsSection extends StatelessWidget {
-  const ProjectsSection({super.key});
+/// Featured Works / Projects Section.
+///
+/// Architecture & Enhancements:
+/// 1. Latest Project First: Reverses `Projects().projects` (`projects.reversed.toList()`)
+///    so the last index (latest uploaded project) is displayed first upon entering the section.
+/// 2. Large Play Store Width: Expands up to `1480px` wide for a full Play Store showcase view.
+/// 3. Scroll-Driven Sticky Card Stack with Visible Titles:
+///    - As the user scrolls down through the section, each subsequent project slides up from
+///      below in 3D space and stacks on top of the previous card at `i * headerPeekHeight`.
+///    - Every stacked card beneath keeps its top `headerPeekHeight` title bar (Logo + Title +
+///      Short Description + Badge) 100% visible ("seenable title") at the top of the stack.
+class ProjectsSection extends StatefulWidget {
+  final ScrollController? scrollController;
+  final List<ProjectModel>? customProjects;
+
+  const ProjectsSection({
+    super.key,
+    this.scrollController,
+    this.customProjects,
+  });
+
+  @override
+  State<ProjectsSection> createState() => _ProjectsSectionState();
+}
+
+class _ProjectsSectionState extends State<ProjectsSection> {
+  final GlobalKey _stackTrackKey = GlobalKey();
+
+  ScrollController? _resolveScrollController() {
+    if (widget.scrollController != null) {
+      return widget.scrollController;
+    }
+    if (Get.isRegistered<ScrollCoordinatorController>()) {
+      return Get.find<ScrollCoordinatorController>().scrollController;
+    }
+    return null;
+  }
 
   @override
   Widget build(BuildContext context) {
+    final effectiveController = _resolveScrollController();
+
     return LayoutBuilder(
       builder: (context, constraints) {
         final bool isMobile = AppSizes.isMobile(constraints);
-        final projects = Projects().projects;
+        final bool isTablet = AppSizes.isTablet(constraints);
+        final List<ProjectModel> rawProjects =
+            widget.customProjects ?? Projects().projects;
+
+        // Render projects in chronological order: Project 1 (CutCount) then Project 2 (CopyFlutter)
+        final List<ProjectModel> orderedProjects = rawProjects;
+        final int count = orderedProjects.length;
+
+        final double headerPeekHeight = isMobile ? 64.0 : 74.0;
+        final double cardHeight = isMobile ? 590.0 : 630.0;
+        final double deckHeight = count > 0
+            ? cardHeight + ((count - 1) * headerPeekHeight)
+            : cardHeight;
+
+        final double scrollPerCard = isMobile ? 420.0 : 480.0;
+        final double extraScrollTrack = count > 1
+            ? ((count - 1) * scrollPerCard + 140.0)
+            : 0.0;
+        final double totalTrackHeight = deckHeight + extraScrollTrack;
+
+        final double horizontalPad = isMobile ? 16.0 : (isTablet ? 28.0 : 40.0);
+
+        // When only 1 project is featured (CutCount), render a clean, direct, butter-smooth view
+        if (count == 1) {
+          final ProjectModel project = orderedProjects.first;
+          return Center(
+            child: ConstrainedBox(
+              constraints: const BoxConstraints(maxWidth: 1480),
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: horizontalPad),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    SketchSectionHeader(
+                      tag: '02 // FEATURED WORK',
+                      title: 'Featured Project',
+                      subtitle:
+                          'A high-performance offline Flutter application crafted with clean architecture and Brutalist sketch design.',
+                      isMobile: isMobile,
+                      seed: 23,
+                    ),
+                    SizedBox(height: isMobile ? 28 : 44),
+                    SketchProjectCard(
+                      project: project,
+                      isMobile: isMobile,
+                      displayIndex: 1,
+                      isLatest: false,
+                      isStackedBehind: false,
+                      cardHeight: cardHeight,
+                      headerPeekHeight: headerPeekHeight,
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          );
+        }
+
+        Widget buildStackStage(double localScroll) {
+          // Precompute each card's stack progress (Card 0 is always 1.0 at the base)
+          final List<double> cardCurves = List<double>.filled(count, 1.0);
+          for (int i = 1; i < count; i++) {
+            final double rawT =
+                ((localScroll - ((i - 1) * scrollPerCard)) /
+                        (scrollPerCard * 0.82))
+                    .clamp(0.0, 1.0);
+            cardCurves[i] = Curves.easeOutCubic.transform(rawT);
+          }
+
+          return SizedBox(
+            key: _stackTrackKey,
+            height: totalTrackHeight,
+            width: double.infinity,
+            child: Stack(
+              clipBehavior: Clip.none,
+              children: [
+                Positioned(
+                  top: localScroll,
+                  left: 0,
+                  right: 0,
+                  height: deckHeight,
+                  child: Stack(
+                    clipBehavior: Clip.none,
+                    children: [
+                      for (int i = 0; i < count; i++)
+                        _buildStackedCardItem(
+                          stackIndex: i,
+                          totalCount: count,
+                          project: orderedProjects[i],
+                          originalNumber: i + 1,
+                          isMobile: isMobile,
+                          cardHeight: cardHeight,
+                          headerPeekHeight: headerPeekHeight,
+                          deckHeight: deckHeight,
+                          scrollPerCard: scrollPerCard,
+                          effectiveController: effectiveController,
+                          cardCurves: cardCurves,
+                        ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          );
+        }
 
         return Center(
           child: ConstrainedBox(
-            constraints: const BoxConstraints(maxWidth: 1200),
+            constraints: const BoxConstraints(maxWidth: 1480),
             child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: isMobile ? 16 : 80),
+              padding: EdgeInsets.symmetric(horizontal: horizontalPad),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Container(
-                        width: 32,
-                        height: 3,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(2),
-                          color: AppColors.secondary,
-                        ),
-                      ),
-                      const SizedBox(width: 12),
-                      const Text(
-                        'FEATURED WORKS',
-                        style: TextStyle(
-                          fontFamily: 'Patrick Hand',
-                          fontSize: 16,
-                          fontWeight: FontWeight.w600,
-                          color: AppColors.secondary,
-                          letterSpacing: 4.0,
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 64),
-                  
-                  // Horizontal 3D Carousel of Projects
-                  SizedBox(
-                    height: isMobile ? 450 : 500,
-                    child: ListView.builder(
-                      scrollDirection: Axis.horizontal,
-                      physics: const BouncingScrollPhysics(),
-                      itemCount: projects.length,
-                      itemBuilder: (context, index) {
-                        return Padding(
-                          padding: const EdgeInsets.only(right: 32),
-                          child: FadeInUpWidget(
-                            delay: Duration(milliseconds: 200 + (index * 150)),
-                            child: _ProjectGlassCard(
-                              project: projects[index],
-                              isMobile: isMobile,
-                            ),
-                          ),
-                        );
-                      },
+                    SketchSectionHeader(
+                      tag: '02 // FEATURED WORKS',
+                      title: 'Selected Projects',
+                      subtitle:
+                          'Production-grade Flutter mobile apps and web platforms crafted with clean architecture and Hand-Drawn design.',
+                      isMobile: isMobile,
+                      seed: 23,
                     ),
-                  ),
+                  SizedBox(height: isMobile ? 32 : 48),
+                  if (effectiveController != null && count > 1)
+                    AnimatedBuilder(
+                      animation: effectiveController,
+                      builder: (context, _) {
+                        double localScroll = 0.0;
+                        if (effectiveController.hasClients) {
+                          final RenderObject? renderObj = _stackTrackKey
+                              .currentContext
+                              ?.findRenderObject();
+                          if (renderObj is RenderBox && renderObj.hasSize) {
+                            final Offset pos = renderObj.localToGlobal(
+                              Offset.zero,
+                            );
+                            final double pinAnchorY = isMobile ? 84.0 : 112.0;
+                            localScroll = (pinAnchorY - pos.dy).clamp(
+                              0.0,
+                              extraScrollTrack,
+                            );
+                          }
+                        }
+                        return buildStackStage(localScroll);
+                      },
+                    )
+                  else
+                    buildStackStage(0.0),
                 ],
               ),
             ),
@@ -80,115 +209,96 @@ class ProjectsSection extends StatelessWidget {
       },
     );
   }
-}
 
-class _ProjectGlassCard extends StatefulWidget {
-  final ProjectModel project;
-  final bool isMobile;
+  Widget _buildStackedCardItem({
+    required int stackIndex,
+    required int totalCount,
+    required ProjectModel project,
+    required int originalNumber,
+    required bool isMobile,
+    required double cardHeight,
+    required double headerPeekHeight,
+    required double deckHeight,
+    required double scrollPerCard,
+    required ScrollController? effectiveController,
+    required List<double> cardCurves,
+  }) {
+    final double progress = cardCurves[stackIndex];
 
-  const _ProjectGlassCard({required this.project, required this.isMobile});
+    // How many subsequent cards have slid up on top of this card
+    double coveredByCount = 0.0;
+    for (int j = stackIndex + 1; j < totalCount; j++) {
+      coveredByCount += cardCurves[j];
+    }
 
-  @override
-  State<_ProjectGlassCard> createState() => _ProjectGlassCardState();
-}
+    final double restingTop = stackIndex * headerPeekHeight;
+    final double startTop = deckHeight + 72.0;
+    final double currentTop = stackIndex == 0
+        ? 0.0
+        : (startTop + (restingTop - startTop) * progress);
 
-class _ProjectGlassCardState extends State<_ProjectGlassCard> {
-  bool _isHovered = false;
+    final double opacity = stackIndex == 0
+        ? 1.0
+        : (progress * 2.2).clamp(0.0, 1.0);
 
-  @override
-  Widget build(BuildContext context) {
-    return MouseRegion(
-      onEnter: (_) => setState(() => _isHovered = true),
-      onExit: (_) => setState(() => _isHovered = false),
-      cursor: SystemMouseCursors.click,
-      child: AnimatedScale(
-        scale: _isHovered ? 1.02 : 1.0,
-        duration: const Duration(milliseconds: 300),
-        curve: Curves.easeOutCubic,
-        child: SketchCard(
-          width: widget.isMobile ? 320 : 400,
-          padding: EdgeInsets.zero, // We will pad inside
-          isHovered: _isHovered,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              // Mock Image area (gradient for now, can be an actual image later)
-              Expanded(
-                flex: 5,
-                child: ClipRRect(
-                  borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
-                  child: Container(
-                    decoration: const BoxDecoration(
-                      color: AppColors.primary,
-                      border: Border(
-                        bottom: BorderSide(color: AppColors.textMain, width: 2),
-                      ),
-                    ),
-                    child: const Center(
-                      child: Icon(CupertinoIcons.device_phone_portrait, size: 64, color: AppColors.textMain),
-                    ),
-                  ),
-                ),
+    final double stackedScale = (1.0 - (coveredByCount * 0.015)).clamp(
+      0.91,
+      1.0,
+    );
+
+    return Positioned(
+      top: currentTop,
+      left: 0,
+      right: 0,
+      height: cardHeight,
+      child: IgnorePointer(
+        ignoring: opacity < 0.15,
+        child: Opacity(
+          opacity: opacity,
+          child: Transform.scale(
+            alignment: Alignment.topCenter,
+            scaleX: stackedScale,
+            scaleY: 1.0,
+            child: RepaintBoundary(
+              child: SketchProjectCard(
+                project: project,
+                isMobile: isMobile,
+                displayIndex: originalNumber,
+                isLatest: false,
+                isStackedBehind: coveredByCount > 0.25,
+                stackCoverProgress: coveredByCount.clamp(0.0, 1.0),
+                cardHeight: cardHeight,
+                headerPeekHeight: headerPeekHeight,
+                onHeaderTap: (effectiveController != null && totalCount > 1)
+                    ? () {
+                        if (!effectiveController.hasClients) return;
+                        final RenderObject? renderObj = _stackTrackKey
+                            .currentContext
+                            ?.findRenderObject();
+                        if (renderObj is RenderBox && renderObj.hasSize) {
+                          final Offset pos = renderObj.localToGlobal(
+                            Offset.zero,
+                          );
+                          final double pinAnchorY = isMobile ? 84.0 : 112.0;
+                          final double baseScrollOffset =
+                              effectiveController.offset + pos.dy - pinAnchorY;
+                          final double targetLocal =
+                              stackIndex * scrollPerCard * 0.85;
+                          final double targetOffset =
+                              (baseScrollOffset + targetLocal).clamp(
+                                0.0,
+                                effectiveController.position.maxScrollExtent,
+                              );
+                          effectiveController.animateTo(
+                            targetOffset,
+                            duration: const Duration(milliseconds: 500),
+                            curve: Curves.easeInOutCubic,
+                          );
+                        }
+                      }
+                    : null,
               ),
-              
-              // Text Content Area
-              Expanded(
-                flex: 4,
-                child: Padding(
-                  padding: const EdgeInsets.all(24.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        widget.project.title,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: const TextStyle(
-                          fontFamily: 'Patrick Hand',
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                          color: AppColors.textMain,
-                        ),
-                      ),
-                      const SizedBox(height: 8),
-                      Expanded(
-                        child: Text(
-                          widget.project.description,
-                          maxLines: 3,
-                          overflow: TextOverflow.ellipsis,
-                          style: const TextStyle(
-                            fontFamily: 'Patrick Hand',
-                            fontSize: 13,
-                            color: AppColors.textSecondary,
-                            height: 1.5,
-                          ),
-                        ),
-                      ),
-                      const SizedBox(height: 12),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            'Explore Project',
-                            style: TextStyle(
-                              fontFamily: 'Patrick Hand',
-                              fontSize: 13,
-                              fontWeight: FontWeight.w600,
-                              color: _isHovered ? AppColors.primary : AppColors.secondary,
-                            ),
-                          ),
-                          Icon(
-                            CupertinoIcons.arrow_right,
-                            size: 16,
-                            color: _isHovered ? AppColors.primary : AppColors.secondary,
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ],
+            ),
           ),
         ),
       ),

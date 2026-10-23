@@ -28,17 +28,6 @@ class AppColors {
   }) {
     return [];
   }
-
-  /// Legacy wrapper to fix compilation errors for older components.
-  /// Returns empty list to enforce pure outline theme.
-  static List<BoxShadow> neumorphicShadows({
-    bool isPressed = false,
-    double distance = 6.0,
-    double blur = 12.0,
-    Color? glowColor,
-  }) {
-    return [];
-  }
 }
 
 /// The main theme configuration for the application (Sketch Mode)
@@ -96,7 +85,9 @@ final ThemeData mainTheme = ThemeData(
       foregroundColor: AppColors.textMain,
       padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 15),
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(16), // Sharp corners for sketch look
+        borderRadius: BorderRadius.circular(
+          16,
+        ), // Sharp corners for sketch look
         side: const BorderSide(
           color: AppColors.textMain,
           width: 2,

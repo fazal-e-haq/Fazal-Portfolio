@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:url_launcher/url_launcher.dart';
-
+import '../../services/analytics_service.dart';
 
 class ContactController extends GetxController {
   final TextEditingController nameController = TextEditingController();
@@ -27,6 +27,16 @@ class ContactController extends GetxController {
   final _isSending = false.obs;
   bool get isSending => _isSending.value;
 
+  final selectedScopes = <String>{}.obs;
+
+  void toggleScope(String scope) {
+    if (selectedScopes.contains(scope)) {
+      selectedScopes.remove(scope);
+    } else {
+      selectedScopes.add(scope);
+    }
+  }
+
   void _setSending(bool value) {
     _isSending.value = value;
   }
@@ -41,37 +51,43 @@ class ContactController extends GetxController {
     messageError.value = message.isEmpty ? 'Please enter a message' : null;
 
     if (name.isEmpty || email.isEmpty || message.isEmpty) {
-
       return;
     }
 
+    AnalyticsService.logContactSubmit();
     _setSending(true);
 
     try {
       String? encodeQueryParameters(Map<String, String> params) {
         return params.entries
-            .map((MapEntry<String, String> e) =>
-                '${Uri.encodeComponent(e.key)}=${Uri.encodeComponent(e.value)}')
+            .map(
+              (MapEntry<String, String> e) =>
+                  '${Uri.encodeComponent(e.key)}=${Uri.encodeComponent(e.value)}',
+            )
             .join('&');
       }
 
+      final String scopesText = selectedScopes.isNotEmpty
+          ? ' [${selectedScopes.join(', ')}]'
+          : '';
+
       final Uri emailUri = Uri(
         scheme: 'mailto',
-        path: 'fazal.e.haq216@gmail.com',
+        path: 'fazalehaq37405@gmail.com',
         query: encodeQueryParameters(<String, String>{
-          'subject': 'Portfolio Contact: Message from $name',
-          'body': 'Name: $name\nEmail: $email\n\nMessage:\n$message',
+          'subject': 'Portfolio Dispatch$scopesText: from $name',
+          'body':
+              'Name: $name\nEmail: $email\nScope: ${selectedScopes.join(', ')}\n\nMessage:\n$message',
         }),
       );
 
       await launchUrl(emailUri, mode: LaunchMode.externalApplication);
 
-
-
       // Clear form
       nameController.clear();
       emailController.clear();
       messageController.clear();
+      selectedScopes.clear();
     } catch (e) {
       // Removed error snackbar as requested
     } finally {

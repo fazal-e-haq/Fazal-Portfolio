@@ -67,11 +67,24 @@ Rather than standard straight rectangles, cards simulate hand-drawn pen sketches
 - Painted with faint pencil strokes (`0.03` and `0.02` opacity).
 - Contains intentional periodic "crooked" secondary lines to mimic hand-ruled paper.
 
-### 3. `ButtonWidget` Sketch Interaction
+### 3. `SketchButton` Interactive Action
 - Dual-border structure matching `SketchCard`.
+- Scribble secondary border rotated counter-clockwise (`-0.025 rad`) with `0.3` opacity charcoal line.
+- Main border rotated clockwise (`+0.015 rad`) with `2.0px` charcoal border, counter-rotating the label for crisp readability.
 - Hover trigger: slight lift (`-0.05` slide offset, `1.05x` scale).
 - Tap trigger: press depth (`+0.05` slide offset, `0.95x` scale).
 - Outlined with pure charcoal borders, zero colored fill.
+- Backward compatibility: `ButtonWidget` is exported as a direct typedef alias of `SketchButton`.
+
+### 4. `SketchTextField` Hand-Drawn Inputs
+- Dual-border layout: background scribble border (`-0.020 rad`) and primary input container.
+- Reactive GetX state handling (`TextFieldController`) for focus, hover, and validation.
+- Focus trigger: border thickens from 2.0px to 3.0px with instant active indicator.
+- Fully transparent input field with `Patrick Hand` typography.
+
+### 5. `SketchProjectCard` Showcase Architecture
+- Dual-compartment sketch container: Top screenshot showcase with charcoal divider border, bottom metadata column with project tags and repo links.
+- Tactile hover elevation: Scales by `1.02x` on hover and elevates the inner `SketchCard` by `-3px`.
 
 ---
 

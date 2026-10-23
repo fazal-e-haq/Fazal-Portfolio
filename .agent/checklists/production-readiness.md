@@ -97,7 +97,7 @@
 
 ## 🚀 Deploy Steps
 
-1. Merge `ultra-redesign` → `main`
+1. Merge `redesign` → `main`
 2. Run full checklist one final time on `main`
 3. `flutter build web --release --web-renderer canvaskit --tree-shake-icons`
 4. `firebase deploy --only hosting`

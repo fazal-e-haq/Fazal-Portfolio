@@ -12,4 +12,16 @@ class AboutController extends GetxController {
       _hoverStates[key] = value;
     }
   }
+
+  final selectedPerspective = 0.obs;
+
+  void setPerspective(int index) {
+    selectedPerspective.value = index;
+  }
+
+  final selectedTechCategory = 'All'.obs;
+
+  void setTechCategory(String category) {
+    selectedTechCategory.value = category;
+  }
 }
