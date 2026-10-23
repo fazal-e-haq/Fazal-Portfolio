@@ -25,7 +25,9 @@ class ResponsiveText extends StatelessWidget {
     // Otherwise, Poppins is used (either from theme or explicitly here)
     final TextStyle baseStyle = style ?? const TextStyle();
     final TextStyle finalStyle = baseStyle.copyWith(
-      fontFamily: isHeading ? 'Unbounded' : (baseStyle.fontFamily ?? 'Poppins'),
+      fontFamily: isHeading
+          ? 'Patrick Hand'
+          : (baseStyle.fontFamily ?? 'Patrick Hand'),
     );
 
     return AutoSizeText(

@@ -30,6 +30,7 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^6.0.0         # Recommended lint rules for Flutter
+  image: ^4.10.1
 
 # ── Flutter Configuration ───────────────────────────────────────────────────
 flutter:
@@ -37,16 +38,16 @@ flutter:
 
   # Assets — images, PDFs, and other static resources
   assets:
+    - assets/Images/brand/
+    - assets/Images/my-image/
     - assets/Images/works/cutcount/
-    - assets/Images/my-filter-pic/full-preview.jpeg
-    - assets/Images/my-filter-pic/black-full.jpeg
+    - assets/Images/works/copyflutter/
     - assets/Fazal-Resume.pdf
 
   # Custom Fonts — brand typography
   fonts:
-    - family: Poppins
+    - family: 'Patrick Hand'
       fonts:
-        - asset: assets/fonts/poppins/Poppins-Regular.ttf
-    - family: Unbounded
-      fonts:
-        - asset: assets/fonts/unbounded/Unbounded-Regular.ttf
+        - asset: assets/fonts/patrick-hand/PatrickHand-Regular.ttf
+
+

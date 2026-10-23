@@ -1,14 +1,18 @@
 {
-    "name": "fazal-portfolio",
-    "short_name": "fazal-portfolio",
+    "name": "Fazal-e-Haq Portfolio",
+    "short_name": "Fazal Portfolio",
+    "description": "Professional portfolio of Fazal-e-Haq — Flutter Developer & UI/UX Designer. Building beautiful, high-performance cross-platform mobile and web applications.",
     "start_url": "/",
     "scope": "/",
+    "id": "/",
     "display": "standalone",
-    "background_color": "#FF6E40",
-    "theme_color": "#FF6E40",
-    "description": "Personal portfolio of Fazal-e-Haq, showcasing Flutter, mobile, and web development projects.",
-    "orientation": "portrait-primary",
+    "background_color": "#FDF0D5",
+    "theme_color": "#FDF0D5",
+    "orientation": "any",
     "prefer_related_applications": false,
+    "lang": "en",
+    "dir": "ltr",
+    "categories": ["portfolio", "development", "design"],
     "icons": [
         {
             "src": "icons/Icon-192.png",
@@ -24,13 +28,44 @@
             "src": "icons/Icon-maskable-192.png",
             "sizes": "192x192",
             "type": "image/png",
-            "purpose": "any maskable"
+            "purpose": "maskable"
         },
         {
             "src": "icons/Icon-maskable-512.png",
             "sizes": "512x512",
             "type": "image/png",
-            "purpose": "any maskable"
+            "purpose": "maskable"
+        }
+    ],
+    "screenshots": [],
+    "shortcuts": [
+        {
+            "name": "Introduction",
+            "short_name": "Intro",
+            "description": "Hero introduction and bio",
+            "url": "/",
+            "icons": [{ "src": "icons/Icon-192.png", "sizes": "192x192" }]
+        },
+        {
+            "name": "About",
+            "short_name": "About",
+            "description": "Learn about Fazal-e-Haq and tech stack",
+            "url": "/about",
+            "icons": [{ "src": "icons/Icon-192.png", "sizes": "192x192" }]
+        },
+        {
+            "name": "Projects",
+            "short_name": "Works",
+            "description": "View featured portfolio projects",
+            "url": "/works",
+            "icons": [{ "src": "icons/Icon-192.png", "sizes": "192x192" }]
+        },
+        {
+            "name": "Contact",
+            "short_name": "Contact",
+            "description": "Get in touch with Fazal-e-Haq",
+            "url": "/contact",
+            "icons": [{ "src": "icons/Icon-192.png", "sizes": "192x192" }]
         }
     ]
 }

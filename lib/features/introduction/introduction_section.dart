@@ -1,535 +1,211 @@
-import 'dart:async';
-import 'package:animated_text_kit/animated_text_kit.dart';
+import 'dart:math' as math;
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../../core/constants/app_sizes.dart';
 import '../../../core/themes/theme.dart';
-import '../../../widgets/animations/fade_in_up_widget.dart';
-import '../../../widgets/button/button_widget.dart';
-import '../../../widgets/responsive_text.dart';
-import '../../../widgets/section_background_text.dart';
-import '../project/project_controller.dart';
-import '../../../services/resume_downloader.dart';
+import '../app_shell/scroll_coordinator_controller.dart';
+import 'introduction_controller.dart';
+import 'widgets/hello_watermark_widget.dart';
+import 'widgets/intro_details_content.dart';
 
-/// Introduction section — The Hero Page
-/// Features a stunning 10/10 Neomorphic layout, responsive across all screens.
-class Introduction extends StatelessWidget {
-  const Introduction({super.key});
+/// The Hero Introduction Section of the portfolio.
+///
+/// Architecture & State Management:
+/// - Uses [IntroductionController] (GetX) to manage scroll progress and per-letter hover states.
+/// - Composes reusable, single-responsibility widgets:
+///   - [HelloWatermarkWidget]: Interactive auto-cycling "HELLO" watermark letters that morph letter-by-letter.
+///   - [IntroDetailsContent]: Personal bio ("I am", "FAZAL-E-HAQ", "Flutter Developer", CTA buttons).
+///   - [_ScrollDownIndicator]: Bouncing, hand-sketched scroll-down prompt with arrow indicator.
+/// - Uses a smooth, flat **Sketchbook Page Glide** transition (zero 3D skewing/tilting)
+///   that keeps all hand-drawn typography and artwork crisp, level, and responsive across
+///   Mobile, Tablet, and Desktop viewports.
+class Introduction extends StatefulWidget {
+  final ScrollController? scrollController;
+
+  const Introduction({super.key, this.scrollController});
+
+  @override
+  State<Introduction> createState() => _IntroductionState();
+}
+
+class _IntroductionState extends State<Introduction> {
+  late final IntroductionController _introController;
+
+  /// Natural aspect ratio of `assets/Images/my-image/my-pic.webp` (1386w x 1135h).
+  static const double _imageAspectRatio = 1386.0 / 1135.0;
+
+  @override
+  void initState() {
+    super.initState();
+    _introController = Get.isRegistered<IntroductionController>()
+        ? Get.find<IntroductionController>()
+        : Get.put(IntroductionController());
+  }
+
+  /// Resolves the active [ScrollController] from widget props or [ScrollCoordinatorController].
+  ScrollController? _resolveScrollController() {
+    if (widget.scrollController != null) {
+      return widget.scrollController;
+    }
+    if (Get.isRegistered<ScrollCoordinatorController>()) {
+      return Get.find<ScrollCoordinatorController>().scrollController;
+    }
+    return null;
+  }
+
+  void _onScrollDownTapped(double transitionDistance) {
+    final effectiveScrollController = _resolveScrollController();
+    if (effectiveScrollController != null &&
+        effectiveScrollController.hasClients) {
+      if (effectiveScrollController.offset < transitionDistance * 0.7) {
+        effectiveScrollController.animateTo(
+          transitionDistance,
+          duration: const Duration(milliseconds: 700),
+          curve: Curves.easeInOutCubic,
+        );
+      } else if (Get.isRegistered<ScrollCoordinatorController>()) {
+        Get.find<ScrollCoordinatorController>().scrollToSection(1);
+      }
+    } else if (Get.isRegistered<ScrollCoordinatorController>()) {
+      Get.find<ScrollCoordinatorController>().scrollToSection(1);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
+    final ScrollController? effectiveScrollController =
+        _resolveScrollController();
+
     return LayoutBuilder(
       builder: (context, constraints) {
-        final double width = constraints.maxWidth;
-        final bool isMobile = width < 600;
-        final bool isTablet = width >= 600 && width < 1100;
+        final double screenHeight = MediaQuery.of(context).size.height;
+        final double screenWidth = MediaQuery.of(context).size.width;
+        final bool isMobile = AppSizes.isMobile(constraints);
+        final bool isTablet = AppSizes.isTablet(constraints);
 
-        final Widget content = isMobile
-            ? const _MobileIntro()
-            : _DesktopTabletIntro(isTablet: isTablet);
+        // Scroll distance over which the hero transitions from the initial "HELLO" view
+        // into the full Intro layout before scrolling naturally to the next section.
+        final double transitionDistance = isMobile ? 480.0 : 550.0;
+        final double heroViewportHeight = isMobile
+            ? (screenHeight * 0.95)
+            : screenHeight;
+        final double totalSectionHeight =
+            heroViewportHeight + transitionDistance;
 
-        return Stack(
-          children: [
-            const Positioned.fill(child: SectionBackgroundText(text: 'INTRO')),
-            Positioned.fill(child: content),
-          ],
-        );
-      },
-    );
-  }
-}
+        Widget buildReactiveStage(double scrollOffset) {
+          // Keep GetX controller in sync
+          _introController.updateScrollProgress(
+            scrollOffset,
+            transitionDistance,
+          );
+          final double pinnedY = scrollOffset.clamp(0.0, transitionDistance);
+          final double progress = (scrollOffset / transitionDistance).clamp(
+            0.0,
+            1.0,
+          );
+          final double helloFade = _introController.computeHelloFade(progress);
+          final double portraitGlide = _introController.computePortraitGlide(
+            progress,
+          );
+          final double introReveal = _introController.computeIntroReveal(
+            progress,
+          );
 
-// ────────────────────────────────────────────────────────────────────────────
-//  Desktop / Tablet Layout
-// ────────────────────────────────────────────────────────────────────────────
-class _DesktopTabletIntro extends StatelessWidget {
-  const _DesktopTabletIntro({required this.isTablet});
-
-  final bool isTablet;
-
-  @override
-  Widget build(BuildContext context) {
-    final double nameFontSize = isTablet ? 36.0 : 56.0;
-    final double roleFontSize = isTablet ? 22.0 : 35.0;
-    final double imageWidth = isTablet ? 280.0 : 380.0;
-    final double imageHeight = isTablet ? 380.0 : 500.0; // Rectangular portrait
-
-    return Center(
-      child: ConstrainedBox(
-        constraints: const BoxConstraints(maxWidth: 1200),
-        child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: isTablet ? 40 : 80),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              // LEFT: Profile Image
-              Expanded(
-                flex: 4,
-                child: Center(
-                  child: FadeInUpWidget(
-                    delay: const Duration(milliseconds: 200),
-                    child: _DesktopImagePreview(
-                      width: imageWidth,
-                      height: imageHeight,
-                    ),
-                  ),
-                ),
-              ),
-              SizedBox(width: isTablet ? 40 : 80),
-              // RIGHT: Text Content
-              Expanded(
-                flex: 5,
-                child: _IntroContent(
-                  nameFontSize: nameFontSize,
-                  roleFontSize: roleFontSize,
-                  alignment: CrossAxisAlignment.start,
-                  textAlign: TextAlign.left,
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-// ────────────────────────────────────────────────────────────────────────────
-//  Mobile Layout
-// ────────────────────────────────────────────────────────────────────────────
-class _MobileIntro extends StatelessWidget {
-  const _MobileIntro();
-
-  @override
-  Widget build(BuildContext context) {
-    return const SingleChildScrollView(
-      physics: BouncingScrollPhysics(),
-      child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 24, vertical: 40),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Center(
-              child: FadeInUpWidget(
-                delay: Duration(milliseconds: 200),
-                child: _MobileImagePreview(size: 260),
-              ),
-            ),
-            SizedBox(height: 40),
-            _IntroContent(
-              nameFontSize: 28.0,
-              roleFontSize: 18.0,
-              alignment: CrossAxisAlignment.start,
-              textAlign: TextAlign.left,
-            ),
-            SizedBox(height: 80), // extra padding at bottom
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-// ────────────────────────────────────────────────────────────────────────────
-//  Shared Content Widget (Text & Button)
-// ────────────────────────────────────────────────────────────────────────────
-class _IntroContent extends StatelessWidget {
-  const _IntroContent({
-    required this.nameFontSize,
-    required this.roleFontSize,
-    required this.alignment,
-    required this.textAlign,
-  });
-
-  final double nameFontSize;
-  final double roleFontSize;
-  final CrossAxisAlignment alignment;
-  final TextAlign textAlign;
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      crossAxisAlignment: alignment,
-      children: [
-        // Greeting with accent line
-        FadeInUpWidget(
-          delay: const Duration(milliseconds: 400),
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              // Accent line
-              Container(
-                width: 32,
-                height: 2.5,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(2),
-                  gradient: const LinearGradient(
-                    colors: [AppColors.primary, AppColors.secondary],
-                  ),
-                ),
-              ),
-              const SizedBox(width: 12),
-              // Greeting text
-              const Text(
-                'Hello, I am',
-                style: TextStyle(
-                  fontFamily: 'Poppins',
-                  fontSize: 15,
-                  fontWeight: FontWeight.w500,
-                  color: AppColors.primary,
-                  letterSpacing: 3.0,
-                ),
-              ),
-            ],
-          ),
-        ),
-        const SizedBox(height: 4),
-
-        // Name
-        FadeInUpWidget(
-          delay: const Duration(milliseconds: 600),
-          child: RepaintBoundary(
-            // Isolate rapid text scrambling repaints
-            child: FittedBox(
-              fit: BoxFit.scaleDown,
-              child: _AnimatedGradientText(
-                child: AnimatedTextKit(
-                  isRepeatingAnimation: false,
-                  totalRepeatCount: 1,
-                  animatedTexts: [
-                    ScrambleAnimatedText(
-                      'FAZAL-E-HAQ',
-                      speed: const Duration(milliseconds: 200),
-                      textAlign: textAlign,
-                      textStyle: TextStyle(
-                        fontFamily: 'Unbounded',
-                        fontSize: nameFontSize,
-                        fontWeight: FontWeight.w900,
-                        color: Colors
-                            .white, // The gradient colors will show through this
-                        letterSpacing: 2.0,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ),
-        ),
-
-        // Role
-        FadeInUpWidget(
-          delay: const Duration(milliseconds: 800),
-          child: RepaintBoundary(
-            child: AnimatedTextKit(
-              repeatForever: true,
-              pause: const Duration(seconds: 3),
-              animatedTexts: [
-                TyperAnimatedText(
-                  'Product Designer',
-                  textAlign: textAlign,
-                  speed: const Duration(milliseconds: 80),
-                  textStyle: TextStyle(
-                    fontFamily: 'Unbounded',
-                    fontSize: roleFontSize,
-                    fontWeight: FontWeight.w600,
-                    color: AppColors.secondary,
-                    letterSpacing: 3.0,
-                  ),
-                ),
-                TyperAnimatedText(
-                  'Flutter Developer',
-                  textAlign: textAlign,
-                  speed: const Duration(milliseconds: 80),
-                  textStyle: TextStyle(
-                    fontFamily: 'Unbounded',
-                    fontSize: roleFontSize,
-                    fontWeight: FontWeight.w600,
-                    color: AppColors.secondary,
-                    letterSpacing: 3.0,
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
-        const SizedBox(height: 32),
-
-        // Bio tagline
-        FadeInUpWidget(
-          delay: const Duration(milliseconds: 1000),
-          child: ResponsiveText(
-            'I believe great software is built with intention, not haste. Every interface, interaction, and line of code is carefully crafted to create products that are fast, intuitive, and built to last.',
-            textAlign: textAlign,
-            style: const TextStyle(
-              fontFamily: 'Poppins',
-              fontSize: 15,
-              color: AppColors.textSecondary,
-              height: 1.6,
-              letterSpacing: 0.5,
-            ),
-          ),
-        ),
-        const SizedBox(height: 48),
-
-        // Action Row: Resume Button + Active Signal
-        FadeInUpWidget(
-          delay: const Duration(milliseconds: 1200),
-          child: Wrap(
-            crossAxisAlignment: WrapCrossAlignment.center,
-            alignment: textAlign == TextAlign.center
-                ? WrapAlignment.center
-                : WrapAlignment.start,
-            spacing: 24,
-            runSpacing: 24,
-            children: [
-              const _MagneticButton(
-                child: ButtonWidget(
-                  onPressed: downloadResume,
-                  icon: Icon(CupertinoIcons.arrow_down, size: 20),
-                  text: Text(
-                    'My Resume',
-                    style: TextStyle(
-                      fontFamily: 'Poppins',
-                      fontWeight: FontWeight.w600,
-                      letterSpacing: 1.0,
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-        const SizedBox(height: 64),
-
-        // Stats Row (Experience, Projects, Followers)
-        FadeInUpWidget(
-          delay: const Duration(milliseconds: 1400),
-          child: SizedBox(
+          return SizedBox(
+            height: totalSectionHeight,
             width: double.infinity,
-            child: FittedBox(
-              fit: BoxFit.scaleDown,
-              alignment: textAlign == TextAlign.center
-                  ? Alignment.center
-                  : Alignment.centerLeft,
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  const _StatItem(value: '0.4', label: 'Years\nExperience'),
-                  const SizedBox(width: 32),
-                  Container(
-                    height: 40,
-                    width: 1,
-                    color: Colors.white.withValues(alpha: 0.1),
-                  ),
-                  const SizedBox(width: 32),
-                  const _StatItem(value: '1+', label: 'Projects\nCompleted'),
-                  const SizedBox(width: 32),
-                  Container(
-                    height: 40,
-                    width: 1,
-                    color: Colors.white.withValues(alpha: 0.1),
-                  ),
-                  const SizedBox(width: 32),
-                  const _StatItem(value: '1k', label: 'Followers'),
-                ],
-              ),
-            ),
-          ),
-        ),
-      ],
-    );
-  }
-}
-
-class _StatItem extends StatelessWidget {
-  final String value;
-  final String label;
-
-  const _StatItem({required this.value, required this.label});
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      mainAxisSize: MainAxisSize.min,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        Text(
-          value,
-          style: const TextStyle(
-            fontFamily: 'Unbounded',
-            fontSize: 32,
-            fontWeight: FontWeight.w900,
-            color: AppColors.primary,
-          ),
-        ),
-        const SizedBox(width: 12),
-        Text(
-          label,
-          style: const TextStyle(
-            fontFamily: 'Poppins',
-            fontSize: 12,
-            height: 1.3,
-            color: AppColors.textSecondary,
-          ),
-        ),
-      ],
-    );
-  }
-}
-
-// ────────────────────────────────────────────────────────────────────────────
-//  Desktop Stacked Rectangular Image Preview
-// ────────────────────────────────────────────────────────────────────────────
-class _DesktopImagePreview extends StatefulWidget {
-  const _DesktopImagePreview({required this.width, required this.height});
-
-  final double width;
-  final double height;
-
-  @override
-  State<_DesktopImagePreview> createState() => _DesktopImagePreviewState();
-}
-
-class _DesktopImagePreviewState extends State<_DesktopImagePreview> {
-  final ValueNotifier<Offset> _localMousePos = ValueNotifier<Offset>(
-    Offset.zero,
-  );
-  bool _isHovered = false;
-
-  @override
-  void dispose() {
-    _localMousePos.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final controller = Get.find<ProjectController>();
-    return MouseRegion(
-      onEnter: (_) {
-        setState(() => _isHovered = true);
-        controller.setHovered('intro_image', true);
-      },
-      onExit: (_) {
-        setState(() => _isHovered = false);
-        _localMousePos.value = Offset.zero; // reset
-        controller.setHovered('intro_image', false);
-      },
-      onHover: (event) {
-        final RenderBox? box = context.findRenderObject() as RenderBox?;
-        if (box != null) {
-          final Offset center = Offset(box.size.width / 2, box.size.height / 2);
-          _localMousePos.value =
-              event.localPosition - center; // delta from center
-        }
-      },
-      cursor: SystemMouseCursors.click,
-      child: ValueListenableBuilder<Offset>(
-        valueListenable: _localMousePos,
-        builder: (context, delta, child) {
-          // Normalize the delta (-1 to 1) based on center
-          double dx = _isHovered ? (delta.dx / (widget.width / 2)) : 0;
-          double dy = _isHovered ? (delta.dy / (widget.height / 2)) : 0;
-
-          // Max rotation is approx 0.1 radians
-          double maxTilt = 0.1;
-          double rotateX = dy * maxTilt * -1; // tilt towards mouse
-          double rotateY = dx * maxTilt;
-
-          final Matrix4 transform = Matrix4.identity()
-            ..setEntry(3, 2, 0.001) // subtle perspective
-            ..rotateX(rotateX)
-            ..rotateY(rotateY);
-
-          return AnimatedContainer(
-            duration: const Duration(milliseconds: 150),
-            curve: Curves.easeOutCubic,
-            transform: transform,
-            transformAlignment: FractionalOffset.center,
-            width: widget.width,
-            height: widget.height,
             child: Stack(
-              alignment: Alignment.center,
               clipBehavior: Clip.none,
               children: [
-                // 1. Backing Neomorphic Offset Frame (Parallax moving opposite)
-                AnimatedPositioned(
-                  duration: const Duration(milliseconds: 300),
-                  curve: Curves.easeOutCubic,
-                  top: 24 - (dy * 15),
-                  left: -24 - (dx * 15),
-                  right: 24 + (dx * 15),
-                  bottom: -24 + (dy * 15),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: AppColors.surface,
-                      borderRadius: BorderRadius.circular(24),
-                      border: Border.all(
-                        color: _isHovered
-                            ? AppColors.primary.withValues(alpha: 0.6)
-                            : AppColors.textMuted.withValues(alpha: 0.1),
-                        width: 2,
-                      ),
-                      boxShadow: AppColors.neumorphicShadows(
-                        distance: _isHovered ? 16 : 8,
-                        blur: _isHovered ? 24 : 16,
-                        glowColor: _isHovered ? AppColors.primary : null,
-                      ),
-                    ),
-                  ),
-                ),
-
-                // 2. Front Image Card
-                AnimatedPositioned(
-                  duration: const Duration(milliseconds: 300),
-                  curve: Curves.easeOutCubic,
-                  top: -12 + (dy * 8),
-                  left: 12 + (dx * 8),
-                  right: -12 - (dx * 8),
-                  bottom: 12 - (dy * 8),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(24),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withValues(alpha: 0.6),
-                          blurRadius: 30,
-                          offset: Offset(dx * -15, 15 + dy * -15),
+                Positioned(
+                  top: pinnedY,
+                  left: 0,
+                  right: 0,
+                  height: heroViewportHeight,
+                  child: Center(
+                    child: ConstrainedBox(
+                      constraints: const BoxConstraints(maxWidth: 1680),
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(
+                          horizontal: isMobile
+                              ? 16.0
+                              : (isTablet
+                                    ? 24.0
+                                    : (screenWidth > 1400 ? 48.0 : 32.0)),
+                          vertical: isMobile ? 12.0 : 24.0,
                         ),
-                      ],
-                    ),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(24),
-                      child: AnimatedScale(
-                        duration: const Duration(seconds: 15),
-                        scale: _isHovered ? 1.08 : 1.0,
-                        curve: Curves.easeOutCubic,
-                        child: Stack(
-                          fit: StackFit.expand,
-                          children: [
-                            Image.asset(
-                              'assets/Images/my-filter-pic/black-full.jpeg',
-                              fit: BoxFit.cover,
-                              filterQuality: FilterQuality.high,
-                            ),
-                            AnimatedOpacity(
-                              duration: const Duration(
-                                milliseconds: 1000,
-                              ), // Very smooth & attractive fade
-                              curve: Curves.easeInOutCubic,
-                              opacity: _isHovered ? 1.0 : 0.0,
-                              child: Image.asset(
-                                'assets/Images/my-filter-pic/full-preview.jpeg',
-                                fit: BoxFit.cover,
-                                filterQuality: FilterQuality.high,
-                              ),
-                            ),
-                          ],
+                        child: LayoutBuilder(
+                          builder: (context, heroBox) {
+                            final double heroWidth = heroBox.maxWidth;
+                            final double heroHeight = heroBox.maxHeight;
+
+                            return Stack(
+                              alignment: Alignment.center,
+                              children: [
+                                // 1. Subtle hand-drawn sketchbook orbital ring on first view
+                                if (helloFade > 0.01)
+                                  IgnorePointer(
+                                    child: Opacity(
+                                      opacity: helloFade,
+                                      child: SizedBox(
+                                        width: heroWidth,
+                                        height: heroHeight,
+                                        child: CustomPaint(
+                                          painter: _SketchbookHaloPainter(
+                                            isMobile: isMobile,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+
+                                // 2. Interactive "HELLO" watermark (auto-cycling letter by letter)
+                                HelloWatermarkWidget(
+                                  screenWidth: screenWidth,
+                                  isMobile: isMobile,
+                                  scrollFade: helloFade,
+                                ),
+
+                                // 3. Responsive Sketchbook Hero Stage (Bigger Portrait, Desktop/Tablet or Mobile)
+                                SizedBox(
+                                  width: heroWidth,
+                                  height: heroHeight,
+                                  child: heroWidth >= 880
+                                      ? _DesktopSketchHeroStage(
+                                          heroWidth: heroWidth,
+                                          heroHeight: heroHeight,
+                                          portraitGlide: portraitGlide,
+                                          introReveal: introReveal,
+                                          imageAspectRatio: _imageAspectRatio,
+                                        )
+                                      : _MobileSketchHeroStage(
+                                          heroWidth: heroWidth,
+                                          heroHeight: heroHeight,
+                                          portraitGlide: portraitGlide,
+                                          introReveal: introReveal,
+                                          imageAspectRatio: _imageAspectRatio,
+                                        ),
+                                ),
+
+                                // 4. Hand-drawn bouncing "SCROLL DOWN" prompt at the bottom
+                                if (helloFade > 0.05)
+                                  Positioned(
+                                    bottom: isMobile ? 12.0 : 22.0,
+                                    child: _ScrollDownIndicator(
+                                      opacity: (1.0 - (progress * 3.0)).clamp(
+                                        0.0,
+                                        1.0,
+                                      ),
+                                      isMobile: isMobile,
+                                      onTap: () => _onScrollDownTapped(
+                                        transitionDistance,
+                                      ),
+                                    ),
+                                  ),
+                              ],
+                            );
+                          },
                         ),
                       ),
                     ),
@@ -538,162 +214,407 @@ class _DesktopImagePreviewState extends State<_DesktopImagePreview> {
               ],
             ),
           );
-        },
-      ),
+        }
+
+        if (effectiveScrollController != null) {
+          return AnimatedBuilder(
+            animation: effectiveScrollController,
+            builder: (context, _) {
+              final double offset = effectiveScrollController.hasClients
+                  ? effectiveScrollController.offset
+                  : 0.0;
+              return buildReactiveStage(offset);
+            },
+          );
+        }
+
+        return buildReactiveStage(0.0);
+      },
     );
   }
 }
 
-// ────────────────────────────────────────────────────────────────────────────
-//  Mobile Circular Colored Image Preview
-// ────────────────────────────────────────────────────────────────────────────
-class _MobileImagePreview extends StatelessWidget {
-  const _MobileImagePreview({required this.size});
+/// Desktop & Tablet Hero layout using a smooth, flat Sketchbook Glide with larger picture.
+class _DesktopSketchHeroStage extends StatelessWidget {
+  final double heroWidth;
+  final double heroHeight;
+  final double portraitGlide;
+  final double introReveal;
+  final double imageAspectRatio;
 
-  final double size;
+  const _DesktopSketchHeroStage({
+    required this.heroWidth,
+    required this.heroHeight,
+    required this.portraitGlide,
+    required this.introReveal,
+    required this.imageAspectRatio,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: size,
-      height: size,
-      decoration: BoxDecoration(
-        shape: BoxShape.circle,
-        color: AppColors.surface,
-        boxShadow: AppColors.neumorphicShadows(distance: 12, blur: 24),
-        border: Border.all(
-          color: AppColors.primary.withValues(alpha: 0.3),
-          width: 3,
-        ),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(6.0), // Inner ring gap
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(size),
-          child: Image.asset(
-            'assets/Images/my-filter-pic/full-preview.jpeg', // Pure color for mobile
-            fit: BoxFit.cover,
-            filterQuality: FilterQuality.high,
+    final double colGap = (heroWidth * 0.04).clamp(32.0, 72.0);
+    final double availableWidth = heroWidth - colGap;
+
+    // Left column for personal intro text
+    final double leftColWidth = (availableWidth * 0.52).clamp(400.0, 840.0);
+    final double rightColWidth = availableWidth - leftColWidth;
+
+    // Initial Portrait Geometry (Centered with comfortable spacing from bottom indicator)
+    final double maxPossibleH = (heroHeight * 0.84).clamp(460.0, 850.0);
+    final double naturalW = maxPossibleH * imageAspectRatio;
+    final double startW = naturalW.clamp(380.0, heroWidth * 0.94);
+    final double startH = startW / imageAspectRatio;
+    final double startX = (heroWidth - startW) / 2.0;
+    final double startY = ((heroHeight - startH) / 2.0) - 20.0;
+
+    // Resting Portrait Geometry (Fitted neatly in right column with zero overflow)
+    final double endW = (rightColWidth * 1.15).clamp(320.0, 720.0);
+    final double endH = endW / imageAspectRatio;
+    final double endX = leftColWidth + colGap + ((rightColWidth - endW) / 2.0);
+    final double endY = (heroHeight - endH) / 2.0;
+
+    // Smooth 2D interpolation (no 3D skewing)
+    final double currentW = startW + (endW - startW) * portraitGlide;
+    final double currentH = startH + (endH - startH) * portraitGlide;
+    final double currentX = startX + (endX - startX) * portraitGlide;
+    final double currentY = startY + (endY - startY) * portraitGlide;
+
+    // Gentle sketchbook slide-up & scale for the Intro text on the left
+    final double introSlideY = (1.0 - introReveal) * 32.0;
+    final double introScale = 0.96 + (0.04 * introReveal);
+
+    // Responsive typography sizes - noticeably bigger name heading
+    final double nameFontSize = leftColWidth < 600
+        ? 52.0
+        : (leftColWidth < 740 ? 64.0 : (leftColWidth < 880 ? 76.0 : 86.0));
+    final double roleFontSize = (nameFontSize * 0.40).clamp(22.0, 32.0);
+    final double bodyFontSize = (nameFontSize * 0.22).clamp(14.0, 17.0);
+
+    return Stack(
+      clipBehavior: Clip.none,
+      children: [
+        // Left Column: Personal Intro Content
+        Positioned(
+          left: 0,
+          top: 0,
+          bottom: 0,
+          width: leftColWidth,
+          child: Align(
+            alignment: Alignment.centerLeft,
+            child: IgnorePointer(
+              ignoring: introReveal < 0.6,
+              child: Opacity(
+                opacity: introReveal,
+                child: Transform.translate(
+                  offset: Offset(0.0, introSlideY),
+                  child: Transform.scale(
+                    scale: introScale,
+                    alignment: Alignment.centerLeft,
+                    child: RepaintBoundary(
+                      child: IntroDetailsContent(
+                        nameFontSize: nameFontSize,
+                        roleFontSize: roleFontSize,
+                        bodyFontSize: bodyFontSize,
+                        alignment: CrossAxisAlignment.start,
+                        textAlign: TextAlign.left,
+                        isActive: introReveal > 0.3,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
           ),
         ),
-      ),
+
+        // Center -> Right Column: Clean Portrait Image with Soft Gradient Opacity at Bottom
+        Positioned(
+          left: currentX,
+          top: currentY,
+          width: currentW,
+          height: currentH,
+          child: RepaintBoundary(
+            child: ShaderMask(
+              shaderCallback: (Rect bounds) {
+                return const LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  stops: [0.0, 0.68, 1.0],
+                  colors: [
+                    Color(0xFFFFFFFF),
+                    Color(0xFFFFFFFF),
+                    Color(0x00FFFFFF),
+                  ],
+                ).createShader(bounds);
+              },
+              blendMode: BlendMode.dstIn,
+              child: Image.asset(
+                'assets/Images/my-image/my-pic.webp',
+                fit: BoxFit.contain,
+                alignment: Alignment.center,
+                cacheWidth: 1200,
+                filterQuality: FilterQuality.medium,
+              ),
+            ),
+          ),
+        ),
+      ],
     );
   }
 }
 
+/// Mobile Hero layout using a smooth, flat Sketchbook Glide with larger picture.
+class _MobileSketchHeroStage extends StatelessWidget {
+  final double heroWidth;
+  final double heroHeight;
+  final double portraitGlide;
+  final double introReveal;
+  final double imageAspectRatio;
 
-// ────────────────────────────────────────────────────────────────────────────
-//  Advanced Micro-Interactions
-// ────────────────────────────────────────────────────────────────────────────
-
-/// Applies an animated shifting gradient mask to its child (e.g., text)
-class _AnimatedGradientText extends StatefulWidget {
-  final Widget child;
-  const _AnimatedGradientText({required this.child});
+  const _MobileSketchHeroStage({
+    required this.heroWidth,
+    required this.heroHeight,
+    required this.portraitGlide,
+    required this.introReveal,
+    required this.imageAspectRatio,
+  });
 
   @override
-  State<_AnimatedGradientText> createState() => _AnimatedGradientTextState();
+  Widget build(BuildContext context) {
+    // Starting portrait on mobile with clean breathing room above scroll down
+    final double startW = (heroWidth * 0.94).clamp(270.0, 480.0);
+    final double startH = startW / imageAspectRatio;
+    final double startX = (heroWidth - startW) / 2.0;
+    final double startY = (heroHeight * 0.32) - (startH / 2.0);
+
+    // Resting portrait on mobile scaled neatly at the top
+    final double endW = (heroWidth * 0.65).clamp(200.0, 300.0);
+    final double endH = endW / imageAspectRatio;
+    final double endX = (heroWidth - endW) / 2.0;
+    final double endY = heroHeight * 0.02;
+
+    final double currentW = startW + (endW - startW) * portraitGlide;
+    final double currentH = startH + (endH - startH) * portraitGlide;
+    final double currentX = startX + (endX - startX) * portraitGlide;
+    final double currentY = startY + (endY - startY) * portraitGlide;
+
+    final double introSlideY = (1.0 - introReveal) * 24.0;
+
+    return Stack(
+      clipBehavior: Clip.none,
+      children: [
+        // Portrait gliding smoothly from center to top with soft gradient opacity at bottom
+        Positioned(
+          left: currentX,
+          top: currentY,
+          width: currentW,
+          height: currentH,
+          child: RepaintBoundary(
+            child: ShaderMask(
+              shaderCallback: (Rect bounds) {
+                return const LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  stops: [0.0, 0.68, 1.0],
+                  colors: [
+                    Color(0xFFFFFFFF),
+                    Color(0xFFFFFFFF),
+                    Color(0x00FFFFFF),
+                  ],
+                ).createShader(bounds);
+              },
+              blendMode: BlendMode.dstIn,
+              child: Image.asset(
+                'assets/Images/my-image/my-pic.webp',
+                fit: BoxFit.contain,
+                alignment: Alignment.center,
+                cacheWidth: 800,
+                filterQuality: FilterQuality.medium,
+              ),
+            ),
+          ),
+        ),
+
+        // Personal Intro Content sliding up below the resting portrait
+        Positioned(
+          left: 0,
+          right: 0,
+          bottom: 10.0,
+          child: IgnorePointer(
+            ignoring: introReveal < 0.6,
+            child: Opacity(
+              opacity: introReveal,
+              child: Transform.translate(
+                offset: Offset(0.0, introSlideY),
+                child: RepaintBoundary(
+                  child: IntroDetailsContent(
+                    nameFontSize: 38.0,
+                    roleFontSize: 18.0,
+                    bodyFontSize: 13.5,
+                    alignment: CrossAxisAlignment.center,
+                    textAlign: TextAlign.center,
+                    isActive: introReveal > 0.3,
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
 }
 
-class _AnimatedGradientTextState extends State<_AnimatedGradientText>
+/// Hand-drawn bouncing "SCROLL DOWN" prompt indicator.
+class _ScrollDownIndicator extends StatefulWidget {
+  final VoidCallback onTap;
+  final double opacity;
+  final bool isMobile;
+
+  const _ScrollDownIndicator({
+    required this.onTap,
+    required this.opacity,
+    this.isMobile = false,
+  });
+
+  @override
+  State<_ScrollDownIndicator> createState() => _ScrollDownIndicatorState();
+}
+
+class _ScrollDownIndicatorState extends State<_ScrollDownIndicator>
     with SingleTickerProviderStateMixin {
-  late final AnimationController _controller;
+  late final AnimationController _bounceController;
 
   @override
   void initState() {
     super.initState();
-    _controller = AnimationController(
+    _bounceController = AnimationController(
       vsync: this,
-      duration: const Duration(seconds: 3),
+      duration: const Duration(milliseconds: 1400),
     )..repeat(reverse: true);
   }
 
   @override
   void dispose() {
-    _controller.dispose();
+    _bounceController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return AnimatedBuilder(
-      animation: _controller,
-      builder: (context, child) {
-        return ShaderMask(
-          blendMode: BlendMode.srcIn,
-          shaderCallback: (bounds) {
-            return LinearGradient(
-              colors: const [
-                AppColors.primary,
-                AppColors.secondary,
-                AppColors.primary,
-              ],
-              stops: const [0.0, 0.5, 1.0],
-              transform: GradientRotation(
-                _controller.value * 2 * 3.14159,
-              ), // Rotate the gradient
-            ).createShader(bounds);
-          },
-          child: widget.child,
-        );
-      },
-      child: widget.child,
-    );
-  }
-}
+    if (widget.opacity <= 0.01) {
+      return const SizedBox.shrink();
+    }
 
-/// Makes a button slightly pull towards the mouse cursor
-class _MagneticButton extends StatefulWidget {
-  final Widget child;
-  const _MagneticButton({required this.child});
+    return Opacity(
+      opacity: widget.opacity,
+      child: AnimatedBuilder(
+        animation: _bounceController,
+        builder: (context, _) {
+          final double bounceY = _bounceController.value * 7.0;
 
-  @override
-  State<_MagneticButton> createState() => _MagneticButtonState();
-}
-
-class _MagneticButtonState extends State<_MagneticButton> {
-  final ValueNotifier<Offset> _localMousePos = ValueNotifier<Offset>(
-    Offset.zero,
-  );
-  bool _isHovered = false;
-
-  @override
-  void dispose() {
-    _localMousePos.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return MouseRegion(
-      onEnter: (_) => setState(() => _isHovered = true),
-      onExit: (_) {
-        setState(() => _isHovered = false);
-        _localMousePos.value = Offset.zero;
-      },
-      onHover: (event) {
-        final RenderBox? box = context.findRenderObject() as RenderBox?;
-        if (box != null) {
-          final Offset center = Offset(box.size.width / 2, box.size.height / 2);
-          final Offset delta = event.localPosition - center;
-          _localMousePos.value = delta * 0.25; // Pull strength
-        }
-      },
-      child: ValueListenableBuilder<Offset>(
-        valueListenable: _localMousePos,
-        builder: (context, offset, child) {
-          return AnimatedContainer(
-            duration: const Duration(milliseconds: 150),
-            curve: Curves.easeOutCubic,
-            transform: Matrix4.translationValues(
-              _isHovered ? offset.dx : 0,
-              _isHovered ? offset.dy : 0,
-              0,
+          return Transform.translate(
+            offset: Offset(0, bounceY),
+            child: GestureDetector(
+              onTap: widget.onTap,
+              behavior: HitTestBehavior.opaque,
+              child: const Padding(
+                padding: EdgeInsets.all(8.0),
+                child: CustomPaint(
+                  size: Size(28, 18),
+                  painter: _SketchScrollArrowPainter(seed: 19),
+                ),
+              ),
             ),
-            child: widget.child,
           );
         },
       ),
     );
   }
+}
+
+/// Custom painter for a hand-sketched downward chevron arrow.
+class _SketchScrollArrowPainter extends CustomPainter {
+  final int seed;
+
+  const _SketchScrollArrowPainter({required this.seed});
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final double w = size.width;
+    final double h = size.height;
+
+    final Paint arrowPaint = Paint()
+      ..color = AppColors.primary
+      ..strokeWidth = 2.2
+      ..style = PaintingStyle.stroke
+      ..strokeCap = StrokeCap.round
+      ..strokeJoin = StrokeJoin.round;
+
+    final Path path1 = Path()
+      ..moveTo(2, h * 0.25)
+      ..lineTo(w * 0.5, h * 0.85)
+      ..lineTo(w - 2, h * 0.25);
+    canvas.drawPath(path1, arrowPaint);
+
+    final Paint shadowPaint = Paint()
+      ..color = AppColors.textMain.withValues(alpha: 0.35)
+      ..strokeWidth = 1.3
+      ..style = PaintingStyle.stroke
+      ..strokeCap = StrokeCap.round;
+
+    final Path path2 = Path()
+      ..moveTo(3, h * 0.20)
+      ..lineTo(w * 0.5, h * 0.80)
+      ..lineTo(w - 1, h * 0.20);
+    canvas.drawPath(path2, shadowPaint);
+  }
+
+  @override
+  bool shouldRepaint(covariant _SketchScrollArrowPainter oldDelegate) => false;
+}
+
+/// Draws a delicate, organic hand-drawn sketchbook orbital ring behind the portrait
+/// on initial landing.
+class _SketchbookHaloPainter extends CustomPainter {
+  final bool isMobile;
+
+  const _SketchbookHaloPainter({required this.isMobile});
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    if (size.width <= 0 || size.height <= 0) return;
+
+    final Offset center = Offset(size.width / 2.0, size.height / 2.0);
+    final double radius = isMobile
+        ? (size.width * 0.44).clamp(130.0, 220.0)
+        : (size.height * 0.40).clamp(210.0, 360.0);
+
+    // Primary pencil orbital ring (wobbly ellipse with graphite grain)
+    final Paint ringPaint = Paint()
+      ..color = const Color(0x18000000)
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 1.4
+      ..strokeCap = StrokeCap.round;
+
+    final Path ringPath = Path();
+    const int segments = 36;
+    for (int i = 0; i <= segments; i++) {
+      final double angle = (i / segments) * 2.0 * 3.141592653589793;
+      final double wobbleR =
+          radius + (i.isEven ? 2.5 : -2.5) + ((i % 3 == 0) ? 1.5 : -1.0);
+      final double x = center.dx + wobbleR * 1.15 * math.cos(angle);
+      final double y = center.dy + wobbleR * 0.95 * math.sin(angle);
+      if (i == 0) {
+        ringPath.moveTo(x, y);
+      } else {
+        ringPath.lineTo(x, y);
+      }
+    }
+    canvas.drawPath(ringPath, ringPaint);
+  }
+
+  @override
+  bool shouldRepaint(covariant _SketchbookHaloPainter oldDelegate) =>
+      oldDelegate.isMobile != isMobile;
 }

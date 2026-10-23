@@ -1,155 +1,132 @@
 import 'package:flutter/material.dart';
 
-/// App-wide colors and shadows for the Ultra-Premium Neumorphic design system
+/// App-wide colors for the Pencil Sketch / Brutalist Theme
 class AppColors {
-  // Main Obsidian background color (Deep, sleek dark tone for true Neumorphism)
-  static const Color background = Color(0xFF141518);
+  // Yellowish white pencil paper background
+  static const Color background = Color(0xFFFDF0D5);
 
-  // Surface colors for raised Neumorphic cards
-  static const Color surface = Color(0xFF1A1C20);
-  
-  // Inner surface color for sunken input fields or depressed states
-  static const Color surfaceInner = Color(0xFF111215);
+  // Soft/low opacity black theme
+  static const Color primary = Color(0xDD000000);
+  static const Color secondary = Color(0xDD000000);
 
-  // Accent colors for dynamic highlights
-  static const Color primary = Colors.deepOrangeAccent;
-  static const Color secondary = Colors.blueAccent;
+  // Surface colors (Fully transparent for outline theme)
+  static const Color surface = Colors.transparent;
+  static const Color surfaceInner = Colors.transparent;
 
-  // Text colors for crystal clear readability
-  static const Color textMain = Colors.white;
-  static const Color textSecondary = Colors.white70;
-  static const Color textMuted = Colors.white38;
+  // Soft Black for text and borders
+  static const Color textMain = Color(0xDD000000);
+  static const Color textSecondary = Color(0xBB000000);
+  static const Color textMuted = Color(0x99000000);
 
-  // Shadow colors for Ultra-Premium 3D Dark Neumorphism
-  static const Color shadowDark = Color(0xFF0B0C0E);
-  static final Color shadowLight = Colors.white.withValues(alpha: 0.04);
-  static final Color shadowGlow = Colors.deepOrange.withValues(alpha: 0.25);
+  // Hard black shadow for the sketch/brutalist look
+  static const Color shadowDark = Color(0xFF000000);
 
-  /// Helper method to generate top-tier 3D Neumorphic dual box shadows
-  static List<BoxShadow> neumorphicShadows({
+  /// Generates no shadow (as requested for pure sketch outline theme)
+  static List<BoxShadow> sketchShadows({
     bool isPressed = false,
     double distance = 6.0,
-    double blur = 12.0,
-    Color? glowColor,
   }) {
-    if (isPressed) {
-      return [
-        BoxShadow(
-          color: shadowDark.withValues(alpha: 0.8),
-          offset: Offset(distance / 2, distance / 2),
-          blurRadius: blur / 2,
-        ),
-      ];
-    }
-
-    return [
-      // Deep Dark Shadow (Bottom-Right)
-      BoxShadow(
-        color: shadowDark,
-        offset: Offset(distance, distance),
-        blurRadius: blur,
-        spreadRadius: 1.0,
-      ),
-      // Soft Ambient Light Highlight (Top-Left)
-      BoxShadow(
-        color: shadowLight,
-        offset: Offset(-distance, -distance),
-        blurRadius: blur,
-        spreadRadius: 1.0,
-      ),
-      // Optional subtle ambient neon glow
-      if (glowColor != null)
-        BoxShadow(
-          color: glowColor.withValues(alpha: 0.15),
-          offset: const Offset(0, 0),
-          blurRadius: blur * 2,
-          spreadRadius: 2.0,
-        ),
-    ];
+    return [];
   }
 }
 
-/// The main theme configuration for the application
+/// The main theme configuration for the application (Sketch Mode)
 final ThemeData mainTheme = ThemeData(
-  brightness: Brightness.dark,
+  brightness: Brightness.light,
   primaryColor: AppColors.primary,
   scaffoldBackgroundColor: AppColors.background,
   cardColor: AppColors.surface,
-  fontFamily: 'Poppins',
+  fontFamily: 'Patrick Hand',
 
-  // Define the default AppBar appearance
   appBarTheme: const AppBarTheme(
     backgroundColor: Colors.transparent,
     elevation: 0,
     centerTitle: true,
   ),
 
-  // Define typography across the app
   textTheme: const TextTheme(
     displayLarge: TextStyle(
       fontSize: 32,
-      fontWeight: FontWeight.bold,
+      fontWeight: FontWeight.w900,
       color: AppColors.textMain,
-      fontFamily: 'Unbounded',
+      fontFamily: 'Patrick Hand',
     ),
     headlineMedium: TextStyle(
       fontSize: 24,
-      fontWeight: FontWeight.w600,
-      color: AppColors.primary,
-      fontFamily: 'Unbounded',
+      fontWeight: FontWeight.w900,
+      color: AppColors.textMain,
+      fontFamily: 'Patrick Hand',
     ),
     bodyLarge: TextStyle(
-      fontFamily: 'Poppins',
+      fontFamily: 'Patrick Hand',
       fontSize: 14,
-      color: AppColors.textSecondary,
+      color: AppColors.textMain,
       height: 1.6,
+      fontWeight: FontWeight.w500,
     ),
     bodyMedium: TextStyle(
-      fontFamily: 'Poppins',
+      fontFamily: 'Patrick Hand',
       fontSize: 13,
-      color: AppColors.textSecondary,
+      color: AppColors.textMain,
       height: 1.6,
+      fontWeight: FontWeight.w500,
     ),
     bodySmall: TextStyle(
-      fontFamily: 'Poppins',
+      fontFamily: 'Patrick Hand',
       fontSize: 12,
-      color: AppColors.textMuted,
+      color: AppColors.textMain,
+      fontWeight: FontWeight.w500,
     ),
   ),
 
   elevatedButtonTheme: ElevatedButtonThemeData(
     style: ElevatedButton.styleFrom(
-      backgroundColor: AppColors.primary,
-      foregroundColor: Colors.white,
+      backgroundColor: Colors.transparent,
+      foregroundColor: AppColors.textMain,
       padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 15),
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(
+          16,
+        ), // Sharp corners for sketch look
+        side: const BorderSide(
+          color: AppColors.textMain,
+          width: 2,
+        ), // Black outline
+      ),
+      elevation: 0,
     ),
   ),
 
-  dialogTheme: DialogThemeData(
-    backgroundColor: AppColors.background,
-    shape: RoundedRectangleBorder(
-      borderRadius: BorderRadius.circular(16),
-    ),
-  ),
-
-  inputDecorationTheme: InputDecorationTheme(
+  inputDecorationTheme: const InputDecorationTheme(
     filled: true,
-    fillColor: AppColors.surfaceInner,
+    fillColor: AppColors.surface,
     border: OutlineInputBorder(
-      borderRadius: BorderRadius.circular(15),
-      borderSide: BorderSide.none,
+      borderRadius: BorderRadius.zero,
+      borderSide: BorderSide(color: AppColors.textMain, width: 2),
     ),
-    hintStyle: const TextStyle(color: AppColors.textMuted),
-    contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 18),
+    enabledBorder: OutlineInputBorder(
+      borderRadius: BorderRadius.zero,
+      borderSide: BorderSide(color: AppColors.textMain, width: 2),
+    ),
+    focusedBorder: OutlineInputBorder(
+      borderRadius: BorderRadius.zero,
+      borderSide: BorderSide(
+        color: AppColors.textMain,
+        width: 3,
+      ), // Thicker on focus
+    ),
+    hintStyle: TextStyle(
+      color: AppColors.textMain,
+      fontWeight: FontWeight.bold,
+    ),
+    contentPadding: EdgeInsets.symmetric(horizontal: 20, vertical: 18),
   ),
 
   dividerTheme: const DividerThemeData(
-    color: Color(0xFF252830),
-    thickness: 1,
+    color: AppColors.textMain,
+    thickness: 2,
     space: 30,
   ),
 
   useMaterial3: true,
 );
-

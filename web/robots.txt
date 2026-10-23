@@ -1,4 +1,29 @@
+# ══════════════════════════════════════════════════════════════
+# Fazal-e-Haq Portfolio — robots.txt
+# Canonical URL: https://fazal-portfolio.web.app/
+# ══════════════════════════════════════════════════════════════
+#
+# NOTE: Flutter JS / WASM / CanvasKit files must NOT be blocked.
+# Googlebot needs them to render the page. Blocking them hides
+# the real content from Google's renderer.
+
 User-agent: *
 Allow: /
+Disallow: /assets/NOTICES
+
+# AI crawlers & LLM agents — allowed to read the bio, projects & llms.txt
+User-agent: GPTBot
+User-agent: ChatGPT-User
+User-agent: OAI-SearchBot
+User-agent: Google-Extended
+User-agent: ClaudeBot
+User-agent: anthropic-ai
+User-agent: PerplexityBot
+User-agent: Applebot-Extended
+User-agent: CCBot
+User-agent: cohere-ai
+User-agent: Meta-ExternalAgent
+Allow: /
+Disallow: /assets/NOTICES
 
 Sitemap: https://fazal-portfolio.web.app/sitemap.xml

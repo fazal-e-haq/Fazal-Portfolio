@@ -1,8 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>https://fazal-portfolio.web.app/</loc></url>
-  <url><loc>https://fazal-portfolio.web.app/intro</loc></url>
-  <url><loc>https://fazal-portfolio.web.app/about</loc></url>
-  <url><loc>https://fazal-portfolio.web.app/works</loc></url>
-  <url><loc>https://fazal-portfolio.web.app/contact</loc></url>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+
+  <!-- Single canonical page (the portfolio is a one-page site) -->
+  <url>
+    <loc>https://fazal-portfolio.web.app/</loc>
+    <lastmod>2026-10-23</lastmod>
+    <image:image>
+      <image:loc>https://fazal-portfolio.web.app/assets/assets/Images/my-image/my-pic.webp</image:loc>
+      <image:title>Fazal-e-Haq — Flutter Developer &amp; UI/UX Designer</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://fazal-portfolio.web.app/og-image.png</image:loc>
+      <image:title>Fazal-e-Haq Portfolio</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://fazal-portfolio.web.app/assets/assets/Images/works/cutcount/cutcount-dashboard-ss.webp</image:loc>
+      <image:title>CutCount — Flutter barber earnings app by Fazal-e-Haq</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://fazal-portfolio.web.app/assets/assets/Images/works/copyflutter/home_page.webp</image:loc>
+      <image:title>CopyFlutter — Flutter UI component library by Fazal-e-Haq</image:title>
+    </image:image>
+  </url>
+
+  <!-- Resume / CV -->
+  <url>
+    <loc>https://fazal-portfolio.web.app/Fazal-Resume.pdf</loc>
+    <lastmod>2026-10-23</lastmod>
+  </url>
+
 </urlset>

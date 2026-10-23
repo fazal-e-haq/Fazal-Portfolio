@@ -1,5 +1,14 @@
 # Static analysis configuration for Fazal Portfolio.
 # Enforces recommended Flutter lint rules for clean, maintainable code.
+analyzer:
+  exclude:
+    - build/**
+    - android/**
+    - ios/**
+    - web/**
+    - windows/**
+    - macos/**
+    - linux/**
 include: package:flutter_lints/flutter.yaml
 
 linter:
