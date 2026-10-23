@@ -16,9 +16,6 @@ dependencies:
   # State Management
   get: ^4.7.3
 
-  # UI & Animation
-  animated_text_kit: ^4.3.0     # Typewriter, scramble, and typer text animations
-  auto_size_text: ^3.0.0        # Auto-scaling text for responsive layouts
   cupertino_icons: ^1.0.9       # iOS-style icon font for CupertinoIcons
 
   # Utilities
