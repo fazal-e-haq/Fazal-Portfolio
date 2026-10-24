@@ -375,65 +375,111 @@ class _PencilNibPainter extends CustomPainter {
     final double w = size.width;
     final double h = size.height;
 
+    // Charcoal ink outline matching Hand-Drawn Brutalism sketch guidelines
     final Paint strokePaint = Paint()
       ..color = AppColors.textMain
       ..style = PaintingStyle.stroke
-      ..strokeWidth = 1.3
+      ..strokeWidth = 1.35
       ..strokeCap = StrokeCap.round
       ..strokeJoin = StrokeJoin.round;
 
-    if (isErasing) {
-      // Pink eraser end with metallic ferrule collar
-      final Paint ferrulePaint = Paint()
-        ..color = const Color(0xFFC0C0C0)
-        ..style = PaintingStyle.fill;
-      final Paint eraserPaint = Paint()
-        ..color = const Color(0xFFF28482)
-        ..style = PaintingStyle.fill;
+    // Paper background fill matching sketchbook paper (#FDF0D5)
+    final Paint paperFill = Paint()
+      ..color = AppColors.background
+      ..style = PaintingStyle.fill;
 
+    // Soft charcoal wash / graphite hatch fill for metal collar shading
+    final Paint graphiteShade = Paint()
+      ..color = AppColors.textMain.withValues(alpha: 0.14)
+      ..style = PaintingStyle.fill;
+
+    // Fine detail stroke for hand-drawn sketch texture lines
+    final Paint detailStroke = Paint()
+      ..color = AppColors.textMain.withValues(alpha: 0.50)
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 0.95
+      ..strokeCap = StrokeCap.round;
+
+    if (isErasing) {
+      // 1. Metal Ferrule Collar holding eraser (soft graphite shade with sketch crimp lines)
       final Rect ferruleRect =
-          Rect.fromLTWH(w * 0.15, h * 0.35, w * 0.7, h * 0.25);
-      canvas.drawRect(ferruleRect, ferrulePaint);
+          Rect.fromLTWH(w * 0.15, h * 0.35, w * 0.70, h * 0.25);
+      canvas.drawRect(ferruleRect, graphiteShade);
       canvas.drawRect(ferruleRect, strokePaint);
 
+      // Sketched crimp lines across the ferrule
+      canvas.drawLine(
+        Offset(w * 0.15, h * 0.43),
+        Offset(w * 0.85, h * 0.43),
+        detailStroke,
+      );
+      canvas.drawLine(
+        Offset(w * 0.15, h * 0.51),
+        Offset(w * 0.85, h * 0.51),
+        detailStroke,
+      );
+
+      // 2. Hand-Drawn Eraser Block (Pure sketchbook paper tone with charcoal outline)
       final RRect eraserRRect = RRect.fromRectAndCorners(
-        Rect.fromLTWH(w * 0.15, h * 0.60, w * 0.7, h * 0.35),
+        Rect.fromLTWH(w * 0.15, h * 0.60, w * 0.70, h * 0.35),
         bottomLeft: const Radius.circular(3),
         bottomRight: const Radius.circular(3),
       );
-      canvas.drawRRect(eraserRRect, eraserPaint);
+      canvas.drawRRect(eraserRRect, paperFill);
       canvas.drawRRect(eraserRRect, strokePaint);
+
+      // Subtle diagonal sketch marks on the eraser rubber
+      canvas.drawLine(
+        Offset(w * 0.28, h * 0.70),
+        Offset(w * 0.45, h * 0.87),
+        detailStroke,
+      );
+      canvas.drawLine(
+        Offset(w * 0.52, h * 0.70),
+        Offset(w * 0.69, h * 0.87),
+        detailStroke,
+      );
       return;
     }
 
-    // 1. Pencil Barrel (Drafting yellow wooden casing)
-    final Paint barrelPaint = Paint()
-      ..color = const Color(0xFFE5A93C)
-      ..style = PaintingStyle.fill;
-
+    // 1. Pencil Barrel (Warm sketchbook paper with charcoal facet sketch lines)
     final Path barrelPath = Path()
       ..moveTo(w * 0.12, 0)
       ..lineTo(w * 0.88, 0)
       ..lineTo(w * 0.88, h * 0.52)
       ..lineTo(w * 0.12, h * 0.52)
       ..close();
-    canvas.drawPath(barrelPath, barrelPaint);
+    canvas.drawPath(barrelPath, paperFill);
     canvas.drawPath(barrelPath, strokePaint);
 
-    // 2. Sharpened Wood Cone
-    final Paint woodPaint = Paint()
-      ..color = const Color(0xFFEEDBBA)
-      ..style = PaintingStyle.fill;
+    // Longitudinal facet sketch lines showing hexagonal pencil barrel
+    canvas.drawLine(
+      Offset(w * 0.37, 0),
+      Offset(w * 0.37, h * 0.52),
+      detailStroke,
+    );
+    canvas.drawLine(
+      Offset(w * 0.63, 0),
+      Offset(w * 0.63, h * 0.52),
+      detailStroke,
+    );
 
+    // 2. Sharpened Wood Cone (Paper tone with charcoal outline and carved scallop)
     final Path woodPath = Path()
       ..moveTo(w * 0.12, h * 0.52)
       ..lineTo(w * 0.88, h * 0.52)
       ..lineTo(w * 0.50, h * 0.98)
       ..close();
-    canvas.drawPath(woodPath, woodPaint);
+    canvas.drawPath(woodPath, paperFill);
     canvas.drawPath(woodPath, strokePaint);
 
-    // 3. Graphite Lead Tip
+    // Subtle hand-carved wood scallop curve
+    final Path scallopPath = Path()
+      ..moveTo(w * 0.22, h * 0.52)
+      ..quadraticBezierTo(w * 0.50, h * 0.62, w * 0.78, h * 0.52);
+    canvas.drawPath(scallopPath, detailStroke);
+
+    // 3. Graphite Lead Tip (Pure AppColors.primary charcoal black)
     final Paint leadPaint = Paint()
       ..color = AppColors.primary
       ..style = PaintingStyle.fill;
@@ -444,6 +490,7 @@ class _PencilNibPainter extends CustomPainter {
       ..lineTo(w * 0.50, h * 0.98)
       ..close();
     canvas.drawPath(leadPath, leadPaint);
+    canvas.drawPath(leadPath, strokePaint);
   }
 
   @override
