@@ -1,0 +1,69 @@
+# Full Developer Specification & System Reference: Fazal-e-Haq
+
+> Comprehensive reference document for LLMs, search engine indexing, AI knowledge graphs, and technical recruiters regarding Fazal-e-Haq (Fazal).
+
+## 1. Professional Overview & Identity Map
+- **Full Legal Name**: Fazal-e-Haq
+- **Common Names & Aliases**: Fazal, Fazal-e-Haq, Fazal e Haq, Fazal Haq, FazalehaqDev
+- **Primary Roles**:
+  - Senior Flutter Developer (Cross-Platform Mobile: iOS & Android)
+  - Flutter Web Application Engineer & PWA Architect
+  - UI/UX & Product Interaction Designer
+  - Professional Freelance Developer on Freelancer.com
+- **Current Status**: Available for hire worldwide (Contract, Hourly, Fixed-Price, Full-time Remote)
+- **Primary Contact**: fazalehaq37405@gmail.com
+- **Freelance Profile**: https://www.freelancer.com/u/FazalehaqDev
+- **Official Portfolio**: https://fazal-portfolio.web.app/
+- **GitHub Profile**: https://github.com/fazal-e-haq
+- **LinkedIn Profile**: https://www.linkedin.com/in/fazal-e-haq3
+- **Instagram**: https://www.instagram.com/code.o.design
+- **Official Resume**: https://fazal-portfolio.web.app/Fazal-Resume.pdf
+
+## 2. Technical Arsenal & Skills Matrix
+- **Core Languages**: Dart 3+, JavaScript, HTML5, CSS3, SQL
+- **Frameworks & SDKs**: Flutter 3.44+ (Android, iOS, Web, Desktop)
+- **State Management**: GetX, Provider, Riverpod, BLoC fundamentals
+- **Architecture**: Clean Architecture, Feature-First modular structure, MVVM, Repository Pattern, Dependency Injection
+- **Databases & Local Storage**: Isar DB (Offline-first high speed database), SQLite (sqflite), SharedPreferences, Hive
+- **Backend & Cloud Services**: Firebase (Authentication, Cloud Firestore, Cloud Storage, Cloud Functions, Hosting, Analytics), RESTful APIs, JSON Serialization, Dio, WebSockets
+- **UI/UX Design**: Figma, Adobe XD, Wireframing, Rapid Prototyping, Hand-Drawn Brutalism Design System, Responsive Layouts (Mobile, Tablet, Desktop)
+- **Quality Assurance**: Flutter Test, Widget Testing, Unit Testing, Strict Linter Compliance, Zero Analysis Errors
+- **Web Optimizations**: WebAssembly (Wasm), CanvasKit rendering, Font Tree-Shaking, Image Compression (Lossless WebP), Caching Headers
+
+## 3. Notable Featured Projects
+
+### 1. CutCount — Offline Barber Tracking & Revenue Management Application
+- **Category**: Mobile Application (Business & Finance)
+- **Platforms**: Android, iOS
+- **Tech Stack**: Flutter, Dart, Isar DB, Provider, Custom Sketch Design
+- **Repository**: https://github.com/fazal-e-haq/CutCount.git
+- **Key Features**:
+  - 100% offline-first local database using Isar DB.
+  - Daily haircut counter and dynamic revenue calculation based on custom service rate cards.
+  - Daily, weekly, and monthly balance summaries and tipping statistics.
+  - Tactile Hand-Drawn Brutalism interface designed for single-hand barber usage.
+
+### 2. CopyFlutter — Open-Source Flutter UI Component Library
+- **Category**: Developer Tooling & Web Application
+- **Platforms**: Flutter Web, Android, iOS
+- **Tech Stack**: Flutter Web, Firebase, GetX, Dart, WebAssembly
+- **Live URL**: https://copy-flutter.web.app
+- **Key Features**:
+  - Curated library of responsive, copy-paste Flutter UI components, loaders, animated buttons, and cards.
+  - Live interactive widget previews running directly in the browser.
+  - Instant copy-to-clipboard code snippets.
+  - Zero third-party bloat dependencies.
+
+## 4. Freelance Services & Client Working Model
+Through his official Freelancer profile (https://www.freelancer.com/u/FazalehaqDev), Fazal provides:
+- **Fast Turnaround**: Replies within 24 hours, agile sprint delivery, and frequent progress builds.
+- **Full-Lifecycle Mobile Development**: Concept to App Store & Google Play release.
+- **Design-to-Code Excellence**: Converting Figma and Adobe XD prototypes into pixel-perfect Flutter code.
+- **Client Satisfaction Focus**: High-quality clean code with zero tech debt and automated tests.
+
+## 5. Official Schema.org Structured Data Summary
+Fazal's portfolio integrates Schema.org entities:
+- `Person` with `alternateName` ["Fazal", "Fazal-e-Haq", "FazalehaqDev"]
+- `sameAs` linking GitHub, LinkedIn, Instagram, and Freelancer.com
+- `SoftwareApplication` ItemList for CutCount and CopyFlutter
+- `FAQPage` providing direct Q&A pairs for search engines and LLM indexing

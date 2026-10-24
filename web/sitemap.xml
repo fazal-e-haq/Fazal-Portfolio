@@ -5,7 +5,9 @@
   <!-- Single canonical page (the portfolio is a one-page site) -->
   <url>
     <loc>https://fazal-portfolio.web.app/</loc>
-    <lastmod>2026-10-23</lastmod>
+    <lastmod>2026-10-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
     <image:image>
       <image:loc>https://fazal-portfolio.web.app/assets/assets/Images/my-image/my-pic.webp</image:loc>
       <image:title>Fazal-e-Haq — Flutter Developer &amp; UI/UX Designer</image:title>
@@ -27,7 +29,9 @@
   <!-- Resume / CV -->
   <url>
     <loc>https://fazal-portfolio.web.app/Fazal-Resume.pdf</loc>
-    <lastmod>2026-10-23</lastmod>
+    <lastmod>2026-10-24</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
   </url>
 
 </urlset>

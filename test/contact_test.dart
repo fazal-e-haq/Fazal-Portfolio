@@ -31,6 +31,7 @@ void main() {
     expect(find.text('Get in Touch'), findsOneWidget);
     expect(find.text('Send a Message'), findsOneWidget);
     expect(find.text('CONNECT ACROSS PLATFORMS'), findsOneWidget);
+    expect(find.text('Hire on Freelancer.com ➔'), findsOneWidget);
   });
 
   testWidgets('Renders ContactSection on mobile', (WidgetTester tester) async {
@@ -48,5 +49,6 @@ void main() {
     expect(find.byType(ContactSection), findsOneWidget);
     expect(find.text('Get in Touch'), findsOneWidget);
     expect(find.text('Send a Message'), findsOneWidget);
+    expect(find.text('Hire on Freelancer.com ➔'), findsOneWidget);
   });
 }

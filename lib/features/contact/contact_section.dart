@@ -193,27 +193,80 @@ class _LeftColumnGetInTouch extends StatelessWidget {
               tiltTurn: -0.05,
             ),
             _OutlinedTiltSocialButton(
+              title: 'Freelancer',
+              icon: CupertinoIcons.briefcase_fill,
+              url: socials.freelancerAccountLink,
+              seed: 44,
+              tiltTurn: 0.05,
+            ),
+            _OutlinedTiltSocialButton(
               title: 'LinkedIn',
               icon: CupertinoIcons.link,
               url: socials.linkedinAccountLink,
               seed: 47,
-              tiltTurn: 0.05,
+              tiltTurn: -0.05,
             ),
             _OutlinedTiltSocialButton(
               title: 'GitHub',
               icon: CupertinoIcons.chevron_left_slash_chevron_right,
               url: socials.githubAccountLink,
               seed: 53,
-              tiltTurn: -0.05,
+              tiltTurn: 0.05,
             ),
             _OutlinedTiltSocialButton(
               title: 'Instagram',
               icon: CupertinoIcons.camera_fill,
               url: socials.instagramAccountLink,
               seed: 59,
-              tiltTurn: 0.05,
+              tiltTurn: -0.05,
             ),
           ],
+        ),
+        const SizedBox(height: 24),
+
+        // Direct Freelancer Hire Card (Clickable)
+        MouseRegion(
+          cursor: SystemMouseCursors.click,
+          child: GestureDetector(
+            onTap: () async {
+              AnalyticsService.logEvent('freelancer_badge_click', {
+                'url': socials.freelancerAccountLink,
+              });
+              final Uri uri = Uri.parse(socials.freelancerAccountLink);
+              await launchUrl(
+                uri,
+                mode: LaunchMode.externalApplication,
+                webOnlyWindowName: '_blank',
+              );
+            },
+            child: const SketchCard(
+              seed: 63,
+              padding: EdgeInsets.symmetric(horizontal: 18, vertical: 12),
+              borderRadius: 14.0,
+              wobble: 1.6,
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Icon(
+                    CupertinoIcons.briefcase_fill,
+                    size: 20,
+                    color: AppColors.primary,
+                  ),
+                  SizedBox(width: 10),
+                  Text(
+                    'Hire on Freelancer.com ➔',
+                    style: TextStyle(
+                      fontFamily: 'Patrick Hand',
+                      fontSize: 16,
+                      fontWeight: FontWeight.w900,
+                      color: AppColors.textMain,
+                      letterSpacing: 0.5,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
         ),
       ],
     );

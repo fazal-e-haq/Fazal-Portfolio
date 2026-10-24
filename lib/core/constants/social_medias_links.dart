@@ -1,4 +1,5 @@
 class SocialMediasLinks {
+  final String freelancerAccountLink = 'https://www.freelancer.com/u/FazalehaqDev';
   final String instagramAccountLink = 'https://www.instagram.com/code.o.design';
   final String linkedinAccountLink = 'https://www.linkedin.com/in/fazal-e-haq3';
   final String githubAccountLink = 'https://github.com/fazal-e-haq';
