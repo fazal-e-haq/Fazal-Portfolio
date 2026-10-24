@@ -5,7 +5,7 @@
 ---
 
 ## 🎯 Project Stack & Identity
-- **Developer**: Fazal-e-Haq — Flutter Developer & UI/UX Designer
+- **Developer**: Fazal-e-Haq — Flutter Developer & Software Architect
 - **Framework**: Flutter Web (Dart 3.12+, Flutter 3.44+)
 - **Architecture**: Feature-first (`features/`, `core/`, `widgets/`) with GetX (`^4.7.3`)
 - **Theme**: **Pencil Sketch & Hand-Drawn Brutalism**

@@ -125,7 +125,8 @@ void main() {
 
       // Role title has handwritten professional titles (e.g., Software Architect)
       expect(find.text('Software Architect'), findsOneWidget);
-      expect(find.textContaining('UI/UX Designer'), findsNothing);
+      expect(find.textContaining('UI/UX'), findsNothing);
+      expect(find.textContaining('Designer'), findsNothing);
       expect(
         find.text(
           'Who turns your ideas into fast, reliable mobile apps and websites that people genuinely love to use.',

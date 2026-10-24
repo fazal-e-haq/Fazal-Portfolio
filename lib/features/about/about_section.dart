@@ -476,7 +476,7 @@ class _NeuralNetworkSectionState extends State<_NeuralNetworkSection>
     _NeuralNodeData(
       id: 'figma',
       label: 'Figma',
-      role: 'UI/UX Design',
+      role: 'Interface Prototyping',
       icon: CupertinoIcons.paintbrush_fill,
       x: 0.10,
       y: 0.32,

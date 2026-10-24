@@ -87,7 +87,7 @@ class IntroDetailsContent extends StatelessWidget {
         ),
         const SizedBox(height: 8),
 
-        // 4. Role title with letter-by-letter handwriting animation ("Flutter Developer", "Software Architect", "Mobile & Web Engineer", "UI/UX Product Designer")
+        // 4. Role title with letter-by-letter handwriting animation ("Flutter Developer", "Software Architect", "Mobile & Web Engineer", "Cross-Platform Specialist")
         _AnimatedRoleTitle(
           fontSize: roleFontSize,
           textAlign: textAlign,
@@ -128,7 +128,7 @@ class IntroDetailsContent extends StatelessWidget {
 }
 
 /// Animated role title hand-writing letter-by-letter through professional titles
-/// ("Flutter Developer", "Software Architect", "Mobile & Web Engineer", "UI/UX Product Designer")
+/// ("Flutter Developer", "Software Architect", "Mobile & Web Engineer", "Cross-Platform Specialist")
 /// with an organic handwriting cadence, live pencil lead tip cursor, and dynamic sketch wavy underline.
 class _AnimatedRoleTitle extends StatefulWidget {
   final double fontSize;
@@ -154,7 +154,7 @@ class _AnimatedRoleTitleState extends State<_AnimatedRoleTitle>
     'Flutter Developer',
     'Software Architect',
     'Mobile & Web Engineer',
-    'UI/UX Product Designer',
+    'Cross-Platform Specialist',
   ];
 
   int _roleIndex = 0;

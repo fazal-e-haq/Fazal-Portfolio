@@ -35,7 +35,7 @@ class MyPortfolio extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
-      title: 'Fazal-e-Haq | Flutter Developer & UI/UX Designer',
+      title: 'Fazal-e-Haq | Flutter Developer & Software Architect',
       debugShowCheckedModeBanner: false,
       darkTheme: mainTheme,
       theme: mainTheme,

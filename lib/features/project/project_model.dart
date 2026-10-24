@@ -8,7 +8,7 @@ class ProjectModel {
   final List<String> screenshots; // New Play Store style (3-5 screenshots)
   final String downloads; // New Play Store style (e.g. "1k+", "500+")
   final String rating; // New Play Store style (e.g. 4.8)
-  final String type; // e.g., "Mobile App", "Web App", "UI/UX"
+  final String type; // e.g., "Mobile App", "Web App", "Software Architecture"
   final List<String> tags;
   final String? codeUrl;
   final String? liveUrl;

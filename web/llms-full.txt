@@ -8,7 +8,7 @@
 - **Primary Roles**:
   - Software Architect & Senior Flutter Developer (Cross-Platform Mobile: iOS & Android)
   - Flutter Web Application Engineer & PWA Architect
-  - UI/UX & Product Interaction Designer
+  - Cross-Platform System Engineer & Frontend Architect
   - Professional Freelance Developer on Freelancer.com
 - **Current Status**: Available for hire worldwide (Contract, Hourly, Fixed-Price, Full-time Remote)
 - **Primary Contact**: fazalehaq37405@gmail.com
@@ -26,7 +26,7 @@
 - **Architecture**: Clean Architecture, Feature-First modular structure, MVVM, Repository Pattern, Dependency Injection
 - **Databases & Local Storage**: Isar DB (Offline-first high speed database), SQLite (sqflite), SharedPreferences, Hive
 - **Backend & Cloud Services**: Firebase (Authentication, Cloud Firestore, Cloud Storage, Cloud Functions, Hosting, Analytics), RESTful APIs, JSON Serialization, Dio, WebSockets
-- **UI/UX Design**: Figma, Adobe XD, Wireframing, Rapid Prototyping, Hand-Drawn Brutalism Design System, Responsive Layouts (Mobile, Tablet, Desktop)
+- **Software Architecture**: Clean Architecture, Feature-First Modularity, Reactive State Management (GetX, Provider, Riverpod), Hand-Drawn Brutalism Design System, Responsive Layouts (Mobile, Tablet, Desktop)
 - **Quality Assurance**: Flutter Test, Widget Testing, Unit Testing, Strict Linter Compliance, Zero Analysis Errors
 - **Web Optimizations**: WebAssembly (Wasm), CanvasKit rendering, Font Tree-Shaking, Image Compression (Lossless WebP), Caching Headers
 
