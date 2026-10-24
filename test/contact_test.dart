@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:get/get.dart';
@@ -31,7 +32,8 @@ void main() {
     expect(find.text('Get in Touch'), findsOneWidget);
     expect(find.text('Send a Message'), findsOneWidget);
     expect(find.text('CONNECT ACROSS PLATFORMS'), findsOneWidget);
-    expect(find.text('Hire on Freelancer.com ➔'), findsOneWidget);
+    expect(find.byTooltip('Freelancer'), findsOneWidget);
+    expect(find.byIcon(CupertinoIcons.briefcase_fill), findsOneWidget);
   });
 
   testWidgets('Renders ContactSection on mobile', (WidgetTester tester) async {
@@ -49,6 +51,7 @@ void main() {
     expect(find.byType(ContactSection), findsOneWidget);
     expect(find.text('Get in Touch'), findsOneWidget);
     expect(find.text('Send a Message'), findsOneWidget);
-    expect(find.text('Hire on Freelancer.com ➔'), findsOneWidget);
+    expect(find.byTooltip('Freelancer'), findsOneWidget);
+    expect(find.byIcon(CupertinoIcons.briefcase_fill), findsOneWidget);
   });
 }

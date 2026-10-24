@@ -222,52 +222,6 @@ class _LeftColumnGetInTouch extends StatelessWidget {
             ),
           ],
         ),
-        const SizedBox(height: 24),
-
-        // Direct Freelancer Hire Card (Clickable)
-        MouseRegion(
-          cursor: SystemMouseCursors.click,
-          child: GestureDetector(
-            onTap: () async {
-              AnalyticsService.logEvent('freelancer_badge_click', {
-                'url': socials.freelancerAccountLink,
-              });
-              final Uri uri = Uri.parse(socials.freelancerAccountLink);
-              await launchUrl(
-                uri,
-                mode: LaunchMode.externalApplication,
-                webOnlyWindowName: '_blank',
-              );
-            },
-            child: const SketchCard(
-              seed: 63,
-              padding: EdgeInsets.symmetric(horizontal: 18, vertical: 12),
-              borderRadius: 14.0,
-              wobble: 1.6,
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Icon(
-                    CupertinoIcons.briefcase_fill,
-                    size: 20,
-                    color: AppColors.primary,
-                  ),
-                  SizedBox(width: 10),
-                  Text(
-                    'Hire on Freelancer.com ➔',
-                    style: TextStyle(
-                      fontFamily: 'Patrick Hand',
-                      fontSize: 16,
-                      fontWeight: FontWeight.w900,
-                      color: AppColors.textMain,
-                      letterSpacing: 0.5,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ),
       ],
     );
   }

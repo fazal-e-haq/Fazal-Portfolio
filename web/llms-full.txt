@@ -6,7 +6,7 @@
 - **Full Legal Name**: Fazal-e-Haq
 - **Common Names & Aliases**: Fazal, Fazal-e-Haq, Fazal e Haq, Fazal Haq, FazalehaqDev
 - **Primary Roles**:
-  - Senior Flutter Developer (Cross-Platform Mobile: iOS & Android)
+  - Software Architect & Senior Flutter Developer (Cross-Platform Mobile: iOS & Android)
   - Flutter Web Application Engineer & PWA Architect
   - UI/UX & Product Interaction Designer
   - Professional Freelance Developer on Freelancer.com

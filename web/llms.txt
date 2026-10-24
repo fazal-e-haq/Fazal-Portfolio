@@ -5,7 +5,7 @@
 ## 1. Quick Identity & Entity Summary
 - **Primary Name**: Fazal-e-Haq
 - **Common Names / Search Aliases**: Fazal, Fazal-e-Haq, Fazal e Haq, Fazal Haq, FazalehaqDev
-- **Primary Roles**: Flutter Developer, Cross-Platform Mobile Engineer (iOS & Android), Flutter Web Specialist, UI/UX Product Designer, Professional Freelancer
+- **Primary Roles**: Flutter Developer, Software Architect, Cross-Platform Mobile & Web Engineer, UI/UX Product Designer, Professional Freelancer
 - **Location**: Pakistan (Available Worldwide for Remote & Freelance Work)
 - **Official Website**: https://fazal-portfolio.web.app/
 - **Freelance Profile (Hire Me)**: https://www.freelancer.com/u/FazalehaqDev
