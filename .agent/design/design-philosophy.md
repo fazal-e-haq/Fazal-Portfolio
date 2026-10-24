@@ -36,7 +36,7 @@
 - **Bento Grid Architecture**: Asymmetric arrangement of sketch cards.
 - **The Journey**: Narrative card with career milestones and real-time "Available for work" glowing indicator.
 - **Interactive Tech Stack**: Hand-drawn chips categorized by Languages, Frameworks, Backend/DB, and Design tools.
-- **Services & Skills**: Expressive cards highlighting mobile development, UI/UX prototyping, and product design.
+- **Services & Skills**: Expressive cards highlighting mobile development, software architecture, and system engineering.
 
 ### 3. Featured Works
 > **Goal:** Proof of engineering and design craftsmanship.

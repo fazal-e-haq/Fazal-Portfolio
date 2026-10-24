@@ -1,0 +1,209 @@
+/* ══════════════════════════════════════════════════════════════════════════════
+   Fazal-e-Haq Portfolio — Cinematic Pencil-Drawn Splash Screen
+   Theme: Hand-Drawn Brutalism / Charcoal Pencil Sketch
+   ══════════════════════════════════════════════════════════════════════════════ */
+
+/* Root Splash Container */
+#splash-container {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+  z-index: 99999;
+  display: grid;
+  place-items: center;
+  overflow: hidden !important;
+  cursor: pointer;
+  user-select: none;
+  -webkit-user-select: none;
+
+  /* 1. Charcoal Pencil Drawn Black Background */
+  background-color: #121212;
+  background-image:
+    /* Radial pencil graphite sheen vignette */
+    radial-gradient(circle at 50% 50%, rgba(38, 38, 38, 0.95) 0%, rgba(14, 14, 14, 0.98) 85%),
+    /* Authentic 45° and -45° cross-hatch graphite sketch texture */
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='44' height='44' viewBox='0 0 44 44'%3E%3Cpath d='M-10,10 L30,-30 M0,22 L44,-22 M10,32 L54,-12 M22,44 L66,0 M-22,44 L44,-22 M0,44 L44,0' stroke='rgba(255,255,255,0.04)' stroke-width='1.2' stroke-linecap='round'/%3E%3Cpath d='M-10,34 L34,78 M0,22 L44,66 M10,10 L54,54 M-22,0 L44,66' stroke='rgba(255,255,255,0.025)' stroke-width='0.9' stroke-linecap='round'/%3E%3Cpath d='M-5,15 L35,-25 M5,35 L45,-5' stroke='rgba(0,0,0,0.45)' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+
+  transition: opacity 0.4s ease-out;
+}
+
+/* Outer hand-sketched drawing board border frame */
+.splash-sketch-frame {
+  position: absolute;
+  inset: clamp(10px, 2.5vw, 28px);
+  border: 1.5px dashed rgba(253, 240, 213, 0.16);
+  border-radius: 12px;
+  pointer-events: none;
+  box-shadow: inset 0 0 50px rgba(0, 0, 0, 0.7);
+}
+
+/* Center Stage Wrapper (Guaranteed Dead-Center Alignment) */
+.splash-content {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  width: 90vw;
+  max-width: 960px;
+  padding: 20px;
+  box-sizing: border-box;
+  z-index: 2;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.35s ease-out;
+}
+
+/* When splash begins transition to intro */
+.splash-content.exiting {
+  opacity: 0;
+  transform: scale(0.92);
+}
+
+/* 2. Headline: "I BUILD DIGITAL PRODUCTS" with Typewriter Cadence */
+.splash-headline {
+  font-family: 'Patrick Hand', cursive, sans-serif;
+  font-size: clamp(20px, 5.2vw, 54px);
+  font-weight: 900;
+  color: #FDF0D5; /* Warm paper tone glowing on black pencil background */
+  letter-spacing: clamp(2px, 0.45vw, 5px);
+  line-height: 1.15;
+  margin: 0 auto;
+  white-space: nowrap;
+  overflow: hidden !important;
+  display: inline-block;
+  border-right: 3.5px solid #FDF0D5;
+  width: 0;
+  box-sizing: content-box;
+  text-shadow:
+    2px 2px 0px rgba(0, 0, 0, 0.9),
+    0 0 16px rgba(253, 240, 213, 0.18);
+
+  animation:
+    splashTyping 1.0s steps(24, end) 0.2s forwards,
+    splashBlinkCursor 0.55s step-end infinite;
+}
+
+/* 3. The Hand-Drawn Pencil Divider */
+.splash-divider-wrap {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  margin: clamp(14px, 2.6vh, 26px) 0;
+  position: relative;
+  height: 4px;
+}
+
+.splash-divider {
+  width: 0;
+  height: 3.5px;
+  background-color: #FDF0D5;
+  border-radius: 3px;
+  box-shadow: 0 0 10px rgba(253, 240, 213, 0.35);
+  transform-origin: center center;
+
+  animation: splashDrawDivider 0.5s cubic-bezier(0.16, 1, 0.3, 1) 1.25s forwards;
+}
+
+/* 4. Subtitle: "THAT SOLVE REAL PROBLEMS" */
+.splash-subtitle {
+  font-family: 'Patrick Hand', cursive, sans-serif;
+  font-size: clamp(11px, 2.4vw, 20px);
+  font-weight: 900;
+  color: rgba(253, 240, 213, 0.92);
+  letter-spacing: clamp(3px, 0.8vw, 7px);
+  margin: 0;
+  opacity: 0;
+  transform: translateY(12px);
+  text-shadow: 1px 1px 0px rgba(0, 0, 0, 0.8);
+
+  animation: splashFadeInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) 1.65s forwards;
+}
+
+/* 5. Cinematic Divider Expansion (Reveals Intro & Warms into #FDF0D5 paper) */
+.splash-divider.expanding {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 999999;
+  border-radius: 4px;
+  box-shadow: 0 0 40px rgba(253, 240, 213, 0.8);
+  animation: splashExpandPortal 0.85s cubic-bezier(0.7, 0, 0.2, 1) forwards !important;
+}
+
+/* Keyframes */
+@keyframes splashTyping {
+  from {
+    width: 0;
+  }
+  to {
+    width: 100%;
+    border-right-color: transparent;
+  }
+}
+
+@keyframes splashBlinkCursor {
+  from, to {
+    border-right-color: #FDF0D5;
+  }
+  50% {
+    border-right-color: transparent;
+  }
+}
+
+@keyframes splashDrawDivider {
+  from {
+    width: 0;
+  }
+  to {
+    width: clamp(110px, 22vw, 190px);
+  }
+}
+
+@keyframes splashFadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Divider expands horizontally first, then vertically into full-screen paper */
+@keyframes splashExpandPortal {
+  0% {
+    width: clamp(110px, 22vw, 190px);
+    height: 3.5px;
+    background-color: #FDF0D5;
+    border-radius: 3px;
+    opacity: 1;
+  }
+  30% {
+    width: 100vw;
+    height: 5px;
+    background-color: #FDF0D5;
+    border-radius: 4px;
+    opacity: 1;
+  }
+  85% {
+    width: 110vw;
+    height: 110vh;
+    background-color: #FDF0D5;
+    border-radius: 0;
+    opacity: 1;
+  }
+  100% {
+    width: 110vw;
+    height: 110vh;
+    background-color: #FDF0D5;
+    border-radius: 0;
+    opacity: 0;
+  }
+}

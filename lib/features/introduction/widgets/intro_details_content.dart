@@ -87,10 +87,11 @@ class IntroDetailsContent extends StatelessWidget {
         ),
         const SizedBox(height: 8),
 
-        // 4. Role title with animated cycling roles ("Flutter Developer", "Mobile Engineer", "Dart Specialist")
+        // 4. Role title with letter-by-letter handwriting animation ("Flutter Developer", "Software Architect", "Mobile & Web Engineer", "Cross-Platform Specialist")
         _AnimatedRoleTitle(
           fontSize: roleFontSize,
           textAlign: textAlign,
+          isActive: isActive,
         ),
         const SizedBox(height: 12),
 
@@ -126,14 +127,18 @@ class IntroDetailsContent extends StatelessWidget {
   }
 }
 
-/// Animated role title cycling through "Flutter Developer" and other skills repeatedly.
+/// Animated role title hand-writing letter-by-letter through professional titles
+/// ("Flutter Developer", "Software Architect", "Mobile & Web Engineer", "Cross-Platform Specialist")
+/// with an organic handwriting cadence, live pencil lead tip cursor, and dynamic sketch wavy underline.
 class _AnimatedRoleTitle extends StatefulWidget {
   final double fontSize;
   final TextAlign textAlign;
+  final bool isActive;
 
   const _AnimatedRoleTitle({
     required this.fontSize,
     required this.textAlign,
+    this.isActive = true,
   });
 
   @override
@@ -142,54 +147,124 @@ class _AnimatedRoleTitle extends StatefulWidget {
 
 class _AnimatedRoleTitleState extends State<_AnimatedRoleTitle>
     with SingleTickerProviderStateMixin {
-  late final AnimationController _underlineController;
-  Timer? _cycleTimer;
+  late final AnimationController _pulseController;
+  Timer? _stepTimer;
 
   static const List<String> _roles = [
     'Flutter Developer',
-    'Mobile Engineer',
-    'Dart Specialist',
+    'Software Architect',
+    'Mobile & Web Engineer',
+    'Cross-Platform Specialist',
   ];
 
-  int _currentRoleIndex = 0;
+  int _roleIndex = 0;
+  late int _charIndex;
+  bool _isErasing = false;
+  bool _isPausedAtFull = true;
 
   @override
   void initState() {
     super.initState();
-    _underlineController = AnimationController(
+    // Start with the primary role fully presented to eliminate layout jump and assure instant visual readiness
+    _charIndex = _roles[0].length;
+
+    _pulseController = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 2200),
     )..repeat();
 
-    // Repeat cycling every 2800ms
-    _cycleTimer = Timer.periodic(const Duration(milliseconds: 2800), (_) {
-      if (mounted) {
-        setState(() {
-          _currentRoleIndex = (_currentRoleIndex + 1) % _roles.length;
-        });
+    // Initial reading dwell time before starting the organic handwriting cycle
+    if (widget.isActive) {
+      _stepTimer = Timer(const Duration(milliseconds: 2600), _beginErasing);
+    }
+  }
+
+  @override
+  void didUpdateWidget(covariant _AnimatedRoleTitle oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.isActive && !oldWidget.isActive) {
+      if (_stepTimer == null || !_stepTimer!.isActive) {
+        _stepTimer = Timer(const Duration(milliseconds: 1000), _beginErasing);
       }
+    }
+  }
+
+  void _beginErasing() {
+    if (!mounted) return;
+    setState(() {
+      _isPausedAtFull = false;
+      _isErasing = true;
     });
+    _stepTimer = Timer(const Duration(milliseconds: 30), _handwritingLoop);
+  }
+
+  void _handwritingLoop() {
+    if (!mounted) return;
+    final String currentRole = _roles[_roleIndex];
+
+    if (_isErasing) {
+      if (_charIndex > 0) {
+        setState(() {
+          _charIndex--;
+        });
+        _stepTimer = Timer(const Duration(milliseconds: 28), _handwritingLoop);
+      } else {
+        // Erased to blank, cycle to the next professional role
+        _isErasing = false;
+        _roleIndex = (_roleIndex + 1) % _roles.length;
+        setState(() {});
+        // Organic pause before penning the next role
+        _stepTimer = Timer(const Duration(milliseconds: 260), _handwritingLoop);
+      }
+    } else {
+      if (_charIndex < currentRole.length) {
+        setState(() {
+          _charIndex++;
+        });
+        final String currentChar = currentRole[_charIndex - 1];
+        // Human handwriting cadence:
+        // - Spaces take longer (hand repositioning on paper): ~140ms
+        // - Capital letters require more pen strokes: ~95ms
+        // - Lowercase letters flow naturally: ~65-85ms
+        int delay;
+        if (currentChar == ' ') {
+          delay = 140;
+        } else if (currentChar == currentChar.toUpperCase() &&
+            currentChar != currentChar.toLowerCase()) {
+          delay = 95;
+        } else {
+          delay = 68 + (_charIndex % 3) * 8;
+        }
+        _stepTimer = Timer(Duration(milliseconds: delay), _handwritingLoop);
+      } else {
+        // Completed writing full role!
+        setState(() {
+          _isPausedAtFull = true;
+        });
+        // Dwell pause so the reader can comfortably read the role
+        _stepTimer = Timer(const Duration(milliseconds: 2400), _beginErasing);
+      }
+    }
   }
 
   @override
   void dispose() {
-    _cycleTimer?.cancel();
-    _underlineController.dispose();
+    _stepTimer?.cancel();
+    _pulseController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     final bool isCentered = widget.textAlign == TextAlign.center;
-    final String currentText = _roles[_currentRoleIndex];
+    final String currentRole = _roles[_roleIndex];
+    final String visibleText =
+        currentRole.substring(0, _charIndex.clamp(0, currentRole.length));
 
     return AnimatedBuilder(
-      animation: _underlineController,
+      animation: _pulseController,
       builder: (context, _) {
-        final double t = _underlineController.value;
-        // Blinking cursor opacity: blinks periodically
-        final double cursorOpacity =
-            (math.sin(t * 4.0 * math.pi) > 0.0) ? 1.0 : 0.10;
+        final double t = _pulseController.value;
         // Subtle graphite ink sheen
         final Color inkColor = Color.lerp(
               AppColors.primary,
@@ -197,6 +272,16 @@ class _AnimatedRoleTitleState extends State<_AnimatedRoleTitle>
               (math.sin(t * 2.0 * math.pi) * 0.5 + 0.5) * 0.25,
             ) ??
             AppColors.primary;
+
+        // Cursor breathing pulse while resting at full text
+        final double cursorPulse = _isPausedAtFull
+            ? (math.sin(t * 4.0 * math.pi) > 0.0 ? 1.0 : 0.20)
+            : 1.0;
+
+        // Active writing micro-vibration
+        final double dipOffset = (!_isPausedAtFull && !_isErasing)
+            ? (math.sin(_charIndex * 2.4) * 1.2)
+            : 0.0;
 
         return Column(
           mainAxisSize: MainAxisSize.min,
@@ -208,57 +293,43 @@ class _AnimatedRoleTitleState extends State<_AnimatedRoleTitle>
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                AnimatedSwitcher(
-                  duration: const Duration(milliseconds: 380),
-                  transitionBuilder: (child, animation) {
-                    final slideIn = Tween<Offset>(
-                      begin: const Offset(0.0, 0.35),
-                      end: Offset.zero,
-                    ).animate(CurvedAnimation(
-                      parent: animation,
-                      curve: Curves.easeOutCubic,
-                    ));
-                    return FadeTransition(
-                      opacity: animation,
-                      child: SlideTransition(
-                        position: slideIn,
-                        child: child,
-                      ),
-                    );
-                  },
-                  child: Text(
-                    currentText,
-                    key: ValueKey<String>(currentText),
-                    style: TextStyle(
-                      fontSize: widget.fontSize,
-                      color: inkColor,
-                      fontWeight: FontWeight.w900,
-                      letterSpacing: 0.8,
-                      fontFamily: 'Patrick Hand',
-                      height: 1.1,
-                    ),
-                    textAlign: widget.textAlign,
+                Text(
+                  visibleText,
+                  key: const ValueKey<String>('role_title_text'),
+                  style: TextStyle(
+                    fontSize: widget.fontSize,
+                    color: inkColor,
+                    fontWeight: FontWeight.w900,
+                    letterSpacing: 0.8,
+                    fontFamily: 'Patrick Hand',
+                    height: 1.1,
                   ),
+                  textAlign: widget.textAlign,
                 ),
                 const SizedBox(width: 4),
-                // Blinking hand-drawn pencil cursor
-                Opacity(
-                  opacity: cursorOpacity,
-                  child: Container(
-                    width: 3.0,
-                    height: widget.fontSize * 0.82,
-                    decoration: BoxDecoration(
-                      color: AppColors.primary,
-                      borderRadius: BorderRadius.circular(2.0),
+                // Hand-Drawn Slanted Pencil Lead Cursor
+                Transform.translate(
+                  offset: Offset(0, dipOffset),
+                  child: Opacity(
+                    opacity: cursorPulse,
+                    child: _PencilNibCursor(
+                      height: widget.fontSize * 0.88,
+                      isErasing: _isErasing,
                     ),
                   ),
                 ),
               ],
             ),
             const SizedBox(height: 3),
-            // Hand-drawn sketch wavy underline with animated ink undulation
+            // Hand-drawn sketch wavy underline that organically tracks handwriting progress
             CustomPaint(
-              size: Size(widget.fontSize * 5.6, 6),
+              size: Size(
+                math.max(
+                  widget.fontSize * 1.5,
+                  widget.fontSize * (0.60 * _charIndex),
+                ),
+                6,
+              ),
               painter: _RoleUnderlinePainter(progress: t),
             ),
           ],
@@ -266,6 +337,165 @@ class _AnimatedRoleTitleState extends State<_AnimatedRoleTitle>
       },
     );
   }
+}
+
+/// Miniature hand-drawn pencil cursor that sits at the writing tip.
+/// Slanted at a natural writer's angle (-0.20 rad) while writing with a graphite lead tip,
+/// and rotates (-0.42 rad) showing the pink eraser ferrule while erasing.
+class _PencilNibCursor extends StatelessWidget {
+  final double height;
+  final bool isErasing;
+
+  const _PencilNibCursor({
+    required this.height,
+    required this.isErasing,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final double width = height * 0.48;
+
+    return Transform.rotate(
+      angle: isErasing ? -0.42 : -0.20,
+      child: CustomPaint(
+        size: Size(width, height),
+        painter: _PencilNibPainter(isErasing: isErasing),
+      ),
+    );
+  }
+}
+
+class _PencilNibPainter extends CustomPainter {
+  final bool isErasing;
+
+  const _PencilNibPainter({required this.isErasing});
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final double w = size.width;
+    final double h = size.height;
+
+    // Charcoal ink outline matching Hand-Drawn Brutalism sketch guidelines
+    final Paint strokePaint = Paint()
+      ..color = AppColors.textMain
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 1.35
+      ..strokeCap = StrokeCap.round
+      ..strokeJoin = StrokeJoin.round;
+
+    // Paper background fill matching sketchbook paper (#FDF0D5)
+    final Paint paperFill = Paint()
+      ..color = AppColors.background
+      ..style = PaintingStyle.fill;
+
+    // Soft charcoal wash / graphite hatch fill for metal collar shading
+    final Paint graphiteShade = Paint()
+      ..color = AppColors.textMain.withValues(alpha: 0.14)
+      ..style = PaintingStyle.fill;
+
+    // Fine detail stroke for hand-drawn sketch texture lines
+    final Paint detailStroke = Paint()
+      ..color = AppColors.textMain.withValues(alpha: 0.50)
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 0.95
+      ..strokeCap = StrokeCap.round;
+
+    if (isErasing) {
+      // 1. Metal Ferrule Collar holding eraser (soft graphite shade with sketch crimp lines)
+      final Rect ferruleRect =
+          Rect.fromLTWH(w * 0.15, h * 0.35, w * 0.70, h * 0.25);
+      canvas.drawRect(ferruleRect, graphiteShade);
+      canvas.drawRect(ferruleRect, strokePaint);
+
+      // Sketched crimp lines across the ferrule
+      canvas.drawLine(
+        Offset(w * 0.15, h * 0.43),
+        Offset(w * 0.85, h * 0.43),
+        detailStroke,
+      );
+      canvas.drawLine(
+        Offset(w * 0.15, h * 0.51),
+        Offset(w * 0.85, h * 0.51),
+        detailStroke,
+      );
+
+      // 2. Hand-Drawn Eraser Block (Pure sketchbook paper tone with charcoal outline)
+      final RRect eraserRRect = RRect.fromRectAndCorners(
+        Rect.fromLTWH(w * 0.15, h * 0.60, w * 0.70, h * 0.35),
+        bottomLeft: const Radius.circular(3),
+        bottomRight: const Radius.circular(3),
+      );
+      canvas.drawRRect(eraserRRect, paperFill);
+      canvas.drawRRect(eraserRRect, strokePaint);
+
+      // Subtle diagonal sketch marks on the eraser rubber
+      canvas.drawLine(
+        Offset(w * 0.28, h * 0.70),
+        Offset(w * 0.45, h * 0.87),
+        detailStroke,
+      );
+      canvas.drawLine(
+        Offset(w * 0.52, h * 0.70),
+        Offset(w * 0.69, h * 0.87),
+        detailStroke,
+      );
+      return;
+    }
+
+    // 1. Pencil Barrel (Warm sketchbook paper with charcoal facet sketch lines)
+    final Path barrelPath = Path()
+      ..moveTo(w * 0.12, 0)
+      ..lineTo(w * 0.88, 0)
+      ..lineTo(w * 0.88, h * 0.52)
+      ..lineTo(w * 0.12, h * 0.52)
+      ..close();
+    canvas.drawPath(barrelPath, paperFill);
+    canvas.drawPath(barrelPath, strokePaint);
+
+    // Longitudinal facet sketch lines showing hexagonal pencil barrel
+    canvas.drawLine(
+      Offset(w * 0.37, 0),
+      Offset(w * 0.37, h * 0.52),
+      detailStroke,
+    );
+    canvas.drawLine(
+      Offset(w * 0.63, 0),
+      Offset(w * 0.63, h * 0.52),
+      detailStroke,
+    );
+
+    // 2. Sharpened Wood Cone (Paper tone with charcoal outline and carved scallop)
+    final Path woodPath = Path()
+      ..moveTo(w * 0.12, h * 0.52)
+      ..lineTo(w * 0.88, h * 0.52)
+      ..lineTo(w * 0.50, h * 0.98)
+      ..close();
+    canvas.drawPath(woodPath, paperFill);
+    canvas.drawPath(woodPath, strokePaint);
+
+    // Subtle hand-carved wood scallop curve
+    final Path scallopPath = Path()
+      ..moveTo(w * 0.22, h * 0.52)
+      ..quadraticBezierTo(w * 0.50, h * 0.62, w * 0.78, h * 0.52);
+    canvas.drawPath(scallopPath, detailStroke);
+
+    // 3. Graphite Lead Tip (Pure AppColors.primary charcoal black)
+    final Paint leadPaint = Paint()
+      ..color = AppColors.primary
+      ..style = PaintingStyle.fill;
+
+    final Path leadPath = Path()
+      ..moveTo(w * 0.38, h * 0.80)
+      ..lineTo(w * 0.62, h * 0.80)
+      ..lineTo(w * 0.50, h * 0.98)
+      ..close();
+    canvas.drawPath(leadPath, leadPaint);
+    canvas.drawPath(leadPath, strokePaint);
+  }
+
+  @override
+  bool shouldRepaint(covariant _PencilNibPainter oldDelegate) =>
+      oldDelegate.isErasing != isErasing;
 }
 
 /// Custom painter for an animated hand-drawn wavy underline accent beneath the role.

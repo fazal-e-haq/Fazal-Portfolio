@@ -4,6 +4,7 @@ import 'package:url_launcher/url_launcher.dart';
 import '../../core/themes/theme.dart';
 import '../sketch_painter.dart';
 import 'button_controller.dart';
+import '../../services/analytics_service.dart';
 
 /// A hand-drawn sketch button featuring an organic wobbly pencil border (no straight lines),
 /// animated 3D hover lift, and press feedback.
@@ -73,6 +74,9 @@ class _SketchButtonState extends State<SketchButton> {
   }
 
   void _handleTap() {
+    final String buttonId = widget.id ?? widget.text.hashCode.toString();
+    AnalyticsService.logButtonClick(buttonId, widget.url);
+
     if (widget.url != null) {
       _launchUrl(widget.url!);
     } else if (widget.onPressed != null) {

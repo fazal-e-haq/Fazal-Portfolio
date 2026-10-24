@@ -4,14 +4,16 @@
 # ══════════════════════════════════════════════════════════════
 #
 # NOTE: Flutter JS / WASM / CanvasKit files must NOT be blocked.
-# Googlebot needs them to render the page. Blocking them hides
-# the real content from Google's renderer.
+# Googlebot needs them to render the page.
 
 User-agent: *
 Allow: /
+Allow: /llms.txt
+Allow: /llms-full.txt
+Allow: /Fazal-Resume.pdf
 Disallow: /assets/NOTICES
 
-# AI crawlers & LLM agents — allowed to read the bio, projects & llms.txt
+# AI crawlers & LLM agents — explicitly allowed to read the bio, projects & llms.txt
 User-agent: GPTBot
 User-agent: ChatGPT-User
 User-agent: OAI-SearchBot
@@ -23,7 +25,9 @@ User-agent: Applebot-Extended
 User-agent: CCBot
 User-agent: cohere-ai
 User-agent: Meta-ExternalAgent
+User-agent: Bytespider
 Allow: /
-Disallow: /assets/NOTICES
+Allow: /llms.txt
+Allow: /llms-full.txt
 
 Sitemap: https://fazal-portfolio.web.app/sitemap.xml

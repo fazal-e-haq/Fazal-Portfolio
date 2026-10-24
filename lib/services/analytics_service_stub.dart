@@ -9,4 +9,8 @@ class AnalyticsService {
   static void logResumeDownload() {}
 
   static void logContactSubmit() {}
+
+  static void logButtonClick(String buttonId, [String? url]) {}
+
+  static void logNavClick(String navItem, int index) {}
 }

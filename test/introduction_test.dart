@@ -110,18 +110,23 @@ void main() {
       // Scroll into the intro reading plateau
       scrollController.jumpTo(550);
       await tester.pump();
-      await tester.pump(const Duration(seconds: 5)); // Allow slow typewriter animation to complete
+
+      // Intro greeting 'I am', 'FAZAL-E-HAQ', and initial 'Flutter Developer' role are present
+      expect(find.text('I am'), findsOneWidget);
+      expect(find.text('FAZAL-E-HAQ'), findsOneWidget);
+      expect(find.text('Flutter Developer'), findsOneWidget);
+
+      await tester.pump(const Duration(seconds: 5)); // Allow slow typewriter bio and handwriting animation to progress
 
       // HELLO letters and scroll prompt should now be completely hidden/removed
       expect(find.text('H'), findsNothing);
       expect(find.text('O'), findsNothing);
       expect(find.text('SCROLL DOWN'), findsNothing);
 
-      // Intro greeting 'I am', 'FAZAL-E-HAQ', and 'Flutter Developer' role are present
-      expect(find.text('I am'), findsOneWidget);
-      expect(find.text('FAZAL-E-HAQ'), findsOneWidget);
-      expect(find.text('Flutter Developer'), findsOneWidget);
-      expect(find.textContaining('UI/UX Designer'), findsNothing);
+      // Role title has handwritten professional titles (e.g., Software Architect)
+      expect(find.text('Software Architect'), findsOneWidget);
+      expect(find.textContaining('UI/UX'), findsNothing);
+      expect(find.textContaining('Designer'), findsNothing);
       expect(
         find.text(
           'Who turns your ideas into fast, reliable mobile apps and websites that people genuinely love to use.',

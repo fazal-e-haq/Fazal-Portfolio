@@ -8,6 +8,7 @@ import '../app_shell/scroll_coordinator_controller.dart';
 import 'introduction_controller.dart';
 import 'widgets/hello_watermark_widget.dart';
 import 'widgets/intro_details_content.dart';
+import '../../services/analytics_service.dart';
 
 /// The Hero Introduction Section of the portfolio.
 ///
@@ -55,6 +56,7 @@ class _IntroductionState extends State<Introduction> {
   }
 
   void _onScrollDownTapped(double transitionDistance) {
+    AnalyticsService.logEvent('scroll_down_click', {'source': 'intro_indicator'});
     final effectiveScrollController = _resolveScrollController();
     if (effectiveScrollController != null &&
         effectiveScrollController.hasClients) {

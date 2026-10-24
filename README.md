@@ -1,6 +1,6 @@
 # Fazal-e-Haq Portfolio
 
-Welcome to my digital space! I am a **Flutter Developer** and **UI/UX Designer** focused on building clean, scalable, and high-performance mobile and web applications.
+Welcome to my digital space! I am a **Flutter Developer** and **Software Architect** focused on building clean, scalable, and high-performance mobile and web applications.
 
 This repository contains the source code for my personal portfolio website, built entirely with Flutter Web.
 
@@ -27,7 +27,7 @@ This project (and my general workflow) utilizes the following technologies:
 - **Framework:** Flutter (Dart)
 - **State Management:** GetX
 - **Backend/Hosting:** Firebase
-- **UI/UX Design:** Figma
+- **Interface Prototyping:** Figma
 - **Version Control:** Git & GitHub
 
 ---

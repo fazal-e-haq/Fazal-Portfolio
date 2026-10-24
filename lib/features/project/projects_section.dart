@@ -90,7 +90,7 @@ class _ProjectsSectionState extends State<ProjectsSection> {
                       tag: '02 // FEATURED WORK',
                       title: 'Featured Project',
                       subtitle:
-                          'A high-performance offline Flutter application crafted with clean architecture and Brutalist sketch design.',
+                          'A high-performance Flutter mobile app built with clean architecture, smooth offline support, and thoughtful engineering.',
                       isMobile: isMobile,
                       seed: 23,
                     ),
@@ -169,9 +169,9 @@ class _ProjectsSectionState extends State<ProjectsSection> {
                 children: [
                     SketchSectionHeader(
                       tag: '02 // FEATURED WORKS',
-                      title: 'Selected Projects',
+                      title: 'Featured Projects',
                       subtitle:
-                          'Production-grade Flutter mobile apps and web platforms crafted with clean architecture and Hand-Drawn design.',
+                          'High-performance Flutter mobile apps and web platforms built with clean architecture and smooth user experiences.',
                       isMobile: isMobile,
                       seed: 23,
                     ),

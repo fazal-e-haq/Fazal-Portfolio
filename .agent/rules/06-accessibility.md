@@ -107,13 +107,13 @@ Semantics(
 
 ### index.html Meta Tags
 ```html
-<meta name="description" content="Fazal-e-Haq — Professional Flutter Developer & UI/UX Designer. Building beautiful, performant cross-platform applications.">
-<meta name="keywords" content="Flutter Developer, UI/UX Designer, Mobile App Developer, Web Developer, Fazal-e-Haq, Portfolio">
+<meta name="description" content="Fazal-e-Haq — Professional Flutter Developer & Software Architect. Building beautiful, performant cross-platform applications.">
+<meta name="keywords" content="Flutter Developer, Software Architect, Mobile App Developer, Web Developer, Fazal-e-Haq, Portfolio">
 <meta name="author" content="Fazal-e-Haq">
 
 <!-- Open Graph -->
-<meta property="og:title" content="Fazal-e-Haq — Flutter Developer & UI/UX Designer">
-<meta property="og:description" content="Professional portfolio showcasing Flutter apps, UI/UX design, and full-stack development projects.">
+<meta property="og:title" content="Fazal-e-Haq — Flutter Developer & Software Architect">
+<meta property="og:description" content="Professional portfolio showcasing Flutter apps, software architecture, and full-stack development projects.">
 <meta property="og:image" content="https://fazalehaq.com/og-image.png">
 <meta property="og:url" content="https://fazalehaq.com">
 <meta property="og:type" content="website">
@@ -121,7 +121,7 @@ Semantics(
 <!-- Twitter Card -->
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Fazal-e-Haq — Flutter Developer">
-<meta name="twitter:description" content="Professional portfolio showcasing Flutter apps and UI/UX design.">
+<meta name="twitter:description" content="Professional portfolio showcasing Flutter apps and software architecture.">
 <meta name="twitter:image" content="https://fazalehaq.com/og-image.png">
 ```
 
@@ -132,7 +132,7 @@ Semantics(
   "@context": "https://schema.org",
   "@type": "Person",
   "name": "Fazal-e-Haq",
-  "jobTitle": "Flutter Developer & UI/UX Designer",
+  "jobTitle": "Flutter Developer & Software Architect",
   "url": "https://fazalehaq.com",
   "sameAs": [
     "https://github.com/fazalehaq",
