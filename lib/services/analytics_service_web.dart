@@ -38,4 +38,18 @@ class AnalyticsService {
   static void logContactSubmit() {
     logEvent('contact_form_submit', {'action': 'email_intent'});
   }
+
+  static void logButtonClick(String buttonId, [String? url]) {
+    logEvent('button_click', {
+      'button_id': buttonId,
+      'url': url ?? '',
+    });
+  }
+
+  static void logNavClick(String navItem, int index) {
+    logEvent('nav_click', {
+      'nav_item': navItem,
+      'section_index': index,
+    });
+  }
 }

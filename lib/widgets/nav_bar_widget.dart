@@ -7,6 +7,7 @@ import '../models/nav_bar_item_model.dart';
 import '../features/app_shell/navigation_controller.dart';
 import '../features/app_shell/scroll_coordinator_controller.dart';
 import 'sketch_painter.dart';
+import '../services/analytics_service.dart';
 
 class NavBarWidget extends StatelessWidget implements PreferredSizeWidget {
   const NavBarWidget({super.key});
@@ -134,6 +135,7 @@ class _NavBarButtonState extends State<NavBarButton> {
           onTapDown: (_) => setState(() => _isPressed = true),
           onTapUp: (_) {
             setState(() => _isPressed = false);
+            AnalyticsService.logNavClick(widget.title, widget.pageIndex);
             if (Get.isRegistered<ScrollCoordinatorController>()) {
               Get.find<ScrollCoordinatorController>().scrollToSection(
                 widget.pageIndex,

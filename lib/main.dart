@@ -4,8 +4,9 @@ import 'package:get/get.dart';
 import 'package:flutter_web_plugins/url_strategy.dart';
 
 import 'core/constants/smooth_scroll.dart';
-import 'routes/app_routes.dart';
 import 'features/app_shell/navigation_controller.dart';
+import 'features/app_shell/scroll_coordinator_controller.dart';
+import 'features/app_shell/web_home_page.dart';
 import 'features/contact/contact_controller.dart';
 import 'features/project/project_controller.dart';
 import 'features/about/about_controller.dart';
@@ -18,6 +19,7 @@ Future<void> main() async {
   usePathUrlStrategy();
 
   // Initialize GetX Controllers globally at app startup
+  Get.put(ScrollCoordinatorController());
   Get.put(NavigationController());
   Get.put(ContactController());
   Get.put(ProjectController());
@@ -40,6 +42,7 @@ class MyPortfolio extends StatelessWidget {
       darkTheme: mainTheme,
       theme: mainTheme,
       scrollBehavior: SmoothScrollBehavior(),
+      home: const WebHomePage(),
       builder: (context, child) {
         final screenWidth = MediaQuery.of(context).size.width;
         final double baseFontSize = screenWidth < 600
@@ -65,13 +68,6 @@ class MyPortfolio extends StatelessWidget {
             child: child!,
           ),
         );
-      },
-      initialRoute: AppRoutes.home,
-      getPages: AppRoutes.routes,
-      routingCallback: (routing) {
-        if (routing != null && routing.current.isNotEmpty) {
-          Get.find<NavigationController>().syncRouteToIndex(routing.current);
-        }
       },
     );
   }
