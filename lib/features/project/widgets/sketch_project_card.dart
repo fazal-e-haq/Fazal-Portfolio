@@ -152,8 +152,7 @@ class _SketchProjectCardState extends State<SketchProjectCard> {
 
   /// The top header bar that stays visible when subsequent cards stack over this card.
   Widget _buildStackTitleStrip(int cardSeed) {
-    final String numStr = widget.displayIndex.toString().padLeft(2, '0');
-    final String badgeLabel = 'PROJECT // #$numStr';
+    final String badgeLabel = 'Project ${widget.displayIndex}';
 
     return GestureDetector(
       onTap: widget.onHeaderTap ?? _openProjectUrl,
@@ -275,9 +274,9 @@ class _SketchProjectCardState extends State<SketchProjectCard> {
                       badgeLabel,
                       style: TextStyle(
                         fontFamily: 'Patrick Hand',
-                        fontSize: widget.isMobile ? 11 : 13,
-                        fontWeight: FontWeight.w900,
-                        letterSpacing: 1.2,
+                        fontSize: widget.isMobile ? 12 : 14,
+                        fontWeight: FontWeight.w700,
+                        letterSpacing: 0.5,
                         color: widget.isLatest
                             ? AppColors.primary
                             : AppColors.textMain,
@@ -390,17 +389,53 @@ class _SketchProjectCardState extends State<SketchProjectCard> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    widget.project.title,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
-                      fontFamily: 'Patrick Hand',
-                      fontSize: widget.isMobile ? 24 : 34,
-                      fontWeight: FontWeight.w900,
-                      color: AppColors.textMain,
-                      height: 1.05,
-                    ),
+                  Row(
+                    children: [
+                      Flexible(
+                        child: Text(
+                          widget.project.title,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                            fontFamily: 'Patrick Hand',
+                            fontSize: widget.isMobile ? 24 : 34,
+                            fontWeight: FontWeight.w900,
+                            color: AppColors.textMain,
+                            height: 1.05,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(width: 10),
+                      CustomPaint(
+                        painter: SketchBorderPainter(
+                          color: widget.isLatest
+                              ? AppColors.primary
+                              : AppColors.textMain,
+                          strokeWidth: 1.5,
+                          borderRadius: 12,
+                          wobble: 1.3,
+                          seed: cardSeed + 17,
+                        ),
+                        child: Padding(
+                          padding: EdgeInsets.symmetric(
+                            horizontal: widget.isMobile ? 8 : 12,
+                            vertical: widget.isMobile ? 2 : 4,
+                          ),
+                          child: Text(
+                            'Project ${widget.displayIndex}',
+                            style: TextStyle(
+                              fontFamily: 'Patrick Hand',
+                              fontSize: widget.isMobile ? 12 : 14,
+                              fontWeight: FontWeight.w700,
+                              letterSpacing: 0.5,
+                              color: widget.isLatest
+                                  ? AppColors.primary
+                                  : AppColors.textMain,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                   const SizedBox(height: 4),
                   Text(
