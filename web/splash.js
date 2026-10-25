@@ -1,7 +1,7 @@
 /**
  * ══════════════════════════════════════════════════════════════════════════════
  * Fazal-e-Haq Portfolio — Splash Screen Controller
- * Orchestrates the charcoal sketch intro, 2-second hold, and divider expansion.
+ * Orchestrates the pencil scratch intro, 2-second hold, and divider expansion.
  * ══════════════════════════════════════════════════════════════════════════════
  */
 (function() {
@@ -25,14 +25,13 @@
 
   /**
    * Timing Breakdown:
-   * - 0.2s - 1.2s : Headline typing
-   * - 1.25s - 1.75s: Divider draws
-   * - 1.65s - 2.25s: Subtitle fades in
-   * Total animation completes at ~2.25s.
-   * User Request: "when text finish after 2 second expand that divider and show my intro"
-   * So 2.25s + 2.0s = 4.25s (4250ms).
+   * - 0.2s - 1.2s : Headline typing finishes
+   * - 1.2s - 1.65s: Divider draws
+   * - 1.65s - 2.15s: Subtitle fades in
+   * Total text & divider animation finishes at ~2.15s.
+   * Hold for 2.0s after text finish: 2.15s + 2.0s = ~4.15s (4150ms).
    */
-  const HOLD_DURATION_MS = 4250;
+  const HOLD_DURATION_MS = 4150;
 
   const autoExpandTimer = setTimeout(function() {
     triggerExpansion();
@@ -54,7 +53,7 @@
 
   /**
    * Expands the hand-drawn divider into a full-screen #FDF0D5 portal,
-   * parting the charcoal pencil background to reveal the Flutter introduction.
+   * parting the charcoal pencil scratch background to reveal the Flutter introduction.
    */
   function triggerExpansion() {
     if (isExpanding || isDone) return;
@@ -86,13 +85,14 @@
     }
 
     if (splash && splash.parentNode) {
+      splash.style.transition = 'opacity 0.35s ease-out';
       splash.style.opacity = '0';
       setTimeout(function() {
         if (splash.parentNode) {
           splash.remove();
         }
         window.dispatchEvent(new CustomEvent('splash-removed'));
-      }, 300);
+      }, 350);
     }
   }
 

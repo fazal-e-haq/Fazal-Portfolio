@@ -1,9 +1,9 @@
 /* ══════════════════════════════════════════════════════════════════════════════
-   Fazal-e-Haq Portfolio — Cinematic Pencil-Drawn Splash Screen
-   Theme: Hand-Drawn Brutalism / Charcoal Pencil Sketch
+   Fazal-e-Haq Portfolio — Cinematic Pencil-Scratch Splash Screen
+   Theme: Hand-Drawn Brutalism / Charcoal Pencil Scratch & Full-Screen Expansion
    ══════════════════════════════════════════════════════════════════════════════ */
 
-/* Root Splash Container */
+/* Root Splash Container with Multi-Layered Pencil Scratch Background */
 #splash-container {
   position: fixed;
   inset: 0;
@@ -12,36 +12,30 @@
   margin: 0;
   padding: 0;
   z-index: 99999;
-  display: grid;
-  place-items: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   overflow: hidden !important;
   cursor: pointer;
   user-select: none;
   -webkit-user-select: none;
 
-  /* 1. Charcoal Pencil Drawn Black Background */
-  background-color: #121212;
+  /* 1. Authentic Charcoal Pencil Scratch Background */
+  background-color: #101010;
   background-image:
-    /* Radial pencil graphite sheen vignette */
-    radial-gradient(circle at 50% 50%, rgba(38, 38, 38, 0.95) 0%, rgba(14, 14, 14, 0.98) 85%),
-    /* Authentic 45° and -45° cross-hatch graphite sketch texture */
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='44' height='44' viewBox='0 0 44 44'%3E%3Cpath d='M-10,10 L30,-30 M0,22 L44,-22 M10,32 L54,-12 M22,44 L66,0 M-22,44 L44,-22 M0,44 L44,0' stroke='rgba(255,255,255,0.04)' stroke-width='1.2' stroke-linecap='round'/%3E%3Cpath d='M-10,34 L34,78 M0,22 L44,66 M10,10 L54,54 M-22,0 L44,66' stroke='rgba(255,255,255,0.025)' stroke-width='0.9' stroke-linecap='round'/%3E%3Cpath d='M-5,15 L35,-25 M5,35 L45,-5' stroke='rgba(0,0,0,0.45)' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E");
-  background-repeat: repeat;
+    /* Graphite Sheen Vignette */
+    radial-gradient(ellipse at 50% 50%, rgba(45, 45, 45, 0.94) 0%, rgba(20, 20, 20, 0.98) 65%, rgba(10, 10, 10, 1) 100%),
+    /* Primary energetic pencil scratches & graphite groove strokes */
+    url("data:image/svg+xml,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20width%3D'140'%20height%3D'140'%20viewBox%3D'0%200%20140%20140'%3E%3C!--%20Group%201%3A%2045%20deg%20graphite%20scratch%20strokes%20--%3E%3Cpath%20d%3D'M-20%2C20%20L50%2C-50%20M0%2C40%20L70%2C-30%20M20%2C60%20L90%2C-10%20M40%2C80%20L110%2C10%20M60%2C100%20L130%2C30%20M80%2C120%20L150%2C50%20M100%2C140%20L170%2C70'%20stroke%3D'rgba(255%2C255%2C255%2C0.07)'%20stroke-width%3D'1.4'%20stroke-linecap%3D'round'%2F%3E%3Cpath%20d%3D'M-10%2C35%20L55%2C-30%20M15%2C55%20L80%2C-10%20M35%2C75%20L100%2C10%20M55%2C95%20L120%2C30%20M75%2C115%20L140%2C50'%20stroke%3D'rgba(255%2C255%2C255%2C0.04)'%20stroke-width%3D'0.9'%20stroke-linecap%3D'round'%2F%3E%3C!--%20Group%202%3A%20Graphite%20pressure%20grooves%20(dark%20shadows)%20--%3E%3Cpath%20d%3D'M2%2C42%20L68%2C-24%20M42%2C82%20L108%2C16%20M82%2C122%20L148%2C56'%20stroke%3D'rgba(0%2C0%2C0%2C0.65)'%20stroke-width%3D'1.6'%20stroke-linecap%3D'round'%2F%3E%3C!--%20Group%203%3A%20Counter-scratch%20scribbles%20(-40%20deg)%20--%3E%3Cpath%20d%3D'M-20%2C100%20L90%2C-10%20M0%2C130%20L120%2C10%20M20%2C160%20L140%2C40%20M40%2C180%20L160%2C60'%20stroke%3D'rgba(255%2C255%2C255%2C0.055)'%20stroke-width%3D'1.2'%20stroke-linecap%3D'round'%2F%3E%3Cpath%20d%3D'M-5%2C115%20L105%2C5%20M15%2C145%20L135%2C25'%20stroke%3D'rgba(0%2C0%2C0%2C0.5)'%20stroke-width%3D'1.0'%20stroke-linecap%3D'round'%2F%3E%3C!--%20Group%204%3A%20Short%20rapid%20pencil%20scratches%20--%3E%3Cpath%20d%3D'M10%2C20%20L40%2C8%20M15%2C24%20L45%2C12%20M70%2C85%20L105%2C70%20M75%2C89%20L110%2C74%20M100%2C25%20L130%2C15%20M25%2C105%20L60%2C92%20M30%2C109%20L65%2C96'%20stroke%3D'rgba(255%2C255%2C255%2C0.08)'%20stroke-width%3D'1.3'%20stroke-linecap%3D'round'%2F%3E%3C%2Fsvg%3E"),
+    /* Secondary fine cross-hatching and graphite stipples */
+    url("data:image/svg+xml,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20width%3D'80'%20height%3D'80'%20viewBox%3D'0%200%2080%2080'%3E%3Cpath%20d%3D'M-10%2C10%20L30%2C-30%20M0%2C20%20L40%2C-20%20M10%2C30%20L50%2C-10%20M20%2C40%20L60%2C0%20M30%2C50%20L70%2C10%20M40%2C60%20L80%2C20%20M50%2C70%20L90%2C30%20M60%2C80%20L100%2C40'%20stroke%3D'rgba(255%2C255%2C255%2C0.035)'%20stroke-width%3D'0.8'%20stroke-linecap%3D'round'%2F%3E%3Cpath%20d%3D'M-10%2C50%20L50%2C-10%20M0%2C70%20L70%2C0%20M10%2C90%20L90%2C10'%20stroke%3D'rgba(255%2C255%2C255%2C0.03)'%20stroke-width%3D'0.7'%20stroke-linecap%3D'round'%2F%3E%3Cpath%20d%3D'M5%2C15%20L25%2C5%20M35%2C45%20L55%2C35%20M55%2C75%20L75%2C65'%20stroke%3D'rgba(255%2C255%2C255%2C0.06)'%20stroke-width%3D'1.1'%20stroke-linecap%3D'round'%2F%3E%3C%2Fsvg%3E");
+  background-repeat: no-repeat, repeat, repeat;
+  background-size: 100% 100%, 140px 140px, 80px 80px;
 
-  transition: opacity 0.4s ease-out;
+  transition: opacity 0.35s ease-out;
 }
 
-/* Outer hand-sketched drawing board border frame */
-.splash-sketch-frame {
-  position: absolute;
-  inset: clamp(10px, 2.5vw, 28px);
-  border: 1.5px dashed rgba(253, 240, 213, 0.16);
-  border-radius: 12px;
-  pointer-events: none;
-  box-shadow: inset 0 0 50px rgba(0, 0, 0, 0.7);
-}
-
-/* Center Stage Wrapper (Guaranteed Dead-Center Alignment) */
+/* Center Stage Content (Dead-Center Alignment: Text + Divider Only) */
 .splash-content {
   position: relative;
   display: flex;
@@ -51,27 +45,27 @@
   text-align: center;
   width: 90vw;
   max-width: 960px;
-  padding: 20px;
+  padding: 0 20px;
   box-sizing: border-box;
   z-index: 2;
-  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.35s ease-out;
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.35s ease-out;
 }
 
-/* When splash begins transition to intro */
+/* Fade out text smoothly when divider begins expanding */
 .splash-content.exiting {
   opacity: 0;
-  transform: scale(0.92);
+  transform: scale(0.96);
 }
 
-/* 2. Headline: "I BUILD DIGITAL PRODUCTS" with Typewriter Cadence */
+/* 2. Headline: "I BUILD DIGITAL PRODUCTS" with Hand-drawn Typewriter Cadence */
 .splash-headline {
   font-family: 'Patrick Hand', cursive, sans-serif;
   font-size: clamp(20px, 5.2vw, 54px);
   font-weight: 900;
-  color: #FDF0D5; /* Warm paper tone glowing on black pencil background */
+  color: #FDF0D5; /* Warm paper tone glowing on dark pencil scratch canvas */
   letter-spacing: clamp(2px, 0.45vw, 5px);
   line-height: 1.15;
-  margin: 0 auto;
+  margin: 0;
   white-space: nowrap;
   overflow: hidden !important;
   display: inline-block;
@@ -79,8 +73,8 @@
   width: 0;
   box-sizing: content-box;
   text-shadow:
-    2px 2px 0px rgba(0, 0, 0, 0.9),
-    0 0 16px rgba(253, 240, 213, 0.18);
+    2px 2px 0px rgba(0, 0, 0, 0.95),
+    0 0 16px rgba(253, 240, 213, 0.2);
 
   animation:
     splashTyping 1.0s steps(24, end) 0.2s forwards,
@@ -93,9 +87,9 @@
   justify-content: center;
   align-items: center;
   width: 100%;
-  margin: clamp(14px, 2.6vh, 26px) 0;
-  position: relative;
   height: 4px;
+  margin: clamp(16px, 2.8vh, 26px) 0;
+  position: relative;
 }
 
 .splash-divider {
@@ -103,10 +97,10 @@
   height: 3.5px;
   background-color: #FDF0D5;
   border-radius: 3px;
-  box-shadow: 0 0 10px rgba(253, 240, 213, 0.35);
+  box-shadow: 0 0 12px rgba(253, 240, 213, 0.4);
   transform-origin: center center;
 
-  animation: splashDrawDivider 0.5s cubic-bezier(0.16, 1, 0.3, 1) 1.25s forwards;
+  animation: splashDrawDivider 0.45s cubic-bezier(0.16, 1, 0.3, 1) 1.2s forwards;
 }
 
 /* 4. Subtitle: "THAT SOLVE REAL PROBLEMS" */
@@ -119,24 +113,25 @@
   margin: 0;
   opacity: 0;
   transform: translateY(12px);
-  text-shadow: 1px 1px 0px rgba(0, 0, 0, 0.8);
+  text-shadow: 1px 1px 0px rgba(0, 0, 0, 0.9);
 
-  animation: splashFadeInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) 1.65s forwards;
+  animation: splashFadeInUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) 1.65s forwards;
 }
 
-/* 5. Cinematic Divider Expansion (Reveals Intro & Warms into #FDF0D5 paper) */
+/* 5. Full-Screen Divider Expansion: Spreads across width then parts vertically to flood screen with #FDF0D5 */
 .splash-divider.expanding {
   position: fixed;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+  margin: 0;
   z-index: 999999;
-  border-radius: 4px;
-  box-shadow: 0 0 40px rgba(253, 240, 213, 0.8);
-  animation: splashExpandPortal 0.85s cubic-bezier(0.7, 0, 0.2, 1) forwards !important;
+  background-color: #FDF0D5;
+  box-shadow: 0 0 60px rgba(253, 240, 213, 0.7);
+  animation: splashExpandFull 0.85s cubic-bezier(0.65, 0, 0.15, 1) forwards !important;
 }
 
-/* Keyframes */
+/* Keyframe Animations */
 @keyframes splashTyping {
   from {
     width: 0;
@@ -161,7 +156,7 @@
     width: 0;
   }
   to {
-    width: clamp(110px, 22vw, 190px);
+    width: clamp(120px, 24vw, 200px);
   }
 }
 
@@ -176,34 +171,34 @@
   }
 }
 
-/* Divider expands horizontally first, then vertically into full-screen paper */
-@keyframes splashExpandPortal {
+/* Proper 2-stage expansion:
+   Stage 1 (0% -> 32%): Divider rapidly snaps out to 100vw across full screen width.
+   Stage 2 (32% -> 85%): Divider smoothly expands vertically to 105vh, flooding full viewport with #FDF0D5 paper.
+   Stage 3 (85% -> 100%): Holds solid #FDF0D5 while splash-container cleanly dissolves into Flutter canvas.
+*/
+@keyframes splashExpandFull {
   0% {
-    width: clamp(110px, 22vw, 190px);
+    width: clamp(120px, 24vw, 200px);
     height: 3.5px;
-    background-color: #FDF0D5;
     border-radius: 3px;
     opacity: 1;
   }
-  30% {
+  32% {
     width: 100vw;
     height: 5px;
-    background-color: #FDF0D5;
-    border-radius: 4px;
+    border-radius: 2px;
     opacity: 1;
   }
   85% {
-    width: 110vw;
-    height: 110vh;
-    background-color: #FDF0D5;
+    width: 105vw;
+    height: 105vh;
     border-radius: 0;
     opacity: 1;
   }
   100% {
-    width: 110vw;
-    height: 110vh;
-    background-color: #FDF0D5;
+    width: 105vw;
+    height: 105vh;
     border-radius: 0;
-    opacity: 0;
+    opacity: 1;
   }
 }
