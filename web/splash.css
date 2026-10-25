@@ -1,9 +1,9 @@
 /* ══════════════════════════════════════════════════════════════════════════════
-   Fazal-e-Haq Portfolio — Rough Blackboard Splash Screen
-   Theme: Rough Blackboard Slate & Full-Screen (H+V) Divider Expansion
+   Fazal-e-Haq Portfolio — Authentic Erased Blackboard Splash Screen
+   Theme: Erased Chalkboard with Random Chalk Whiteness & Shadow-Free Text/Divider
    ══════════════════════════════════════════════════════════════════════════════ */
 
-/* Root Splash Container with Rough Blackboard Chalk/Slate Texture */
+/* Root Splash Container with Random Chalk Whiteness & Erased Blackboard Slate */
 #splash-container {
   position: fixed;
   inset: 0;
@@ -20,15 +20,27 @@
   user-select: none;
   -webkit-user-select: none;
 
-  /* 1. Authentic Rough Blackboard Texture */
-  background-color: #131514;
+  /* 1. Deep Matte Blackboard Slate Base */
+  background-color: #121413;
+
+  /* 2. Layered Random Chalk Whiteness: Realistic eraser smudges, chalk dust clouds & slate scratches */
   background-image:
-    /* Center illumination on blackboard */
-    radial-gradient(ellipse at 50% 50%, rgba(44, 48, 46, 0.92) 0%, rgba(20, 22, 21, 0.97) 65%, rgba(11, 13, 12, 1) 100%),
-    /* Rough chalk eraser dust, chalk wipe marks & slate scratches */
-    url("data:image/svg+xml,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20width%3D'180'%20height%3D'180'%20viewBox%3D'0%200%20180%20180'%3E%3C!--%20Layer%201%3A%20Blackboard%20slate%20rough%20grain%20scratches%20--%3E%3Cpath%20d%3D'M-20%2C30%20L70%2C-40%20M10%2C60%20L90%2C-20%20M40%2C90%20L120%2C10%20M70%2C120%20L150%2C40%20M100%2C150%20L180%2C70%20M130%2C180%20L200%2C100'%20stroke%3D'rgba(255%2C255%2C255%2C0.05)'%20stroke-width%3D'1.2'%20stroke-linecap%3D'round'%2F%3E%3Cpath%20d%3D'M-10%2C80%20L100%2C-30%20M20%2C110%20L130%2C0%20M50%2C140%20L160%2C30%20M80%2C170%20L190%2C60'%20stroke%3D'rgba(255%2C255%2C255%2C0.04)'%20stroke-width%3D'0.9'%20stroke-linecap%3D'round'%2F%3E%3C!--%20Layer%202%3A%20Rough%20chalk%20strokes%20and%20eraser%20wipe%20marks%20--%3E%3Cpath%20d%3D'M5%2C25%20Q45%2C20%2085%2C28%20Q125%2C35%20165%2C22'%20stroke%3D'rgba(255%2C255%2C255%2C0.045)'%20stroke-width%3D'3.2'%20stroke-linecap%3D'round'%20fill%3D'none'%2F%3E%3Cpath%20d%3D'M15%2C95%20Q55%2C90%2095%2C98%20Q135%2C105%20175%2C92'%20stroke%3D'rgba(255%2C255%2C255%2C0.04)'%20stroke-width%3D'2.6'%20stroke-linecap%3D'round'%20fill%3D'none'%2F%3E%3Cpath%20d%3D'M0%2C155%20Q40%2C150%2080%2C158%20Q120%2C165%20160%2C152'%20stroke%3D'rgba(255%2C255%2C255%2C0.035)'%20stroke-width%3D'3.5'%20stroke-linecap%3D'round'%20fill%3D'none'%2F%3E%3C!--%20Layer%203%3A%20Chalk%20dust%20stipples%20%26%20grain%20specks%20--%3E%3Ccircle%20cx%3D'25'%20cy%3D'45'%20r%3D'1.2'%20fill%3D'rgba(255%2C255%2C255%2C0.07)'%2F%3E%3Ccircle%20cx%3D'65'%20cy%3D'35'%20r%3D'0.8'%20fill%3D'rgba(255%2C255%2C255%2C0.06)'%2F%3E%3Ccircle%20cx%3D'115'%20cy%3D'55'%20r%3D'1.4'%20fill%3D'rgba(255%2C255%2C255%2C0.08)'%2F%3E%3Ccircle%20cx%3D'145'%20cy%3D'25'%20r%3D'1.0'%20fill%3D'rgba(255%2C255%2C255%2C0.06)'%2F%3E%3Ccircle%20cx%3D'35'%20cy%3D'115'%20r%3D'1.1'%20fill%3D'rgba(255%2C255%2C255%2C0.07)'%2F%3E%3Ccircle%20cx%3D'85'%20cy%3D'125'%20r%3D'1.5'%20fill%3D'rgba(255%2C255%2C255%2C0.09)'%2F%3E%3Ccircle%20cx%3D'135'%20cy%3D'105'%20r%3D'0.9'%20fill%3D'rgba(255%2C255%2C255%2C0.06)'%2F%3E%3Ccircle%20cx%3D'165'%20cy%3D'135'%20r%3D'1.3'%20fill%3D'rgba(255%2C255%2C255%2C0.08)'%2F%3E%3Ccircle%20cx%3D'50'%20cy%3D'165'%20r%3D'1.0'%20fill%3D'rgba(255%2C255%2C255%2C0.06)'%2F%3E%3Ccircle%20cx%3D'110'%20cy%3D'170'%20r%3D'1.2'%20fill%3D'rgba(255%2C255%2C255%2C0.07)'%2F%3E%3C!--%20Layer%204%3A%20Deep%20slate%20scratches%20(charcoal%20pressure%20lines)%20--%3E%3Cpath%20d%3D'M0%2C45%20L85%2C-40%20M60%2C115%20L145%2C30%20M20%2C165%20L105%2C80'%20stroke%3D'rgba(0%2C0%2C0%2C0.65)'%20stroke-width%3D'1.6'%20stroke-linecap%3D'round'%2F%3E%3Cpath%20d%3D'M-10%2C135%20L125%2C0%20M40%2C195%20L175%2C60'%20stroke%3D'rgba(0%2C0%2C0%2C0.55)'%20stroke-width%3D'1.3'%20stroke-linecap%3D'round'%2F%3E%3C%2Fsvg%3E");
-  background-repeat: no-repeat, repeat;
-  background-size: 100% 100%, 180px 180px;
+    /* Random chalk smudge patch 1: Upper-left eraser wipe */
+    radial-gradient(ellipse 480px 240px at 18% 22%, rgba(255, 255, 255, 0.08) 0%, transparent 68%),
+    /* Random chalk smudge patch 2: Bottom-right cloudy chalk haze */
+    radial-gradient(ellipse 520px 280px at 82% 70%, rgba(255, 255, 255, 0.075) 0%, transparent 68%),
+    /* Random chalk smudge patch 3: Top-right duster swipe mark */
+    radial-gradient(ellipse 380px 200px at 72% 26%, rgba(255, 255, 255, 0.065) 0%, transparent 62%),
+    /* Random chalk smudge patch 4: Bottom-left eraser streak */
+    radial-gradient(ellipse 440px 260px at 28% 78%, rgba(255, 255, 255, 0.07) 0%, transparent 65%),
+    /* Central soft chalk dust halo */
+    radial-gradient(circle 340px at 50% 50%, rgba(255, 255, 255, 0.05) 0%, transparent 75%),
+    /* Slate vignette edge shadows */
+    radial-gradient(ellipse at 50% 50%, transparent 50%, rgba(8, 10, 9, 0.85) 100%),
+    /* Authentic erased blackboard chalk streaks, duster smears & slate scratches */
+    url("data:image/svg+xml,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20width%3D'320'%20height%3D'320'%20viewBox%3D'0%200%20320%20320'%3E%3C!--%20Random%20chalk%20eraser%20wipes%20(cloudy%20wide%20smudge%20marks)%20--%3E%3Cpath%20d%3D'M-30%2C60%20Q80%2C45%20190%2C65%20T350%2C55'%20stroke%3D'rgba(255%2C255%2C255%2C0.07)'%20stroke-width%3D'28'%20stroke-linecap%3D'round'%20fill%3D'none'%2F%3E%3Cpath%20d%3D'M20%2C130%20Q140%2C110%20260%2C135%20T360%2C120'%20stroke%3D'rgba(255%2C255%2C255%2C0.06)'%20stroke-width%3D'34'%20stroke-linecap%3D'round'%20fill%3D'none'%2F%3E%3Cpath%20d%3D'M-20%2C210%20Q90%2C225%20210%2C205%20T340%2C215'%20stroke%3D'rgba(255%2C255%2C255%2C0.075)'%20stroke-width%3D'30'%20stroke-linecap%3D'round'%20fill%3D'none'%2F%3E%3Cpath%20d%3D'M30%2C280%20Q150%2C265%20270%2C290'%20stroke%3D'rgba(255%2C255%2C255%2C0.055)'%20stroke-width%3D'26'%20stroke-linecap%3D'round'%20fill%3D'none'%2F%3E%3C!--%20Diagonal%20eraser%20rub%20swirls%20%26%20streaks%20--%3E%3Cpath%20d%3D'M40%2C20%20Q120%2C90%20200%2C160%20Q280%2C230%20310%2C310'%20stroke%3D'rgba(255%2C255%2C255%2C0.05)'%20stroke-width%3D'22'%20stroke-linecap%3D'round'%20fill%3D'none'%2F%3E%3Cpath%20d%3D'M280%2C10%20Q190%2C110%20110%2C210%20Q30%2C310%2010%2C330'%20stroke%3D'rgba(255%2C255%2C255%2C0.045)'%20stroke-width%3D'20'%20stroke-linecap%3D'round'%20fill%3D'none'%2F%3E%3C!--%20Ghostly%20chalk%20text%20rub-off%20patches%20(remnants%20of%20erased%20writing)%20--%3E%3Cpath%20d%3D'M60%2C75%20Q90%2C70%20120%2C78%20M70%2C88%20Q100%2C82%20130%2C90%20M75%2C100%20L115%2C96'%20stroke%3D'rgba(255%2C255%2C255%2C0.09)'%20stroke-width%3D'4.5'%20stroke-linecap%3D'round'%20fill%3D'none'%2F%3E%3Cpath%20d%3D'M190%2C160%20Q225%2C152%20260%2C163%20M200%2C172%20Q230%2C168%20270%2C174%20M210%2C184%20L255%2C180'%20stroke%3D'rgba(255%2C255%2C255%2C0.08)'%20stroke-width%3D'4.0'%20stroke-linecap%3D'round'%20fill%3D'none'%2F%3E%3Cpath%20d%3D'M80%2C235%20Q120%2C230%20160%2C238%20M90%2C248%20L150%2C244'%20stroke%3D'rgba(255%2C255%2C255%2C0.085)'%20stroke-width%3D'4.2'%20stroke-linecap%3D'round'%20fill%3D'none'%2F%3E%3C!--%20Rough%20slate%20scratches%20%26%20chalk%20lines%20--%3E%3Cpath%20d%3D'M-20%2C40%20L90%2C-30%20M30%2C90%20L140%2C20%20M90%2C150%20L200%2C80%20M150%2C210%20L260%2C140%20M210%2C270%20L320%2C200%20M270%2C330%20L350%2C260'%20stroke%3D'rgba(255%2C255%2C255%2C0.06)'%20stroke-width%3D'1.4'%20stroke-linecap%3D'round'%2F%3E%3Cpath%20d%3D'M-10%2C120%20L130%2C-10%20M40%2C180%20L180%2C50%20M100%2C240%20L240%2C110%20M160%2C300%20L300%2C170'%20stroke%3D'rgba(255%2C255%2C255%2C0.045)'%20stroke-width%3D'1.1'%20stroke-linecap%3D'round'%2F%3E%3Cpath%20d%3D'M0%2C220%20L160%2C70%20M60%2C280%20L220%2C130%20M120%2C340%20L280%2C190'%20stroke%3D'rgba(255%2C255%2C255%2C0.05)'%20stroke-width%3D'1.2'%20stroke-linecap%3D'round'%2F%3E%3C!--%20Charcoal%20%2F%20deep%20slate%20groove%20scratches%20--%3E%3Cpath%20d%3D'M15%2C65%20L115%2C-15%20M115%2C165%20L215%2C85%20M75%2C255%20L175%2C175'%20stroke%3D'rgba(0%2C0%2C0%2C0.65)'%20stroke-width%3D'1.8'%20stroke-linecap%3D'round'%2F%3E%3Cpath%20d%3D'M-10%2C195%20L145%2C55%20M95%2C295%20L250%2C155'%20stroke%3D'rgba(0%2C0%2C0%2C0.55)'%20stroke-width%3D'1.5'%20stroke-linecap%3D'round'%2F%3E%3C!--%20Chalk%20dust%20particles%2C%20specks%20and%20stipples%20--%3E%3Ccircle%20cx%3D'35'%20cy%3D'55'%20r%3D'1.5'%20fill%3D'rgba(255%2C255%2C255%2C0.12)'%2F%3E%3Ccircle%20cx%3D'48'%20cy%3D'62'%20r%3D'1.0'%20fill%3D'rgba(255%2C255%2C255%2C0.09)'%2F%3E%3Ccircle%20cx%3D'95'%20cy%3D'45'%20r%3D'1.3'%20fill%3D'rgba(255%2C255%2C255%2C0.11)'%2F%3E%3Ccircle%20cx%3D'140'%20cy%3D'85'%20r%3D'1.8'%20fill%3D'rgba(255%2C255%2C255%2C0.13)'%2F%3E%3Ccircle%20cx%3D'180'%20cy%3D'35'%20r%3D'1.1'%20fill%3D'rgba(255%2C255%2C255%2C0.09)'%2F%3E%3Ccircle%20cx%3D'235'%20cy%3D'75'%20r%3D'1.4'%20fill%3D'rgba(255%2C255%2C255%2C0.12)'%2F%3E%3Ccircle%20cx%3D'285'%20cy%3D'45'%20r%3D'1.2'%20fill%3D'rgba(255%2C255%2C255%2C0.10)'%2F%3E%3Ccircle%20cx%3D'55'%20cy%3D'145'%20r%3D'1.6'%20fill%3D'rgba(255%2C255%2C255%2C0.12)'%2F%3E%3Ccircle%20cx%3D'115'%20cy%3D'130'%20r%3D'1.2'%20fill%3D'rgba(255%2C255%2C255%2C0.10)'%2F%3E%3Ccircle%20cx%3D'175'%20cy%3D'155'%20r%3D'1.9'%20fill%3D'rgba(255%2C255%2C255%2C0.14)'%2F%3E%3Ccircle%20cx%3D'215'%20cy%3D'120'%20r%3D'1.1'%20fill%3D'rgba(255%2C255%2C255%2C0.08)'%2F%3E%3Ccircle%20cx%3D'270'%20cy%3D'165'%20r%3D'1.5'%20fill%3D'rgba(255%2C255%2C255%2C0.11)'%2F%3E%3Ccircle%20cx%3D'45'%20cy%3D'225'%20r%3D'1.3'%20fill%3D'rgba(255%2C255%2C255%2C0.10)'%2F%3E%3Ccircle%20cx%3D'105'%20cy%3D'210'%20r%3D'1.7'%20fill%3D'rgba(255%2C255%2C255%2C0.13)'%2F%3E%3Ccircle%20cx%3D'155'%20cy%3D'235'%20r%3D'1.1'%20fill%3D'rgba(255%2C255%2C255%2C0.09)'%2F%3E%3Ccircle%20cx%3D'225'%20cy%3D'220'%20r%3D'1.5'%20fill%3D'rgba(255%2C255%2C255%2C0.12)'%2F%3E%3Ccircle%20cx%3D'285'%20cy%3D'245'%20r%3D'1.8'%20fill%3D'rgba(255%2C255%2C255%2C0.13)'%2F%3E%3Ccircle%20cx%3D'70'%20cy%3D'295'%20r%3D'1.2'%20fill%3D'rgba(255%2C255%2C255%2C0.09)'%2F%3E%3Ccircle%20cx%3D'145'%20cy%3D'280'%20r%3D'1.6'%20fill%3D'rgba(255%2C255%2C255%2C0.12)'%2F%3E%3Ccircle%20cx%3D'200'%20cy%3D'305'%20r%3D'1.4'%20fill%3D'rgba(255%2C255%2C255%2C0.11)'%2F%3E%3Ccircle%20cx%3D'260'%20cy%3D'275'%20r%3D'1.1'%20fill%3D'rgba(255%2C255%2C255%2C0.08)'%2F%3E%3C%2Fsvg%3E");
+  background-repeat: no-repeat, no-repeat, no-repeat, no-repeat, no-repeat, no-repeat, repeat;
+  background-size: 100% 100%, 100% 100%, 100% 100%, 100% 100%, 100% 100%, 100% 100%, 320px 320px;
 
   transition: opacity 0.35s ease-out;
 }
@@ -48,24 +60,23 @@
   z-index: 2;
 }
 
-/* 2. Headline: "I BUILD DIGITAL PRODUCTS" (NO pipe cursor) */
+/* 2. Headline: "I BUILD DIGITAL PRODUCTS" (Pure Chalk on Blackboard, ZERO Shadow, ZERO Pipe) */
 .splash-headline {
   font-family: 'Patrick Hand', cursive, sans-serif;
   font-size: clamp(20px, 5.2vw, 54px);
   font-weight: 900;
-  color: #FDF0D5; /* Warm chalk glow on blackboard */
+  color: #FDF0D5; /* Clean chalk white-paper tone */
   letter-spacing: clamp(2px, 0.45vw, 5px);
   line-height: 1.15;
   margin: 0;
   white-space: nowrap;
   overflow: hidden !important;
   display: inline-block;
-  border-right: none !important; /* Zero pipe / vertical bar cursor */
+  border-right: none !important; /* Zero pipe cursor */
+  text-shadow: none !important;  /* Zero text shadow */
+  box-shadow: none !important;
   width: 0;
   box-sizing: content-box;
-  text-shadow:
-    2px 2px 0px rgba(0, 0, 0, 0.95),
-    0 0 16px rgba(253, 240, 213, 0.2);
 
   animation: splashTyping 1.0s steps(24, end) 0.2s forwards;
   transition: opacity 0.35s ease-out, transform 0.35s ease-out;
@@ -77,7 +88,7 @@
   transform: scale(0.95) !important;
 }
 
-/* 3. The Hand-Drawn Chalk/Pencil Divider */
+/* 3. The Hand-Drawn Chalk Divider (ZERO Shadow) */
 .splash-divider-wrap {
   display: flex;
   justify-content: center;
@@ -93,29 +104,31 @@
   height: 3.5px;
   background-color: #FDF0D5;
   border-radius: 3px;
-  box-shadow: 0 0 14px rgba(253, 240, 213, 0.45);
+  box-shadow: none !important;   /* Zero box shadow */
+  text-shadow: none !important;
   transform-origin: center center;
 
   animation: splashDrawDivider 0.45s cubic-bezier(0.16, 1, 0.3, 1) 1.2s forwards;
 }
 
-/* 4. Subtitle: "THAT SOLVE REAL PROBLEMS" */
+/* 4. Subtitle: "THAT SOLVE REAL PROBLEMS" (ZERO Shadow) */
 .splash-subtitle {
   font-family: 'Patrick Hand', cursive, sans-serif;
   font-size: clamp(11px, 2.4vw, 20px);
   font-weight: 900;
-  color: rgba(253, 240, 213, 0.92);
+  color: rgba(253, 240, 213, 0.95);
   letter-spacing: clamp(3px, 0.8vw, 7px);
   margin: 0;
   opacity: 0;
   transform: translateY(12px);
-  text-shadow: 1px 1px 0px rgba(0, 0, 0, 0.9);
+  text-shadow: none !important;  /* Zero text shadow */
+  box-shadow: none !important;
 
   animation: splashFadeInUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) 1.65s forwards;
   transition: opacity 0.35s ease-out, transform 0.35s ease-out;
 }
 
-/* 5. Full-Screen Divider Expansion: Expands Horizontally AND Vertically to Cover All Screen */
+/* 5. Full-Screen Divider Expansion: Spreads across width & height to completely cover the screen (ZERO Shadow) */
 .splash-divider.expanding {
   position: fixed !important;
   top: 50% !important;
@@ -124,7 +137,7 @@
   margin: 0 !important;
   z-index: 999999 !important;
   background-color: #FDF0D5 !important;
-  box-shadow: 0 0 80px rgba(253, 240, 213, 0.8) !important;
+  box-shadow: none !important;   /* Zero box shadow on expansion */
   animation: splashExpandFullScreen 0.9s cubic-bezier(0.65, 0, 0.15, 1) forwards !important;
 }
 
@@ -158,7 +171,7 @@
   }
 }
 
-/* Expands both horizontally AND vertically to completely flood the screen */
+/* Expands both horizontally AND vertically to completely flood the screen with #FDF0D5 paper */
 @keyframes splashExpandFullScreen {
   0% {
     width: clamp(120px, 24vw, 200px);
