@@ -1,9 +1,9 @@
 /* ══════════════════════════════════════════════════════════════════════════════
-   Fazal-e-Haq Portfolio — Cinematic Pencil-Scratch Splash Screen
-   Theme: Hand-Drawn Brutalism / Charcoal Pencil Scratch & Full-Screen Expansion
+   Fazal-e-Haq Portfolio — Rough Blackboard Splash Screen
+   Theme: Rough Blackboard Slate & Full-Screen (H+V) Divider Expansion
    ══════════════════════════════════════════════════════════════════════════════ */
 
-/* Root Splash Container with Multi-Layered Pencil Scratch Background */
+/* Root Splash Container with Rough Blackboard Chalk/Slate Texture */
 #splash-container {
   position: fixed;
   inset: 0;
@@ -20,22 +20,20 @@
   user-select: none;
   -webkit-user-select: none;
 
-  /* 1. Authentic Charcoal Pencil Scratch Background */
-  background-color: #101010;
+  /* 1. Authentic Rough Blackboard Texture */
+  background-color: #131514;
   background-image:
-    /* Graphite Sheen Vignette */
-    radial-gradient(ellipse at 50% 50%, rgba(45, 45, 45, 0.94) 0%, rgba(20, 20, 20, 0.98) 65%, rgba(10, 10, 10, 1) 100%),
-    /* Primary energetic pencil scratches & graphite groove strokes */
-    url("data:image/svg+xml,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20width%3D'140'%20height%3D'140'%20viewBox%3D'0%200%20140%20140'%3E%3C!--%20Group%201%3A%2045%20deg%20graphite%20scratch%20strokes%20--%3E%3Cpath%20d%3D'M-20%2C20%20L50%2C-50%20M0%2C40%20L70%2C-30%20M20%2C60%20L90%2C-10%20M40%2C80%20L110%2C10%20M60%2C100%20L130%2C30%20M80%2C120%20L150%2C50%20M100%2C140%20L170%2C70'%20stroke%3D'rgba(255%2C255%2C255%2C0.07)'%20stroke-width%3D'1.4'%20stroke-linecap%3D'round'%2F%3E%3Cpath%20d%3D'M-10%2C35%20L55%2C-30%20M15%2C55%20L80%2C-10%20M35%2C75%20L100%2C10%20M55%2C95%20L120%2C30%20M75%2C115%20L140%2C50'%20stroke%3D'rgba(255%2C255%2C255%2C0.04)'%20stroke-width%3D'0.9'%20stroke-linecap%3D'round'%2F%3E%3C!--%20Group%202%3A%20Graphite%20pressure%20grooves%20(dark%20shadows)%20--%3E%3Cpath%20d%3D'M2%2C42%20L68%2C-24%20M42%2C82%20L108%2C16%20M82%2C122%20L148%2C56'%20stroke%3D'rgba(0%2C0%2C0%2C0.65)'%20stroke-width%3D'1.6'%20stroke-linecap%3D'round'%2F%3E%3C!--%20Group%203%3A%20Counter-scratch%20scribbles%20(-40%20deg)%20--%3E%3Cpath%20d%3D'M-20%2C100%20L90%2C-10%20M0%2C130%20L120%2C10%20M20%2C160%20L140%2C40%20M40%2C180%20L160%2C60'%20stroke%3D'rgba(255%2C255%2C255%2C0.055)'%20stroke-width%3D'1.2'%20stroke-linecap%3D'round'%2F%3E%3Cpath%20d%3D'M-5%2C115%20L105%2C5%20M15%2C145%20L135%2C25'%20stroke%3D'rgba(0%2C0%2C0%2C0.5)'%20stroke-width%3D'1.0'%20stroke-linecap%3D'round'%2F%3E%3C!--%20Group%204%3A%20Short%20rapid%20pencil%20scratches%20--%3E%3Cpath%20d%3D'M10%2C20%20L40%2C8%20M15%2C24%20L45%2C12%20M70%2C85%20L105%2C70%20M75%2C89%20L110%2C74%20M100%2C25%20L130%2C15%20M25%2C105%20L60%2C92%20M30%2C109%20L65%2C96'%20stroke%3D'rgba(255%2C255%2C255%2C0.08)'%20stroke-width%3D'1.3'%20stroke-linecap%3D'round'%2F%3E%3C%2Fsvg%3E"),
-    /* Secondary fine cross-hatching and graphite stipples */
-    url("data:image/svg+xml,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20width%3D'80'%20height%3D'80'%20viewBox%3D'0%200%2080%2080'%3E%3Cpath%20d%3D'M-10%2C10%20L30%2C-30%20M0%2C20%20L40%2C-20%20M10%2C30%20L50%2C-10%20M20%2C40%20L60%2C0%20M30%2C50%20L70%2C10%20M40%2C60%20L80%2C20%20M50%2C70%20L90%2C30%20M60%2C80%20L100%2C40'%20stroke%3D'rgba(255%2C255%2C255%2C0.035)'%20stroke-width%3D'0.8'%20stroke-linecap%3D'round'%2F%3E%3Cpath%20d%3D'M-10%2C50%20L50%2C-10%20M0%2C70%20L70%2C0%20M10%2C90%20L90%2C10'%20stroke%3D'rgba(255%2C255%2C255%2C0.03)'%20stroke-width%3D'0.7'%20stroke-linecap%3D'round'%2F%3E%3Cpath%20d%3D'M5%2C15%20L25%2C5%20M35%2C45%20L55%2C35%20M55%2C75%20L75%2C65'%20stroke%3D'rgba(255%2C255%2C255%2C0.06)'%20stroke-width%3D'1.1'%20stroke-linecap%3D'round'%2F%3E%3C%2Fsvg%3E");
-  background-repeat: no-repeat, repeat, repeat;
-  background-size: 100% 100%, 140px 140px, 80px 80px;
+    /* Center illumination on blackboard */
+    radial-gradient(ellipse at 50% 50%, rgba(44, 48, 46, 0.92) 0%, rgba(20, 22, 21, 0.97) 65%, rgba(11, 13, 12, 1) 100%),
+    /* Rough chalk eraser dust, chalk wipe marks & slate scratches */
+    url("data:image/svg+xml,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20width%3D'180'%20height%3D'180'%20viewBox%3D'0%200%20180%20180'%3E%3C!--%20Layer%201%3A%20Blackboard%20slate%20rough%20grain%20scratches%20--%3E%3Cpath%20d%3D'M-20%2C30%20L70%2C-40%20M10%2C60%20L90%2C-20%20M40%2C90%20L120%2C10%20M70%2C120%20L150%2C40%20M100%2C150%20L180%2C70%20M130%2C180%20L200%2C100'%20stroke%3D'rgba(255%2C255%2C255%2C0.05)'%20stroke-width%3D'1.2'%20stroke-linecap%3D'round'%2F%3E%3Cpath%20d%3D'M-10%2C80%20L100%2C-30%20M20%2C110%20L130%2C0%20M50%2C140%20L160%2C30%20M80%2C170%20L190%2C60'%20stroke%3D'rgba(255%2C255%2C255%2C0.04)'%20stroke-width%3D'0.9'%20stroke-linecap%3D'round'%2F%3E%3C!--%20Layer%202%3A%20Rough%20chalk%20strokes%20and%20eraser%20wipe%20marks%20--%3E%3Cpath%20d%3D'M5%2C25%20Q45%2C20%2085%2C28%20Q125%2C35%20165%2C22'%20stroke%3D'rgba(255%2C255%2C255%2C0.045)'%20stroke-width%3D'3.2'%20stroke-linecap%3D'round'%20fill%3D'none'%2F%3E%3Cpath%20d%3D'M15%2C95%20Q55%2C90%2095%2C98%20Q135%2C105%20175%2C92'%20stroke%3D'rgba(255%2C255%2C255%2C0.04)'%20stroke-width%3D'2.6'%20stroke-linecap%3D'round'%20fill%3D'none'%2F%3E%3Cpath%20d%3D'M0%2C155%20Q40%2C150%2080%2C158%20Q120%2C165%20160%2C152'%20stroke%3D'rgba(255%2C255%2C255%2C0.035)'%20stroke-width%3D'3.5'%20stroke-linecap%3D'round'%20fill%3D'none'%2F%3E%3C!--%20Layer%203%3A%20Chalk%20dust%20stipples%20%26%20grain%20specks%20--%3E%3Ccircle%20cx%3D'25'%20cy%3D'45'%20r%3D'1.2'%20fill%3D'rgba(255%2C255%2C255%2C0.07)'%2F%3E%3Ccircle%20cx%3D'65'%20cy%3D'35'%20r%3D'0.8'%20fill%3D'rgba(255%2C255%2C255%2C0.06)'%2F%3E%3Ccircle%20cx%3D'115'%20cy%3D'55'%20r%3D'1.4'%20fill%3D'rgba(255%2C255%2C255%2C0.08)'%2F%3E%3Ccircle%20cx%3D'145'%20cy%3D'25'%20r%3D'1.0'%20fill%3D'rgba(255%2C255%2C255%2C0.06)'%2F%3E%3Ccircle%20cx%3D'35'%20cy%3D'115'%20r%3D'1.1'%20fill%3D'rgba(255%2C255%2C255%2C0.07)'%2F%3E%3Ccircle%20cx%3D'85'%20cy%3D'125'%20r%3D'1.5'%20fill%3D'rgba(255%2C255%2C255%2C0.09)'%2F%3E%3Ccircle%20cx%3D'135'%20cy%3D'105'%20r%3D'0.9'%20fill%3D'rgba(255%2C255%2C255%2C0.06)'%2F%3E%3Ccircle%20cx%3D'165'%20cy%3D'135'%20r%3D'1.3'%20fill%3D'rgba(255%2C255%2C255%2C0.08)'%2F%3E%3Ccircle%20cx%3D'50'%20cy%3D'165'%20r%3D'1.0'%20fill%3D'rgba(255%2C255%2C255%2C0.06)'%2F%3E%3Ccircle%20cx%3D'110'%20cy%3D'170'%20r%3D'1.2'%20fill%3D'rgba(255%2C255%2C255%2C0.07)'%2F%3E%3C!--%20Layer%204%3A%20Deep%20slate%20scratches%20(charcoal%20pressure%20lines)%20--%3E%3Cpath%20d%3D'M0%2C45%20L85%2C-40%20M60%2C115%20L145%2C30%20M20%2C165%20L105%2C80'%20stroke%3D'rgba(0%2C0%2C0%2C0.65)'%20stroke-width%3D'1.6'%20stroke-linecap%3D'round'%2F%3E%3Cpath%20d%3D'M-10%2C135%20L125%2C0%20M40%2C195%20L175%2C60'%20stroke%3D'rgba(0%2C0%2C0%2C0.55)'%20stroke-width%3D'1.3'%20stroke-linecap%3D'round'%2F%3E%3C%2Fsvg%3E");
+  background-repeat: no-repeat, repeat;
+  background-size: 100% 100%, 180px 180px;
 
   transition: opacity 0.35s ease-out;
 }
 
-/* Center Stage Content (Dead-Center Alignment: Text + Divider Only) */
+/* Center Content Wrapper: Strictly Text + Divider */
 .splash-content {
   position: relative;
   display: flex;
@@ -48,40 +46,38 @@
   padding: 0 20px;
   box-sizing: border-box;
   z-index: 2;
-  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.35s ease-out;
 }
 
-/* Fade out text smoothly when divider begins expanding */
-.splash-content.exiting {
-  opacity: 0;
-  transform: scale(0.96);
-}
-
-/* 2. Headline: "I BUILD DIGITAL PRODUCTS" with Hand-drawn Typewriter Cadence */
+/* 2. Headline: "I BUILD DIGITAL PRODUCTS" (NO pipe cursor) */
 .splash-headline {
   font-family: 'Patrick Hand', cursive, sans-serif;
   font-size: clamp(20px, 5.2vw, 54px);
   font-weight: 900;
-  color: #FDF0D5; /* Warm paper tone glowing on dark pencil scratch canvas */
+  color: #FDF0D5; /* Warm chalk glow on blackboard */
   letter-spacing: clamp(2px, 0.45vw, 5px);
   line-height: 1.15;
   margin: 0;
   white-space: nowrap;
   overflow: hidden !important;
   display: inline-block;
-  border-right: 3.5px solid #FDF0D5;
+  border-right: none !important; /* Zero pipe / vertical bar cursor */
   width: 0;
   box-sizing: content-box;
   text-shadow:
     2px 2px 0px rgba(0, 0, 0, 0.95),
     0 0 16px rgba(253, 240, 213, 0.2);
 
-  animation:
-    splashTyping 1.0s steps(24, end) 0.2s forwards,
-    splashBlinkCursor 0.55s step-end infinite;
+  animation: splashTyping 1.0s steps(24, end) 0.2s forwards;
+  transition: opacity 0.35s ease-out, transform 0.35s ease-out;
 }
 
-/* 3. The Hand-Drawn Pencil Divider */
+.splash-headline.fade-out,
+.splash-subtitle.fade-out {
+  opacity: 0 !important;
+  transform: scale(0.95) !important;
+}
+
+/* 3. The Hand-Drawn Chalk/Pencil Divider */
 .splash-divider-wrap {
   display: flex;
   justify-content: center;
@@ -97,7 +93,7 @@
   height: 3.5px;
   background-color: #FDF0D5;
   border-radius: 3px;
-  box-shadow: 0 0 12px rgba(253, 240, 213, 0.4);
+  box-shadow: 0 0 14px rgba(253, 240, 213, 0.45);
   transform-origin: center center;
 
   animation: splashDrawDivider 0.45s cubic-bezier(0.16, 1, 0.3, 1) 1.2s forwards;
@@ -116,19 +112,20 @@
   text-shadow: 1px 1px 0px rgba(0, 0, 0, 0.9);
 
   animation: splashFadeInUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) 1.65s forwards;
+  transition: opacity 0.35s ease-out, transform 0.35s ease-out;
 }
 
-/* 5. Full-Screen Divider Expansion: Spreads across width then parts vertically to flood screen with #FDF0D5 */
+/* 5. Full-Screen Divider Expansion: Expands Horizontally AND Vertically to Cover All Screen */
 .splash-divider.expanding {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  margin: 0;
-  z-index: 999999;
-  background-color: #FDF0D5;
-  box-shadow: 0 0 60px rgba(253, 240, 213, 0.7);
-  animation: splashExpandFull 0.85s cubic-bezier(0.65, 0, 0.15, 1) forwards !important;
+  position: fixed !important;
+  top: 50% !important;
+  left: 50% !important;
+  transform: translate(-50%, -50%) !important;
+  margin: 0 !important;
+  z-index: 999999 !important;
+  background-color: #FDF0D5 !important;
+  box-shadow: 0 0 80px rgba(253, 240, 213, 0.8) !important;
+  animation: splashExpandFullScreen 0.9s cubic-bezier(0.65, 0, 0.15, 1) forwards !important;
 }
 
 /* Keyframe Animations */
@@ -138,16 +135,6 @@
   }
   to {
     width: 100%;
-    border-right-color: transparent;
-  }
-}
-
-@keyframes splashBlinkCursor {
-  from, to {
-    border-right-color: #FDF0D5;
-  }
-  50% {
-    border-right-color: transparent;
   }
 }
 
@@ -171,33 +158,29 @@
   }
 }
 
-/* Proper 2-stage expansion:
-   Stage 1 (0% -> 32%): Divider rapidly snaps out to 100vw across full screen width.
-   Stage 2 (32% -> 85%): Divider smoothly expands vertically to 105vh, flooding full viewport with #FDF0D5 paper.
-   Stage 3 (85% -> 100%): Holds solid #FDF0D5 while splash-container cleanly dissolves into Flutter canvas.
-*/
-@keyframes splashExpandFull {
+/* Expands both horizontally AND vertically to completely flood the screen */
+@keyframes splashExpandFullScreen {
   0% {
     width: clamp(120px, 24vw, 200px);
     height: 3.5px;
     border-radius: 3px;
     opacity: 1;
   }
-  32% {
+  28% {
     width: 100vw;
-    height: 5px;
+    height: 6px;
     border-radius: 2px;
     opacity: 1;
   }
-  85% {
-    width: 105vw;
-    height: 105vh;
+  75% {
+    width: 110vw;
+    height: 110vh;
     border-radius: 0;
     opacity: 1;
   }
   100% {
-    width: 105vw;
-    height: 105vh;
+    width: 110vw;
+    height: 110vh;
     border-radius: 0;
     opacity: 1;
   }

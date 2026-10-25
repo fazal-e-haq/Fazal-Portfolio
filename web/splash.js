@@ -1,14 +1,13 @@
 /**
  * ══════════════════════════════════════════════════════════════════════════════
  * Fazal-e-Haq Portfolio — Splash Screen Controller
- * Orchestrates the pencil scratch intro, 2-second hold, and divider expansion.
+ * Orchestrates the rough blackboard intro, 2-second hold, and full-screen expansion.
  * ══════════════════════════════════════════════════════════════════════════════
  */
 (function() {
   'use strict';
 
   const splash = document.getElementById('splash-container');
-  const content = document.querySelector('.splash-content');
   const divider = document.querySelector('.splash-divider');
   const seoContent = document.getElementById('seo-content');
 
@@ -52,27 +51,29 @@
   }, { passive: true });
 
   /**
-   * Expands the hand-drawn divider into a full-screen #FDF0D5 portal,
-   * parting the charcoal pencil scratch background to reveal the Flutter introduction.
+   * Expands the hand-drawn divider both horizontally and vertically into a full-screen
+   * #FDF0D5 paper canvas, parting the rough blackboard background to reveal the Flutter introduction.
    */
   function triggerExpansion() {
     if (isExpanding || isDone) return;
     isExpanding = true;
 
     // 1. Gently fade out the headline and subtitle
-    if (content) {
-      content.classList.add('exiting');
-    }
+    const headline = document.querySelector('.splash-headline');
+    const subtitle = document.querySelector('.splash-subtitle');
+    if (headline) headline.classList.add('fade-out');
+    if (subtitle) subtitle.classList.add('fade-out');
 
-    // 2. Expand the divider into full-screen sketchbook paper
-    if (divider) {
+    // 2. Reparent divider directly to #splash-container to guarantee unconstrained full-screen expansion
+    if (divider && splash) {
+      splash.appendChild(divider);
       divider.classList.add('expanding');
     }
 
-    // 3. Complete transition and clean up after expansion animation (850ms)
+    // 3. Complete transition and clean up after expansion animation (900ms)
     setTimeout(function() {
       finishSplash();
-    }, 850);
+    }, 900);
   }
 
   function finishSplash() {
