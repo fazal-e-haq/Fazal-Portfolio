@@ -141,7 +141,7 @@ void main() {
       expect(find.text('Projects'), findsOneWidget);
       expect(find.text('1.1k'), findsOneWidget);
       expect(find.text('Followers'), findsOneWidget);
-      expect(find.text('|'), findsNWidgets(2));
+      expect(find.text('|'), findsNothing);
 
       // Verify CTA: Download Resume is present, View My Work is removed
       expect(find.text('Download Resume'), findsOneWidget);

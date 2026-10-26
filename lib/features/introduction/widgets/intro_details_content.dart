@@ -12,7 +12,7 @@ import '../../../widgets/sketch_painter.dart';
 /// - Large responsive "FAZAL-E-HAQ" heading with a hand-drawn pencil divider
 /// - Animated repeating "Flutter Developer" role title with blinking pencil cursor and wavy ink underline
 /// - Bio summary paragraph
-/// - Hand-drawn brutalist stat bar: 1 | 3+ | 1.1k
+/// - Hand-drawn brutalist stat bar: 1 · 3+ · 1.1k
 /// - Call-to-action [ButtonWidget] ("Download Resume")
 class IntroDetailsContent extends StatelessWidget {
   final double nameFontSize;
@@ -105,7 +105,7 @@ class IntroDetailsContent extends StatelessWidget {
         ),
         const SizedBox(height: 18),
 
-        // 6. Brutalist stat bar: 1 | 3+ | 1.1k
+        // 6. Brutalist stat bar: 1 · 3+ · 1.1k
         _IntroBrutalistStatBar(isCentered: isCentered),
         const SizedBox(height: 22),
 
@@ -641,7 +641,7 @@ class _TypewriterSentenceState extends State<_TypewriterSentence>
   }
 }
 
-/// Clean Brutalist stat bar displaying: 1 | 3+ | 1.1k without an outline
+/// Clean Brutalist stat bar displaying: 1 · 3+ · 1.1k without an outline
 class _IntroBrutalistStatBar extends StatelessWidget {
   final bool isCentered;
 
@@ -701,14 +701,13 @@ class _IntroBrutalistStatBar extends StatelessWidget {
 
   Widget _buildDivider() {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 4),
-      child: Text(
-        '|',
-        style: TextStyle(
-          fontFamily: 'Patrick Hand',
-          fontSize: 22,
-          fontWeight: FontWeight.w300,
-          color: AppColors.textMain.withValues(alpha: 0.30),
+      padding: const EdgeInsets.symmetric(horizontal: 6),
+      child: Container(
+        width: 1.6,
+        height: 20,
+        decoration: BoxDecoration(
+          color: AppColors.textMain.withValues(alpha: 0.25),
+          borderRadius: BorderRadius.circular(1),
         ),
       ),
     );

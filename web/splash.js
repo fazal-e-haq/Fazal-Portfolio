@@ -1,14 +1,13 @@
 /**
  * ══════════════════════════════════════════════════════════════════════════════
  * Fazal-e-Haq Portfolio — Splash Screen Controller
- * Orchestrates the charcoal sketch intro, 2-second hold, and divider expansion.
+ * Orchestrates the rough blackboard intro, 2-second hold, and full-screen expansion.
  * ══════════════════════════════════════════════════════════════════════════════
  */
 (function() {
   'use strict';
 
   const splash = document.getElementById('splash-container');
-  const content = document.querySelector('.splash-content');
   const divider = document.querySelector('.splash-divider');
   const seoContent = document.getElementById('seo-content');
 
@@ -25,14 +24,13 @@
 
   /**
    * Timing Breakdown:
-   * - 0.2s - 1.2s : Headline typing
-   * - 1.25s - 1.75s: Divider draws
-   * - 1.65s - 2.25s: Subtitle fades in
-   * Total animation completes at ~2.25s.
-   * User Request: "when text finish after 2 second expand that divider and show my intro"
-   * So 2.25s + 2.0s = 4.25s (4250ms).
+   * - 0.2s - 1.2s : Headline typing finishes
+   * - 1.2s - 1.65s: Divider draws
+   * - 1.65s - 2.15s: Subtitle fades in
+   * Total text & divider animation finishes at ~2.15s.
+   * Hold for 2.0s after text finish: 2.15s + 2.0s = ~4.15s (4150ms).
    */
-  const HOLD_DURATION_MS = 4250;
+  const HOLD_DURATION_MS = 4150;
 
   const autoExpandTimer = setTimeout(function() {
     triggerExpansion();
@@ -53,27 +51,29 @@
   }, { passive: true });
 
   /**
-   * Expands the hand-drawn divider into a full-screen #FDF0D5 portal,
-   * parting the charcoal pencil background to reveal the Flutter introduction.
+   * Expands the hand-drawn divider both horizontally and vertically into a full-screen
+   * #FDF0D5 paper canvas, parting the rough blackboard background to reveal the Flutter introduction.
    */
   function triggerExpansion() {
     if (isExpanding || isDone) return;
     isExpanding = true;
 
     // 1. Gently fade out the headline and subtitle
-    if (content) {
-      content.classList.add('exiting');
-    }
+    const headline = document.querySelector('.splash-headline');
+    const subtitle = document.querySelector('.splash-subtitle');
+    if (headline) headline.classList.add('fade-out');
+    if (subtitle) subtitle.classList.add('fade-out');
 
-    // 2. Expand the divider into full-screen sketchbook paper
-    if (divider) {
+    // 2. Reparent divider directly to #splash-container to guarantee unconstrained full-screen expansion
+    if (divider && splash) {
+      splash.appendChild(divider);
       divider.classList.add('expanding');
     }
 
-    // 3. Complete transition and clean up after expansion animation (850ms)
+    // 3. Complete transition and clean up after expansion animation (900ms)
     setTimeout(function() {
       finishSplash();
-    }, 850);
+    }, 900);
   }
 
   function finishSplash() {
@@ -86,13 +86,14 @@
     }
 
     if (splash && splash.parentNode) {
+      splash.style.transition = 'opacity 0.35s ease-out';
       splash.style.opacity = '0';
       setTimeout(function() {
         if (splash.parentNode) {
           splash.remove();
         }
         window.dispatchEvent(new CustomEvent('splash-removed'));
-      }, 300);
+      }, 350);
     }
   }
 
