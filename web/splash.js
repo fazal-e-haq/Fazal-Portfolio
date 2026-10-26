@@ -13,6 +13,28 @@
 
   if (!splash) return;
 
+  // Check if splash was already presented in this session (e.g. page reload)
+  // Support ?splash=true query parameter to force replay if needed
+  const urlParams = new URLSearchParams(window.location.search);
+  const forceSplash = urlParams.get('splash') === 'true';
+
+  if (!forceSplash && sessionStorage.getItem('splashShown') === 'true') {
+    if (splash && splash.parentNode) {
+      splash.remove();
+    }
+    if (seoContent) {
+      seoContent.style.display = 'none';
+      seoContent.setAttribute('aria-hidden', 'true');
+    }
+    window.dispatchEvent(new CustomEvent('splash-removed'));
+    return;
+  }
+
+  // Record that splash has been shown for this session
+  try {
+    sessionStorage.setItem('splashShown', 'true');
+  } catch (_) {}
+
   let isExpanding = false;
   let isDone = false;
   let flutterReady = false;
