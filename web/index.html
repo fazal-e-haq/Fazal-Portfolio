@@ -432,7 +432,16 @@
   <!-- ══════════════════════════════════════════════════════════════ -->
   <!-- Splash Screen Stylesheet (Hand-Drawn Charcoal Pencil Sketch)   -->
   <!-- ══════════════════════════════════════════════════════════════ -->
-  <link rel="stylesheet" href="splash.css">
+  <link rel="stylesheet" href="splash.css?v=chalk-rough-v3">
+
+  <!-- Instant session-check to prevent splash flash on page reload -->
+  <script>
+    try {
+      if (new URLSearchParams(window.location.search).get("splash") !== "true" && sessionStorage.getItem("splashShown") === "true") {
+        document.documentElement.classList.add("splash-already-shown");
+      }
+    } catch (_) {}
+  </script>
 
   <style>
     html, body {
@@ -635,7 +644,7 @@
   </div>
 
   <!-- Splash Screen Orchestrator Script -->
-  <script src="splash.js"></script>
+  <script src="splash.js?v=chalk-rough-v3"></script>
 
   <!-- Flutter Web Bootstrap -->
   <script src="flutter_bootstrap.js" async></script>

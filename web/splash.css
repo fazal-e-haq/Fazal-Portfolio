@@ -3,6 +3,11 @@
    Theme: Erased Chalkboard with Random Chalk Whiteness & Shadow-Free Text/Divider
    ══════════════════════════════════════════════════════════════════════════════ */
 
+/* Hide splash immediately when already shown in current session to prevent reload flash */
+html.splash-already-shown #splash-container {
+  display: none !important;
+}
+
 /* Root Splash Container with Random Chalk Whiteness & Erased Blackboard Slate */
 #splash-container {
   position: fixed;
