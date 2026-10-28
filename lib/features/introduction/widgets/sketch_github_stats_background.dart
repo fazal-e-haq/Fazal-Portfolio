@@ -1,11 +1,9 @@
 import 'dart:math' as math;
 import 'package:flutter/material.dart';
-import '../../../../core/themes/theme.dart';
-import '../../../../widgets/sketch_painter.dart';
 
 /// A handcrafted pencil-sketch GitHub Contribution Heatmap backdrop.
-/// Designed to sit directly in the background of Fazal's portrait,
-/// matching the Hand-Drawn Brutalism sketchbook theme with pure charcoal outlines.
+/// Renders purely the very big hand-drawn contribution boxes floating in the background
+/// behind Fazal's portrait with pure charcoal black outlines (no card border, no text, no dates).
 class SketchGithubStatsBackground extends StatelessWidget {
   const SketchGithubStatsBackground({
     super.key,
@@ -20,237 +18,50 @@ class SketchGithubStatsBackground extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Responsive box size and column count based on available width
-    final double boxSize = isMobile ? 9.5 : 13.0;
-    final double boxGap = isMobile ? 2.5 : 3.8;
-    const int rows = 7; // Sunday - Saturday
+    // Very big boxes as requested: 38px on desktop, 26px on mobile
+    final double boxSize = isMobile ? 26.0 : 38.0;
+    final double boxGap = isMobile ? 6.5 : 9.5;
 
-    // Calculate maximum columns that fit comfortably within width
-    final double labelGutter = isMobile ? 44.0 : 66.0;
-    final double usableGridWidth = (width - labelGutter).clamp(140.0, 600.0);
-    final int cols = ((usableGridWidth + boxGap) / (boxSize + boxGap)).floor().clamp(12, 28);
+    // Calculate maximum columns and rows that fit comfortably
+    final int cols = ((width + boxGap) / (boxSize + boxGap)).floor().clamp(6, 14);
+    final int rows = ((height + boxGap) / (boxSize + boxGap)).floor().clamp(4, 7);
+
     final double actualGridWidth = cols * boxSize + (cols - 1) * boxGap;
     final double actualGridHeight = rows * boxSize + (rows - 1) * boxGap;
 
     return RepaintBoundary(
-      child: Container(
-        width: width,
-        height: height,
-        decoration: BoxDecoration(
-          color: AppColors.background.withValues(alpha: 0.85),
-          borderRadius: BorderRadius.circular(14.0),
-        ),
-        child: CustomPaint(
-          painter: const SketchBorderPainter(
-            color: Color(0xCC1A1A1A),
-            strokeWidth: 1.8,
-            borderRadius: 14.0,
-            wobble: 1.6,
-            seed: 77,
-          ),
-          child: Padding(
-            padding: EdgeInsets.symmetric(
-              horizontal: isMobile ? 8.0 : 16.0,
-              vertical: isMobile ? 6.0 : 12.0,
-            ),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                // 1. Top Header Row: Sketched commit icon + "github contributions" + commit count
-                _buildHeader(isMobile),
-
-                // 2. Month Labels Row
-                _buildMonthLabels(actualGridWidth, isMobile),
-
-                // 3. Central Grid Area: Day labels on left + Contribution Boxes
-                Expanded(
-                  child: Center(
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        // Left day labels: Mon, Wed, Fri
-                        _buildDayLabels(actualGridHeight, isMobile),
-                        const SizedBox(width: 5.0),
-                        // Contribution Boxes Matrix
-                        SizedBox(
-                          width: actualGridWidth,
-                          height: actualGridHeight,
-                          child: CustomPaint(
-                            painter: _GithubBoxesPainter(
-                              cols: cols,
-                              rows: rows,
-                              boxSize: boxSize,
-                              boxGap: boxGap,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-
-                // 4. Bottom Legend Row: Activity overview + Less ... More
-                _buildFooter(boxSize, isMobile),
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildHeader(bool isMobile) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Flexible(
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              CustomPaint(
-                size: const Size(12, 12),
-                painter: _GitBranchIconPainter(),
-              ),
-              const SizedBox(width: 6.0),
-              Flexible(
-                child: Text(
-                  'github contributions',
-                  overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
-                    fontFamily: 'Patrick Hand',
-                    fontSize: isMobile ? 11.0 : 13.5,
-                    fontWeight: FontWeight.bold,
-                    color: const Color(0xDD1A1A1A),
-                    letterSpacing: 0.4,
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-        if (!isMobile)
-          const Text(
-            '2,840+ commits / year',
-            style: TextStyle(
-              fontFamily: 'Patrick Hand',
-              fontSize: 12.5,
-              fontWeight: FontWeight.bold,
-              color: Color(0xAA1A1A1A),
-            ),
-          ),
-      ],
-    );
-  }
-
-  Widget _buildMonthLabels(double gridWidth, bool isMobile) {
-    final List<String> months = isMobile
-        ? const ['Jan', 'Apr', 'Jul', 'Oct', 'Dec']
-        : const [
-            'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-            'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec',
-          ];
-
-    return Padding(
-      padding: EdgeInsets.only(left: isMobile ? 22.0 : 32.0, top: 1.0),
       child: SizedBox(
-        width: gridWidth,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: months.map((m) {
-            return Text(
-              m,
-              style: TextStyle(
-                fontFamily: 'Patrick Hand',
-                fontSize: isMobile ? 9.0 : 11.0,
-                color: const Color(0x881A1A1A),
-              ),
-            );
-          }).toList(),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildDayLabels(double gridHeight, bool isMobile) {
-    final TextStyle dayStyle = TextStyle(
-      fontFamily: 'Patrick Hand',
-      fontSize: isMobile ? 8.5 : 10.5,
-      color: const Color(0x881A1A1A),
-    );
-
-    return SizedBox(
-      height: gridHeight,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          const SizedBox(height: 1),
-          Text('Mon', style: dayStyle),
-          Text('Wed', style: dayStyle),
-          Text('Fri', style: dayStyle),
-          const SizedBox(height: 1),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildFooter(double boxSize, bool isMobile) {
-    final TextStyle legendStyle = TextStyle(
-      fontFamily: 'Patrick Hand',
-      fontSize: isMobile ? 8.5 : 10.5,
-      color: const Color(0x881A1A1A),
-    );
-
-    final double sampleBoxSize = (boxSize * 0.85).clamp(7.5, 11.0);
-
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Flexible(
-          child: Text(
-            'daily code habit',
-            overflow: TextOverflow.ellipsis,
-            style: TextStyle(
-              fontFamily: 'Patrick Hand',
-              fontSize: isMobile ? 9.5 : 11.5,
-              color: const Color(0x771A1A1A),
-            ),
+        width: actualGridWidth,
+        height: actualGridHeight,
+        child: CustomPaint(
+          size: Size(actualGridWidth, actualGridHeight),
+          painter: _GithubBigBoxesPainter(
+            cols: cols,
+            rows: rows,
+            boxSize: boxSize,
+            boxGap: boxGap,
+            isMobile: isMobile,
           ),
         ),
-        Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text('Less', style: legendStyle),
-            const SizedBox(width: 3.0),
-            for (int lvl = 0; lvl <= 4; lvl++) ...[
-              CustomPaint(
-                size: Size(sampleBoxSize, sampleBoxSize),
-                painter: _SingleSketchBoxPainter(level: lvl),
-              ),
-              if (lvl < 4) const SizedBox(width: 2.5),
-            ],
-            const SizedBox(width: 3.0),
-            Text('More', style: legendStyle),
-          ],
-        ),
-      ],
+      ),
     );
   }
 }
 
-/// Custom painter rendering the matrix of hand-drawn GitHub contribution boxes.
-class _GithubBoxesPainter extends CustomPainter {
+/// Custom painter rendering the matrix of very big hand-drawn GitHub contribution boxes.
+class _GithubBigBoxesPainter extends CustomPainter {
   final int cols;
   final int rows;
   final double boxSize;
   final double boxGap;
+  final bool isMobile;
 
-  const _GithubBoxesPainter({
+  const _GithubBigBoxesPainter({
     required this.cols,
     required this.rows,
     required this.boxSize,
     required this.boxGap,
+    required this.isMobile,
   });
 
   /// Deterministic activity level generator to simulate realistic GitHub heatmap
@@ -288,14 +99,14 @@ class _GithubBoxesPainter extends CustomPainter {
   }
 
   void _drawSketchBox(Canvas canvas, Rect rect, int level, int seed) {
-    // Deterministic corner tremor (0.3px)
-    final double j1 = math.sin(seed * 1.3) * 0.35;
-    final double j2 = math.cos(seed * 2.1) * 0.35;
-    final double j3 = math.sin(seed * 3.7) * 0.35;
-    final double j4 = math.cos(seed * 4.9) * 0.35;
+    // Deterministic corner tremor (0.45px) for natural hand-drawn feel
+    final double j1 = math.sin(seed * 1.3) * 0.45;
+    final double j2 = math.cos(seed * 2.1) * 0.45;
+    final double j3 = math.sin(seed * 3.7) * 0.45;
+    final double j4 = math.cos(seed * 4.9) * 0.45;
 
     final Path boxPath = Path();
-    const double rad = 1.8;
+    final double rad = isMobile ? 3.0 : 4.0;
     boxPath.moveTo(rect.left + rad + j1, rect.top);
     boxPath.lineTo(rect.right - rad + j2, rect.top);
     boxPath.quadraticBezierTo(rect.right, rect.top, rect.right, rect.top + rad);
@@ -307,30 +118,30 @@ class _GithubBoxesPainter extends CustomPainter {
     boxPath.quadraticBezierTo(rect.left, rect.top, rect.left + rad + j1, rect.top);
     boxPath.close();
 
-    // Stroke styling strictly in charcoal black
+    // Outline stroke styling strictly in charcoal black
     double strokeWidth;
     double alpha;
 
     switch (level) {
       case 0:
-        strokeWidth = 0.85;
-        alpha = 0.20; // Faint outline
+        strokeWidth = isMobile ? 1.0 : 1.3;
+        alpha = 0.22; // Faint outline
         break;
       case 1:
-        strokeWidth = 1.10;
-        alpha = 0.45; // Crisp sketch line
+        strokeWidth = isMobile ? 1.3 : 1.7;
+        alpha = 0.48; // Crisp sketch line
         break;
       case 2:
-        strokeWidth = 1.35;
-        alpha = 0.70; // Bolder outline
+        strokeWidth = isMobile ? 1.6 : 2.1;
+        alpha = 0.75; // Bolder outline
         break;
       case 3:
-        strokeWidth = 1.60;
+        strokeWidth = isMobile ? 1.9 : 2.5;
         alpha = 0.90; // Dark outline
         break;
       case 4:
       default:
-        strokeWidth = 1.85;
+        strokeWidth = isMobile ? 2.2 : 2.8;
         alpha = 1.00; // Solid ink outline
         break;
     }
@@ -345,19 +156,21 @@ class _GithubBoxesPainter extends CustomPainter {
     canvas.drawPath(boxPath, outlinePaint);
 
     // Hand-drawn pencil hatch lines inside active boxes (Strictly Black!)
+    final double inset = isMobile ? 4.0 : 6.0;
+
     if (level >= 2) {
       final Paint hatchPaint = Paint()
         ..color = const Color(0xFF1A1A1A).withValues(
-          alpha: level == 2 ? 0.35 : (level == 3 ? 0.65 : 0.85),
+          alpha: level == 2 ? 0.38 : (level == 3 ? 0.68 : 0.88),
         )
         ..style = PaintingStyle.stroke
-        ..strokeWidth = 0.95
+        ..strokeWidth = isMobile ? 1.0 : 1.3
         ..strokeCap = StrokeCap.round;
 
-      // Primary diagonal pencil stroke
+      // Primary diagonal pencil stroke across the big box
       canvas.drawLine(
-        Offset(rect.left + 2.2, rect.bottom - 2.2),
-        Offset(rect.right - 2.2, rect.top + 2.2),
+        Offset(rect.left + inset, rect.bottom - inset),
+        Offset(rect.right - inset, rect.top + inset),
         hatchPaint,
       );
     }
@@ -365,101 +178,47 @@ class _GithubBoxesPainter extends CustomPainter {
     if (level >= 3) {
       final Paint hatchPaint = Paint()
         ..color = const Color(0xFF1A1A1A).withValues(
-          alpha: level == 3 ? 0.60 : 0.85,
+          alpha: level == 3 ? 0.65 : 0.85,
         )
         ..style = PaintingStyle.stroke
-        ..strokeWidth = 0.90
+        ..strokeWidth = isMobile ? 1.0 : 1.2
         ..strokeCap = StrokeCap.round;
 
       // Secondary parallel diagonal strokes
       canvas.drawLine(
-        Offset(rect.left + 2.0, rect.top + rect.height * 0.45),
-        Offset(rect.left + rect.width * 0.55, rect.top + 2.0),
+        Offset(rect.left + inset, rect.top + rect.height * 0.5),
+        Offset(rect.left + rect.width * 0.5, rect.top + inset),
         hatchPaint,
       );
       canvas.drawLine(
-        Offset(rect.left + rect.width * 0.45, rect.bottom - 2.0),
-        Offset(rect.right - 2.0, rect.top + rect.height * 0.55),
+        Offset(rect.left + rect.width * 0.5, rect.bottom - inset),
+        Offset(rect.right - inset, rect.top + rect.height * 0.5),
         hatchPaint,
       );
     }
 
     if (level >= 4) {
       final Paint crossPaint = Paint()
-        ..color = const Color(0xFF1A1A1A).withValues(alpha: 0.75)
+        ..color = const Color(0xFF1A1A1A).withValues(alpha: 0.78)
         ..style = PaintingStyle.stroke
-        ..strokeWidth = 0.90
+        ..strokeWidth = isMobile ? 1.0 : 1.2
         ..strokeCap = StrokeCap.round;
 
       // Counter-diagonal cross-hatch for peak intensity
       canvas.drawLine(
-        Offset(rect.left + 2.2, rect.top + 2.2),
-        Offset(rect.right - 2.2, rect.bottom - 2.2),
+        Offset(rect.left + inset, rect.top + inset),
+        Offset(rect.right - inset, rect.bottom - inset),
         crossPaint,
       );
     }
   }
 
   @override
-  bool shouldRepaint(covariant _GithubBoxesPainter oldDelegate) {
+  bool shouldRepaint(covariant _GithubBigBoxesPainter oldDelegate) {
     return oldDelegate.cols != cols ||
         oldDelegate.rows != rows ||
         oldDelegate.boxSize != boxSize ||
-        oldDelegate.boxGap != boxGap;
+        oldDelegate.boxGap != boxGap ||
+        oldDelegate.isMobile != isMobile;
   }
-}
-
-/// Helper painter for the single sample box in the legend
-class _SingleSketchBoxPainter extends CustomPainter {
-  final int level;
-
-  const _SingleSketchBoxPainter({required this.level});
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    final Rect rect = Rect.fromLTWH(0, 0, size.width, size.height);
-    const painter = _GithubBoxesPainter(cols: 1, rows: 1, boxSize: 10, boxGap: 0);
-    painter._drawSketchBox(canvas, rect, level, level * 33 + 7);
-  }
-
-  @override
-  bool shouldRepaint(covariant _SingleSketchBoxPainter oldDelegate) {
-    return oldDelegate.level != level;
-  }
-}
-
-/// Sketched git branch / commit icon in pure charcoal ink
-class _GitBranchIconPainter extends CustomPainter {
-  @override
-  void paint(Canvas canvas, Size size) {
-    final Paint linePaint = Paint()
-      ..color = const Color(0xCC1A1A1A)
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = 1.4
-      ..strokeCap = StrokeCap.round;
-
-    final Paint nodePaint = Paint()
-      ..color = const Color(0xDD1A1A1A)
-      ..style = PaintingStyle.fill;
-
-    final double w = size.width;
-    final double h = size.height;
-
-    // Main commit trunk
-    canvas.drawLine(Offset(w * 0.3, h * 0.25), Offset(w * 0.3, h * 0.8), linePaint);
-
-    // Branch curve
-    final Path branch = Path()
-      ..moveTo(w * 0.3, h * 0.55)
-      ..quadraticBezierTo(w * 0.65, h * 0.55, w * 0.75, h * 0.25);
-    canvas.drawPath(branch, linePaint);
-
-    // Commit nodes
-    canvas.drawCircle(Offset(w * 0.3, h * 0.25), 1.8, nodePaint);
-    canvas.drawCircle(Offset(w * 0.3, h * 0.8), 1.8, nodePaint);
-    canvas.drawCircle(Offset(w * 0.75, h * 0.25), 1.8, nodePaint);
-  }
-
-  @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
 }

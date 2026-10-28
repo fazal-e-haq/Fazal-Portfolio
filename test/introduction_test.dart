@@ -29,11 +29,9 @@ void main() {
     );
     await tester.pump();
 
-    // Verify HELLO watermark letters are rendered
-    expect(find.text('H'), findsOneWidget);
-    expect(find.text('E'), findsOneWidget);
-    expect(find.text('L'), findsNWidgets(2));
-    expect(find.text('O'), findsOneWidget);
+    // Verify HELLO watermark is fully removed
+    expect(find.text('H'), findsNothing);
+    expect(find.text('HELLO'), findsNothing);
     expect(find.text('I am'), findsOneWidget);
 
     // Verify uncropped image is present
@@ -65,10 +63,9 @@ void main() {
     );
     await tester.pump();
 
-    expect(find.text('H'), findsOneWidget);
-    expect(find.text('E'), findsOneWidget);
-    expect(find.text('L'), findsNWidgets(2));
-    expect(find.text('O'), findsOneWidget);
+    // Verify HELLO watermark is fully removed on mobile
+    expect(find.text('H'), findsNothing);
+    expect(find.text('HELLO'), findsNothing);
     expect(find.text('I am'), findsOneWidget);
     expect(find.byType(Image), findsOneWidget);
 
@@ -78,7 +75,7 @@ void main() {
   });
 
   testWidgets(
-    'Scrolling into Intro section hides HELLO background text and shows I am content',
+    'Scrolling into Intro section shows I am content and details',
     (WidgetTester tester) async {
       tester.view.physicalSize = const Size(1440, 900);
       tester.view.devicePixelRatio = 1.0;
@@ -103,8 +100,8 @@ void main() {
       );
       await tester.pump();
 
-      // At scroll 0, HELLO is visible and SCROLL DOWN text is removed
-      expect(find.text('H'), findsOneWidget);
+      // At scroll 0, HELLO is absent
+      expect(find.text('H'), findsNothing);
       expect(find.text('SCROLL DOWN'), findsNothing);
 
       // Scroll into the intro reading plateau

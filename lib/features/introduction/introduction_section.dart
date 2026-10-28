@@ -1,4 +1,3 @@
-import 'dart:math' as math;
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 
@@ -6,7 +5,6 @@ import '../../../core/constants/app_sizes.dart';
 import '../../../core/themes/theme.dart';
 import '../app_shell/scroll_coordinator_controller.dart';
 import 'introduction_controller.dart';
-import 'widgets/hello_watermark_widget.dart';
 import 'widgets/intro_details_content.dart';
 import 'widgets/sketch_github_stats_background.dart';
 import '../../services/analytics_service.dart';
@@ -16,7 +14,6 @@ import '../../services/analytics_service.dart';
 /// Architecture & State Management:
 /// - Uses [IntroductionController] (GetX) to manage scroll progress and per-letter hover states.
 /// - Composes reusable, single-responsibility widgets:
-///   - [HelloWatermarkWidget]: Interactive auto-cycling "HELLO" watermark letters that morph letter-by-letter.
 ///   - [IntroDetailsContent]: Personal bio ("I am", "FAZAL-E-HAQ", "Flutter Developer", CTA buttons).
 ///   - [_ScrollDownIndicator]: Bouncing, hand-sketched scroll-down prompt with arrow indicator.
 /// - Uses a smooth, flat **Sketchbook Page Glide** transition (zero 3D skewing/tilting)
@@ -107,7 +104,6 @@ class _IntroductionState extends State<Introduction> {
             0.0,
             1.0,
           );
-          final double helloFade = _introController.computeHelloFade(progress);
           final double portraitGlide = _introController.computePortraitGlide(
             progress,
           );
@@ -146,31 +142,7 @@ class _IntroductionState extends State<Introduction> {
                             return Stack(
                               alignment: Alignment.center,
                               children: [
-                                // 1. Subtle hand-drawn sketchbook orbital ring on first view
-                                if (helloFade > 0.01)
-                                  IgnorePointer(
-                                    child: Opacity(
-                                      opacity: helloFade,
-                                      child: SizedBox(
-                                        width: heroWidth,
-                                        height: heroHeight,
-                                        child: CustomPaint(
-                                          painter: _SketchbookHaloPainter(
-                                            isMobile: isMobile,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-
-                                // 2. Interactive "HELLO" watermark (auto-cycling letter by letter)
-                                HelloWatermarkWidget(
-                                  screenWidth: screenWidth,
-                                  isMobile: isMobile,
-                                  scrollFade: helloFade,
-                                ),
-
-                                // 3. Responsive Sketchbook Hero Stage (Bigger Portrait, Desktop/Tablet or Mobile)
+                                // 1. Responsive Sketchbook Hero Stage (Bigger Portrait, Desktop/Tablet or Mobile)
                                 SizedBox(
                                   width: heroWidth,
                                   height: heroHeight,
@@ -191,8 +163,8 @@ class _IntroductionState extends State<Introduction> {
                                         ),
                                 ),
 
-                                // 4. Hand-drawn bouncing "SCROLL DOWN" prompt at the bottom
-                                if (helloFade > 0.05)
+                                // 2. Hand-drawn bouncing "SCROLL DOWN" prompt at the bottom
+                                if (progress < 0.3)
                                   Positioned(
                                     bottom: isMobile ? 12.0 : 22.0,
                                     child: _ScrollDownIndicator(
@@ -293,6 +265,9 @@ class _DesktopSketchHeroStage extends StatelessWidget {
     final double roleFontSize = (nameFontSize * 0.40).clamp(22.0, 32.0);
     final double bodyFontSize = (nameFontSize * 0.22).clamp(14.0, 17.0);
 
+    // Big GitHub boxes are visible ONLY in initial intro view, fading to 0 as user enters details
+    final double boxesOpacity = (1.0 - (portraitGlide * 2.8)).clamp(0.0, 1.0);
+
     return Stack(
       clipBehavior: Clip.none,
       children: [
@@ -341,15 +316,19 @@ class _DesktopSketchHeroStage extends StatelessWidget {
               clipBehavior: Clip.none,
               alignment: Alignment.center,
               children: [
-                // 1. Handcrafted GitHub Stats Backdrop (Boxes & Charcoal Outlines)
-                Positioned(
-                  top: currentH * 0.12,
-                  child: SketchGithubStatsBackground(
-                    width: (currentW * 1.12).clamp(380.0, 700.0),
-                    height: (currentH * 0.60).clamp(190.0, 290.0),
-                    isMobile: false,
+                // 1. Very Big GitHub Boxes (Only visible in initial intro, hidden when name/details show)
+                if (boxesOpacity > 0.01)
+                  Positioned(
+                    top: currentH * 0.10,
+                    child: Opacity(
+                      opacity: boxesOpacity,
+                      child: SketchGithubStatsBackground(
+                        width: (currentW * 1.10).clamp(340.0, 680.0),
+                        height: (currentH * 0.65).clamp(200.0, 320.0),
+                        isMobile: false,
+                      ),
+                    ),
                   ),
-                ),
                 // 2. Portrait with Soft Gradient Opacity at Bottom
                 ShaderMask(
                   shaderCallback: (Rect bounds) {
@@ -419,6 +398,9 @@ class _MobileSketchHeroStage extends StatelessWidget {
 
     final double introSlideY = (1.0 - introReveal) * 24.0;
 
+    // Big GitHub boxes are visible ONLY in initial intro view, fading to 0 as user enters details
+    final double boxesOpacity = (1.0 - (portraitGlide * 2.8)).clamp(0.0, 1.0);
+
     return Stack(
       clipBehavior: Clip.none,
       children: [
@@ -433,15 +415,19 @@ class _MobileSketchHeroStage extends StatelessWidget {
               clipBehavior: Clip.none,
               alignment: Alignment.center,
               children: [
-                // 1. Handcrafted GitHub Stats Backdrop (Boxes & Charcoal Outlines)
-                Positioned(
-                  top: currentH * 0.10,
-                  child: SketchGithubStatsBackground(
-                    width: (currentW * 1.15).clamp(260.0, 460.0),
-                    height: (currentH * 0.64).clamp(145.0, 210.0),
-                    isMobile: true,
+                // 1. Very Big GitHub Boxes (Only visible in initial intro, hidden when name/details show)
+                if (boxesOpacity > 0.01)
+                  Positioned(
+                    top: currentH * 0.08,
+                    child: Opacity(
+                      opacity: boxesOpacity,
+                      child: SketchGithubStatsBackground(
+                        width: (currentW * 1.15).clamp(260.0, 460.0),
+                        height: (currentH * 0.64).clamp(145.0, 210.0),
+                        isMobile: true,
+                      ),
+                    ),
                   ),
-                ),
                 // 2. Portrait with Soft Gradient Opacity at Bottom
                 ShaderMask(
                   shaderCallback: (Rect bounds) {
@@ -609,47 +595,4 @@ class _SketchScrollArrowPainter extends CustomPainter {
   bool shouldRepaint(covariant _SketchScrollArrowPainter oldDelegate) => false;
 }
 
-/// Draws a delicate, organic hand-drawn sketchbook orbital ring behind the portrait
-/// on initial landing.
-class _SketchbookHaloPainter extends CustomPainter {
-  final bool isMobile;
 
-  const _SketchbookHaloPainter({required this.isMobile});
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    if (size.width <= 0 || size.height <= 0) return;
-
-    final Offset center = Offset(size.width / 2.0, size.height / 2.0);
-    final double radius = isMobile
-        ? (size.width * 0.44).clamp(130.0, 220.0)
-        : (size.height * 0.40).clamp(210.0, 360.0);
-
-    // Primary pencil orbital ring (wobbly ellipse with graphite grain)
-    final Paint ringPaint = Paint()
-      ..color = const Color(0x18000000)
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = 1.4
-      ..strokeCap = StrokeCap.round;
-
-    final Path ringPath = Path();
-    const int segments = 36;
-    for (int i = 0; i <= segments; i++) {
-      final double angle = (i / segments) * 2.0 * 3.141592653589793;
-      final double wobbleR =
-          radius + (i.isEven ? 2.5 : -2.5) + ((i % 3 == 0) ? 1.5 : -1.0);
-      final double x = center.dx + wobbleR * 1.15 * math.cos(angle);
-      final double y = center.dy + wobbleR * 0.95 * math.sin(angle);
-      if (i == 0) {
-        ringPath.moveTo(x, y);
-      } else {
-        ringPath.lineTo(x, y);
-      }
-    }
-    canvas.drawPath(ringPath, ringPaint);
-  }
-
-  @override
-  bool shouldRepaint(covariant _SketchbookHaloPainter oldDelegate) =>
-      oldDelegate.isMobile != isMobile;
-}
