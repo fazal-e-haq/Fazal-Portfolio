@@ -8,6 +8,7 @@ import '../app_shell/scroll_coordinator_controller.dart';
 import 'introduction_controller.dart';
 import 'widgets/hello_watermark_widget.dart';
 import 'widgets/intro_details_content.dart';
+import 'widgets/sketch_github_stats_background.dart';
 import '../../services/analytics_service.dart';
 
 /// The Hero Introduction Section of the portfolio.
@@ -329,34 +330,50 @@ class _DesktopSketchHeroStage extends StatelessWidget {
           ),
         ),
 
-        // Center -> Right Column: Clean Portrait Image with Soft Gradient Opacity at Bottom
+        // Center -> Right Column: Clean Portrait Image with GitHub Stats Backdrop
         Positioned(
           left: currentX,
           top: currentY,
           width: currentW,
           height: currentH,
           child: RepaintBoundary(
-            child: ShaderMask(
-              shaderCallback: (Rect bounds) {
-                return const LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  stops: [0.0, 0.68, 1.0],
-                  colors: [
-                    Color(0xFFFFFFFF),
-                    Color(0xFFFFFFFF),
-                    Color(0x00FFFFFF),
-                  ],
-                ).createShader(bounds);
-              },
-              blendMode: BlendMode.dstIn,
-              child: Image.asset(
-                'assets/Images/my-image/my-pic.webp',
-                fit: BoxFit.contain,
-                alignment: Alignment.center,
-                cacheWidth: 1200,
-                filterQuality: FilterQuality.medium,
-              ),
+            child: Stack(
+              clipBehavior: Clip.none,
+              alignment: Alignment.center,
+              children: [
+                // 1. Handcrafted GitHub Stats Backdrop (Boxes & Charcoal Outlines)
+                Positioned(
+                  top: currentH * 0.12,
+                  child: SketchGithubStatsBackground(
+                    width: (currentW * 1.12).clamp(380.0, 700.0),
+                    height: (currentH * 0.60).clamp(190.0, 290.0),
+                    isMobile: false,
+                  ),
+                ),
+                // 2. Portrait with Soft Gradient Opacity at Bottom
+                ShaderMask(
+                  shaderCallback: (Rect bounds) {
+                    return const LinearGradient(
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                      stops: [0.0, 0.68, 1.0],
+                      colors: [
+                        Color(0xFFFFFFFF),
+                        Color(0xFFFFFFFF),
+                        Color(0x00FFFFFF),
+                      ],
+                    ).createShader(bounds);
+                  },
+                  blendMode: BlendMode.dstIn,
+                  child: Image.asset(
+                    'assets/Images/my-image/my-pic.webp',
+                    fit: BoxFit.contain,
+                    alignment: Alignment.center,
+                    cacheWidth: 1200,
+                    filterQuality: FilterQuality.medium,
+                  ),
+                ),
+              ],
             ),
           ),
         ),
@@ -405,34 +422,50 @@ class _MobileSketchHeroStage extends StatelessWidget {
     return Stack(
       clipBehavior: Clip.none,
       children: [
-        // Portrait gliding smoothly from center to top with soft gradient opacity at bottom
+        // Portrait gliding smoothly from center to top with GitHub Stats Backdrop
         Positioned(
           left: currentX,
           top: currentY,
           width: currentW,
           height: currentH,
           child: RepaintBoundary(
-            child: ShaderMask(
-              shaderCallback: (Rect bounds) {
-                return const LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  stops: [0.0, 0.68, 1.0],
-                  colors: [
-                    Color(0xFFFFFFFF),
-                    Color(0xFFFFFFFF),
-                    Color(0x00FFFFFF),
-                  ],
-                ).createShader(bounds);
-              },
-              blendMode: BlendMode.dstIn,
-              child: Image.asset(
-                'assets/Images/my-image/my-pic.webp',
-                fit: BoxFit.contain,
-                alignment: Alignment.center,
-                cacheWidth: 800,
-                filterQuality: FilterQuality.medium,
-              ),
+            child: Stack(
+              clipBehavior: Clip.none,
+              alignment: Alignment.center,
+              children: [
+                // 1. Handcrafted GitHub Stats Backdrop (Boxes & Charcoal Outlines)
+                Positioned(
+                  top: currentH * 0.10,
+                  child: SketchGithubStatsBackground(
+                    width: (currentW * 1.15).clamp(260.0, 460.0),
+                    height: (currentH * 0.64).clamp(145.0, 210.0),
+                    isMobile: true,
+                  ),
+                ),
+                // 2. Portrait with Soft Gradient Opacity at Bottom
+                ShaderMask(
+                  shaderCallback: (Rect bounds) {
+                    return const LinearGradient(
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                      stops: [0.0, 0.68, 1.0],
+                      colors: [
+                        Color(0xFFFFFFFF),
+                        Color(0xFFFFFFFF),
+                        Color(0x00FFFFFF),
+                      ],
+                    ).createShader(bounds);
+                  },
+                  blendMode: BlendMode.dstIn,
+                  child: Image.asset(
+                    'assets/Images/my-image/my-pic.webp',
+                    fit: BoxFit.contain,
+                    alignment: Alignment.center,
+                    cacheWidth: 800,
+                    filterQuality: FilterQuality.medium,
+                  ),
+                ),
+              ],
             ),
           ),
         ),
