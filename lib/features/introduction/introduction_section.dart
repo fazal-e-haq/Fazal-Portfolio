@@ -311,12 +311,12 @@ class _DesktopSketchHeroStage extends StatelessWidget {
           Positioned(
             left: 0,
             right: 0,
-            top: ((heroHeight - 235.0) / 2.0) - 15.0,
+            top: ((heroHeight - 276.0) / 2.0) - 15.0,
             child: Center(
               child: Opacity(
                 opacity: boxesOpacity,
                 child: SketchGithubStatsBackground(
-                  width: heroWidth.clamp(360.0, 1500.0),
+                  width: heroWidth.clamp(360.0, 1800.0),
                   isMobile: false,
                 ),
               ),

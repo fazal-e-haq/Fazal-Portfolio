@@ -2,7 +2,7 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 
 /// A handcrafted pencil-sketch GitHub Contribution Heatmap backdrop (Full One Year / 52 Weeks).
-/// Displays 52 columns x 7 rows of hand-drawn boxes identical in style to SketchButton & SketchCard:
+/// Displays hand-drawn boxes identical in style to SketchButton & SketchCard:
 /// - Multi-pass wobbly graphite & charcoal strokes (no straight lines)
 /// - Authentic hand-drawn corner overshoot at top-left
 /// - Dual overlapping sketch passes with organic noise
@@ -14,11 +14,13 @@ class SketchGithubStatsBackground extends StatefulWidget {
     required this.width,
     this.height,
     this.isMobile = false,
+    this.mobileCols = 20,
   });
 
   final double width;
   final double? height;
   final bool isMobile;
+  final int mobileCols;
 
   @override
   State<SketchGithubStatsBackground> createState() =>
@@ -31,13 +33,13 @@ class _SketchGithubStatsBackgroundState
 
   @override
   Widget build(BuildContext context) {
-    // 52 weeks (one full year) x 7 days (Sun - Sat) = 364 boxes
-    const int cols = 52;
+    // 52 weeks on desktop (full year), or adapted column count on mobile
+    final int cols = widget.isMobile ? widget.mobileCols : 52;
     const int rows = 7;
 
-    // Box dimensions: full year grid width ~1450px on desktop, ~1070px on mobile
-    final double boxSize = widget.isMobile ? 16.5 : 22.5;
-    final double boxGap = widget.isMobile ? 4.2 : 5.5;
+    // Box dimensions: full year grid width ~1760px on desktop, ~490px on mobile
+    final double boxSize = widget.isMobile ? 18.0 : 27.0;
+    final double boxGap = widget.isMobile ? 4.5 : 6.0;
 
     final double gridWidth = cols * boxSize + (cols - 1) * boxGap;
     final double gridHeight = rows * boxSize + (rows - 1) * boxGap;
@@ -90,7 +92,7 @@ class _SketchGithubStatsBackgroundState
   }
 }
 
-/// Custom painter rendering the 52-week full year of hand-drawn sketch boxes
+/// Custom painter rendering the full year or mobile sketch boxes
 /// using the exact multi-pass wobbly pencil algorithm from SketchCard & SketchButton.
 class _GithubOneYearBubblePainter extends CustomPainter {
   final int cols;
@@ -236,7 +238,7 @@ class _GithubOneYearBubblePainter extends CustomPainter {
     return path;
   }
 
-  /// Deterministic activity level generator (364 boxes)
+  /// Deterministic activity level generator
   int _getActivityLevel(int col, int row) {
     final double raw =
         (math.sin(col * 12.9898 + row * 78.233 + 42.0) * 43758.5453) % 1.0;
@@ -256,8 +258,8 @@ class _GithubOneYearBubblePainter extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     int boxSeed = 100;
     final double bubbleRadius = boxSize * 4.2;
-    final double wobble = isMobile ? 1.05 : 1.40;
-    final double borderRadius = isMobile ? 3.0 : 4.2;
+    final double wobble = isMobile ? 1.15 : 1.55;
+    final double borderRadius = isMobile ? 3.4 : 4.8;
 
     for (int c = 0; c < cols; c++) {
       for (int r = 0; r < rows; r++) {
@@ -328,24 +330,24 @@ class _GithubOneYearBubblePainter extends CustomPainter {
 
     switch (level) {
       case 0:
-        strokeWidth = 1.20;
-        alpha = isHovered ? 0.48 : 0.25;
+        strokeWidth = 1.30;
+        alpha = isHovered ? 0.50 : 0.26;
         break;
       case 1:
-        strokeWidth = 1.55;
-        alpha = isHovered ? 0.74 : 0.52;
+        strokeWidth = 1.70;
+        alpha = isHovered ? 0.76 : 0.54;
         break;
       case 2:
-        strokeWidth = 1.90;
-        alpha = isHovered ? 0.94 : 0.78;
+        strokeWidth = 2.10;
+        alpha = isHovered ? 0.95 : 0.80;
         break;
       case 3:
-        strokeWidth = 2.25;
+        strokeWidth = 2.50;
         alpha = isHovered ? 1.00 : 0.92;
         break;
       case 4:
       default:
-        strokeWidth = 2.60;
+        strokeWidth = 2.90;
         alpha = 1.00;
         break;
     }
@@ -355,16 +357,16 @@ class _GithubOneYearBubblePainter extends CustomPainter {
       size: size,
       passSeed: seed + 37,
       amp: wobble * 1.35,
-      inset: 1.0,
+      inset: 1.1,
       borderRadius: borderRadius,
     );
 
     final Paint secondaryPaint = Paint()
       ..color = const Color(0xFF1A1A1A).withValues(
-        alpha: (alpha * (isHovered ? 0.50 : 0.35)).clamp(0.12, 0.55),
+        alpha: (alpha * (isHovered ? 0.52 : 0.36)).clamp(0.14, 0.58),
       )
       ..style = PaintingStyle.stroke
-      ..strokeWidth = (strokeWidth * 0.65).clamp(0.75, 1.65)
+      ..strokeWidth = (strokeWidth * 0.65).clamp(0.85, 1.85)
       ..strokeCap = StrokeCap.round
       ..strokeJoin = StrokeJoin.round;
 
@@ -395,14 +397,14 @@ class _GithubOneYearBubblePainter extends CustomPainter {
       size: size,
       passSeed: seed,
       amp: wobble,
-      inset: 0.50,
+      inset: 0.55,
       borderRadius: borderRadius,
     );
 
     final Paint primaryPaint = Paint()
       ..color = const Color(0xFF1A1A1A).withValues(alpha: alpha)
       ..style = PaintingStyle.stroke
-      ..strokeWidth = isHovered ? strokeWidth + 0.3 : strokeWidth
+      ..strokeWidth = isHovered ? strokeWidth + 0.35 : strokeWidth
       ..strokeCap = StrokeCap.round
       ..strokeJoin = StrokeJoin.round;
 
@@ -414,10 +416,10 @@ class _GithubOneYearBubblePainter extends CustomPainter {
     if (level >= 2) {
       final Paint hatchPaint = Paint()
         ..color = const Color(0xFF1A1A1A).withValues(
-          alpha: level == 2 ? 0.40 : (level == 3 ? 0.70 : 0.90),
+          alpha: level == 2 ? 0.42 : (level == 3 ? 0.72 : 0.92),
         )
         ..style = PaintingStyle.stroke
-        ..strokeWidth = 1.25
+        ..strokeWidth = 1.35
         ..strokeCap = StrokeCap.round;
 
       // Primary diagonal pencil stroke with subtle hand tremor
@@ -436,10 +438,10 @@ class _GithubOneYearBubblePainter extends CustomPainter {
     if (level >= 3) {
       final Paint hatchPaint = Paint()
         ..color = const Color(0xFF1A1A1A).withValues(
-          alpha: level == 3 ? 0.62 : 0.85,
+          alpha: level == 3 ? 0.64 : 0.88,
         )
         ..style = PaintingStyle.stroke
-        ..strokeWidth = 1.15
+        ..strokeWidth = 1.25
         ..strokeCap = StrokeCap.round;
 
       // Parallel diagonal strokes
@@ -456,9 +458,9 @@ class _GithubOneYearBubblePainter extends CustomPainter {
 
     if (level >= 4) {
       final Paint crossPaint = Paint()
-        ..color = const Color(0xFF1A1A1A).withValues(alpha: 0.80)
+        ..color = const Color(0xFF1A1A1A).withValues(alpha: 0.82)
         ..style = PaintingStyle.stroke
-        ..strokeWidth = 1.15
+        ..strokeWidth = 1.25
         ..strokeCap = StrokeCap.round;
 
       // Counter-diagonal cross-hatch for peak intensity
