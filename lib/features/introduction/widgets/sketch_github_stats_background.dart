@@ -35,9 +35,9 @@ class _SketchGithubStatsBackgroundState
     const int cols = 52;
     const int rows = 7;
 
-    // Box dimensions: full year grid width ~1220px on desktop, ~885px on mobile
-    final double boxSize = widget.isMobile ? 13.5 : 18.5;
-    final double boxGap = widget.isMobile ? 3.6 : 5.0;
+    // Box dimensions: full year grid width ~1450px on desktop, ~1070px on mobile
+    final double boxSize = widget.isMobile ? 16.5 : 22.5;
+    final double boxGap = widget.isMobile ? 4.2 : 5.5;
 
     final double gridWidth = cols * boxSize + (cols - 1) * boxGap;
     final double gridHeight = rows * boxSize + (rows - 1) * boxGap;
@@ -256,8 +256,8 @@ class _GithubOneYearBubblePainter extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     int boxSeed = 100;
     final double bubbleRadius = boxSize * 4.2;
-    final double wobble = isMobile ? 0.85 : 1.15;
-    final double borderRadius = isMobile ? 2.4 : 3.2;
+    final double wobble = isMobile ? 1.05 : 1.40;
+    final double borderRadius = isMobile ? 3.0 : 4.2;
 
     for (int c = 0; c < cols; c++) {
       for (int r = 0; r < rows; r++) {
@@ -328,24 +328,24 @@ class _GithubOneYearBubblePainter extends CustomPainter {
 
     switch (level) {
       case 0:
-        strokeWidth = 1.05;
-        alpha = isHovered ? 0.46 : 0.24;
+        strokeWidth = 1.20;
+        alpha = isHovered ? 0.48 : 0.25;
         break;
       case 1:
-        strokeWidth = 1.35;
-        alpha = isHovered ? 0.72 : 0.50;
+        strokeWidth = 1.55;
+        alpha = isHovered ? 0.74 : 0.52;
         break;
       case 2:
-        strokeWidth = 1.65;
-        alpha = isHovered ? 0.92 : 0.76;
+        strokeWidth = 1.90;
+        alpha = isHovered ? 0.94 : 0.78;
         break;
       case 3:
-        strokeWidth = 1.95;
-        alpha = isHovered ? 1.00 : 0.90;
+        strokeWidth = 2.25;
+        alpha = isHovered ? 1.00 : 0.92;
         break;
       case 4:
       default:
-        strokeWidth = 2.25;
+        strokeWidth = 2.60;
         alpha = 1.00;
         break;
     }
@@ -355,7 +355,7 @@ class _GithubOneYearBubblePainter extends CustomPainter {
       size: size,
       passSeed: seed + 37,
       amp: wobble * 1.35,
-      inset: 0.9,
+      inset: 1.0,
       borderRadius: borderRadius,
     );
 
@@ -364,7 +364,7 @@ class _GithubOneYearBubblePainter extends CustomPainter {
         alpha: (alpha * (isHovered ? 0.50 : 0.35)).clamp(0.12, 0.55),
       )
       ..style = PaintingStyle.stroke
-      ..strokeWidth = (strokeWidth * 0.65).clamp(0.65, 1.35)
+      ..strokeWidth = (strokeWidth * 0.65).clamp(0.75, 1.65)
       ..strokeCap = StrokeCap.round
       ..strokeJoin = StrokeJoin.round;
 
@@ -395,7 +395,7 @@ class _GithubOneYearBubblePainter extends CustomPainter {
       size: size,
       passSeed: seed,
       amp: wobble,
-      inset: 0.45,
+      inset: 0.50,
       borderRadius: borderRadius,
     );
 
@@ -417,7 +417,7 @@ class _GithubOneYearBubblePainter extends CustomPainter {
           alpha: level == 2 ? 0.40 : (level == 3 ? 0.70 : 0.90),
         )
         ..style = PaintingStyle.stroke
-        ..strokeWidth = 1.05
+        ..strokeWidth = 1.25
         ..strokeCap = StrokeCap.round;
 
       // Primary diagonal pencil stroke with subtle hand tremor
@@ -426,8 +426,8 @@ class _GithubOneYearBubblePainter extends CustomPainter {
       final double y0 = size.height - inset;
       final double x1 = size.width - inset;
       final double y1 = inset;
-      final double ctrlX = (x0 + x1) * 0.5 + _noise(seed + 1, seed) * 0.5;
-      final double ctrlY = (y0 + y1) * 0.5 + _noise(seed + 2, seed) * 0.5;
+      final double ctrlX = (x0 + x1) * 0.5 + _noise(seed + 1, seed) * 0.6;
+      final double ctrlY = (y0 + y1) * 0.5 + _noise(seed + 2, seed) * 0.6;
       hatchPath.moveTo(x0, y0);
       hatchPath.quadraticBezierTo(ctrlX, ctrlY, x1, y1);
       canvas.drawPath(hatchPath, hatchPaint);
@@ -439,7 +439,7 @@ class _GithubOneYearBubblePainter extends CustomPainter {
           alpha: level == 3 ? 0.62 : 0.85,
         )
         ..style = PaintingStyle.stroke
-        ..strokeWidth = 1.0
+        ..strokeWidth = 1.15
         ..strokeCap = StrokeCap.round;
 
       // Parallel diagonal strokes
@@ -458,7 +458,7 @@ class _GithubOneYearBubblePainter extends CustomPainter {
       final Paint crossPaint = Paint()
         ..color = const Color(0xFF1A1A1A).withValues(alpha: 0.80)
         ..style = PaintingStyle.stroke
-        ..strokeWidth = 1.0
+        ..strokeWidth = 1.15
         ..strokeCap = StrokeCap.round;
 
       // Counter-diagonal cross-hatch for peak intensity
@@ -467,8 +467,8 @@ class _GithubOneYearBubblePainter extends CustomPainter {
       final double cy0 = inset;
       final double cx1 = size.width - inset;
       final double cy1 = size.height - inset;
-      final double ctrlX = (cx0 + cx1) * 0.5 + _noise(seed + 3, seed) * 0.5;
-      final double ctrlY = (cy0 + cy1) * 0.5 + _noise(seed + 4, seed) * 0.5;
+      final double ctrlX = (cx0 + cx1) * 0.5 + _noise(seed + 3, seed) * 0.6;
+      final double ctrlY = (cy0 + cy1) * 0.5 + _noise(seed + 4, seed) * 0.6;
       crossPath.moveTo(cx0, cy0);
       crossPath.quadraticBezierTo(ctrlX, ctrlY, cx1, cy1);
       canvas.drawPath(crossPath, crossPaint);
