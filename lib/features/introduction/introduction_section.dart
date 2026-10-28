@@ -1,4 +1,3 @@
-import 'dart:math' as math;
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 
@@ -6,8 +5,8 @@ import '../../../core/constants/app_sizes.dart';
 import '../../../core/themes/theme.dart';
 import '../app_shell/scroll_coordinator_controller.dart';
 import 'introduction_controller.dart';
-import 'widgets/hello_watermark_widget.dart';
 import 'widgets/intro_details_content.dart';
+import 'widgets/sketch_github_stats_background.dart';
 import '../../services/analytics_service.dart';
 
 /// The Hero Introduction Section of the portfolio.
@@ -15,7 +14,6 @@ import '../../services/analytics_service.dart';
 /// Architecture & State Management:
 /// - Uses [IntroductionController] (GetX) to manage scroll progress and per-letter hover states.
 /// - Composes reusable, single-responsibility widgets:
-///   - [HelloWatermarkWidget]: Interactive auto-cycling "HELLO" watermark letters that morph letter-by-letter.
 ///   - [IntroDetailsContent]: Personal bio ("I am", "FAZAL-E-HAQ", "Flutter Developer", CTA buttons).
 ///   - [_ScrollDownIndicator]: Bouncing, hand-sketched scroll-down prompt with arrow indicator.
 /// - Uses a smooth, flat **Sketchbook Page Glide** transition (zero 3D skewing/tilting)
@@ -106,7 +104,6 @@ class _IntroductionState extends State<Introduction> {
             0.0,
             1.0,
           );
-          final double helloFade = _introController.computeHelloFade(progress);
           final double portraitGlide = _introController.computePortraitGlide(
             progress,
           );
@@ -145,31 +142,7 @@ class _IntroductionState extends State<Introduction> {
                             return Stack(
                               alignment: Alignment.center,
                               children: [
-                                // 1. Subtle hand-drawn sketchbook orbital ring on first view
-                                if (helloFade > 0.01)
-                                  IgnorePointer(
-                                    child: Opacity(
-                                      opacity: helloFade,
-                                      child: SizedBox(
-                                        width: heroWidth,
-                                        height: heroHeight,
-                                        child: CustomPaint(
-                                          painter: _SketchbookHaloPainter(
-                                            isMobile: isMobile,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-
-                                // 2. Interactive "HELLO" watermark (auto-cycling letter by letter)
-                                HelloWatermarkWidget(
-                                  screenWidth: screenWidth,
-                                  isMobile: isMobile,
-                                  scrollFade: helloFade,
-                                ),
-
-                                // 3. Responsive Sketchbook Hero Stage (Bigger Portrait, Desktop/Tablet or Mobile)
+                                // 1. Responsive Sketchbook Hero Stage (Bigger Portrait, Desktop/Tablet or Mobile)
                                 SizedBox(
                                   width: heroWidth,
                                   height: heroHeight,
@@ -190,8 +163,8 @@ class _IntroductionState extends State<Introduction> {
                                         ),
                                 ),
 
-                                // 4. Hand-drawn bouncing "SCROLL DOWN" prompt at the bottom
-                                if (helloFade > 0.05)
+                                // 2. Hand-drawn bouncing "SCROLL DOWN" prompt at the bottom
+                                if (progress < 0.3)
                                   Positioned(
                                     bottom: isMobile ? 12.0 : 22.0,
                                     child: _ScrollDownIndicator(
@@ -292,6 +265,9 @@ class _DesktopSketchHeroStage extends StatelessWidget {
     final double roleFontSize = (nameFontSize * 0.40).clamp(22.0, 32.0);
     final double bodyFontSize = (nameFontSize * 0.22).clamp(14.0, 17.0);
 
+    // Big GitHub boxes are visible ONLY in initial intro view, fading to 0 as user enters details
+    final double boxesOpacity = (1.0 - (portraitGlide * 2.8)).clamp(0.0, 1.0);
+
     return Stack(
       clipBehavior: Clip.none,
       children: [
@@ -329,33 +305,54 @@ class _DesktopSketchHeroStage extends StatelessWidget {
           ),
         ),
 
-        // Center -> Right Column: Clean Portrait Image with Soft Gradient Opacity at Bottom
+        // 0. Full-Year 52-Week GitHub Stats Backdrop (Centered, Wide, Big Boxes)
+        // Only visible in initial hero intro; fades out to 0 as user scrolls to details.
+        if (boxesOpacity > 0.01)
+          Positioned(
+            left: 0,
+            right: 0,
+            top: ((heroHeight - 276.0) / 2.0) - 15.0,
+            child: Center(
+              child: Opacity(
+                opacity: boxesOpacity,
+                child: SketchGithubStatsBackground(
+                  width: heroWidth.clamp(360.0, 1800.0),
+                  isMobile: false,
+                ),
+              ),
+            ),
+          ),
+
+        // Center -> Right Column: Clean Portrait Image
         Positioned(
           left: currentX,
           top: currentY,
           width: currentW,
           height: currentH,
           child: RepaintBoundary(
-            child: ShaderMask(
-              shaderCallback: (Rect bounds) {
-                return const LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  stops: [0.0, 0.68, 1.0],
-                  colors: [
-                    Color(0xFFFFFFFF),
-                    Color(0xFFFFFFFF),
-                    Color(0x00FFFFFF),
-                  ],
-                ).createShader(bounds);
-              },
-              blendMode: BlendMode.dstIn,
-              child: Image.asset(
-                'assets/Images/my-image/my-pic.webp',
-                fit: BoxFit.contain,
-                alignment: Alignment.center,
-                cacheWidth: 1200,
-                filterQuality: FilterQuality.medium,
+            child: IgnorePointer(
+              ignoring: true, // Passes hover events through to the background GitHub boxes
+              child: ShaderMask(
+                shaderCallback: (Rect bounds) {
+                  return const LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    stops: [0.0, 0.68, 1.0],
+                    colors: [
+                      Color(0xFFFFFFFF),
+                      Color(0xFFFFFFFF),
+                      Color(0x00FFFFFF),
+                    ],
+                  ).createShader(bounds);
+                },
+                blendMode: BlendMode.dstIn,
+                child: Image.asset(
+                  'assets/Images/my-image/my-pic.webp',
+                  fit: BoxFit.contain,
+                  alignment: Alignment.center,
+                  cacheWidth: 1200,
+                  filterQuality: FilterQuality.medium,
+                ),
               ),
             ),
           ),
@@ -402,36 +399,60 @@ class _MobileSketchHeroStage extends StatelessWidget {
 
     final double introSlideY = (1.0 - introReveal) * 24.0;
 
+    // Big GitHub boxes are visible ONLY in initial intro view, fading to 0 as user enters details
+    final double boxesOpacity = (1.0 - (portraitGlide * 2.8)).clamp(0.0, 1.0);
+
     return Stack(
       clipBehavior: Clip.none,
       children: [
-        // Portrait gliding smoothly from center to top with soft gradient opacity at bottom
+        // 0. Full-Year 52-Week GitHub Stats Backdrop (Centered, Fitted to Mobile)
+        // Only visible in initial hero intro; fades out to 0 as user scrolls to details.
+        if (boxesOpacity > 0.01)
+          Positioned(
+            left: 0,
+            right: 0,
+            top: (startY + startH * 0.28),
+            child: Center(
+              child: Opacity(
+                opacity: boxesOpacity,
+                child: SketchGithubStatsBackground(
+                  width: (heroWidth * 0.98).clamp(320.0, 600.0),
+                  isMobile: true,
+                ),
+              ),
+            ),
+          ),
+
+        // Portrait gliding smoothly from center to top
         Positioned(
           left: currentX,
           top: currentY,
           width: currentW,
           height: currentH,
           child: RepaintBoundary(
-            child: ShaderMask(
-              shaderCallback: (Rect bounds) {
-                return const LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  stops: [0.0, 0.68, 1.0],
-                  colors: [
-                    Color(0xFFFFFFFF),
-                    Color(0xFFFFFFFF),
-                    Color(0x00FFFFFF),
-                  ],
-                ).createShader(bounds);
-              },
-              blendMode: BlendMode.dstIn,
-              child: Image.asset(
-                'assets/Images/my-image/my-pic.webp',
-                fit: BoxFit.contain,
-                alignment: Alignment.center,
-                cacheWidth: 800,
-                filterQuality: FilterQuality.medium,
+            child: IgnorePointer(
+              ignoring: true,
+              child: ShaderMask(
+                shaderCallback: (Rect bounds) {
+                  return const LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    stops: [0.0, 0.68, 1.0],
+                    colors: [
+                      Color(0xFFFFFFFF),
+                      Color(0xFFFFFFFF),
+                      Color(0x00FFFFFF),
+                    ],
+                  ).createShader(bounds);
+                },
+                blendMode: BlendMode.dstIn,
+                child: Image.asset(
+                  'assets/Images/my-image/my-pic.webp',
+                  fit: BoxFit.contain,
+                  alignment: Alignment.center,
+                  cacheWidth: 800,
+                  filterQuality: FilterQuality.medium,
+                ),
               ),
             ),
           ),
@@ -576,47 +597,4 @@ class _SketchScrollArrowPainter extends CustomPainter {
   bool shouldRepaint(covariant _SketchScrollArrowPainter oldDelegate) => false;
 }
 
-/// Draws a delicate, organic hand-drawn sketchbook orbital ring behind the portrait
-/// on initial landing.
-class _SketchbookHaloPainter extends CustomPainter {
-  final bool isMobile;
 
-  const _SketchbookHaloPainter({required this.isMobile});
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    if (size.width <= 0 || size.height <= 0) return;
-
-    final Offset center = Offset(size.width / 2.0, size.height / 2.0);
-    final double radius = isMobile
-        ? (size.width * 0.44).clamp(130.0, 220.0)
-        : (size.height * 0.40).clamp(210.0, 360.0);
-
-    // Primary pencil orbital ring (wobbly ellipse with graphite grain)
-    final Paint ringPaint = Paint()
-      ..color = const Color(0x18000000)
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = 1.4
-      ..strokeCap = StrokeCap.round;
-
-    final Path ringPath = Path();
-    const int segments = 36;
-    for (int i = 0; i <= segments; i++) {
-      final double angle = (i / segments) * 2.0 * 3.141592653589793;
-      final double wobbleR =
-          radius + (i.isEven ? 2.5 : -2.5) + ((i % 3 == 0) ? 1.5 : -1.0);
-      final double x = center.dx + wobbleR * 1.15 * math.cos(angle);
-      final double y = center.dy + wobbleR * 0.95 * math.sin(angle);
-      if (i == 0) {
-        ringPath.moveTo(x, y);
-      } else {
-        ringPath.lineTo(x, y);
-      }
-    }
-    canvas.drawPath(ringPath, ringPaint);
-  }
-
-  @override
-  bool shouldRepaint(covariant _SketchbookHaloPainter oldDelegate) =>
-      oldDelegate.isMobile != isMobile;
-}
