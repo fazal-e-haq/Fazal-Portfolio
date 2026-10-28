@@ -33,9 +33,9 @@ class _SketchGithubStatsBackgroundState
     const int cols = 52;
     const int rows = 7;
 
-    // Box dimensions: full year grid width ~1035px on desktop, ~760px on mobile
-    final double boxSize = widget.isMobile ? 11.5 : 15.5;
-    final double boxGap = widget.isMobile ? 3.2 : 4.5;
+    // Box dimensions: full year grid width ~1220px on desktop, ~885px on mobile
+    final double boxSize = widget.isMobile ? 13.5 : 18.5;
+    final double boxGap = widget.isMobile ? 3.6 : 5.0;
 
     final double gridWidth = cols * boxSize + (cols - 1) * boxGap;
     final double gridHeight = rows * boxSize + (rows - 1) * boxGap;
@@ -183,7 +183,7 @@ class _GithubOneYearBubblePainter extends CustomPainter {
     final double midJ3 = math.sin(seed * 7.9) * 0.35;
     final double midJ4 = math.cos(seed * 8.3) * 0.35;
 
-    const double rad = 2.4;
+    const double rad = 2.8;
 
     // Primary wobbly pencil outline path
     final Path primaryPath = Path();
@@ -224,24 +224,24 @@ class _GithubOneYearBubblePainter extends CustomPainter {
 
     switch (level) {
       case 0:
-        strokeWidth = 0.95;
-        alpha = isHovered ? 0.45 : 0.22;
+        strokeWidth = 1.05;
+        alpha = isHovered ? 0.46 : 0.23;
         break;
       case 1:
-        strokeWidth = 1.25;
-        alpha = isHovered ? 0.70 : 0.48;
+        strokeWidth = 1.35;
+        alpha = isHovered ? 0.72 : 0.49;
         break;
       case 2:
-        strokeWidth = 1.55;
-        alpha = isHovered ? 0.90 : 0.75;
+        strokeWidth = 1.65;
+        alpha = isHovered ? 0.92 : 0.76;
         break;
       case 3:
-        strokeWidth = 1.85;
+        strokeWidth = 1.95;
         alpha = isHovered ? 1.00 : 0.90;
         break;
       case 4:
       default:
-        strokeWidth = 2.15;
+        strokeWidth = 2.25;
         alpha = 1.00;
         break;
     }
@@ -258,7 +258,7 @@ class _GithubOneYearBubblePainter extends CustomPainter {
 
     // 2. Secondary Lighter Graphite Pencil Stroke (The authentic button/navbar double-pencil look)
     final Path secondaryPath = Path();
-    const double jOff = 0.65;
+    const double jOff = 0.70;
     secondaryPath.moveTo(rect.left + rad + j1 + jOff, rect.top + jOff);
     secondaryPath.quadraticBezierTo(
       rect.center.dx,
@@ -293,7 +293,7 @@ class _GithubOneYearBubblePainter extends CustomPainter {
     final Paint secondaryPaint = Paint()
       ..color = const Color(0xFF1A1A1A).withValues(alpha: alpha * 0.45)
       ..style = PaintingStyle.stroke
-      ..strokeWidth = (strokeWidth * 0.65).clamp(0.6, 1.3)
+      ..strokeWidth = (strokeWidth * 0.65).clamp(0.65, 1.35)
       ..strokeCap = StrokeCap.round;
 
     canvas.drawPath(secondaryPath, secondaryPaint);
@@ -307,7 +307,7 @@ class _GithubOneYearBubblePainter extends CustomPainter {
           alpha: level == 2 ? 0.38 : (level == 3 ? 0.68 : 0.88),
         )
         ..style = PaintingStyle.stroke
-        ..strokeWidth = 1.0
+        ..strokeWidth = 1.05
         ..strokeCap = StrokeCap.round;
 
       // Primary diagonal pencil stroke
@@ -324,7 +324,7 @@ class _GithubOneYearBubblePainter extends CustomPainter {
           alpha: level == 3 ? 0.62 : 0.85,
         )
         ..style = PaintingStyle.stroke
-        ..strokeWidth = 0.95
+        ..strokeWidth = 1.0
         ..strokeCap = StrokeCap.round;
 
       // Parallel diagonal strokes
@@ -344,7 +344,7 @@ class _GithubOneYearBubblePainter extends CustomPainter {
       final Paint crossPaint = Paint()
         ..color = const Color(0xFF1A1A1A).withValues(alpha: 0.78)
         ..style = PaintingStyle.stroke
-        ..strokeWidth = 0.95
+        ..strokeWidth = 1.0
         ..strokeCap = StrokeCap.round;
 
       // Counter-diagonal cross-hatch for peak intensity
