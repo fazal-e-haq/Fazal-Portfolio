@@ -305,54 +305,55 @@ class _DesktopSketchHeroStage extends StatelessWidget {
           ),
         ),
 
-        // Center -> Right Column: Clean Portrait Image with GitHub Stats Backdrop
+        // 0. Full-Year 52-Week GitHub Stats Backdrop (Centered, Wide, Big Boxes)
+        // Only visible in initial hero intro; fades out to 0 as user scrolls to details.
+        if (boxesOpacity > 0.01)
+          Positioned(
+            left: 0,
+            right: 0,
+            top: ((heroHeight - 170.0) / 2.0) - 15.0,
+            child: Center(
+              child: Opacity(
+                opacity: boxesOpacity,
+                child: SketchGithubStatsBackground(
+                  width: heroWidth.clamp(360.0, 1180.0),
+                  isMobile: false,
+                ),
+              ),
+            ),
+          ),
+
+        // Center -> Right Column: Clean Portrait Image
         Positioned(
           left: currentX,
           top: currentY,
           width: currentW,
           height: currentH,
           child: RepaintBoundary(
-            child: Stack(
-              clipBehavior: Clip.none,
-              alignment: Alignment.center,
-              children: [
-                // 1. Very Big GitHub Boxes (Only visible in initial intro, hidden when name/details show)
-                if (boxesOpacity > 0.01)
-                  Positioned(
-                    top: currentH * 0.10,
-                    child: Opacity(
-                      opacity: boxesOpacity,
-                      child: SketchGithubStatsBackground(
-                        width: (currentW * 1.10).clamp(340.0, 680.0),
-                        height: (currentH * 0.65).clamp(200.0, 320.0),
-                        isMobile: false,
-                      ),
-                    ),
-                  ),
-                // 2. Portrait with Soft Gradient Opacity at Bottom
-                ShaderMask(
-                  shaderCallback: (Rect bounds) {
-                    return const LinearGradient(
-                      begin: Alignment.topCenter,
-                      end: Alignment.bottomCenter,
-                      stops: [0.0, 0.68, 1.0],
-                      colors: [
-                        Color(0xFFFFFFFF),
-                        Color(0xFFFFFFFF),
-                        Color(0x00FFFFFF),
-                      ],
-                    ).createShader(bounds);
-                  },
-                  blendMode: BlendMode.dstIn,
-                  child: Image.asset(
-                    'assets/Images/my-image/my-pic.webp',
-                    fit: BoxFit.contain,
-                    alignment: Alignment.center,
-                    cacheWidth: 1200,
-                    filterQuality: FilterQuality.medium,
-                  ),
+            child: IgnorePointer(
+              ignoring: true, // Passes hover events through to the background GitHub boxes
+              child: ShaderMask(
+                shaderCallback: (Rect bounds) {
+                  return const LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    stops: [0.0, 0.68, 1.0],
+                    colors: [
+                      Color(0xFFFFFFFF),
+                      Color(0xFFFFFFFF),
+                      Color(0x00FFFFFF),
+                    ],
+                  ).createShader(bounds);
+                },
+                blendMode: BlendMode.dstIn,
+                child: Image.asset(
+                  'assets/Images/my-image/my-pic.webp',
+                  fit: BoxFit.contain,
+                  alignment: Alignment.center,
+                  cacheWidth: 1200,
+                  filterQuality: FilterQuality.medium,
                 ),
-              ],
+              ),
             ),
           ),
         ),
@@ -404,54 +405,55 @@ class _MobileSketchHeroStage extends StatelessWidget {
     return Stack(
       clipBehavior: Clip.none,
       children: [
-        // Portrait gliding smoothly from center to top with GitHub Stats Backdrop
+        // 0. Full-Year 52-Week GitHub Stats Backdrop (Centered, Fitted to Mobile)
+        // Only visible in initial hero intro; fades out to 0 as user scrolls to details.
+        if (boxesOpacity > 0.01)
+          Positioned(
+            left: 0,
+            right: 0,
+            top: (startY + startH * 0.28),
+            child: Center(
+              child: Opacity(
+                opacity: boxesOpacity,
+                child: SketchGithubStatsBackground(
+                  width: (heroWidth * 0.96).clamp(320.0, 500.0),
+                  isMobile: true,
+                ),
+              ),
+            ),
+          ),
+
+        // Portrait gliding smoothly from center to top
         Positioned(
           left: currentX,
           top: currentY,
           width: currentW,
           height: currentH,
           child: RepaintBoundary(
-            child: Stack(
-              clipBehavior: Clip.none,
-              alignment: Alignment.center,
-              children: [
-                // 1. Very Big GitHub Boxes (Only visible in initial intro, hidden when name/details show)
-                if (boxesOpacity > 0.01)
-                  Positioned(
-                    top: currentH * 0.08,
-                    child: Opacity(
-                      opacity: boxesOpacity,
-                      child: SketchGithubStatsBackground(
-                        width: (currentW * 1.15).clamp(260.0, 460.0),
-                        height: (currentH * 0.64).clamp(145.0, 210.0),
-                        isMobile: true,
-                      ),
-                    ),
-                  ),
-                // 2. Portrait with Soft Gradient Opacity at Bottom
-                ShaderMask(
-                  shaderCallback: (Rect bounds) {
-                    return const LinearGradient(
-                      begin: Alignment.topCenter,
-                      end: Alignment.bottomCenter,
-                      stops: [0.0, 0.68, 1.0],
-                      colors: [
-                        Color(0xFFFFFFFF),
-                        Color(0xFFFFFFFF),
-                        Color(0x00FFFFFF),
-                      ],
-                    ).createShader(bounds);
-                  },
-                  blendMode: BlendMode.dstIn,
-                  child: Image.asset(
-                    'assets/Images/my-image/my-pic.webp',
-                    fit: BoxFit.contain,
-                    alignment: Alignment.center,
-                    cacheWidth: 800,
-                    filterQuality: FilterQuality.medium,
-                  ),
+            child: IgnorePointer(
+              ignoring: true,
+              child: ShaderMask(
+                shaderCallback: (Rect bounds) {
+                  return const LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    stops: [0.0, 0.68, 1.0],
+                    colors: [
+                      Color(0xFFFFFFFF),
+                      Color(0xFFFFFFFF),
+                      Color(0x00FFFFFF),
+                    ],
+                  ).createShader(bounds);
+                },
+                blendMode: BlendMode.dstIn,
+                child: Image.asset(
+                  'assets/Images/my-image/my-pic.webp',
+                  fit: BoxFit.contain,
+                  alignment: Alignment.center,
+                  cacheWidth: 800,
+                  filterQuality: FilterQuality.medium,
                 ),
-              ],
+              ),
             ),
           ),
         ),
