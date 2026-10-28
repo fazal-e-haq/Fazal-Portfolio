@@ -2,8 +2,10 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 
 /// A handcrafted pencil-sketch GitHub Contribution Heatmap backdrop (Full One Year / 52 Weeks).
-/// Displays 52 columns x 7 rows of hand-drawn boxes with:
-/// - Double-pencil wobbly outlines (matching buttons and navbar)
+/// Displays 52 columns x 7 rows of hand-drawn boxes identical in style to SketchButton & SketchCard:
+/// - Multi-pass wobbly graphite & charcoal strokes (no straight lines)
+/// - Authentic hand-drawn corner overshoot at top-left
+/// - Dual overlapping sketch passes with organic noise
 /// - Interactive hover bubble scale effect (smooth ripple scaling under cursor)
 /// - Zero card border, zero text, zero dates, centered behind Fazal's portrait
 class SketchGithubStatsBackground extends StatefulWidget {
@@ -41,7 +43,7 @@ class _SketchGithubStatsBackgroundState
     final double gridHeight = rows * boxSize + (rows - 1) * boxGap;
 
     // Extra padding around grid so hover bubble scaling (up to 1.25x) doesn't clip
-    final double extraPad = boxSize * 0.9;
+    final double extraPad = boxSize * 0.95;
     final double canvasWidth = gridWidth + extraPad * 2;
     final double canvasHeight = gridHeight + extraPad * 2;
 
@@ -89,7 +91,7 @@ class _SketchGithubStatsBackgroundState
 }
 
 /// Custom painter rendering the 52-week full year of hand-drawn sketch boxes
-/// with double-pencil outlines and an interactive bubble scale effect on hover.
+/// using the exact multi-pass wobbly pencil algorithm from SketchCard & SketchButton.
 class _GithubOneYearBubblePainter extends CustomPainter {
   final int cols;
   final int rows;
@@ -108,6 +110,131 @@ class _GithubOneYearBubblePainter extends CustomPainter {
     required this.hoverPos,
     required this.isMobile,
   });
+
+  /// Deterministic organic noise perturbation (identical formula to SketchPainter)
+  double _noise(int step, int passSeed) {
+    return math.sin(step * 2.39996 + passSeed * 1.61803) * 0.65 +
+        math.cos(step * 4.12345 - passSeed * 0.87654) * 0.35;
+  }
+
+  /// Builds an authentic hand-drawn sketch box path matching SketchBorderPainter:
+  /// - Curved quadratic bezier segments with normal offsets
+  /// - Organic corner rounding
+  /// - Realistic pencil overshoot where line loops back past the starting point
+  Path _buildWobblyBoxPath({
+    required Size size,
+    required int passSeed,
+    required double amp,
+    required double inset,
+    required double borderRadius,
+  }) {
+    final double w = size.width;
+    final double h = size.height;
+    if (w <= 0 || h <= 0) return Path();
+
+    final double maxRadius = math.min(w, h) * 0.42;
+    final double r = borderRadius.clamp(0.0, maxRadius);
+    final double left = inset;
+    final double top = inset;
+    final double right = w - inset;
+    final double bottom = h - inset;
+
+    final Path path = Path();
+    int step = 1;
+
+    void addWobblyEdge(
+      double x0,
+      double y0,
+      double x1,
+      double y1, {
+      required double nx,
+      required double ny,
+    }) {
+      final double dx = x1 - x0;
+      final double dy = y1 - y0;
+      const int segments = 2;
+
+      double prevX = x0;
+      double prevY = y0;
+
+      for (int i = 1; i <= segments; i++) {
+        final double t = i / segments;
+        final double tMid = (i - 0.5) / segments;
+
+        final double edgeEnvelope = math.sin(t * math.pi);
+        final double midEnvelope = math.sin(tMid * math.pi);
+
+        final double offsetEnd =
+            (i == segments
+                ? _noise(step, passSeed) * 0.35
+                : _noise(step, passSeed)) *
+            amp *
+            (0.35 + 0.65 * edgeEnvelope);
+        step++;
+
+        final double offsetCtrl =
+            _noise(step, passSeed) * amp * (0.45 + 0.75 * midEnvelope);
+        step++;
+
+        final double targetX = x0 + dx * t + nx * offsetEnd;
+        final double targetY = y0 + dy * t + ny * offsetEnd;
+
+        final double ctrlX = (prevX + targetX) * 0.5 + nx * offsetCtrl;
+        final double ctrlY = (prevY + targetY) * 0.5 + ny * offsetCtrl;
+
+        path.quadraticBezierTo(ctrlX, ctrlY, targetX, targetY);
+        prevX = targetX;
+        prevY = targetY;
+      }
+    }
+
+    // Start at top-left after corner radius
+    final double startX = left + r + _noise(step++, passSeed) * (amp * 0.4);
+    final double startY = top + _noise(step++, passSeed) * (amp * 0.5);
+    path.moveTo(startX, startY);
+
+    // 1. Top Edge (left -> right), normal points up (0, -1)
+    addWobblyEdge(startX, startY, right - r, top, nx: 0.0, ny: -1.0);
+
+    // Top-Right Corner
+    final double trCtrlX = right + _noise(step++, passSeed) * (amp * 0.75);
+    final double trCtrlY = top + _noise(step++, passSeed) * (amp * 0.75);
+    final double trEndX = right + _noise(step++, passSeed) * (amp * 0.4);
+    final double trEndY = top + r + _noise(step++, passSeed) * (amp * 0.4);
+    path.quadraticBezierTo(trCtrlX, trCtrlY, trEndX, trEndY);
+
+    // 2. Right Edge (top -> bottom), normal points right (1, 0)
+    addWobblyEdge(trEndX, trEndY, right, bottom - r, nx: 1.0, ny: 0.0);
+
+    // Bottom-Right Corner
+    final double brCtrlX = right + _noise(step++, passSeed) * (amp * 0.75);
+    final double brCtrlY = bottom + _noise(step++, passSeed) * (amp * 0.75);
+    final double brEndX = right - r + _noise(step++, passSeed) * (amp * 0.4);
+    final double brEndY = bottom + _noise(step++, passSeed) * (amp * 0.5);
+    path.quadraticBezierTo(brCtrlX, brCtrlY, brEndX, brEndY);
+
+    // 3. Bottom Edge (right -> left), normal points down (0, 1)
+    addWobblyEdge(brEndX, brEndY, left + r, bottom, nx: 0.0, ny: 1.0);
+
+    // Bottom-Left Corner
+    final double blCtrlX = left + _noise(step++, passSeed) * (amp * 0.75);
+    final double blCtrlY = bottom + _noise(step++, passSeed) * (amp * 0.75);
+    final double blEndX = left + _noise(step++, passSeed) * (amp * 0.4);
+    final double blEndY = bottom - r + _noise(step++, passSeed) * (amp * 0.4);
+    path.quadraticBezierTo(blCtrlX, blCtrlY, blEndX, blEndY);
+
+    // 4. Left Edge (bottom -> top), normal points left (-1, 0)
+    addWobblyEdge(blEndX, blEndY, left, top + r, nx: -1.0, ny: 0.0);
+
+    // Top-Left Corner closing back with authentic pencil overshoot!
+    final double tlCtrlX = left + _noise(step++, passSeed) * (amp * 0.75);
+    final double tlCtrlY = top + _noise(step++, passSeed) * (amp * 0.75);
+    final double overshootX = startX + (amp * 1.5);
+    final double overshootY = startY + _noise(step++, passSeed) * (amp * 0.4);
+    path.quadraticBezierTo(tlCtrlX, tlCtrlY, overshootX, overshootY);
+
+    return path;
+  }
 
   /// Deterministic activity level generator (364 boxes)
   int _getActivityLevel(int col, int row) {
@@ -129,12 +256,13 @@ class _GithubOneYearBubblePainter extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     int boxSeed = 100;
     final double bubbleRadius = boxSize * 4.2;
+    final double wobble = isMobile ? 0.85 : 1.15;
+    final double borderRadius = isMobile ? 2.4 : 3.2;
 
     for (int c = 0; c < cols; c++) {
       for (int r = 0; r < rows; r++) {
         final double x = extraPad + c * (boxSize + boxGap);
         final double y = extraPad + r * (boxSize + boxGap);
-        final Rect rect = Rect.fromLTWH(x, y, boxSize, boxSize);
         final Offset boxCenter = Offset(x + boxSize * 0.5, y + boxSize * 0.5);
 
         // Calculate interactive bubble scale factor
@@ -149,75 +277,51 @@ class _GithubOneYearBubblePainter extends CustomPainter {
         }
 
         final int level = _getActivityLevel(c, r);
+        final int seed = boxSeed++;
+
+        canvas.save();
+        canvas.translate(x, y);
 
         if (scale > 1.001) {
-          canvas.save();
-          canvas.translate(boxCenter.dx, boxCenter.dy);
+          canvas.translate(boxSize * 0.5, boxSize * 0.5);
           canvas.scale(scale);
-          canvas.translate(-boxCenter.dx, -boxCenter.dy);
-          _drawSketchBox(canvas, rect, level, boxSeed++, isHovered: true);
-          canvas.restore();
+          canvas.translate(-boxSize * 0.5, -boxSize * 0.5);
+          _drawSketchBox(
+            canvas,
+            Size(boxSize, boxSize),
+            level,
+            seed,
+            isHovered: true,
+            wobble: wobble,
+            borderRadius: borderRadius,
+          );
         } else {
-          _drawSketchBox(canvas, rect, level, boxSeed++, isHovered: false);
+          _drawSketchBox(
+            canvas,
+            Size(boxSize, boxSize),
+            level,
+            seed,
+            isHovered: false,
+            wobble: wobble,
+            borderRadius: borderRadius,
+          );
         }
+
+        canvas.restore();
       }
     }
   }
 
-  /// Draws a single box with double-pencil wobble outlines (matching buttons and navbar)
+  /// Draws a single box with authentic multi-pass hand-drawn sketch strokes matching SketchCard & SketchButton
   void _drawSketchBox(
     Canvas canvas,
-    Rect rect,
+    Size size,
     int level,
     int seed, {
     required bool isHovered,
+    required double wobble,
+    required double borderRadius,
   }) {
-    // Hand tremor jitter for corners and edges
-    final double j1 = math.sin(seed * 1.3) * 0.40;
-    final double j2 = math.cos(seed * 2.1) * 0.40;
-    final double j3 = math.sin(seed * 3.7) * 0.40;
-    final double j4 = math.cos(seed * 4.9) * 0.40;
-
-    final double midJ1 = math.sin(seed * 5.3) * 0.35;
-    final double midJ2 = math.cos(seed * 6.7) * 0.35;
-    final double midJ3 = math.sin(seed * 7.9) * 0.35;
-    final double midJ4 = math.cos(seed * 8.3) * 0.35;
-
-    const double rad = 2.8;
-
-    // Primary wobbly pencil outline path
-    final Path primaryPath = Path();
-    primaryPath.moveTo(rect.left + rad + j1, rect.top);
-    primaryPath.quadraticBezierTo(
-      rect.center.dx,
-      rect.top + midJ1,
-      rect.right - rad + j2,
-      rect.top,
-    );
-    primaryPath.quadraticBezierTo(rect.right, rect.top, rect.right, rect.top + rad);
-    primaryPath.quadraticBezierTo(
-      rect.right + midJ2,
-      rect.center.dy,
-      rect.right,
-      rect.bottom - rad + j3,
-    );
-    primaryPath.quadraticBezierTo(rect.right, rect.bottom, rect.right - rad, rect.bottom);
-    primaryPath.quadraticBezierTo(
-      rect.center.dx,
-      rect.bottom + midJ3,
-      rect.left + rad + j4,
-      rect.bottom,
-    );
-    primaryPath.quadraticBezierTo(rect.left, rect.bottom, rect.left, rect.bottom - rad);
-    primaryPath.quadraticBezierTo(
-      rect.left + midJ4,
-      rect.center.dy,
-      rect.left,
-      rect.top + rad + j1,
-    );
-    primaryPath.quadraticBezierTo(rect.left, rect.top, rect.left + rad + j1, rect.top);
-    primaryPath.close();
-
     // Outline stroke width and alpha based on activity level
     double strokeWidth;
     double alpha;
@@ -225,11 +329,11 @@ class _GithubOneYearBubblePainter extends CustomPainter {
     switch (level) {
       case 0:
         strokeWidth = 1.05;
-        alpha = isHovered ? 0.46 : 0.23;
+        alpha = isHovered ? 0.46 : 0.24;
         break;
       case 1:
         strokeWidth = 1.35;
-        alpha = isHovered ? 0.72 : 0.49;
+        alpha = isHovered ? 0.72 : 0.50;
         break;
       case 2:
         strokeWidth = 1.65;
@@ -246,76 +350,87 @@ class _GithubOneYearBubblePainter extends CustomPainter {
         break;
     }
 
-    // 1. Primary Charcoal Pencil Stroke
+    // 1. Secondary Loose Graphite Sketch Pass (underneath, exactly matching SketchBorderPainter)
+    final Path secondaryPath = _buildWobblyBoxPath(
+      size: size,
+      passSeed: seed + 37,
+      amp: wobble * 1.35,
+      inset: 0.9,
+      borderRadius: borderRadius,
+    );
+
+    final Paint secondaryPaint = Paint()
+      ..color = const Color(0xFF1A1A1A).withValues(
+        alpha: (alpha * (isHovered ? 0.50 : 0.35)).clamp(0.12, 0.55),
+      )
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = (strokeWidth * 0.65).clamp(0.65, 1.35)
+      ..strokeCap = StrokeCap.round
+      ..strokeJoin = StrokeJoin.round;
+
+    canvas.drawPath(secondaryPath, secondaryPaint);
+
+    // 2. Optional Third Sketch Stroke on Hover (for tactile sketch feedback)
+    if (isHovered) {
+      final Path hoverPath = _buildWobblyBoxPath(
+        size: size,
+        passSeed: seed + 91,
+        amp: wobble * 1.60,
+        inset: 0.0,
+        borderRadius: borderRadius,
+      );
+
+      final Paint hoverPaint = Paint()
+        ..color = const Color(0xFF1A1A1A).withValues(alpha: 0.22)
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = strokeWidth * 0.55
+        ..strokeCap = StrokeCap.round
+        ..strokeJoin = StrokeJoin.round;
+
+      canvas.drawPath(hoverPath, hoverPaint);
+    }
+
+    // 3. Primary Charcoal Pencil Stroke (main pass with organic overshoot)
+    final Path primaryPath = _buildWobblyBoxPath(
+      size: size,
+      passSeed: seed,
+      amp: wobble,
+      inset: 0.45,
+      borderRadius: borderRadius,
+    );
+
     final Paint primaryPaint = Paint()
       ..color = const Color(0xFF1A1A1A).withValues(alpha: alpha)
       ..style = PaintingStyle.stroke
-      ..strokeWidth = strokeWidth
+      ..strokeWidth = isHovered ? strokeWidth + 0.3 : strokeWidth
       ..strokeCap = StrokeCap.round
       ..strokeJoin = StrokeJoin.round;
 
     canvas.drawPath(primaryPath, primaryPaint);
 
-    // 2. Secondary Lighter Graphite Pencil Stroke (The authentic button/navbar double-pencil look)
-    final Path secondaryPath = Path();
-    const double jOff = 0.70;
-    secondaryPath.moveTo(rect.left + rad + j1 + jOff, rect.top + jOff);
-    secondaryPath.quadraticBezierTo(
-      rect.center.dx,
-      rect.top + midJ1 + jOff,
-      rect.right - rad + j2 - jOff,
-      rect.top,
-    );
-    secondaryPath.quadraticBezierTo(rect.right + jOff, rect.top, rect.right, rect.top + rad);
-    secondaryPath.quadraticBezierTo(
-      rect.right,
-      rect.center.dy + midJ2,
-      rect.right,
-      rect.bottom - rad + j3 + jOff,
-    );
-    secondaryPath.quadraticBezierTo(rect.right, rect.bottom + jOff, rect.right - rad, rect.bottom);
-    secondaryPath.quadraticBezierTo(
-      rect.center.dx,
-      rect.bottom + midJ3 - jOff,
-      rect.left + rad + j4 - jOff,
-      rect.bottom + jOff,
-    );
-    secondaryPath.quadraticBezierTo(rect.left - jOff, rect.bottom, rect.left, rect.bottom - rad);
-    secondaryPath.quadraticBezierTo(
-      rect.left,
-      rect.center.dy - midJ4,
-      rect.left + jOff,
-      rect.top + rad + j1,
-    );
-    secondaryPath.quadraticBezierTo(rect.left, rect.top + jOff, rect.left + rad + j1, rect.top);
-    secondaryPath.close();
-
-    final Paint secondaryPaint = Paint()
-      ..color = const Color(0xFF1A1A1A).withValues(alpha: alpha * 0.45)
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = (strokeWidth * 0.65).clamp(0.65, 1.35)
-      ..strokeCap = StrokeCap.round;
-
-    canvas.drawPath(secondaryPath, secondaryPaint);
-
-    // 3. Hand-Drawn Pencil Hatchings Inside Active Boxes
-    final double inset = boxSize * 0.22;
+    // 4. Hand-Drawn Pencil Hatchings Inside Active Boxes
+    final double inset = size.width * 0.24;
 
     if (level >= 2) {
       final Paint hatchPaint = Paint()
         ..color = const Color(0xFF1A1A1A).withValues(
-          alpha: level == 2 ? 0.38 : (level == 3 ? 0.68 : 0.88),
+          alpha: level == 2 ? 0.40 : (level == 3 ? 0.70 : 0.90),
         )
         ..style = PaintingStyle.stroke
         ..strokeWidth = 1.05
         ..strokeCap = StrokeCap.round;
 
-      // Primary diagonal pencil stroke
-      canvas.drawLine(
-        Offset(rect.left + inset, rect.bottom - inset),
-        Offset(rect.right - inset, rect.top + inset),
-        hatchPaint,
-      );
+      // Primary diagonal pencil stroke with subtle hand tremor
+      final Path hatchPath = Path();
+      final double x0 = inset;
+      final double y0 = size.height - inset;
+      final double x1 = size.width - inset;
+      final double y1 = inset;
+      final double ctrlX = (x0 + x1) * 0.5 + _noise(seed + 1, seed) * 0.5;
+      final double ctrlY = (y0 + y1) * 0.5 + _noise(seed + 2, seed) * 0.5;
+      hatchPath.moveTo(x0, y0);
+      hatchPath.quadraticBezierTo(ctrlX, ctrlY, x1, y1);
+      canvas.drawPath(hatchPath, hatchPaint);
     }
 
     if (level >= 3) {
@@ -328,31 +443,35 @@ class _GithubOneYearBubblePainter extends CustomPainter {
         ..strokeCap = StrokeCap.round;
 
       // Parallel diagonal strokes
-      canvas.drawLine(
-        Offset(rect.left + inset, rect.top + rect.height * 0.5),
-        Offset(rect.left + rect.width * 0.5, rect.top + inset),
-        hatchPaint,
-      );
-      canvas.drawLine(
-        Offset(rect.left + rect.width * 0.5, rect.bottom - inset),
-        Offset(rect.right - inset, rect.top + rect.height * 0.5),
-        hatchPaint,
-      );
+      final Path p1 = Path();
+      p1.moveTo(inset, size.height * 0.5);
+      p1.lineTo(size.width * 0.5, inset);
+      canvas.drawPath(p1, hatchPaint);
+
+      final Path p2 = Path();
+      p2.moveTo(size.width * 0.5, size.height - inset);
+      p2.lineTo(size.width - inset, size.height * 0.5);
+      canvas.drawPath(p2, hatchPaint);
     }
 
     if (level >= 4) {
       final Paint crossPaint = Paint()
-        ..color = const Color(0xFF1A1A1A).withValues(alpha: 0.78)
+        ..color = const Color(0xFF1A1A1A).withValues(alpha: 0.80)
         ..style = PaintingStyle.stroke
         ..strokeWidth = 1.0
         ..strokeCap = StrokeCap.round;
 
       // Counter-diagonal cross-hatch for peak intensity
-      canvas.drawLine(
-        Offset(rect.left + inset, rect.top + inset),
-        Offset(rect.right - inset, rect.bottom - inset),
-        crossPaint,
-      );
+      final Path crossPath = Path();
+      final double cx0 = inset;
+      final double cy0 = inset;
+      final double cx1 = size.width - inset;
+      final double cy1 = size.height - inset;
+      final double ctrlX = (cx0 + cx1) * 0.5 + _noise(seed + 3, seed) * 0.5;
+      final double ctrlY = (cy0 + cy1) * 0.5 + _noise(seed + 4, seed) * 0.5;
+      crossPath.moveTo(cx0, cy0);
+      crossPath.quadraticBezierTo(ctrlX, ctrlY, cx1, cy1);
+      canvas.drawPath(crossPath, crossPaint);
     }
   }
 
