@@ -11,10 +11,9 @@ import 'package:flutter/services.dart';
 ///   current += (target - current) * (1 - e^(-lambda * dt))
 ///
 /// Key Features:
-/// - Fast & responsive: tuned for brisk, effortless web scrolling
-/// - Compounding momentum on rapid wheel spins (up to 1.4x velocity multiplier)
+/// - True physics inertia: momentum compounds naturally on fast wheel spins
 /// - Frame-rate independent: identical physical glide distance across 60Hz - 240Hz
-/// - Dual physics modes: snappy fluid momentum for mouse wheels, responsive damping for trackpads
+/// - Dual physics modes: fluid heavy momentum for mouse wheels, responsive damping for trackpads
 /// - Continuous VSync ticker: 0ms animation cancel hitches or restarts
 /// - Zero CPU when idle: ticker stops automatically when target is reached
 /// - Smooth keyboard navigation (Arrow Down/Up, Page Down/Up, Space, Home, End)
@@ -24,15 +23,15 @@ class SmoothMouseScroll extends StatefulWidget {
   final Widget child;
   final ScrollController scrollController;
   final double scrollSpeed;
-  final double physicsResponsiveness; // Lambda decay coefficient (default 10.5)
+  final double physicsResponsiveness; // Lambda decay coefficient (default 8.0)
   final bool enabled;
 
   const SmoothMouseScroll({
     super.key,
     required this.child,
     required this.scrollController,
-    this.scrollSpeed = 195.0,
-    this.physicsResponsiveness = 10.5,
+    this.scrollSpeed = 145.0,
+    this.physicsResponsiveness = 8.0,
     this.enabled = true,
   });
 
@@ -47,8 +46,7 @@ class _SmoothMouseScrollState extends State<SmoothMouseScroll>
   double _targetOffset = 0.0;
   Duration _lastElapsed = Duration.zero;
   bool _isWheelScrolling = false;
-  double _activeLambda = 10.5;
-  DateTime? _lastWheelTime;
+  double _activeLambda = 8.0;
 
   final FocusNode _focusNode = FocusNode();
 
@@ -162,25 +160,12 @@ class _SmoothMouseScrollState extends State<SmoothMouseScroll>
 
       if (isTrackpad) {
         // Trackpads have OS continuous curves: use responsive lambda with direct scaling
-        _targetOffset = (_targetOffset + delta * 1.30).clamp(minExtent, maxExtent);
-        _startTicker(lambda: 18.0);
+        _targetOffset = (_targetOffset + delta * 1.15).clamp(minExtent, maxExtent);
+        _startTicker(lambda: 16.0);
       } else {
-        // Physical mouse wheel: dynamic velocity boost on fast spinning
-        final now = DateTime.now();
-        double velocityMultiplier = 1.0;
-        if (_lastWheelTime != null) {
-          final int millisSinceLast =
-              now.difference(_lastWheelTime!).inMilliseconds;
-          if (millisSinceLast < 120) {
-            velocityMultiplier = 1.35; // Rapid spin momentum boost
-          } else if (millisSinceLast < 220) {
-            velocityMultiplier = 1.15;
-          }
-        }
-        _lastWheelTime = now;
-
+        // Physical mouse wheel: provide deep, fluid momentum physics
         final double direction = delta > 0 ? 1.0 : -1.0;
-        final double step = direction * widget.scrollSpeed * velocityMultiplier;
+        final double step = direction * widget.scrollSpeed;
 
         _targetOffset = (_targetOffset + step).clamp(minExtent, maxExtent);
         _startTicker(lambda: widget.physicsResponsiveness);
@@ -211,28 +196,28 @@ class _SmoothMouseScrollState extends State<SmoothMouseScroll>
 
     switch (event.logicalKey) {
       case LogicalKeyboardKey.arrowDown:
-        delta = 130.0;
+        delta = 100.0;
         break;
       case LogicalKeyboardKey.arrowUp:
-        delta = -130.0;
+        delta = -100.0;
         break;
       case LogicalKeyboardKey.pageDown:
-        delta = viewportHeight * 0.90;
+        delta = viewportHeight * 0.85;
         break;
       case LogicalKeyboardKey.pageUp:
-        delta = -viewportHeight * 0.90;
+        delta = -viewportHeight * 0.85;
         break;
       case LogicalKeyboardKey.space:
         final bool isShiftPressed = HardwareKeyboard.instance.isShiftPressed;
-        delta = (isShiftPressed ? -1.0 : 1.0) * (viewportHeight * 0.90);
+        delta = (isShiftPressed ? -1.0 : 1.0) * (viewportHeight * 0.85);
         break;
       case LogicalKeyboardKey.home:
         _targetOffset = minExtent;
-        _startTicker(lambda: 12.0);
+        _startTicker(lambda: 9.0);
         return KeyEventResult.handled;
       case LogicalKeyboardKey.end:
         _targetOffset = maxExtent;
-        _startTicker(lambda: 12.0);
+        _startTicker(lambda: 9.0);
         return KeyEventResult.handled;
       default:
         return KeyEventResult.ignored;
@@ -240,7 +225,7 @@ class _SmoothMouseScrollState extends State<SmoothMouseScroll>
 
     if (delta != 0.0) {
       _targetOffset = (_targetOffset + delta).clamp(minExtent, maxExtent);
-      _startTicker(lambda: 11.5);
+      _startTicker(lambda: 9.0);
       return KeyEventResult.handled;
     }
 
