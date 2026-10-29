@@ -11,6 +11,7 @@ import '../../widgets/animations/scroll_3d_section.dart';
 import '../../widgets/nav_bar_widget.dart';
 import '../../widgets/bottom_nav_bar_widget.dart';
 import 'scroll_coordinator_controller.dart';
+import '../../widgets/animations/smooth_mouse_scroll.dart';
 
 /// Main single-page scrollable portfolio shell.
 ///
@@ -85,10 +86,17 @@ class _WebHomePageState extends State<WebHomePage> {
             behavior: ScrollConfiguration.of(
               context,
             ).copyWith(scrollbars: false),
-            child: SingleChildScrollView(
-              controller: _scrollCoordinator.scrollController,
-              physics: const ClampingScrollPhysics(),
-              child: Column(
+            child: SmoothMouseScroll(
+              scrollController: _scrollCoordinator.scrollController,
+              enabled: !isMobile,
+              child: SingleChildScrollView(
+                controller: _scrollCoordinator.scrollController,
+                physics: isMobile
+                    ? const BouncingScrollPhysics(
+                        parent: ClampingScrollPhysics(),
+                      )
+                    : const NeverScrollableScrollPhysics(),
+                child: Column(
                 children: [
                   KeyedSubtree(
                     key: _sectionKeys[0],
@@ -136,7 +144,8 @@ class _WebHomePageState extends State<WebHomePage> {
               ),
             ),
           ),
-        );
+        ),
+      );
       },
     );
   }
