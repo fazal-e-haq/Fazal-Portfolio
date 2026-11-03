@@ -47,7 +47,7 @@
 - **Category**: Developer Tooling & Web Application
 - **Platforms**: Flutter Web, Android, iOS
 - **Tech Stack**: Flutter Web, Firebase, GetX, Dart, WebAssembly
-- **Live URL**: https://copy-flutter.web.app
+- **Live URL**: https://copyflutter.com
 - **Key Features**:
   - Curated library of responsive, copy-paste Flutter UI components, loaders, animated buttons, and cards.
   - Live interactive widget previews running directly in the browser.
