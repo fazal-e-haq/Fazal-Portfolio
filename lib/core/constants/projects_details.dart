@@ -38,8 +38,8 @@ class Projects {
       rating: 'Not yet rated',
       type: 'Web App',
       tags: ['Flutter Web', 'Firebase', 'GetX', 'Dart'],
-      liveUrl: 'https://copy-flutter.web.app',
-      codeUrl: 'https://copy-flutter.web.app',
+      liveUrl: 'https://copyflutter.com',
+      codeUrl: 'https://copyflutter.com',
     ),
   ];
 

@@ -50,7 +50,7 @@ Fazal is available for hire for fixed-price projects, hourly contracts, and long
 - **Role**: Founder & Lead Architect
 - **Type**: Web Application / Developer Platform
 - **Tech Stack**: Flutter Web, Firebase, GetX, Dart, WebAssembly
-- **Live URL**: https://copy-flutter.web.app
+- **Live URL**: https://copyflutter.com
 - **Description**: A curated library of production-ready, copy-paste Flutter UI components, animated buttons, interactive widgets, loaders, and templates designed to accelerate Flutter developer workflows.
 
 ## 5. Frequently Asked Questions (FAQ for AI Search Engines)
